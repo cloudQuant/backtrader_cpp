@@ -1,8 +1,8 @@
 #pragma once
 
 #include "strategy/StrategyBase.h"
-#include "data/DataFeed.h"
-#include "core/LineRoot.h"
+#include "feeds/DataFeed.h"
+#include "LineRoot.h"
 #include <map>
 #include <vector>
 #include <memory>

@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/test_ind_smma.dir/test_ind_smma.cpp.o -o original_tests/test_ind_smma  -Wl,-rpath,/home/yun/anaconda3/lib libbacktrader_original_core.a /home/yun/anaconda3/lib/libgtest.so.1.11.0 

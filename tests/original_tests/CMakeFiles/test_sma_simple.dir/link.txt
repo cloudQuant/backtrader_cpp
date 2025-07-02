@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/test_sma_simple.dir/test_sma_simple.cpp.o -o test_sma_simple  -Wl,-rpath,/home/yun/anaconda3/lib libbacktrader_original_core.a /home/yun/anaconda3/lib/libgtest.so.1.11.0 -lgtest_main 

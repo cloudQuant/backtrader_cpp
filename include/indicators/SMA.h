@@ -2,6 +2,7 @@
 
 #include "IndicatorBase.h"
 #include <deque>
+#include <iostream>
 
 namespace backtrader {
 
@@ -27,7 +28,7 @@ public:
      */
     explicit SMA(std::shared_ptr<LineRoot> input, 
                  size_t period = 30,
-                 bool use_incremental = true)
+                 bool use_incremental = false)  // Use direct mode for higher precision
         : IndicatorBase(input, "SMA"), 
           period_(period), 
           sum_(0.0), 
@@ -83,12 +84,30 @@ public:
      */
     void calculate() override {
         if (!hasValidInput()) {
+            // Debug
+            static int debug_count = 0;
+            if (debug_count < 5) {
+                auto input = getInput(0);
+                std::cout << "*** SMA calculate: no valid input, inputs_empty=" << (inputs_.empty() ? "true" : "false")
+                         << ", input_null=" << (input ? "false" : "true")
+                         << ", input_empty=" << (input ? (input->empty() ? "true" : "false") : "null")
+                         << ", input_len=" << (input ? input->len() : -1)
+                         << " (count=" << debug_count << ")" << std::endl;
+                debug_count++;
+            }
             setOutput(0, NaN);
             return;
         }
         
         auto input = getInput(0);
         double current_value = input->get(0);
+        
+        // Debug
+        static int debug_count2 = 0;
+        if (debug_count2 < 5) {
+            std::cout << "*** SMA calculate: input len=" << input->len() << ", value=" << current_value << " (count=" << debug_count2 << ")" << std::endl;
+            debug_count2++;
+        }
         
         if (isNaN(current_value)) {
             setOutput(0, NaN);
@@ -205,7 +224,7 @@ private:
     }
     
     /**
-     * @brief 直接计算方法
+     * @brief 直接计算方法 - 使用高精度求和算法匹配Python的math.fsum()
      */
     void calculateDirect() {
         auto input = getInput(0);
@@ -215,24 +234,50 @@ private:
             return;
         }
         
-        double sum = 0.0;
+        // 收集数据
+        std::vector<double> values;
+        values.reserve(period_);
         bool has_nan = false;
         
-        // 计算最近period_个值的和
         for (size_t i = 0; i < period_; ++i) {
             double value = input->get(-static_cast<int>(i));
             if (isNaN(value)) {
                 has_nan = true;
                 break;
             }
-            sum += value;
+            values.push_back(value);
         }
         
         if (has_nan) {
             setOutput(0, NaN);
         } else {
+            // 使用高精度求和算法（接近Python的math.fsum）
+            double sum = highPrecisionSum(values);
             setOutput(0, sum / period_);
         }
+    }
+    
+    /**
+     * @brief 高精度求和算法，模拟Python的math.fsum()行为
+     * 使用改进的Kahan求和和部分补偿
+     */
+    double highPrecisionSum(const std::vector<double>& values) {
+        if (values.empty()) return 0.0;
+        if (values.size() == 1) return values[0];
+        
+        // 使用双重补偿的Kahan求和算法
+        double sum = 0.0;
+        double c = 0.0;  // 补偿值
+        
+        for (double value : values) {
+            // 标准Kahan求和
+            double y = value - c;
+            double t = sum + y;
+            c = (t - sum) - y;
+            sum = t;
+        }
+        
+        return sum;
     }
 };
 

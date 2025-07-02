@@ -11,11 +11,11 @@
  * chkind = btind.SMA
  */
 
-#include "test_common.h"
+#include "test_common_simple.h"
 #include "indicators/SMA.h"
 
 using namespace backtrader::tests::original;
-using namespace backtrader::indicators;
+using namespace backtrader;
 
 namespace {
 
@@ -38,19 +38,14 @@ TEST(OriginalTests, SMA_Manual) {
     
     // 创建数据线
     auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
-    for (const auto& bar : csv_data) {
-        close_line->forward(bar.close);
-    }
     
-    // 创建SMA指标（默认30周期）
+    // 创建SMA指标（30周期）
     auto sma = std::make_shared<SMA>(close_line, 30);
     
-    // 计算所有值
+    // 逐步添加数据并计算
     for (size_t i = 0; i < csv_data.size(); ++i) {
+        close_line->forward(csv_data[i].close);
         sma->calculate();
-        if (i < csv_data.size() - 1) {
-            close_line->forward();
-        }
     }
     
     // 验证关键点的值
@@ -58,10 +53,13 @@ TEST(OriginalTests, SMA_Manual) {
     int min_period = 30;
     
     // Python测试的检查点: [0, -l + mp, (-l + mp) // 2]
+    // Note: Python floor division (//) for negative numbers differs from C++ /
+    // Python: (-225) // 2 = -113, C++: (-225) / 2 = -112.5 -> -112
+    int middle_checkpoint = static_cast<int>(std::floor(static_cast<double>(-(data_length - min_period)) / 2.0));
     std::vector<int> check_points = {
         0,                                    // 第一个有效值
         -(data_length - min_period),         // 倒数第(data_length - min_period)个值
-        -(data_length - min_period) / 2      // 中间值
+        middle_checkpoint                     // 中间值 (使用floor division匹配Python)
     };
     
     std::vector<std::string> expected = {"4063.463000", "3644.444667", "3554.693333"};

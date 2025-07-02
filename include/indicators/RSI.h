@@ -2,6 +2,7 @@
 
 #include "IndicatorBase.h"
 #include "EMA.h"
+#include "Common.h"
 #include <deque>
 
 namespace backtrader {
@@ -275,73 +276,13 @@ private:
      * @brief 使用Wilder's平滑方法计算
      * @param current_price 当前价格
      */
-    void calculateWithWilders(double current_price) {
-        double change = current_price - prev_price_;
-        double gain = (change > 0) ? change : 0.0;
-        double loss = (change < 0) ? -change : 0.0;
-        
-        count_++;
-        
-        if (count_ <= period_) {
-            // 初始期间：累积计算平均值
-            avg_gain_ += gain;
-            avg_loss_ += loss;
-            
-            if (count_ == period_) {
-                // 第一个周期结束，计算初始平均值
-                avg_gain_ /= period_;
-                avg_loss_ /= period_;
-                
-                // 计算第一个RSI值
-                double rs = (avg_loss_ != 0.0) ? avg_gain_ / avg_loss_ : 0.0;
-                double rsi = (avg_loss_ != 0.0) ? 100.0 - (100.0 / (1.0 + rs)) : 100.0;
-                setOutput(0, rsi);
-            } else {
-                setOutput(0, NaN);
-            }
-        } else {
-            // Wilder's平滑公式
-            avg_gain_ = (avg_gain_ * (period_ - 1) + gain) / period_;
-            avg_loss_ = (avg_loss_ * (period_ - 1) + loss) / period_;
-            
-            // 计算RSI
-            double rs = (avg_loss_ != 0.0) ? avg_gain_ / avg_loss_ : 0.0;
-            double rsi = (avg_loss_ != 0.0) ? 100.0 - (100.0 / (1.0 + rs)) : 100.0;
-            setOutput(0, rsi);
-        }
-    }
+    void calculateWithWilders(double current_price);
     
     /**
      * @brief 使用EMA平滑方法计算
      * @param current_price 当前价格
      */
-    void calculateWithEMA(double current_price) {
-        double change = current_price - prev_price_;
-        double gain = (change > 0) ? change : 0.0;
-        double loss = (change < 0) ? -change : 0.0;
-        
-        // 更新gain和loss数据线
-        gain_line_->forward(gain);
-        loss_line_->forward(loss);
-        
-        // 计算EMA
-        gain_ema_->calculate();
-        loss_ema_->calculate();
-        
-        // 获取平滑后的平均收益和损失
-        double avg_gain = gain_ema_->get(0);
-        double avg_loss = loss_ema_->get(0);
-        
-        if (isNaN(avg_gain) || isNaN(avg_loss)) {
-            setOutput(0, NaN);
-            return;
-        }
-        
-        // 计算RSI
-        double rs = (avg_loss != 0.0) ? avg_gain / avg_loss : 0.0;
-        double rsi = (avg_loss != 0.0) ? 100.0 - (100.0 / (1.0 + rs)) : 100.0;
-        setOutput(0, rsi);
-    }
+    void calculateWithEMA(double current_price);
 };
 
 } // namespace backtrader

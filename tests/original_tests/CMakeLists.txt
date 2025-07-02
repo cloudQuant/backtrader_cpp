@@ -22,17 +22,32 @@ if(TARGET backtrader_core)
 else()
     # 如果没有现成的库，收集源文件
     set(BACKTRADER_SRC_DIR ${CMAKE_SOURCE_DIR}/../../src)
-    file(GLOB_RECURSE BACKTRADER_SOURCES
-        "${BACKTRADER_SRC_DIR}/core/*.cpp"
-        "${BACKTRADER_SRC_DIR}/indicators/*.cpp"
-        "${BACKTRADER_SRC_DIR}/data/*.cpp"
-        "${BACKTRADER_SRC_DIR}/strategy/*.cpp"
-        "${BACKTRADER_SRC_DIR}/cerebro/*.cpp"
-        "${BACKTRADER_SRC_DIR}/broker/*.cpp"
+    
+    # 收集基础源文件
+    file(GLOB BACKTRADER_CORE_SOURCES
+        "${BACKTRADER_SRC_DIR}/*.cpp"
+        "${BACKTRADER_SRC_DIR}/feeds/*.cpp"
         "${BACKTRADER_SRC_DIR}/analyzers/*.cpp"
-        "${BACKTRADER_SRC_DIR}/optimization/*.cpp"
-        "${BACKTRADER_SRC_DIR}/portfolio/*.cpp"
     )
+    
+    # 只包含基本的工作指标，排除有问题的指标
+    set(BACKTRADER_INDICATOR_SOURCES
+        "${BACKTRADER_SRC_DIR}/indicators/IndicatorBase.cpp"
+        "${BACKTRADER_SRC_DIR}/indicators/SMA.cpp"
+        "${BACKTRADER_SRC_DIR}/indicators/EMA.cpp"
+        "${BACKTRADER_SRC_DIR}/indicators/RSI.cpp"
+        "${BACKTRADER_SRC_DIR}/indicators/MACD.cpp"
+        "${BACKTRADER_SRC_DIR}/indicators/BollingerBands.cpp"
+        "${BACKTRADER_SRC_DIR}/indicators/CrossOver.cpp"
+    )
+    
+    # 添加策略源文件
+    set(BACKTRADER_STRATEGY_SOURCES
+        "${BACKTRADER_SRC_DIR}/strategy/Strategy.cpp"
+        "${BACKTRADER_SRC_DIR}/broker/Order.cpp"
+    )
+    
+    list(APPEND BACKTRADER_SOURCES ${BACKTRADER_CORE_SOURCES} ${BACKTRADER_INDICATOR_SOURCES} ${BACKTRADER_STRATEGY_SOURCES})
     
     add_library(backtrader_original_core STATIC ${BACKTRADER_SOURCES})
     target_link_libraries(backtrader_original_core Threads::Threads)
@@ -43,6 +58,83 @@ endif()
 file(GLOB ORIGINAL_TEST_SOURCES
     "test_ind_*.cpp"
 )
+
+# 创建SMA简单测试目标
+add_executable(test_sma_simple test_sma_simple.cpp)
+target_link_libraries(test_sma_simple
+    ${BACKTRADER_CORE_LIB}
+    ${GTEST_LIBRARIES}
+    gtest_main
+    Threads::Threads
+)
+
+add_test(NAME test_sma_simple COMMAND test_sma_simple)
+
+# 创建EMA简单测试目标
+add_executable(test_ema_simple test_ema_simple.cpp)
+target_link_libraries(test_ema_simple
+    ${BACKTRADER_CORE_LIB}
+    ${GTEST_LIBRARIES}
+    gtest_main
+    Threads::Threads
+)
+
+add_test(NAME test_ema_simple COMMAND test_ema_simple)
+
+# 创建RSI简单测试目标
+add_executable(test_rsi_simple test_ind_rsi_simple.cpp)
+target_link_libraries(test_rsi_simple
+    ${BACKTRADER_CORE_LIB}
+    ${GTEST_LIBRARIES}
+    gtest_main
+    Threads::Threads
+)
+
+add_test(NAME test_rsi_simple COMMAND test_rsi_simple)
+
+# 创建MACD简单测试目标
+add_executable(test_macd_simple test_ind_macd_simple.cpp)
+target_link_libraries(test_macd_simple
+    ${BACKTRADER_CORE_LIB}
+    ${GTEST_LIBRARIES}
+    gtest_main
+    Threads::Threads
+)
+
+add_test(NAME test_macd_simple COMMAND test_macd_simple)
+
+# 创建BollingerBands简单测试目标
+add_executable(test_bbands_simple test_ind_bbands_simple.cpp)
+target_link_libraries(test_bbands_simple
+    ${BACKTRADER_CORE_LIB}
+    ${GTEST_LIBRARIES}
+    gtest_main
+    Threads::Threads
+)
+
+add_test(NAME test_bbands_simple COMMAND test_bbands_simple)
+
+# 创建CrossOver简单测试目标
+add_executable(test_crossover_simple test_crossover_simple.cpp)
+target_link_libraries(test_crossover_simple
+    ${BACKTRADER_CORE_LIB}
+    ${GTEST_LIBRARIES}
+    gtest_main
+    Threads::Threads
+)
+
+add_test(NAME test_crossover_simple COMMAND test_crossover_simple)
+
+# 创建策略测试目标
+add_executable(test_strategy_unoptimized test_strategy_unoptimized.cpp)
+target_link_libraries(test_strategy_unoptimized
+    ${BACKTRADER_CORE_LIB}
+    ${GTEST_LIBRARIES}
+    gtest_main
+    Threads::Threads
+)
+
+add_test(NAME test_strategy_unoptimized COMMAND test_strategy_unoptimized)
 
 # 为每个测试文件创建单独的可执行文件
 foreach(test_source ${ORIGINAL_TEST_SOURCES})

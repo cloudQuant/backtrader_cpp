@@ -2,7 +2,9 @@
 
 #include "IndicatorBase.h"
 #include "SMA.h"
+#include "Common.h"
 #include <cmath>
+#include <deque>
 
 namespace backtrader {
 
@@ -42,7 +44,7 @@ public:
                            size_t period = 20,
                            double dev_factor = 2.0,
                            bool use_incremental = true)
-        : MultiLineIndicator(input, {"middle", "upper", "lower"}, "BollingerBands"),
+        : MultiLineIndicator(input, {"Middle", "Upper", "Lower"}, "BollingerBands"),
           period_(period),
           dev_factor_(dev_factor),
           use_incremental_(use_incremental) {
@@ -160,65 +162,14 @@ public:
     /**
      * @brief 单步计算
      */
-    void calculate() override {
-        if (!hasValidInput()) {
-            setOutput(0, NaN);
-            setOutput(1, NaN);
-            setOutput(2, NaN);
-            return;
-        }
-        
-        // 计算SMA（中轨）
-        sma_->calculate();
-        double middle = sma_->get(0);
-        
-        if (isNaN(middle)) {
-            setOutput(0, NaN);
-            setOutput(1, NaN);
-            setOutput(2, NaN);
-            return;
-        }
-        
-        // 计算标准差
-        double std_dev = calculateStandardDeviation(middle);
-        
-        if (isNaN(std_dev)) {
-            setOutput(0, middle);
-            setOutput(1, NaN);
-            setOutput(2, NaN);
-            return;
-        }
-        
-        // 计算上轨和下轨
-        double upper = middle + dev_factor_ * std_dev;
-        double lower = middle - dev_factor_ * std_dev;
-        
-        setOutput(0, middle);
-        setOutput(1, upper);
-        setOutput(2, lower);
-    }
+    void calculate() override;
     
     /**
      * @brief 批量计算（向量化版本）
      * @param start 起始位置
      * @param end 结束位置
      */
-    void calculateBatch(size_t start, size_t end) override {
-        if (!hasValidInput()) {
-            return;
-        }
-        
-        auto input = getInput(0);
-        
-        for (size_t i = start; i < end; ++i) {
-            calculate();
-            
-            if (i < end - 1) {
-                input->forward();
-                sma_->getInput(0)->forward();  // 同步SMA的输入
-            }
-        }
-    }
+    void calculateBatch(size_t start, size_t end) override;
     
     /**
      * @brief 计算%B指标
@@ -365,79 +316,32 @@ private:
      * @param mean 均值
      * @return 标准差
      */
-    double calculateStandardDeviation(double mean) {
-        if (!hasValidInput()) {
-            return NaN;
-        }
-        
-        auto input = getInput(0);
-        
-        if (use_incremental_) {
-            return calculateStandardDeviationIncremental(mean);
-        } else {
-            return calculateStandardDeviationDirect(mean);
-        }
-    }
+    double calculateStandardDeviation(double mean) const;
     
     /**
      * @brief 增量计算标准差
      * @param mean 均值
      * @return 标准差
      */
-    double calculateStandardDeviationIncremental(double mean) {
-        auto input = getInput(0);
-        double current_value = input->get(0);
-        
-        if (isNaN(current_value)) {
-            return NaN;
-        }
-        
-        // 更新窗口
-        window_.push_back(current_value);
-        if (window_.size() > period_) {
-            window_.pop_front();
-        }
-        
-        if (window_.size() < period_) {
-            return NaN;
-        }
-        
-        // 计算方差
-        double variance = 0.0;
-        for (double value : window_) {
-            double diff = value - mean;
-            variance += diff * diff;
-        }
-        variance /= period_;
-        
-        return std::sqrt(variance);
-    }
+    double calculateStandardDeviationIncremental(double mean);
     
     /**
      * @brief 直接计算标准差
      * @param mean 均值
      * @return 标准差
      */
-    double calculateStandardDeviationDirect(double mean) {
-        auto input = getInput(0);
-        
-        if (input->len() < period_) {
-            return NaN;
-        }
-        
-        double variance = 0.0;
-        for (size_t i = 0; i < period_; ++i) {
-            double value = input->get(-static_cast<int>(i));
-            if (isNaN(value)) {
-                return NaN;
-            }
-            double diff = value - mean;
-            variance += diff * diff;
-        }
-        variance /= period_;
-        
-        return std::sqrt(variance);
-    }
+    double calculateStandardDeviationDirect(double mean);
+    
+    /**
+     * @brief 获取趋势强度
+     * @return 趋势强度值 (0-1)
+     */
+    double getTrendStrength() const;
+    
+    /**
+     * @brief 设置所有输出为NaN
+     */
+    void setAllOutputsNaN();
 };
 
 } // namespace backtrader

@@ -1,15 +1,16 @@
 # 核心库源文件
 set(BACKTRADER_CORE_SOURCES
-    base/MetaClass.cpp
-    base/LineBuffer.cpp
-    base/LineIterator.cpp
-    base/LineSeries.cpp
-    base/LineOperations.cpp
-    core/LineRoot.cpp
+    MetaClass.cpp
+    LineBuffer.cpp
+    LineIterator.cpp
+    LineSeries.cpp
+    LineOperations.cpp
+    LineRoot.cpp
     indicators/IndicatorBase.cpp
     indicators/SMA.cpp
     indicators/EMA.cpp
-    data/DataFeed.cpp
+    feeds/DataFeed.cpp
+    analyzers/Analyzer.cpp
 )
 
 # 创建核心库
@@ -51,7 +52,7 @@ target_include_directories(backtrader_core
 # 编译特性
 target_compile_features(backtrader_core
     PUBLIC
-        cxx_std_20
+        cxx_std_17
 )
 
 # 预编译头（如果支持）

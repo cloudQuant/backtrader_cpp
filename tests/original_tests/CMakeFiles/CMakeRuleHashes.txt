@@ -1,0 +1,8 @@
+# Hashes of file build rules.
+76a1df747f7f2caa4959bf7b8e2d33af CMakeFiles/run_atr_test
+8defac3be984c3f8a642da820bfeff3c CMakeFiles/run_bbands_test
+1deae11ef25e7fe3160519aa7951062c CMakeFiles/run_original_tests
+4c5640e0df829357c5aa5e97a22ab67d CMakeFiles/run_original_tests_debug
+d0d84a7ba1d5e668f59d6d79b7ad1a2b CMakeFiles/run_rsi_test
+93af956a78356188922ef594bc12db33 CMakeFiles/run_sma_test
+e40ab522d1ee2c0c07bc47b35239e01e CMakeFiles/run_stochastic_test

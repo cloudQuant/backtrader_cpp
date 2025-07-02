@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/test_ind_tsi.dir/test_ind_tsi.cpp.o -o original_tests/test_ind_tsi  -Wl,-rpath,/home/yun/anaconda3/lib libbacktrader_original_core.a /home/yun/anaconda3/lib/libgtest.so.1.11.0 

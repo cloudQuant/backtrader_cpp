@@ -40,17 +40,21 @@ find_package(Threads REQUIRED)
 # OpenMP支持
 find_package(OpenMP)
 
-# Google Test
+# Google Test - try system package first
 if(BUILD_TESTS)
-    find_package(GTest QUIET)
-    if(NOT GTest_FOUND)
-        # 如果找不到GTest，尝试使用FetchContent
-        include(FetchContent)
-        FetchContent_Declare(
-            googletest
-            URL https://github.com/google/googletest/archive/03597a01ee50f33f9bf8c5b1c12c1a9b15c2e0b3.zip
-        )
-        FetchContent_MakeAvailable(googletest)
+    find_package(PkgConfig QUIET)
+    if(PkgConfig_FOUND)
+        pkg_check_modules(GTEST gtest)
+        pkg_check_modules(GTEST_MAIN gtest_main)
+    endif()
+    
+    if(NOT GTEST_FOUND)
+        find_package(GTest QUIET)
+    endif()
+    
+    if(NOT GTest_FOUND AND NOT GTEST_FOUND)
+        message(WARNING "GTest not found, but simple tests will still be enabled")
+        # Don't disable tests completely, we have simple test
     endif()
 endif()
 

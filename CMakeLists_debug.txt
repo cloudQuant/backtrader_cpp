@@ -1,0 +1,28 @@
+cmake_minimum_required(VERSION 3.16)
+project(DebugTest)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+include_directories(
+    ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/src
+)
+
+# 最小核心源文件
+set(CORE_SOURCES
+    src/LineRoot.cpp
+    src/indicators/IndicatorBase.cpp
+)
+
+add_executable(debug_test 
+    debug_test.cpp
+    ${CORE_SOURCES}
+)
+
+find_package(Threads REQUIRED)
+target_link_libraries(debug_test Threads::Threads)
+
+target_compile_options(debug_test PRIVATE -Wall -Wextra -g)
+
+message(STATUS "Debug test configured")

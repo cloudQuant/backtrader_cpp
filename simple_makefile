@@ -1,0 +1,27 @@
+# Simple Makefile for testing compilation
+CXX = g++
+CXXFLAGS = -std=c++17 -Wall -Wextra -O2 -I./include
+SRCDIR = src
+SOURCES = $(SRCDIR)/MetaClass.cpp $(SRCDIR)/LineRoot.cpp $(SRCDIR)/LineIterator.cpp
+OBJECTS = $(SOURCES:.cpp=.o)
+
+# Diagnostic test
+diagnose: diagnose.cpp
+	$(CXX) $(CXXFLAGS) -o diagnose diagnose.cpp
+
+# Core library
+libbacktrader.a: $(OBJECTS)
+	ar rcs libbacktrader.a $(OBJECTS)
+
+# Individual object files
+$(SRCDIR)/%.o: $(SRCDIR)/%.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+# Simple test
+simple_test: tests/simple_test.cpp libbacktrader.a
+	$(CXX) $(CXXFLAGS) -o simple_test tests/simple_test.cpp libbacktrader.a
+
+clean:
+	rm -f $(OBJECTS) libbacktrader.a diagnose simple_test
+
+.PHONY: clean diagnose

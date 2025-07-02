@@ -10,10 +10,9 @@
 #include <cmath>
 
 // Include backtrader headers
-#include "core/LineRoot.h"
-#include "data/DataFeed.h"
-#include "strategy/StrategyBase.h"
-#include "cerebro/Cerebro.h"
+#include "LineRoot.h"
+#include "Common.h"
+#include "strategy/Strategy.h"
 
 namespace backtrader {
 namespace tests {
@@ -93,7 +92,7 @@ inline std::vector<CSVDataReader::OHLCVData> getdata(int index = 0) {
         "2006-week-001.txt"
     };
     
-    std::string filepath = "../backtrader/tests/datas/" + datafiles[index];
+    std::string filepath = "../datas/" + datafiles[index];
     return CSVDataReader::loadCSV(filepath);
 }
 
@@ -101,7 +100,7 @@ inline std::vector<CSVDataReader::OHLCVData> getdata(int index = 0) {
  * @brief 测试策略基类，对应Python的TestStrategy
  */
 template<typename IndicatorType>
-class TestStrategy : public strategy::StrategyBase {
+class TestStrategy : public Strategy {
 private:
     std::shared_ptr<IndicatorType> indicator_;
     std::vector<std::vector<std::string>> expected_values_;
@@ -114,7 +113,7 @@ public:
     TestStrategy(const std::vector<std::vector<std::string>>& expected_vals,
                  int expected_min,
                  bool main = false)
-        : strategy::StrategyBase("TestStrategy"),
+        : Strategy(),
           expected_values_(expected_vals),
           expected_min_period_(expected_min),
           actual_min_period_(0),
@@ -122,7 +121,7 @@ public:
           main_debug_(main) {}
     
     void init() override {
-        auto data = getData();
+        auto data = this->data(0);
         if (data && data->close()) {
             indicator_ = std::make_shared<IndicatorType>(data->close());
             addIndicator(indicator_);
@@ -131,7 +130,7 @@ public:
     
     void nextstart() override {
         actual_min_period_ = len();
-        strategy::StrategyBase::nextstart();
+        Strategy::nextstart();
     }
     
     void next() override {

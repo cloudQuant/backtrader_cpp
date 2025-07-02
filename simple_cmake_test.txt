@@ -1,0 +1,11 @@
+cmake_minimum_required(VERSION 3.16)
+project(BacktraderCppTest)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Find a simple source file to test compilation
+add_executable(test_compile src/MetaClass.cpp)
+target_include_directories(test_compile PRIVATE include)
+
+# If this compiles, the basic setup is working

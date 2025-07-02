@@ -4,7 +4,7 @@
  */
 
 #include <gtest/gtest.h>
-#include "base/MetaClass.h"
+#include "MetaClass.h"
 #include <memory>
 
 using namespace backtrader::meta;

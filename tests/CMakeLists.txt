@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 project(BacktraderCppTests)
 
 # 设置C++标准
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # 设置编译器选项
@@ -12,8 +12,26 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -DNDEBUG")
 endif()
 
-# 查找Google Test (includes GMock)
-find_package(GTest REQUIRED)
+# Simple test without external dependencies
+add_executable(simple_test 
+    simple_test.cpp
+)
+
+target_link_libraries(simple_test
+    PRIVATE
+        backtrader_core
+)
+
+target_include_directories(simple_test
+    PRIVATE
+        ${CMAKE_SOURCE_DIR}/../include
+)
+
+# Add test to CTest
+add_test(NAME SimpleTest COMMAND simple_test)
+
+# 查找Google Test (includes GMock) - optional
+find_package(GTest QUIET)
 
 # 查找Threads库（多线程支持）
 find_package(Threads REQUIRED)
@@ -32,22 +50,31 @@ set(BACKTRADER_SRC_DIR ${CMAKE_SOURCE_DIR}/../src)
 
 # 定义测试可执行文件宏
 macro(add_backtrader_test test_name test_sources)
-    add_executable(${test_name} ${test_sources})
-    target_link_libraries(${test_name}
-        backtrader_core
-        GTest::gtest
-        GTest::gtest_main
-        GTest::gmock
-        Threads::Threads
-    )
-    
-    # 添加到测试套件
-    add_test(NAME ${test_name} COMMAND ${test_name})
-    
-    # 设置测试属性
-    set_target_properties(${test_name} PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/tests
-    )
+    if(GTEST_FOUND)
+        add_executable(${test_name} ${test_sources})
+        target_link_libraries(${test_name}
+            backtrader_core
+            ${GTEST_LIBRARIES}
+            ${GTEST_MAIN_LIBRARIES}
+            Threads::Threads
+        )
+        
+        target_include_directories(${test_name}
+            PRIVATE
+                ${GTEST_INCLUDE_DIRS}
+                ${CMAKE_SOURCE_DIR}/../include
+        )
+        
+        # 添加到测试套件
+        add_test(NAME ${test_name} COMMAND ${test_name})
+        
+        # 设置测试属性
+        set_target_properties(${test_name} PROPERTIES
+            RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/tests
+        )
+    else()
+        message(STATUS "Skipping GTest-based test ${test_name} - GTest not found")
+    endif()
 endmacro()
 
 # 启用测试

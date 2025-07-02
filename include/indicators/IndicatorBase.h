@@ -1,7 +1,7 @@
 #pragma once
 
-#include "core/LineRoot.h"
-#include "core/Common.h"
+#include "LineRoot.h"
+#include "Common.h"
 #include <vector>
 #include <memory>
 #include <string>
@@ -74,6 +74,19 @@ public:
      */
     void addOutput(std::shared_ptr<LineRoot> output) {
         outputs_.push_back(output);
+    }
+    
+    /**
+     * @brief 创建并添加新的输出数据线
+     * @param name 输出线名称
+     * @return 新创建的输出线指针
+     */
+    std::shared_ptr<LineRoot> addOutputLine(const std::string& name = "") {
+        std::string output_name = name.empty() ? 
+            ("output_" + std::to_string(outputs_.size())) : name;
+        auto output = std::make_shared<LineRoot>(buffer_.capacity(), output_name);
+        outputs_.push_back(output);
+        return output;
     }
     
     /**

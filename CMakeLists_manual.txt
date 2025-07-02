@@ -1,0 +1,51 @@
+cmake_minimum_required(VERSION 3.16)
+project(BacktraderManualTest)
+
+# 设置C++标准
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# 包含目录
+include_directories(
+    ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/src
+)
+
+# 核心源文件
+set(CORE_SOURCES
+    src/LineBuffer.cpp
+    src/LineIterator.cpp
+    src/LineSeries.cpp
+    src/LineOperations.cpp
+    src/LineRoot.cpp
+    src/MetaClass.cpp
+    src/indicators/IndicatorBase.cpp
+    src/indicators/SMA.cpp
+    src/indicators/EMA.cpp
+    src/analyzers/Analyzer.cpp
+)
+
+# 创建手动测试可执行文件
+add_executable(manual_test 
+    manual_test.cpp
+    ${CORE_SOURCES}
+)
+
+# 链接线程库
+find_package(Threads REQUIRED)
+target_link_libraries(manual_test Threads::Threads)
+
+# 编译选项
+target_compile_options(manual_test PRIVATE -Wall -Wextra)
+
+# Debug模式下的编译选项
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    target_compile_options(manual_test PRIVATE -g -O0)
+else()
+    target_compile_options(manual_test PRIVATE -O2)
+endif()
+
+# 打印信息
+message(STATUS "Manual test configured")
+message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
+message(STATUS "CXX Compiler: ${CMAKE_CXX_COMPILER}")

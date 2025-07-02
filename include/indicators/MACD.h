@@ -2,6 +2,7 @@
 
 #include "IndicatorBase.h"
 #include "EMA.h"
+#include "Common.h"
 
 namespace backtrader {
 
@@ -43,7 +44,7 @@ public:
                   size_t fast_period = 12,
                   size_t slow_period = 26,
                   size_t signal_period = 9)
-        : MultiLineIndicator(input, {"macd", "signal", "histogram"}, "MACD"),
+        : MultiLineIndicator(input, {"MACD", "Signal", "Histogram"}, "MACD"),
           fast_period_(fast_period),
           slow_period_(slow_period),
           signal_period_(signal_period) {
@@ -61,8 +62,8 @@ public:
         setParam("slow_period", static_cast<double>(slow_period));
         setParam("signal_period", static_cast<double>(signal_period));
         
-        // 最小周期是慢速EMA + 信号EMA的周期
-        setMinPeriod(slow_period + signal_period);
+        // 最小周期是慢速EMA + 信号EMA的周期 - 1 (Python compatible)
+        setMinPeriod(slow_period + signal_period - 1);
         
         // 初始化EMA指标
         fast_ema_ = std::make_unique<EMA>(input, fast_period);
@@ -133,47 +134,7 @@ public:
     /**
      * @brief 单步计算
      */
-    void calculate() override {
-        if (!hasValidInput()) {
-            setOutput(0, NaN);
-            setOutput(1, NaN);
-            setOutput(2, NaN);
-            return;
-        }
-        
-        // 计算快速和慢速EMA
-        fast_ema_->calculate();
-        slow_ema_->calculate();
-        
-        double fast_ema_value = fast_ema_->get(0);
-        double slow_ema_value = slow_ema_->get(0);
-        
-        if (isNaN(fast_ema_value) || isNaN(slow_ema_value)) {
-            setOutput(0, NaN);
-            setOutput(1, NaN);
-            setOutput(2, NaN);
-            return;
-        }
-        
-        // 计算MACD线
-        double macd_value = fast_ema_value - slow_ema_value;
-        setOutput(0, macd_value);
-        
-        // 更新MACD数据线并计算Signal线
-        macd_line_->forward(macd_value);
-        signal_ema_->calculate();
-        
-        double signal_value = signal_ema_->get(0);
-        setOutput(1, signal_value);
-        
-        // 计算Histogram
-        if (!isNaN(signal_value)) {
-            double histogram_value = macd_value - signal_value;
-            setOutput(2, histogram_value);
-        } else {
-            setOutput(2, NaN);
-        }
-    }
+    void calculate() override;
     
     /**
      * @brief 批量计算（向量化版本）
