@@ -14,11 +14,12 @@
  * 注：KST (Know Sure Thing) 是一个动量振荡器，包含2条线
  */
 
-#include "test_common.h"
-#include "indicators/KST.h"
+#include "test_common_simple.h"
+
+#include "indicators/kst.h"
+
 
 using namespace backtrader::tests::original;
-using namespace backtrader::indicators;
 
 namespace {
 

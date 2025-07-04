@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/test_ema_simple.cpp" "CMakeFiles/test_ema_simple.dir/test_ema_simple.cpp.o" "gcc" "CMakeFiles/test_ema_simple.dir/test_ema_simple.cpp.o.d"
+  "/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/test_ind_ema_simple.cpp" "CMakeFiles/test_ema_simple.dir/test_ind_ema_simple.cpp.o" "gcc" "CMakeFiles/test_ema_simple.dir/test_ind_ema_simple.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

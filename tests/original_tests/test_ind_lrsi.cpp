@@ -13,8 +13,12 @@
  * 注：LRSI (Laguerre RSI) 是一个基于Laguerre滤波器的RSI变种
  */
 
-#include "test_common.h"
-#include "indicators/LRSI.h"
+#include "test_common_simple.h"
+
+using namespace backtrader::indicators;
+#include "indicators/lrsi.h"
+
+using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
 using namespace backtrader::indicators;

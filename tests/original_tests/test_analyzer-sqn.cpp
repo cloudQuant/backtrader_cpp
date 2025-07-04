@@ -9,15 +9,15 @@
  */
 
 #include "test_common.h"
-#include "analyzers/SQN.h"
-#include "strategy/Strategy.h"
-#include "indicators/SMA.h"
-#include "indicators/CrossOver.h"
+#include "analyzers/sqn.h"
+#include "strategy.h"
+#include "indicators/sma.h"
+#include "indicators/crossover.h"
 #include "cerebro/Cerebro.h"
 #include <chrono>
 #include <iomanip>
 
-using namespace backtrader;
+using namespace backtrader::indicators;
 using namespace backtrader::tests::original;
 
 class RunStrategy : public Strategy {

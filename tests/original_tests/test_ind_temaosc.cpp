@@ -13,8 +13,12 @@
  * 注：TEMAOsc (TEMA Oscillator) 基于两个TEMA的差值振荡器
  */
 
-#include "test_common.h"
-#include "indicators/TEMAOsc.h"
+#include "test_common_simple.h"
+
+using namespace backtrader::indicators;
+#include "indicators/temaosc.h"
+
+using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
 using namespace backtrader::indicators;

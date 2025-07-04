@@ -13,8 +13,12 @@
  * 注：WMAOsc (WMA Oscillator) 基于两个WMA的差值振荡器
  */
 
-#include "test_common.h"
-#include "indicators/WMAOsc.h"
+#include "test_common_simple.h"
+
+using namespace backtrader::indicators;
+#include "indicators/wmaosc.h"
+
+using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
 using namespace backtrader::indicators;

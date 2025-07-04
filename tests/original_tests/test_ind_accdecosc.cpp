@@ -13,11 +13,25 @@
  * 注：AccelerationDecelerationOscillator (AC) 是比尔·威廉姆斯的加速/减速振荡器
  */
 
-#include "test_common.h"
-#include "indicators/AccelerationDecelerationOscillator.h"
+#include "test_common_simple.h"
+#include "indicators/accelerationdecelerationoscillator.h"
+#include "indicators/awesomeoscillator.h"
+#include <numeric>
+#include <random>
+#include <tuple>
 
 using namespace backtrader::tests::original;
 using namespace backtrader::indicators;
+
+// 特化TestStrategy模板以支持AccelerationDecelerationOscillator的特殊构造参数
+template<>
+void TestStrategy<AccelerationDecelerationOscillator>::init() {
+    auto data = this->data(0);
+    if (data && data->high() && data->low()) {
+        indicator_ = std::make_shared<AccelerationDecelerationOscillator>(data->high(), data->low());
+        addIndicator(indicator_);
+    }
+}
 
 namespace {
 
@@ -30,7 +44,15 @@ const int ACCDECOSC_MIN_PERIOD = 38;
 } // anonymous namespace
 
 // 使用默认参数的AccelerationDecelerationOscillator测试
-DEFINE_INDICATOR_TEST(AccDecOsc_Default, AccelerationDecelerationOscillator, ACCDECOSC_EXPECTED_VALUES, ACCDECOSC_MIN_PERIOD)
+TEST(OriginalTests, AccDecOsc_Default) {
+    std::vector<std::vector<std::string>> expected_vals = ACCDECOSC_EXPECTED_VALUES;
+    runtest<AccelerationDecelerationOscillator>(expected_vals, ACCDECOSC_MIN_PERIOD, false);
+}
+
+TEST(OriginalTests, AccDecOsc_Default_Debug) {
+    std::vector<std::vector<std::string>> expected_vals = ACCDECOSC_EXPECTED_VALUES;
+    runtest<AccelerationDecelerationOscillator>(expected_vals, ACCDECOSC_MIN_PERIOD, true);
+}
 
 // 手动测试函数，用于详细验证
 TEST(OriginalTests, AccDecOsc_Manual) {

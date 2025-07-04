@@ -13,8 +13,12 @@
  * 注：PGO (Pretty Good Oscillator) 是一个动量振荡器
  */
 
-#include "test_common.h"
-#include "indicators/PGO.h"
+#include "test_common_simple.h"
+
+using namespace backtrader::indicators;
+#include "indicators/pgo.h"
+
+using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
 using namespace backtrader::indicators;

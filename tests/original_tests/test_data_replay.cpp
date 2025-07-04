@@ -10,16 +10,16 @@
  */
 
 #include "test_common.h"
-#include "indicators/SMA.h"
+#include "indicators/sma.h"
 #include "data/DataReplay.h"
 #include "cerebro/Cerebro.h"
-#include "strategy/Strategy.h"
+#include "strategy.h"
 #include <memory>
 #include <vector>
 #include <iomanip>
 #include <sstream>
 
-using namespace backtrader;
+using namespace backtrader::indicators;
 using namespace backtrader::tests::original;
 
 // 测试策略，记录重放过程中的数据

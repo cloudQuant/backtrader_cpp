@@ -13,11 +13,12 @@
  * 注：WilliamsAD (Williams Accumulation/Distribution) 是一个成交量加权的价格指标
  */
 
-#include "test_common.h"
-#include "indicators/WilliamsAD.h"
+#include "test_common_simple.h"
+
+#include "indicators/williamsad.h"
+
 
 using namespace backtrader::tests::original;
-using namespace backtrader::indicators;
 
 namespace {
 

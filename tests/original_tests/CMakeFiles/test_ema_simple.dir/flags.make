@@ -6,5 +6,5 @@ CXX_DEFINES = -DGTEST_LINKED_AS_SHARED_LIBRARY=1
 
 CXX_INCLUDES = -I/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/../../include -I/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/.. -isystem /home/yun/anaconda3/include
 
-CXX_FLAGS = -std=gnu++17
+CXX_FLAGS = -std=gnu++20
 

@@ -11,11 +11,12 @@
  * chkind = btind.Trix
  */
 
-#include "test_common.h"
-#include "indicators/TRIX.h"
+#include "test_common_simple.h"
+
+#include "indicators/trix.h"
+
 
 using namespace backtrader::tests::original;
-using namespace backtrader::indicators;
 
 namespace {
 

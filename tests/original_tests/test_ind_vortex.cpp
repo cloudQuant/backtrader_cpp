@@ -12,11 +12,12 @@
  * chkind = btind.Vortex
  */
 
-#include "test_common.h"
-#include "indicators/Vortex.h"
+#include "test_common_simple.h"
+
+#include "indicators/vortex.h"
+
 
 using namespace backtrader::tests::original;
-using namespace backtrader::indicators;
 
 namespace {
 

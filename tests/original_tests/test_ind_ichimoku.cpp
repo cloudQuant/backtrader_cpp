@@ -15,11 +15,12 @@
  * chkind = bt.ind.Ichimoku
  */
 
-#include "test_common.h"
-#include "indicators/Ichimoku.h"
+#include "test_common_simple.h"
+
+#include "indicators/ichimoku.h"
+
 
 using namespace backtrader::tests::original;
-using namespace backtrader::indicators;
 
 namespace {
 

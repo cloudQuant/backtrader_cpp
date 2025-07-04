@@ -13,8 +13,12 @@
  * 注：KAMAOsc (KAMA Oscillator) 是价格与KAMA的振荡器
  */
 
-#include "test_common.h"
-#include "indicators/KAMAOsc.h"
+#include "test_common_simple.h"
+
+using namespace backtrader::indicators;
+#include "indicators/kamaosc.h"
+
+using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
 using namespace backtrader::indicators;

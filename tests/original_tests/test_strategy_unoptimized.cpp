@@ -10,10 +10,10 @@
  */
 
 #include "test_common.h"
-#include "strategy/Strategy.h"
+#include "strategy.h"
 #include "cerebro/Cerebro.h"
-#include "indicators/SMA.h"
-#include "indicators/CrossOver.h"
+#include "indicators/sma.h"
+#include "indicators/crossover.h"
 #include "broker/Broker.h"
 #include "broker/Order.h"
 #include <memory>
@@ -23,7 +23,7 @@
 #include <sstream>
 #include <chrono>
 
-using namespace backtrader;
+using namespace backtrader::indicators;
 using namespace backtrader::tests::original;
 
 // 期望的买卖价格
@@ -395,6 +395,7 @@ TEST(OriginalTests, StrategyUnoptimized_StockMode) {
     std::ostringstream value_ss, cash_ss;
     value_ss << std::fixed << std::setprecision(2) << final_value;
     cash_ss << std::fixed << std::setprecision(2) << final_cash;
+    
     
     EXPECT_EQ(value_ss.str(), "10283.23") << "Stock mode final value should match expected";
     EXPECT_EQ(cash_ss.str(), "6163.29") << "Stock mode final cash should match expected";

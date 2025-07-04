@@ -13,8 +13,12 @@
  * chkind = btind.MACDHisto
  */
 
-#include "test_common.h"
-#include "indicators/MACD.h"
+#include "test_common_simple.h"
+
+using namespace backtrader::indicators;
+#include "indicators/macd.h"
+
+using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
 using namespace backtrader::indicators;

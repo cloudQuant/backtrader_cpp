@@ -9,16 +9,15 @@
  */
 
 #include "test_common.h"
-#include "indicators/Fractal.h"
+#include "indicators/fractal.h"
 #include "cerebro/Cerebro.h"
-#include "strategy/Strategy.h"
+#include "strategy.h"
 #include <memory>
 #include <vector>
 #include <iomanip>
 #include <sstream>
 #include <cmath>
 
-using namespace backtrader;
 using namespace backtrader::tests::original;
 
 namespace {

@@ -1,73 +1,88 @@
 #include "test_common_simple.h"
-#include "indicators/SMA.h"
-#include <gtest/gtest.h>
-#include <iomanip>
+#include "indicators/sma.h"
+#include <iostream>
 
 using namespace backtrader::tests::original;
 using namespace backtrader;
+using namespace backtrader::indicators;
 
 int main() {
-    // 加载测试数据
     auto csv_data = getdata(0);
+    if (csv_data.empty()) {
+        std::cout << "Failed to load test data" << std::endl;
+        return 1;
+    }
+    
     std::cout << "Loaded " << csv_data.size() << " data points" << std::endl;
     
-    // 创建数据线
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line_series = std::make_shared<LineSeries>();
+    close_line_series->lines->add_line(std::make_shared<LineBuffer>());
     
-    // 创建SMA指标（30周期）
-    auto sma = std::make_shared<SMA>(close_line, 30, false);  // force direct mode
-    
-    // 逐步添加数据并计算
-    for (size_t i = 0; i < csv_data.size(); ++i) {
-        close_line->forward(csv_data[i].close);
-        sma->calculate();
-        
-        // 在关键点显示计算详情
-        if (i == 255-1 || i == 255-225-1 || i == 255-112-1) {
-            std::cout << "\n=== Data point " << i << " ===" << std::endl;
-            std::cout << "Close: " << std::fixed << std::setprecision(6) << csv_data[i].close << std::endl;
-            std::cout << "SMA Value: " << std::fixed << std::setprecision(6) << sma->get(0) << std::endl;
-            
-            // 显示最近30个输入值
-            if (i >= 29) {
-                std::cout << "Last 30 values for SMA calculation:" << std::endl;
-                double manual_sum = 0.0;
-                for (int j = 0; j < 30; ++j) {
-                    double val = close_line->get(-j);
-                    manual_sum += val;
-                    std::cout << "  [" << j << "] = " << std::fixed << std::setprecision(6) << val << std::endl;
-                }
-                std::cout << "Manual sum: " << std::fixed << std::setprecision(6) << manual_sum << std::endl;
-                std::cout << "Manual average: " << std::fixed << std::setprecision(6) << manual_sum / 30.0 << std::endl;
-            }
+    auto close_buffer = std::dynamic_pointer_cast<LineBuffer>(close_line_series->lines->getline(0));
+    if (close_buffer) {
+        for (size_t i = 0; i < csv_data.size(); ++i) {
+            close_buffer->append(csv_data[i].close);
         }
     }
     
-    // 计算检查点，对应Python的chkpts
-    int l = static_cast<int>(csv_data.size());
-    int mp = 30;
-    std::vector<int> chkpts = {0, -(l - mp), -(l - mp) / 2};
-    
-    std::cout << "\n=== Final Results ===" << std::endl;
-    std::cout << "Data length: " << l << std::endl;
-    std::cout << "Minimum period: " << mp << std::endl;
-    std::cout << "Check points: ";
-    for (int chkpt : chkpts) {
-        std::cout << chkpt << " ";
+    std::cout << "Line buffer size: " << close_buffer->size() << std::endl;
+    std::cout << "First few values in buffer: ";
+    for (int i = 0; i < std::min(5, static_cast<int>(close_buffer->size())); ++i) {
+        std::cout << (*close_buffer)[i] << " ";
     }
     std::cout << std::endl;
     
-    // 输出实际值
-    std::cout << "Actual values:" << std::endl;
-    for (size_t i = 0; i < chkpts.size(); ++i) {
-        double value = sma->get(chkpts[i]);
-        std::cout << "  [" << i << "] = " << std::fixed << std::setprecision(6) << value << std::endl;
-    }
+    std::cout << "Creating SMA..." << std::endl;
+    auto sma = std::make_shared<SMA>(close_line_series, 30);
     
-    std::vector<std::string> expected = {"4063.463000", "3644.444667", "3554.693333"};
-    std::cout << "Expected values:" << std::endl;
-    for (size_t i = 0; i < expected.size(); ++i) {
-        std::cout << "  [" << i << "] = " << expected[i] << std::endl;
+    std::cout << "Calculating SMA..." << std::endl;
+    try {
+        sma->calculate();
+        std::cout << "SMA calculation completed." << std::endl;
+        
+        auto sma_line = sma->lines->getline(0);
+        std::cout << "SMA line size: " << sma_line->size() << std::endl;
+        std::cout << "SMA value at index 0: " << sma->get(0) << std::endl;
+        std::cout << "SMA value at index -1: " << sma->get(-1) << std::endl;
+        std::cout << "SMA line values directly: ";
+        for (int i = 0; i < std::min(10, static_cast<int>(sma_line->size())); ++i) {
+            std::cout << (*sma_line)[i] << " ";
+        }
+        std::cout << std::endl;
+        
+        // 检查Python期望的检查点
+        int data_length = static_cast<int>(csv_data.size());
+        int min_period = 30;
+        std::vector<int> check_points = {
+            0,                                    
+            -(data_length - min_period),         
+            static_cast<int>(std::floor(static_cast<double>(-(data_length - min_period)) / 2.0))
+        };
+        
+        std::cout << "Python check points: ";
+        for (int cp : check_points) {
+            std::cout << cp << " ";
+        }
+        std::cout << std::endl;
+        
+        std::cout << "SMA values at Python check points: ";
+        for (int cp : check_points) {
+            double val = sma->get(cp);
+            std::cout << val << " ";
+        }
+        std::cout << std::endl;
+        
+        // 找到第一个有效的SMA值
+        std::cout << "Finding first valid SMA value..." << std::endl;
+        for (int i = 0; i < static_cast<int>(sma_line->size()); ++i) {
+            double val = (*sma_line)[i];
+            if (!std::isnan(val)) {
+                std::cout << "First valid SMA at index " << i << ": " << val << std::endl;
+                break;
+            }
+        }
+    } catch (const std::exception& e) {
+        std::cout << "Exception during SMA calculation: " << e.what() << std::endl;
     }
     
     return 0;

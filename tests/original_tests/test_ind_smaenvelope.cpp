@@ -15,8 +15,12 @@
  * 注：SMAEnvelope包含3条线：Mid (SMA), Upper, Lower
  */
 
-#include "test_common.h"
-#include "indicators/SMAEnvelope.h"
+#include "test_common_simple.h"
+
+using namespace backtrader::indicators;
+#include "indicators/smaenvelope.h"
+
+using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
 using namespace backtrader::indicators;

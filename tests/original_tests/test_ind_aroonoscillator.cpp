@@ -11,11 +11,10 @@
  * chkind = btind.AroonOscillator
  */
 
-#include "test_common.h"
-#include "indicators/AroonOscillator.h"
+#include "test_common_simple.h"
+#include "indicators/aroonoscillator.h"
 
 using namespace backtrader::tests::original;
-using namespace backtrader::indicators;
 
 namespace {
 

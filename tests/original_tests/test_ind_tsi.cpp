@@ -11,11 +11,12 @@
  * chkind = bt.ind.TSI
  */
 
-#include "test_common.h"
-#include "indicators/TSI.h"
+#include "test_common_simple.h"
+
+#include "indicators/tsi.h"
+
 
 using namespace backtrader::tests::original;
-using namespace backtrader::indicators;
 
 namespace {
 

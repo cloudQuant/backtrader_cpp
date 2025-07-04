@@ -15,8 +15,12 @@
  * 注：PPOShort包含3条线：PPO, Signal, Histogram
  */
 
-#include "test_common.h"
-#include "indicators/PPOShort.h"
+#include "test_common_simple.h"
+
+using namespace backtrader::indicators;
+#include "indicators/pposhort.h"
+
+using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
 using namespace backtrader::indicators;

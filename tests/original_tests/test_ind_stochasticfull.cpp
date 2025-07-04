@@ -15,11 +15,12 @@
  * 注：StochasticFull包含3条线：%K, %D, %D slow
  */
 
-#include "test_common.h"
-#include "indicators/StochasticFull.h"
+#include "test_common_simple.h"
+
+#include "indicators/stochasticfull.h"
+
 
 using namespace backtrader::tests::original;
-using namespace backtrader::indicators;
 
 namespace {
 

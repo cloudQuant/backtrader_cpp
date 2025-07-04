@@ -13,8 +13,12 @@
  * 注：DEMAOsc (DEMA Oscillator) 是价格与DEMA的振荡器
  */
 
-#include "test_common.h"
-#include "indicators/DEMAOsc.h"
+#include "test_common_simple.h"
+
+using namespace backtrader::indicators;
+#include "indicators/demaosc.h"
+
+using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
 using namespace backtrader::indicators;

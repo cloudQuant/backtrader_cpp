@@ -11,11 +11,12 @@
  * chkind = btind.DownMove
  */
 
-#include "test_common.h"
-#include "indicators/DownMove.h"
+#include "test_common_simple.h"
+
+#include "indicators/downmove.h"
+
 
 using namespace backtrader::tests::original;
-using namespace backtrader::indicators;
 
 namespace {
 

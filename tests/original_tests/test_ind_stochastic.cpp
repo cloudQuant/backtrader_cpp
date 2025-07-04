@@ -12,11 +12,12 @@
  * chkind = btind.Stochastic
  */
 
-#include "test_common.h"
-#include "indicators/Stochastic.h"
+#include "test_common_simple.h"
+
+#include "indicators/stochastic.h"
+
 
 using namespace backtrader::tests::original;
-using namespace backtrader::indicators;
 
 namespace {
 

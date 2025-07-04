@@ -11,11 +11,12 @@
  * chkind = bt.indicators.UltimateOscillator
  */
 
-#include "test_common.h"
-#include "indicators/UltimateOscillator.h"
+#include "test_common_simple.h"
+
+#include "indicators/ultimateoscillator.h"
+
 
 using namespace backtrader::tests::original;
-using namespace backtrader::indicators;
 
 namespace {
 

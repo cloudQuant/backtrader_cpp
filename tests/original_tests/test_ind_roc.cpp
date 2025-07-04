@@ -11,11 +11,12 @@
  * chkind = btind.ROC
  */
 
-#include "test_common.h"
-#include "indicators/ROC.h"
+#include "test_common_simple.h"
+
+#include "indicators/roc.h"
+
 
 using namespace backtrader::tests::original;
-using namespace backtrader::indicators;
 
 namespace {
 

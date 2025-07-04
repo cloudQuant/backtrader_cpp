@@ -11,11 +11,12 @@
  * chkind = btind.KAMA
  */
 
-#include "test_common.h"
-#include "indicators/KAMA.h"
+#include "test_common_simple.h"
+
+#include "indicators/kama.h"
+
 
 using namespace backtrader::tests::original;
-using namespace backtrader::indicators;
 
 namespace {
 

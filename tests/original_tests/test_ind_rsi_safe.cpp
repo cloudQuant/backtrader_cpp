@@ -13,8 +13,12 @@
  * 注：RSI_Safe 是RSI的安全版本，避免除零错误
  */
 
-#include "test_common.h"
+#include "test_common_simple.h"
+
+using namespace backtrader::indicators;
 #include "indicators/RSI_Safe.h"
+
+using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
 using namespace backtrader::indicators;

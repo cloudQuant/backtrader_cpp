@@ -10,9 +10,9 @@
  */
 
 #include "test_common.h"
-#include "strategy/Strategy.h"
+#include "strategy.h"
 #include "cerebro/Cerebro.h"
-#include "indicators/SMA.h"
+#include "indicators/sma.h"
 #include "writers/WriterStringIO.h"
 #include "writers/CSVWriter.h"
 #include <memory>
@@ -21,7 +21,7 @@
 #include <sstream>
 #include <iostream>
 
-using namespace backtrader;
+using namespace backtrader::indicators;
 using namespace backtrader::tests::original;
 
 // 测试策略类

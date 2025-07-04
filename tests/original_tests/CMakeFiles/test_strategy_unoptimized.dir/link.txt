@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/test_strategy_unoptimized.dir/test_strategy_unoptimized.cpp.o -o test_strategy_unoptimized  -Wl,-rpath,/home/yun/anaconda3/lib libbacktrader_original_core.a /home/yun/anaconda3/lib/libgtest.so.1.11.0 -lgtest_main 

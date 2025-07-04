@@ -14,11 +14,12 @@
  * chkind = btind.DM
  */
 
-#include "test_common.h"
-#include "indicators/DM.h"
+#include "test_common_simple.h"
+
+#include "indicators/dm.h"
+
 
 using namespace backtrader::tests::original;
-using namespace backtrader::indicators;
 
 namespace {
 

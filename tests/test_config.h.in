@@ -1,4 +1,0 @@
-#pragma once
-
-// 测试配置文件
-#define TEST_DATA_DIR "@TEST_DATA_DIR@"

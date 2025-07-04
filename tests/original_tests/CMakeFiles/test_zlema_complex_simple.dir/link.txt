@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/test_zlema_complex_simple.dir/test_ind_zlema.cpp.o -o test_zlema_complex_simple  -Wl,-rpath,/home/yun/anaconda3/lib libbacktrader_minimal_core.a /home/yun/anaconda3/lib/libgtest.so.1.11.0 -lgtest_main 

@@ -15,7 +15,6 @@
 #include <cassert>
 #include <iostream>
 
-using namespace backtrader;
 using namespace backtrader::tests::original;
 
 // 基本仓位操作测试

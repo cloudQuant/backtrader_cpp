@@ -12,11 +12,10 @@
  * chkind = btind.AroonUpDown
  */
 
-#include "test_common.h"
-#include "indicators/AroonUpDown.h"
+#include "test_common_simple.h"
+#include "indicators/aroonupdown.h"
 
 using namespace backtrader::tests::original;
-using namespace backtrader::indicators;
 
 namespace {
 

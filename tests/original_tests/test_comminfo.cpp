@@ -13,7 +13,6 @@
 #include "broker/Position.h"
 #include <gtest/gtest.h>
 
-using namespace backtrader;
 using namespace backtrader::broker;
 
 // 测试股票类型的佣金计算

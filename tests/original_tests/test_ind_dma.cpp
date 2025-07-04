@@ -11,8 +11,12 @@
  * chkind = btind.DMA
  */
 
-#include "test_common.h"
-#include "indicators/DMA.h"
+#include "test_common_simple.h"
+
+using namespace backtrader::indicators;
+#include "indicators/dma.h"
+
+using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
 using namespace backtrader::indicators;

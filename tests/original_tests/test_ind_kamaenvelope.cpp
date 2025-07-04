@@ -15,8 +15,12 @@
  * 注：KAMAEnvelope包含3条线：Mid (KAMA), Upper, Lower
  */
 
-#include "test_common.h"
-#include "indicators/KAMAEnvelope.h"
+#include "test_common_simple.h"
+
+using namespace backtrader::indicators;
+#include "indicators/kamaenvelope.h"
+
+using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
 using namespace backtrader::indicators;

@@ -10,14 +10,14 @@
  */
 
 #include "test_common.h"
-#include "indicators/SMA.h"
+#include "indicators/sma.h"
 #include "data/DataFeed.h"
 #include "cerebro/Cerebro.h"
-#include "strategy/Strategy.h"
+#include "strategy.h"
 #include <memory>
 #include <vector>
 
-using namespace backtrader;
+using namespace backtrader::indicators;
 using namespace backtrader::tests::original;
 
 // 测试策略 - 处理多时间框架数据

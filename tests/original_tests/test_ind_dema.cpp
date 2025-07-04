@@ -11,8 +11,12 @@
  * chkind = btind.DEMA
  */
 
-#include "test_common.h"
-#include "indicators/DEMA.h"
+#include "test_common_simple.h"
+
+using namespace backtrader::indicators;
+#include "indicators/dema.h"
+
+using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
 using namespace backtrader::indicators;

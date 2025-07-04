@@ -11,11 +11,12 @@
  * chkind = btind.DV2
  */
 
-#include "test_common.h"
-#include "indicators/DV2.h"
+#include "test_common_simple.h"
+
+#include "indicators/dv2.h"
+
 
 using namespace backtrader::tests::original;
-using namespace backtrader::indicators;
 
 namespace {
 

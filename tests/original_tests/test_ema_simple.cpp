@@ -1,9 +1,9 @@
 #include "test_common_simple.h"
-#include "indicators/EMA.h"
+#include "indicators/ema.h"
 #include <gtest/gtest.h>
 
 using namespace backtrader::tests::original;
-using namespace backtrader;
+using namespace backtrader::indicators;
 
 namespace {
 

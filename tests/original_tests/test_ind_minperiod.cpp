@@ -12,11 +12,21 @@
  * 注：这个测试验证多个指标组合时的最小周期计算
  */
 
-#include "test_common.h"
-#include "indicators/SMA.h"
-#include "indicators/Stochastic.h"
-#include "indicators/MACD.h"
-#include "indicators/Highest.h"
+#include "test_common_simple.h"
+
+using namespace backtrader::indicators;
+#include "indicators/sma.h"
+
+using namespace backtrader::indicators;
+#include "indicators/stochastic.h"
+
+using namespace backtrader::indicators;
+#include "indicators/macd.h"
+
+using namespace backtrader::indicators;
+#include "indicators/highest.h"
+
+using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
 using namespace backtrader::indicators;

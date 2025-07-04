@@ -92,7 +92,7 @@ test_rsi_simple_EXTERNAL_OBJECTS =
 
 test_rsi_simple: CMakeFiles/test_rsi_simple.dir/test_ind_rsi_simple.cpp.o
 test_rsi_simple: CMakeFiles/test_rsi_simple.dir/build.make
-test_rsi_simple: libbacktrader_original_core.a
+test_rsi_simple: libbacktrader_minimal_core.a
 test_rsi_simple: /home/yun/anaconda3/lib/libgtest.so.1.11.0
 test_rsi_simple: CMakeFiles/test_rsi_simple.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable test_rsi_simple"

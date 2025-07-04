@@ -1,0 +1,2 @@
+# Empty dependencies file for test_smma_complex_simple.
+# This may be replaced when dependencies are built.

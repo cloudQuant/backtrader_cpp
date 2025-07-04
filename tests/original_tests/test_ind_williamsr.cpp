@@ -11,11 +11,12 @@
  * chkind = btind.WilliamsR
  */
 
-#include "test_common.h"
-#include "indicators/WilliamsR.h"
+#include "test_common_simple.h"
+
+#include "indicators/williamsr.h"
+
 
 using namespace backtrader::tests::original;
-using namespace backtrader::indicators;
 
 namespace {
 

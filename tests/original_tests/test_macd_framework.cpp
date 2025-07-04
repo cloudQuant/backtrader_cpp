@@ -1,8 +1,8 @@
 #include "test_common_simple.h"
-#include "indicators/MACD.h"
+#include "indicators/macd.h"
 
 using namespace backtrader::tests::original;
-using namespace backtrader;
+using namespace backtrader::indicators;
 
 int main() {
     // Test MACD histogram using common framework

@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/test_ema_simple.dir/test_ema_simple.cpp.o"
-  "CMakeFiles/test_ema_simple.dir/test_ema_simple.cpp.o.d"
+  "CMakeFiles/test_ema_simple.dir/test_ind_ema_simple.cpp.o"
+  "CMakeFiles/test_ema_simple.dir/test_ind_ema_simple.cpp.o.d"
   "test_ema_simple"
   "test_ema_simple.pdb"
 )

@@ -1,0 +1,54 @@
+#pragma once
+
+#include "../indicator.h"
+#include "../lineseries.h"
+#include "sma.h"
+#include "percentrank.h"
+
+namespace backtrader {
+namespace indicators {
+
+// DV2 Indicator (RSI alternative)
+class DV2 : public Indicator {
+public:
+    struct Params {
+        int period = 252;      // Period for percent rank calculation
+        int maperiod = 2;      // Period for moving average
+    } params;
+    
+    // Lines
+    enum Lines { 
+        dv2 = 0  // DV2 line
+    };
+    
+    DV2();
+    DV2(std::shared_ptr<LineSeries> data_source, int period = 252, int maperiod = 2);
+    virtual ~DV2() = default;
+    
+    // Utility methods
+    double get(int ago = 0) const;
+    int getMinPeriod() const;
+    void calculate();
+    
+protected:
+    void next() override;
+    void once(int start, int end) override;
+    
+private:
+    void setup_lines();
+    
+    // Component indicators
+    std::shared_ptr<SMA> sma_;
+    std::shared_ptr<PercentRank> percent_rank_;
+    
+    // Intermediate data storage
+    std::vector<double> chl_values_;
+    std::vector<double> dvu_values_;
+    
+    // LineSeries support
+    std::shared_ptr<LineSeries> data_source_;
+    size_t current_index_;
+};
+
+} // namespace indicators
+} // namespace backtrader

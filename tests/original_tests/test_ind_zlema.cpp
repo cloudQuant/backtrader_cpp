@@ -11,8 +11,12 @@
  * chkind = btind.ZLEMA
  */
 
-#include "test_common.h"
-#include "indicators/ZLEMA.h"
+#include "test_common_simple.h"
+
+using namespace backtrader::indicators;
+#include "indicators/zlema.h"
+
+using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
 using namespace backtrader::indicators;

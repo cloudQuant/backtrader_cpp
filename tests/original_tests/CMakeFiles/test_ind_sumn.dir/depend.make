@@ -1,2 +1,0 @@
-# Empty dependencies file for test_ind_sumn.
-# This may be replaced when dependencies are built.

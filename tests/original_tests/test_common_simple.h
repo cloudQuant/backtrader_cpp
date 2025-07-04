@@ -10,8 +10,10 @@
 #include <cmath>
 
 // Include backtrader headers
-#include "LineRoot.h"
-#include "Common.h"
+#include "lineroot.h"
+#include "lineseries.h"
+#include "linebuffer.h"
+#include "indicator.h"
 
 namespace backtrader {
 namespace tests {
@@ -97,7 +99,7 @@ inline std::vector<CSVDataReader::OHLCVData> getdata(int index = 0) {
         "2006-week-001.txt"
     };
     
-    std::string filepath = "../../datas/" + datafiles[index];
+    std::string filepath = "../../tests/datas/" + datafiles[index];
     return CSVDataReader::loadCSV(filepath);
 }
 
@@ -114,17 +116,24 @@ void runtest(const std::vector<std::vector<std::string>>& expected_vals,
     auto csv_data = getdata(data_index);
     ASSERT_FALSE(csv_data.empty()) << "Failed to load test data";
     
-    // 创建数据线
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    // 创建数据线系列
+    auto close_line_series = std::make_shared<LineSeries>();
+    close_line_series->lines->add_line(std::make_shared<LineBuffer>());
+    close_line_series->lines->add_alias("close", 0);
+    
+    // 逐步添加数据到线缓冲区
+    auto close_buffer = std::dynamic_pointer_cast<LineBuffer>(close_line_series->lines->getline(0));
+    if (close_buffer) {
+        for (size_t i = 0; i < csv_data.size(); ++i) {
+            close_buffer->append(csv_data[i].close);
+        }
+    }
     
     // 创建指标
-    auto indicator = std::make_shared<IndicatorType>(close_line);
+    auto indicator = std::make_shared<IndicatorType>(close_line_series);
     
-    // 逐步添加数据并计算指标（模拟Python的逐步处理）
-    for (size_t i = 0; i < csv_data.size(); ++i) {
-        close_line->forward(csv_data[i].close);
-        indicator->calculate();
-    }
+    // 计算指标（一次性处理所有数据）
+    indicator->calculate();
     
     // 验证最小周期
     ASSERT_EQ(indicator->getMinPeriod(), expected_min_period) << "Minimum period mismatch";

@@ -13,8 +13,12 @@
  * 注：该测试使用SMA作为基础指标，计算价格与SMA的振荡值
  */
 
-#include "test_common.h"
-#include "indicators/Oscillator.h"
+#include "test_common_simple.h"
+
+using namespace backtrader::indicators;
+#include "indicators/oscillator.h"
+
+using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
 using namespace backtrader::indicators;

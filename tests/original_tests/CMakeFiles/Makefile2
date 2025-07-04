@@ -63,87 +63,38 @@ CMAKE_BINARY_DIR = /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/backtrader_original_core.dir/all
+all: CMakeFiles/backtrader_minimal_core.dir/all
 all: CMakeFiles/test_sma_simple.dir/all
 all: CMakeFiles/test_ema_simple.dir/all
 all: CMakeFiles/test_rsi_simple.dir/all
 all: CMakeFiles/test_macd_simple.dir/all
 all: CMakeFiles/test_bbands_simple.dir/all
-all: CMakeFiles/test_crossover_simple.dir/all
-all: CMakeFiles/test_strategy_unoptimized.dir/all
-all: CMakeFiles/test_ind_accdecosc.dir/all
-all: CMakeFiles/test_ind_aroonoscillator.dir/all
-all: CMakeFiles/test_ind_aroonupdown.dir/all
-all: CMakeFiles/test_ind_atr.dir/all
-all: CMakeFiles/test_ind_awesomeoscillator.dir/all
-all: CMakeFiles/test_ind_bbands.dir/all
-all: CMakeFiles/test_ind_bbands_simple.dir/all
-all: CMakeFiles/test_ind_cci.dir/all
-all: CMakeFiles/test_ind_dema.dir/all
-all: CMakeFiles/test_ind_demaenvelope.dir/all
-all: CMakeFiles/test_ind_demaosc.dir/all
-all: CMakeFiles/test_ind_dm.dir/all
-all: CMakeFiles/test_ind_dma.dir/all
-all: CMakeFiles/test_ind_downmove.dir/all
-all: CMakeFiles/test_ind_dpo.dir/all
-all: CMakeFiles/test_ind_dv2.dir/all
-all: CMakeFiles/test_ind_ema.dir/all
-all: CMakeFiles/test_ind_ema_simple.dir/all
-all: CMakeFiles/test_ind_emaenvelope.dir/all
-all: CMakeFiles/test_ind_emaosc.dir/all
-all: CMakeFiles/test_ind_envelope.dir/all
-all: CMakeFiles/test_ind_heikinashi.dir/all
-all: CMakeFiles/test_ind_highest.dir/all
-all: CMakeFiles/test_ind_hma.dir/all
-all: CMakeFiles/test_ind_ichimoku.dir/all
-all: CMakeFiles/test_ind_kama.dir/all
-all: CMakeFiles/test_ind_kamaenvelope.dir/all
-all: CMakeFiles/test_ind_kamaosc.dir/all
-all: CMakeFiles/test_ind_kst.dir/all
-all: CMakeFiles/test_ind_lowest.dir/all
-all: CMakeFiles/test_ind_lrsi.dir/all
-all: CMakeFiles/test_ind_macd_simple.dir/all
-all: CMakeFiles/test_ind_macdhisto.dir/all
-all: CMakeFiles/test_ind_minperiod.dir/all
-all: CMakeFiles/test_ind_momentum.dir/all
-all: CMakeFiles/test_ind_momentumoscillator.dir/all
-all: CMakeFiles/test_ind_oscillator.dir/all
-all: CMakeFiles/test_ind_pctchange.dir/all
-all: CMakeFiles/test_ind_pctrank.dir/all
-all: CMakeFiles/test_ind_pgo.dir/all
-all: CMakeFiles/test_ind_ppo.dir/all
-all: CMakeFiles/test_ind_pposhort.dir/all
-all: CMakeFiles/test_ind_priceosc.dir/all
-all: CMakeFiles/test_ind_rmi.dir/all
-all: CMakeFiles/test_ind_roc.dir/all
-all: CMakeFiles/test_ind_rsi.dir/all
-all: CMakeFiles/test_ind_rsi_safe.dir/all
-all: CMakeFiles/test_ind_rsi_simple.dir/all
-all: CMakeFiles/test_ind_sma.dir/all
-all: CMakeFiles/test_ind_smaenvelope.dir/all
-all: CMakeFiles/test_ind_smaosc.dir/all
-all: CMakeFiles/test_ind_smma.dir/all
-all: CMakeFiles/test_ind_smmaenvelope.dir/all
-all: CMakeFiles/test_ind_smmaosc.dir/all
-all: CMakeFiles/test_ind_stochastic.dir/all
-all: CMakeFiles/test_ind_stochasticfull.dir/all
-all: CMakeFiles/test_ind_sumn.dir/all
-all: CMakeFiles/test_ind_tema.dir/all
-all: CMakeFiles/test_ind_temaenvelope.dir/all
-all: CMakeFiles/test_ind_temaosc.dir/all
-all: CMakeFiles/test_ind_trix.dir/all
-all: CMakeFiles/test_ind_tsi.dir/all
-all: CMakeFiles/test_ind_ultosc.dir/all
-all: CMakeFiles/test_ind_upmove.dir/all
-all: CMakeFiles/test_ind_vortex.dir/all
-all: CMakeFiles/test_ind_williamsad.dir/all
-all: CMakeFiles/test_ind_williamsr.dir/all
-all: CMakeFiles/test_ind_wma.dir/all
-all: CMakeFiles/test_ind_wmaenvelope.dir/all
-all: CMakeFiles/test_ind_wmaosc.dir/all
-all: CMakeFiles/test_ind_zlema.dir/all
-all: CMakeFiles/test_ind_zlind.dir/all
-all: CMakeFiles/all_original_tests.dir/all
+all: CMakeFiles/test_atr_simple.dir/all
+all: CMakeFiles/test_wma_simple.dir/all
+all: CMakeFiles/test_dema_simple.dir/all
+all: CMakeFiles/test_momentum_simple.dir/all
+all: CMakeFiles/test_highest_simple.dir/all
+all: CMakeFiles/test_lowest_simple.dir/all
+all: CMakeFiles/test_sumn_simple.dir/all
+all: CMakeFiles/test_cci_simple.dir/all
+all: CMakeFiles/test_hma_simple.dir/all
+all: CMakeFiles/test_dpo_simple.dir/all
+all: CMakeFiles/test_dv2_simple.dir/all
+all: CMakeFiles/test_pctchange_simple.dir/all
+all: CMakeFiles/test_pctrank_simple.dir/all
+all: CMakeFiles/test_roc_simple.dir/all
+all: CMakeFiles/test_average_simple.dir/all
+all: CMakeFiles/test_anyn_simple.dir/all
+all: CMakeFiles/test_alln_simple.dir/all
+all: CMakeFiles/test_smma_simple.dir/all
+all: CMakeFiles/test_zlema_simple.dir/all
+all: CMakeFiles/test_upmove_simple.dir/all
+all: CMakeFiles/test_downmove_simple.dir/all
+all: CMakeFiles/test_zlind_simple.dir/all
+all: CMakeFiles/test_ultosc_simple.dir/all
+all: CMakeFiles/test_envelope_simple.dir/all
+all: CMakeFiles/test_trix_simple.dir/all
+all: CMakeFiles/test_oscillator_simple.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -151,135 +102,79 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/backtrader_original_core.dir/clean
+clean: CMakeFiles/backtrader_minimal_core.dir/clean
 clean: CMakeFiles/test_sma_simple.dir/clean
 clean: CMakeFiles/test_ema_simple.dir/clean
 clean: CMakeFiles/test_rsi_simple.dir/clean
 clean: CMakeFiles/test_macd_simple.dir/clean
 clean: CMakeFiles/test_bbands_simple.dir/clean
-clean: CMakeFiles/test_crossover_simple.dir/clean
-clean: CMakeFiles/test_strategy_unoptimized.dir/clean
-clean: CMakeFiles/test_ind_accdecosc.dir/clean
-clean: CMakeFiles/test_ind_aroonoscillator.dir/clean
-clean: CMakeFiles/test_ind_aroonupdown.dir/clean
-clean: CMakeFiles/test_ind_atr.dir/clean
-clean: CMakeFiles/test_ind_awesomeoscillator.dir/clean
-clean: CMakeFiles/test_ind_bbands.dir/clean
-clean: CMakeFiles/test_ind_bbands_simple.dir/clean
-clean: CMakeFiles/test_ind_cci.dir/clean
-clean: CMakeFiles/test_ind_dema.dir/clean
-clean: CMakeFiles/test_ind_demaenvelope.dir/clean
-clean: CMakeFiles/test_ind_demaosc.dir/clean
-clean: CMakeFiles/test_ind_dm.dir/clean
-clean: CMakeFiles/test_ind_dma.dir/clean
-clean: CMakeFiles/test_ind_downmove.dir/clean
-clean: CMakeFiles/test_ind_dpo.dir/clean
-clean: CMakeFiles/test_ind_dv2.dir/clean
-clean: CMakeFiles/test_ind_ema.dir/clean
-clean: CMakeFiles/test_ind_ema_simple.dir/clean
-clean: CMakeFiles/test_ind_emaenvelope.dir/clean
-clean: CMakeFiles/test_ind_emaosc.dir/clean
-clean: CMakeFiles/test_ind_envelope.dir/clean
-clean: CMakeFiles/test_ind_heikinashi.dir/clean
-clean: CMakeFiles/test_ind_highest.dir/clean
-clean: CMakeFiles/test_ind_hma.dir/clean
-clean: CMakeFiles/test_ind_ichimoku.dir/clean
-clean: CMakeFiles/test_ind_kama.dir/clean
-clean: CMakeFiles/test_ind_kamaenvelope.dir/clean
-clean: CMakeFiles/test_ind_kamaosc.dir/clean
-clean: CMakeFiles/test_ind_kst.dir/clean
-clean: CMakeFiles/test_ind_lowest.dir/clean
-clean: CMakeFiles/test_ind_lrsi.dir/clean
-clean: CMakeFiles/test_ind_macd_simple.dir/clean
-clean: CMakeFiles/test_ind_macdhisto.dir/clean
-clean: CMakeFiles/test_ind_minperiod.dir/clean
-clean: CMakeFiles/test_ind_momentum.dir/clean
-clean: CMakeFiles/test_ind_momentumoscillator.dir/clean
-clean: CMakeFiles/test_ind_oscillator.dir/clean
-clean: CMakeFiles/test_ind_pctchange.dir/clean
-clean: CMakeFiles/test_ind_pctrank.dir/clean
-clean: CMakeFiles/test_ind_pgo.dir/clean
-clean: CMakeFiles/test_ind_ppo.dir/clean
-clean: CMakeFiles/test_ind_pposhort.dir/clean
-clean: CMakeFiles/test_ind_priceosc.dir/clean
-clean: CMakeFiles/test_ind_rmi.dir/clean
-clean: CMakeFiles/test_ind_roc.dir/clean
-clean: CMakeFiles/test_ind_rsi.dir/clean
-clean: CMakeFiles/test_ind_rsi_safe.dir/clean
-clean: CMakeFiles/test_ind_rsi_simple.dir/clean
-clean: CMakeFiles/test_ind_sma.dir/clean
-clean: CMakeFiles/test_ind_smaenvelope.dir/clean
-clean: CMakeFiles/test_ind_smaosc.dir/clean
-clean: CMakeFiles/test_ind_smma.dir/clean
-clean: CMakeFiles/test_ind_smmaenvelope.dir/clean
-clean: CMakeFiles/test_ind_smmaosc.dir/clean
-clean: CMakeFiles/test_ind_stochastic.dir/clean
-clean: CMakeFiles/test_ind_stochasticfull.dir/clean
-clean: CMakeFiles/test_ind_sumn.dir/clean
-clean: CMakeFiles/test_ind_tema.dir/clean
-clean: CMakeFiles/test_ind_temaenvelope.dir/clean
-clean: CMakeFiles/test_ind_temaosc.dir/clean
-clean: CMakeFiles/test_ind_trix.dir/clean
-clean: CMakeFiles/test_ind_tsi.dir/clean
-clean: CMakeFiles/test_ind_ultosc.dir/clean
-clean: CMakeFiles/test_ind_upmove.dir/clean
-clean: CMakeFiles/test_ind_vortex.dir/clean
-clean: CMakeFiles/test_ind_williamsad.dir/clean
-clean: CMakeFiles/test_ind_williamsr.dir/clean
-clean: CMakeFiles/test_ind_wma.dir/clean
-clean: CMakeFiles/test_ind_wmaenvelope.dir/clean
-clean: CMakeFiles/test_ind_wmaosc.dir/clean
-clean: CMakeFiles/test_ind_zlema.dir/clean
-clean: CMakeFiles/test_ind_zlind.dir/clean
-clean: CMakeFiles/run_original_tests.dir/clean
-clean: CMakeFiles/all_original_tests.dir/clean
-clean: CMakeFiles/run_original_tests_debug.dir/clean
-clean: CMakeFiles/run_sma_test.dir/clean
-clean: CMakeFiles/run_rsi_test.dir/clean
-clean: CMakeFiles/run_bbands_test.dir/clean
-clean: CMakeFiles/run_atr_test.dir/clean
-clean: CMakeFiles/run_stochastic_test.dir/clean
+clean: CMakeFiles/test_atr_simple.dir/clean
+clean: CMakeFiles/test_wma_simple.dir/clean
+clean: CMakeFiles/test_dema_simple.dir/clean
+clean: CMakeFiles/test_momentum_simple.dir/clean
+clean: CMakeFiles/test_highest_simple.dir/clean
+clean: CMakeFiles/test_lowest_simple.dir/clean
+clean: CMakeFiles/test_sumn_simple.dir/clean
+clean: CMakeFiles/test_cci_simple.dir/clean
+clean: CMakeFiles/test_hma_simple.dir/clean
+clean: CMakeFiles/test_dpo_simple.dir/clean
+clean: CMakeFiles/test_dv2_simple.dir/clean
+clean: CMakeFiles/test_pctchange_simple.dir/clean
+clean: CMakeFiles/test_pctrank_simple.dir/clean
+clean: CMakeFiles/test_roc_simple.dir/clean
+clean: CMakeFiles/test_average_simple.dir/clean
+clean: CMakeFiles/test_anyn_simple.dir/clean
+clean: CMakeFiles/test_alln_simple.dir/clean
+clean: CMakeFiles/test_smma_simple.dir/clean
+clean: CMakeFiles/test_zlema_simple.dir/clean
+clean: CMakeFiles/test_upmove_simple.dir/clean
+clean: CMakeFiles/test_downmove_simple.dir/clean
+clean: CMakeFiles/test_zlind_simple.dir/clean
+clean: CMakeFiles/test_ultosc_simple.dir/clean
+clean: CMakeFiles/test_envelope_simple.dir/clean
+clean: CMakeFiles/test_trix_simple.dir/clean
+clean: CMakeFiles/test_oscillator_simple.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/backtrader_original_core.dir
+# Target rules for target CMakeFiles/backtrader_minimal_core.dir
 
 # All Build rule for target.
-CMakeFiles/backtrader_original_core.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/backtrader_original_core.dir/build.make CMakeFiles/backtrader_original_core.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/backtrader_original_core.dir/build.make CMakeFiles/backtrader_original_core.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=29,30,31,32,33,34,35,36 "Built target backtrader_original_core"
-.PHONY : CMakeFiles/backtrader_original_core.dir/all
+CMakeFiles/backtrader_minimal_core.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/backtrader_minimal_core.dir/build.make CMakeFiles/backtrader_minimal_core.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/backtrader_minimal_core.dir/build.make CMakeFiles/backtrader_minimal_core.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32 "Built target backtrader_minimal_core"
+.PHONY : CMakeFiles/backtrader_minimal_core.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/backtrader_original_core.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 8
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/backtrader_original_core.dir/all
+CMakeFiles/backtrader_minimal_core.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 32
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/backtrader_minimal_core.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/backtrader_original_core.dir/rule
+.PHONY : CMakeFiles/backtrader_minimal_core.dir/rule
 
 # Convenience name for target.
-backtrader_original_core: CMakeFiles/backtrader_original_core.dir/rule
-.PHONY : backtrader_original_core
+backtrader_minimal_core: CMakeFiles/backtrader_minimal_core.dir/rule
+.PHONY : backtrader_minimal_core
 
 # clean rule for target.
-CMakeFiles/backtrader_original_core.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/backtrader_original_core.dir/build.make CMakeFiles/backtrader_original_core.dir/clean
-.PHONY : CMakeFiles/backtrader_original_core.dir/clean
+CMakeFiles/backtrader_minimal_core.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/backtrader_minimal_core.dir/build.make CMakeFiles/backtrader_minimal_core.dir/clean
+.PHONY : CMakeFiles/backtrader_minimal_core.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/test_sma_simple.dir
 
 # All Build rule for target.
-CMakeFiles/test_sma_simple.dir/all: CMakeFiles/backtrader_original_core.dir/all
+CMakeFiles/test_sma_simple.dir/all: CMakeFiles/backtrader_minimal_core.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sma_simple.dir/build.make CMakeFiles/test_sma_simple.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sma_simple.dir/build.make CMakeFiles/test_sma_simple.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=99 "Built target test_sma_simple"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=77,78 "Built target test_sma_simple"
 .PHONY : CMakeFiles/test_sma_simple.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/test_sma_simple.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 34
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_sma_simple.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
 .PHONY : CMakeFiles/test_sma_simple.dir/rule
@@ -297,15 +192,15 @@ CMakeFiles/test_sma_simple.dir/clean:
 # Target rules for target CMakeFiles/test_ema_simple.dir
 
 # All Build rule for target.
-CMakeFiles/test_ema_simple.dir/all: CMakeFiles/backtrader_original_core.dir/all
+CMakeFiles/test_ema_simple.dir/all: CMakeFiles/backtrader_minimal_core.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ema_simple.dir/build.make CMakeFiles/test_ema_simple.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ema_simple.dir/build.make CMakeFiles/test_ema_simple.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=41 "Built target test_ema_simple"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=53,54 "Built target test_ema_simple"
 .PHONY : CMakeFiles/test_ema_simple.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/test_ema_simple.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 34
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ema_simple.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
 .PHONY : CMakeFiles/test_ema_simple.dir/rule
@@ -323,15 +218,15 @@ CMakeFiles/test_ema_simple.dir/clean:
 # Target rules for target CMakeFiles/test_rsi_simple.dir
 
 # All Build rule for target.
-CMakeFiles/test_rsi_simple.dir/all: CMakeFiles/backtrader_original_core.dir/all
+CMakeFiles/test_rsi_simple.dir/all: CMakeFiles/backtrader_minimal_core.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_rsi_simple.dir/build.make CMakeFiles/test_rsi_simple.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_rsi_simple.dir/build.make CMakeFiles/test_rsi_simple.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=98 "Built target test_rsi_simple"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=75,76 "Built target test_rsi_simple"
 .PHONY : CMakeFiles/test_rsi_simple.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/test_rsi_simple.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 34
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_rsi_simple.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
 .PHONY : CMakeFiles/test_rsi_simple.dir/rule
@@ -349,15 +244,15 @@ CMakeFiles/test_rsi_simple.dir/clean:
 # Target rules for target CMakeFiles/test_macd_simple.dir
 
 # All Build rule for target.
-CMakeFiles/test_macd_simple.dir/all: CMakeFiles/backtrader_original_core.dir/all
+CMakeFiles/test_macd_simple.dir/all: CMakeFiles/backtrader_minimal_core.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_macd_simple.dir/build.make CMakeFiles/test_macd_simple.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_macd_simple.dir/build.make CMakeFiles/test_macd_simple.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=97 "Built target test_macd_simple"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=63,64 "Built target test_macd_simple"
 .PHONY : CMakeFiles/test_macd_simple.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/test_macd_simple.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 34
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_macd_simple.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
 .PHONY : CMakeFiles/test_macd_simple.dir/rule
@@ -375,15 +270,15 @@ CMakeFiles/test_macd_simple.dir/clean:
 # Target rules for target CMakeFiles/test_bbands_simple.dir
 
 # All Build rule for target.
-CMakeFiles/test_bbands_simple.dir/all: CMakeFiles/backtrader_original_core.dir/all
+CMakeFiles/test_bbands_simple.dir/all: CMakeFiles/backtrader_minimal_core.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_bbands_simple.dir/build.make CMakeFiles/test_bbands_simple.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_bbands_simple.dir/build.make CMakeFiles/test_bbands_simple.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=39 "Built target test_bbands_simple"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=41,42 "Built target test_bbands_simple"
 .PHONY : CMakeFiles/test_bbands_simple.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/test_bbands_simple.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 34
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_bbands_simple.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
 .PHONY : CMakeFiles/test_bbands_simple.dir/rule
@@ -398,2136 +293,680 @@ CMakeFiles/test_bbands_simple.dir/clean:
 .PHONY : CMakeFiles/test_bbands_simple.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/test_crossover_simple.dir
+# Target rules for target CMakeFiles/test_atr_simple.dir
 
 # All Build rule for target.
-CMakeFiles/test_crossover_simple.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_crossover_simple.dir/build.make CMakeFiles/test_crossover_simple.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_crossover_simple.dir/build.make CMakeFiles/test_crossover_simple.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=40 "Built target test_crossover_simple"
-.PHONY : CMakeFiles/test_crossover_simple.dir/all
+CMakeFiles/test_atr_simple.dir/all: CMakeFiles/backtrader_minimal_core.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_atr_simple.dir/build.make CMakeFiles/test_atr_simple.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_atr_simple.dir/build.make CMakeFiles/test_atr_simple.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=37,38 "Built target test_atr_simple"
+.PHONY : CMakeFiles/test_atr_simple.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/test_crossover_simple.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_crossover_simple.dir/all
+CMakeFiles/test_atr_simple.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 34
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_atr_simple.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_crossover_simple.dir/rule
+.PHONY : CMakeFiles/test_atr_simple.dir/rule
 
 # Convenience name for target.
-test_crossover_simple: CMakeFiles/test_crossover_simple.dir/rule
-.PHONY : test_crossover_simple
+test_atr_simple: CMakeFiles/test_atr_simple.dir/rule
+.PHONY : test_atr_simple
 
 # clean rule for target.
-CMakeFiles/test_crossover_simple.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_crossover_simple.dir/build.make CMakeFiles/test_crossover_simple.dir/clean
-.PHONY : CMakeFiles/test_crossover_simple.dir/clean
+CMakeFiles/test_atr_simple.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_atr_simple.dir/build.make CMakeFiles/test_atr_simple.dir/clean
+.PHONY : CMakeFiles/test_atr_simple.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/test_strategy_unoptimized.dir
+# Target rules for target CMakeFiles/test_wma_simple.dir
 
 # All Build rule for target.
-CMakeFiles/test_strategy_unoptimized.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_strategy_unoptimized.dir/build.make CMakeFiles/test_strategy_unoptimized.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_strategy_unoptimized.dir/build.make CMakeFiles/test_strategy_unoptimized.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=100 "Built target test_strategy_unoptimized"
-.PHONY : CMakeFiles/test_strategy_unoptimized.dir/all
+CMakeFiles/test_wma_simple.dir/all: CMakeFiles/backtrader_minimal_core.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_wma_simple.dir/build.make CMakeFiles/test_wma_simple.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_wma_simple.dir/build.make CMakeFiles/test_wma_simple.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=89,90 "Built target test_wma_simple"
+.PHONY : CMakeFiles/test_wma_simple.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/test_strategy_unoptimized.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_strategy_unoptimized.dir/all
+CMakeFiles/test_wma_simple.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 34
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_wma_simple.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_strategy_unoptimized.dir/rule
+.PHONY : CMakeFiles/test_wma_simple.dir/rule
 
 # Convenience name for target.
-test_strategy_unoptimized: CMakeFiles/test_strategy_unoptimized.dir/rule
-.PHONY : test_strategy_unoptimized
+test_wma_simple: CMakeFiles/test_wma_simple.dir/rule
+.PHONY : test_wma_simple
 
 # clean rule for target.
-CMakeFiles/test_strategy_unoptimized.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_strategy_unoptimized.dir/build.make CMakeFiles/test_strategy_unoptimized.dir/clean
-.PHONY : CMakeFiles/test_strategy_unoptimized.dir/clean
+CMakeFiles/test_wma_simple.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_wma_simple.dir/build.make CMakeFiles/test_wma_simple.dir/clean
+.PHONY : CMakeFiles/test_wma_simple.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/test_ind_accdecosc.dir
+# Target rules for target CMakeFiles/test_dema_simple.dir
 
 # All Build rule for target.
-CMakeFiles/test_ind_accdecosc.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_accdecosc.dir/build.make CMakeFiles/test_ind_accdecosc.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_accdecosc.dir/build.make CMakeFiles/test_ind_accdecosc.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num= "Built target test_ind_accdecosc"
-.PHONY : CMakeFiles/test_ind_accdecosc.dir/all
+CMakeFiles/test_dema_simple.dir/all: CMakeFiles/backtrader_minimal_core.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dema_simple.dir/build.make CMakeFiles/test_dema_simple.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dema_simple.dir/build.make CMakeFiles/test_dema_simple.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=45,46 "Built target test_dema_simple"
+.PHONY : CMakeFiles/test_dema_simple.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/test_ind_accdecosc.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 8
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_accdecosc.dir/all
+CMakeFiles/test_dema_simple.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 34
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_dema_simple.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_accdecosc.dir/rule
+.PHONY : CMakeFiles/test_dema_simple.dir/rule
 
 # Convenience name for target.
-test_ind_accdecosc: CMakeFiles/test_ind_accdecosc.dir/rule
-.PHONY : test_ind_accdecosc
+test_dema_simple: CMakeFiles/test_dema_simple.dir/rule
+.PHONY : test_dema_simple
 
 # clean rule for target.
-CMakeFiles/test_ind_accdecosc.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_accdecosc.dir/build.make CMakeFiles/test_ind_accdecosc.dir/clean
-.PHONY : CMakeFiles/test_ind_accdecosc.dir/clean
+CMakeFiles/test_dema_simple.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dema_simple.dir/build.make CMakeFiles/test_dema_simple.dir/clean
+.PHONY : CMakeFiles/test_dema_simple.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/test_ind_aroonoscillator.dir
+# Target rules for target CMakeFiles/test_momentum_simple.dir
 
 # All Build rule for target.
-CMakeFiles/test_ind_aroonoscillator.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_aroonoscillator.dir/build.make CMakeFiles/test_ind_aroonoscillator.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_aroonoscillator.dir/build.make CMakeFiles/test_ind_aroonoscillator.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=42 "Built target test_ind_aroonoscillator"
-.PHONY : CMakeFiles/test_ind_aroonoscillator.dir/all
+CMakeFiles/test_momentum_simple.dir/all: CMakeFiles/backtrader_minimal_core.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_momentum_simple.dir/build.make CMakeFiles/test_momentum_simple.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_momentum_simple.dir/build.make CMakeFiles/test_momentum_simple.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=65,66 "Built target test_momentum_simple"
+.PHONY : CMakeFiles/test_momentum_simple.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/test_ind_aroonoscillator.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_aroonoscillator.dir/all
+CMakeFiles/test_momentum_simple.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 34
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_momentum_simple.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_aroonoscillator.dir/rule
+.PHONY : CMakeFiles/test_momentum_simple.dir/rule
 
 # Convenience name for target.
-test_ind_aroonoscillator: CMakeFiles/test_ind_aroonoscillator.dir/rule
-.PHONY : test_ind_aroonoscillator
+test_momentum_simple: CMakeFiles/test_momentum_simple.dir/rule
+.PHONY : test_momentum_simple
 
 # clean rule for target.
-CMakeFiles/test_ind_aroonoscillator.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_aroonoscillator.dir/build.make CMakeFiles/test_ind_aroonoscillator.dir/clean
-.PHONY : CMakeFiles/test_ind_aroonoscillator.dir/clean
+CMakeFiles/test_momentum_simple.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_momentum_simple.dir/build.make CMakeFiles/test_momentum_simple.dir/clean
+.PHONY : CMakeFiles/test_momentum_simple.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/test_ind_aroonupdown.dir
+# Target rules for target CMakeFiles/test_highest_simple.dir
 
 # All Build rule for target.
-CMakeFiles/test_ind_aroonupdown.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_aroonupdown.dir/build.make CMakeFiles/test_ind_aroonupdown.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_aroonupdown.dir/build.make CMakeFiles/test_ind_aroonupdown.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=43 "Built target test_ind_aroonupdown"
-.PHONY : CMakeFiles/test_ind_aroonupdown.dir/all
+CMakeFiles/test_highest_simple.dir/all: CMakeFiles/backtrader_minimal_core.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_highest_simple.dir/build.make CMakeFiles/test_highest_simple.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_highest_simple.dir/build.make CMakeFiles/test_highest_simple.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=57,58 "Built target test_highest_simple"
+.PHONY : CMakeFiles/test_highest_simple.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/test_ind_aroonupdown.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_aroonupdown.dir/all
+CMakeFiles/test_highest_simple.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 34
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_highest_simple.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_aroonupdown.dir/rule
+.PHONY : CMakeFiles/test_highest_simple.dir/rule
 
 # Convenience name for target.
-test_ind_aroonupdown: CMakeFiles/test_ind_aroonupdown.dir/rule
-.PHONY : test_ind_aroonupdown
+test_highest_simple: CMakeFiles/test_highest_simple.dir/rule
+.PHONY : test_highest_simple
 
 # clean rule for target.
-CMakeFiles/test_ind_aroonupdown.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_aroonupdown.dir/build.make CMakeFiles/test_ind_aroonupdown.dir/clean
-.PHONY : CMakeFiles/test_ind_aroonupdown.dir/clean
+CMakeFiles/test_highest_simple.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_highest_simple.dir/build.make CMakeFiles/test_highest_simple.dir/clean
+.PHONY : CMakeFiles/test_highest_simple.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/test_ind_atr.dir
+# Target rules for target CMakeFiles/test_lowest_simple.dir
 
 # All Build rule for target.
-CMakeFiles/test_ind_atr.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_atr.dir/build.make CMakeFiles/test_ind_atr.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_atr.dir/build.make CMakeFiles/test_ind_atr.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=44 "Built target test_ind_atr"
-.PHONY : CMakeFiles/test_ind_atr.dir/all
+CMakeFiles/test_lowest_simple.dir/all: CMakeFiles/backtrader_minimal_core.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lowest_simple.dir/build.make CMakeFiles/test_lowest_simple.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lowest_simple.dir/build.make CMakeFiles/test_lowest_simple.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=61,62 "Built target test_lowest_simple"
+.PHONY : CMakeFiles/test_lowest_simple.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/test_ind_atr.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_atr.dir/all
+CMakeFiles/test_lowest_simple.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 34
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_lowest_simple.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_atr.dir/rule
+.PHONY : CMakeFiles/test_lowest_simple.dir/rule
 
 # Convenience name for target.
-test_ind_atr: CMakeFiles/test_ind_atr.dir/rule
-.PHONY : test_ind_atr
+test_lowest_simple: CMakeFiles/test_lowest_simple.dir/rule
+.PHONY : test_lowest_simple
 
 # clean rule for target.
-CMakeFiles/test_ind_atr.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_atr.dir/build.make CMakeFiles/test_ind_atr.dir/clean
-.PHONY : CMakeFiles/test_ind_atr.dir/clean
+CMakeFiles/test_lowest_simple.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lowest_simple.dir/build.make CMakeFiles/test_lowest_simple.dir/clean
+.PHONY : CMakeFiles/test_lowest_simple.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/test_ind_awesomeoscillator.dir
+# Target rules for target CMakeFiles/test_sumn_simple.dir
 
 # All Build rule for target.
-CMakeFiles/test_ind_awesomeoscillator.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_awesomeoscillator.dir/build.make CMakeFiles/test_ind_awesomeoscillator.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_awesomeoscillator.dir/build.make CMakeFiles/test_ind_awesomeoscillator.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num= "Built target test_ind_awesomeoscillator"
-.PHONY : CMakeFiles/test_ind_awesomeoscillator.dir/all
+CMakeFiles/test_sumn_simple.dir/all: CMakeFiles/backtrader_minimal_core.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sumn_simple.dir/build.make CMakeFiles/test_sumn_simple.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sumn_simple.dir/build.make CMakeFiles/test_sumn_simple.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=81,82 "Built target test_sumn_simple"
+.PHONY : CMakeFiles/test_sumn_simple.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/test_ind_awesomeoscillator.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 8
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_awesomeoscillator.dir/all
+CMakeFiles/test_sumn_simple.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 34
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_sumn_simple.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_awesomeoscillator.dir/rule
+.PHONY : CMakeFiles/test_sumn_simple.dir/rule
 
 # Convenience name for target.
-test_ind_awesomeoscillator: CMakeFiles/test_ind_awesomeoscillator.dir/rule
-.PHONY : test_ind_awesomeoscillator
+test_sumn_simple: CMakeFiles/test_sumn_simple.dir/rule
+.PHONY : test_sumn_simple
 
 # clean rule for target.
-CMakeFiles/test_ind_awesomeoscillator.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_awesomeoscillator.dir/build.make CMakeFiles/test_ind_awesomeoscillator.dir/clean
-.PHONY : CMakeFiles/test_ind_awesomeoscillator.dir/clean
+CMakeFiles/test_sumn_simple.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_sumn_simple.dir/build.make CMakeFiles/test_sumn_simple.dir/clean
+.PHONY : CMakeFiles/test_sumn_simple.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/test_ind_bbands.dir
+# Target rules for target CMakeFiles/test_cci_simple.dir
 
 # All Build rule for target.
-CMakeFiles/test_ind_bbands.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_bbands.dir/build.make CMakeFiles/test_ind_bbands.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_bbands.dir/build.make CMakeFiles/test_ind_bbands.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=45 "Built target test_ind_bbands"
-.PHONY : CMakeFiles/test_ind_bbands.dir/all
+CMakeFiles/test_cci_simple.dir/all: CMakeFiles/backtrader_minimal_core.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_cci_simple.dir/build.make CMakeFiles/test_cci_simple.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_cci_simple.dir/build.make CMakeFiles/test_cci_simple.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=43,44 "Built target test_cci_simple"
+.PHONY : CMakeFiles/test_cci_simple.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/test_ind_bbands.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_bbands.dir/all
+CMakeFiles/test_cci_simple.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 34
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_cci_simple.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_bbands.dir/rule
+.PHONY : CMakeFiles/test_cci_simple.dir/rule
 
 # Convenience name for target.
-test_ind_bbands: CMakeFiles/test_ind_bbands.dir/rule
-.PHONY : test_ind_bbands
+test_cci_simple: CMakeFiles/test_cci_simple.dir/rule
+.PHONY : test_cci_simple
 
 # clean rule for target.
-CMakeFiles/test_ind_bbands.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_bbands.dir/build.make CMakeFiles/test_ind_bbands.dir/clean
-.PHONY : CMakeFiles/test_ind_bbands.dir/clean
+CMakeFiles/test_cci_simple.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_cci_simple.dir/build.make CMakeFiles/test_cci_simple.dir/clean
+.PHONY : CMakeFiles/test_cci_simple.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/test_ind_bbands_simple.dir
+# Target rules for target CMakeFiles/test_hma_simple.dir
 
 # All Build rule for target.
-CMakeFiles/test_ind_bbands_simple.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_bbands_simple.dir/build.make CMakeFiles/test_ind_bbands_simple.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_bbands_simple.dir/build.make CMakeFiles/test_ind_bbands_simple.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=46 "Built target test_ind_bbands_simple"
-.PHONY : CMakeFiles/test_ind_bbands_simple.dir/all
+CMakeFiles/test_hma_simple.dir/all: CMakeFiles/backtrader_minimal_core.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hma_simple.dir/build.make CMakeFiles/test_hma_simple.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hma_simple.dir/build.make CMakeFiles/test_hma_simple.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=59,60 "Built target test_hma_simple"
+.PHONY : CMakeFiles/test_hma_simple.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/test_ind_bbands_simple.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_bbands_simple.dir/all
+CMakeFiles/test_hma_simple.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 34
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_hma_simple.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_bbands_simple.dir/rule
+.PHONY : CMakeFiles/test_hma_simple.dir/rule
 
 # Convenience name for target.
-test_ind_bbands_simple: CMakeFiles/test_ind_bbands_simple.dir/rule
-.PHONY : test_ind_bbands_simple
+test_hma_simple: CMakeFiles/test_hma_simple.dir/rule
+.PHONY : test_hma_simple
 
 # clean rule for target.
-CMakeFiles/test_ind_bbands_simple.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_bbands_simple.dir/build.make CMakeFiles/test_ind_bbands_simple.dir/clean
-.PHONY : CMakeFiles/test_ind_bbands_simple.dir/clean
+CMakeFiles/test_hma_simple.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_hma_simple.dir/build.make CMakeFiles/test_hma_simple.dir/clean
+.PHONY : CMakeFiles/test_hma_simple.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/test_ind_cci.dir
+# Target rules for target CMakeFiles/test_dpo_simple.dir
 
 # All Build rule for target.
-CMakeFiles/test_ind_cci.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_cci.dir/build.make CMakeFiles/test_ind_cci.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_cci.dir/build.make CMakeFiles/test_ind_cci.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=47 "Built target test_ind_cci"
-.PHONY : CMakeFiles/test_ind_cci.dir/all
+CMakeFiles/test_dpo_simple.dir/all: CMakeFiles/backtrader_minimal_core.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dpo_simple.dir/build.make CMakeFiles/test_dpo_simple.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dpo_simple.dir/build.make CMakeFiles/test_dpo_simple.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=49,50 "Built target test_dpo_simple"
+.PHONY : CMakeFiles/test_dpo_simple.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/test_ind_cci.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_cci.dir/all
+CMakeFiles/test_dpo_simple.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 34
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_dpo_simple.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_cci.dir/rule
+.PHONY : CMakeFiles/test_dpo_simple.dir/rule
 
 # Convenience name for target.
-test_ind_cci: CMakeFiles/test_ind_cci.dir/rule
-.PHONY : test_ind_cci
+test_dpo_simple: CMakeFiles/test_dpo_simple.dir/rule
+.PHONY : test_dpo_simple
 
 # clean rule for target.
-CMakeFiles/test_ind_cci.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_cci.dir/build.make CMakeFiles/test_ind_cci.dir/clean
-.PHONY : CMakeFiles/test_ind_cci.dir/clean
+CMakeFiles/test_dpo_simple.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dpo_simple.dir/build.make CMakeFiles/test_dpo_simple.dir/clean
+.PHONY : CMakeFiles/test_dpo_simple.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/test_ind_dema.dir
+# Target rules for target CMakeFiles/test_dv2_simple.dir
 
 # All Build rule for target.
-CMakeFiles/test_ind_dema.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_dema.dir/build.make CMakeFiles/test_ind_dema.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_dema.dir/build.make CMakeFiles/test_ind_dema.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=48 "Built target test_ind_dema"
-.PHONY : CMakeFiles/test_ind_dema.dir/all
+CMakeFiles/test_dv2_simple.dir/all: CMakeFiles/backtrader_minimal_core.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dv2_simple.dir/build.make CMakeFiles/test_dv2_simple.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dv2_simple.dir/build.make CMakeFiles/test_dv2_simple.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=51,52 "Built target test_dv2_simple"
+.PHONY : CMakeFiles/test_dv2_simple.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/test_ind_dema.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_dema.dir/all
+CMakeFiles/test_dv2_simple.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 34
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_dv2_simple.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_dema.dir/rule
+.PHONY : CMakeFiles/test_dv2_simple.dir/rule
 
 # Convenience name for target.
-test_ind_dema: CMakeFiles/test_ind_dema.dir/rule
-.PHONY : test_ind_dema
+test_dv2_simple: CMakeFiles/test_dv2_simple.dir/rule
+.PHONY : test_dv2_simple
 
 # clean rule for target.
-CMakeFiles/test_ind_dema.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_dema.dir/build.make CMakeFiles/test_ind_dema.dir/clean
-.PHONY : CMakeFiles/test_ind_dema.dir/clean
+CMakeFiles/test_dv2_simple.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dv2_simple.dir/build.make CMakeFiles/test_dv2_simple.dir/clean
+.PHONY : CMakeFiles/test_dv2_simple.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/test_ind_demaenvelope.dir
+# Target rules for target CMakeFiles/test_pctchange_simple.dir
 
 # All Build rule for target.
-CMakeFiles/test_ind_demaenvelope.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_demaenvelope.dir/build.make CMakeFiles/test_ind_demaenvelope.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_demaenvelope.dir/build.make CMakeFiles/test_ind_demaenvelope.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num= "Built target test_ind_demaenvelope"
-.PHONY : CMakeFiles/test_ind_demaenvelope.dir/all
+CMakeFiles/test_pctchange_simple.dir/all: CMakeFiles/backtrader_minimal_core.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_pctchange_simple.dir/build.make CMakeFiles/test_pctchange_simple.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_pctchange_simple.dir/build.make CMakeFiles/test_pctchange_simple.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=69,70 "Built target test_pctchange_simple"
+.PHONY : CMakeFiles/test_pctchange_simple.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/test_ind_demaenvelope.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 8
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_demaenvelope.dir/all
+CMakeFiles/test_pctchange_simple.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 34
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_pctchange_simple.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_demaenvelope.dir/rule
+.PHONY : CMakeFiles/test_pctchange_simple.dir/rule
 
 # Convenience name for target.
-test_ind_demaenvelope: CMakeFiles/test_ind_demaenvelope.dir/rule
-.PHONY : test_ind_demaenvelope
+test_pctchange_simple: CMakeFiles/test_pctchange_simple.dir/rule
+.PHONY : test_pctchange_simple
 
 # clean rule for target.
-CMakeFiles/test_ind_demaenvelope.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_demaenvelope.dir/build.make CMakeFiles/test_ind_demaenvelope.dir/clean
-.PHONY : CMakeFiles/test_ind_demaenvelope.dir/clean
+CMakeFiles/test_pctchange_simple.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_pctchange_simple.dir/build.make CMakeFiles/test_pctchange_simple.dir/clean
+.PHONY : CMakeFiles/test_pctchange_simple.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/test_ind_demaosc.dir
+# Target rules for target CMakeFiles/test_pctrank_simple.dir
 
 # All Build rule for target.
-CMakeFiles/test_ind_demaosc.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_demaosc.dir/build.make CMakeFiles/test_ind_demaosc.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_demaosc.dir/build.make CMakeFiles/test_ind_demaosc.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=49 "Built target test_ind_demaosc"
-.PHONY : CMakeFiles/test_ind_demaosc.dir/all
+CMakeFiles/test_pctrank_simple.dir/all: CMakeFiles/backtrader_minimal_core.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_pctrank_simple.dir/build.make CMakeFiles/test_pctrank_simple.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_pctrank_simple.dir/build.make CMakeFiles/test_pctrank_simple.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=71,72 "Built target test_pctrank_simple"
+.PHONY : CMakeFiles/test_pctrank_simple.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/test_ind_demaosc.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_demaosc.dir/all
+CMakeFiles/test_pctrank_simple.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 34
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_pctrank_simple.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_demaosc.dir/rule
+.PHONY : CMakeFiles/test_pctrank_simple.dir/rule
 
 # Convenience name for target.
-test_ind_demaosc: CMakeFiles/test_ind_demaosc.dir/rule
-.PHONY : test_ind_demaosc
+test_pctrank_simple: CMakeFiles/test_pctrank_simple.dir/rule
+.PHONY : test_pctrank_simple
 
 # clean rule for target.
-CMakeFiles/test_ind_demaosc.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_demaosc.dir/build.make CMakeFiles/test_ind_demaosc.dir/clean
-.PHONY : CMakeFiles/test_ind_demaosc.dir/clean
+CMakeFiles/test_pctrank_simple.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_pctrank_simple.dir/build.make CMakeFiles/test_pctrank_simple.dir/clean
+.PHONY : CMakeFiles/test_pctrank_simple.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/test_ind_dm.dir
+# Target rules for target CMakeFiles/test_roc_simple.dir
 
 # All Build rule for target.
-CMakeFiles/test_ind_dm.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_dm.dir/build.make CMakeFiles/test_ind_dm.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_dm.dir/build.make CMakeFiles/test_ind_dm.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=50 "Built target test_ind_dm"
-.PHONY : CMakeFiles/test_ind_dm.dir/all
+CMakeFiles/test_roc_simple.dir/all: CMakeFiles/backtrader_minimal_core.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_roc_simple.dir/build.make CMakeFiles/test_roc_simple.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_roc_simple.dir/build.make CMakeFiles/test_roc_simple.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=73,74 "Built target test_roc_simple"
+.PHONY : CMakeFiles/test_roc_simple.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/test_ind_dm.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_dm.dir/all
+CMakeFiles/test_roc_simple.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 34
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_roc_simple.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_dm.dir/rule
+.PHONY : CMakeFiles/test_roc_simple.dir/rule
 
 # Convenience name for target.
-test_ind_dm: CMakeFiles/test_ind_dm.dir/rule
-.PHONY : test_ind_dm
+test_roc_simple: CMakeFiles/test_roc_simple.dir/rule
+.PHONY : test_roc_simple
 
 # clean rule for target.
-CMakeFiles/test_ind_dm.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_dm.dir/build.make CMakeFiles/test_ind_dm.dir/clean
-.PHONY : CMakeFiles/test_ind_dm.dir/clean
+CMakeFiles/test_roc_simple.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_roc_simple.dir/build.make CMakeFiles/test_roc_simple.dir/clean
+.PHONY : CMakeFiles/test_roc_simple.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/test_ind_dma.dir
+# Target rules for target CMakeFiles/test_average_simple.dir
 
 # All Build rule for target.
-CMakeFiles/test_ind_dma.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_dma.dir/build.make CMakeFiles/test_ind_dma.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_dma.dir/build.make CMakeFiles/test_ind_dma.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=51 "Built target test_ind_dma"
-.PHONY : CMakeFiles/test_ind_dma.dir/all
+CMakeFiles/test_average_simple.dir/all: CMakeFiles/backtrader_minimal_core.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_average_simple.dir/build.make CMakeFiles/test_average_simple.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_average_simple.dir/build.make CMakeFiles/test_average_simple.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=39,40 "Built target test_average_simple"
+.PHONY : CMakeFiles/test_average_simple.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/test_ind_dma.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_dma.dir/all
+CMakeFiles/test_average_simple.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 34
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_average_simple.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_dma.dir/rule
+.PHONY : CMakeFiles/test_average_simple.dir/rule
 
 # Convenience name for target.
-test_ind_dma: CMakeFiles/test_ind_dma.dir/rule
-.PHONY : test_ind_dma
+test_average_simple: CMakeFiles/test_average_simple.dir/rule
+.PHONY : test_average_simple
 
 # clean rule for target.
-CMakeFiles/test_ind_dma.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_dma.dir/build.make CMakeFiles/test_ind_dma.dir/clean
-.PHONY : CMakeFiles/test_ind_dma.dir/clean
+CMakeFiles/test_average_simple.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_average_simple.dir/build.make CMakeFiles/test_average_simple.dir/clean
+.PHONY : CMakeFiles/test_average_simple.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/test_ind_downmove.dir
+# Target rules for target CMakeFiles/test_anyn_simple.dir
 
 # All Build rule for target.
-CMakeFiles/test_ind_downmove.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_downmove.dir/build.make CMakeFiles/test_ind_downmove.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_downmove.dir/build.make CMakeFiles/test_ind_downmove.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num= "Built target test_ind_downmove"
-.PHONY : CMakeFiles/test_ind_downmove.dir/all
+CMakeFiles/test_anyn_simple.dir/all: CMakeFiles/backtrader_minimal_core.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_anyn_simple.dir/build.make CMakeFiles/test_anyn_simple.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_anyn_simple.dir/build.make CMakeFiles/test_anyn_simple.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=35,36 "Built target test_anyn_simple"
+.PHONY : CMakeFiles/test_anyn_simple.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/test_ind_downmove.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 8
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_downmove.dir/all
+CMakeFiles/test_anyn_simple.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 34
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_anyn_simple.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_downmove.dir/rule
+.PHONY : CMakeFiles/test_anyn_simple.dir/rule
 
 # Convenience name for target.
-test_ind_downmove: CMakeFiles/test_ind_downmove.dir/rule
-.PHONY : test_ind_downmove
+test_anyn_simple: CMakeFiles/test_anyn_simple.dir/rule
+.PHONY : test_anyn_simple
 
 # clean rule for target.
-CMakeFiles/test_ind_downmove.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_downmove.dir/build.make CMakeFiles/test_ind_downmove.dir/clean
-.PHONY : CMakeFiles/test_ind_downmove.dir/clean
+CMakeFiles/test_anyn_simple.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_anyn_simple.dir/build.make CMakeFiles/test_anyn_simple.dir/clean
+.PHONY : CMakeFiles/test_anyn_simple.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/test_ind_dpo.dir
+# Target rules for target CMakeFiles/test_alln_simple.dir
 
 # All Build rule for target.
-CMakeFiles/test_ind_dpo.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_dpo.dir/build.make CMakeFiles/test_ind_dpo.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_dpo.dir/build.make CMakeFiles/test_ind_dpo.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=52 "Built target test_ind_dpo"
-.PHONY : CMakeFiles/test_ind_dpo.dir/all
+CMakeFiles/test_alln_simple.dir/all: CMakeFiles/backtrader_minimal_core.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_alln_simple.dir/build.make CMakeFiles/test_alln_simple.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_alln_simple.dir/build.make CMakeFiles/test_alln_simple.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=33,34 "Built target test_alln_simple"
+.PHONY : CMakeFiles/test_alln_simple.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/test_ind_dpo.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_dpo.dir/all
+CMakeFiles/test_alln_simple.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 34
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_alln_simple.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_dpo.dir/rule
+.PHONY : CMakeFiles/test_alln_simple.dir/rule
 
 # Convenience name for target.
-test_ind_dpo: CMakeFiles/test_ind_dpo.dir/rule
-.PHONY : test_ind_dpo
+test_alln_simple: CMakeFiles/test_alln_simple.dir/rule
+.PHONY : test_alln_simple
 
 # clean rule for target.
-CMakeFiles/test_ind_dpo.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_dpo.dir/build.make CMakeFiles/test_ind_dpo.dir/clean
-.PHONY : CMakeFiles/test_ind_dpo.dir/clean
+CMakeFiles/test_alln_simple.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_alln_simple.dir/build.make CMakeFiles/test_alln_simple.dir/clean
+.PHONY : CMakeFiles/test_alln_simple.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/test_ind_dv2.dir
+# Target rules for target CMakeFiles/test_smma_simple.dir
 
 # All Build rule for target.
-CMakeFiles/test_ind_dv2.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_dv2.dir/build.make CMakeFiles/test_ind_dv2.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_dv2.dir/build.make CMakeFiles/test_ind_dv2.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=53 "Built target test_ind_dv2"
-.PHONY : CMakeFiles/test_ind_dv2.dir/all
+CMakeFiles/test_smma_simple.dir/all: CMakeFiles/backtrader_minimal_core.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_smma_simple.dir/build.make CMakeFiles/test_smma_simple.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_smma_simple.dir/build.make CMakeFiles/test_smma_simple.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=79,80 "Built target test_smma_simple"
+.PHONY : CMakeFiles/test_smma_simple.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/test_ind_dv2.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_dv2.dir/all
+CMakeFiles/test_smma_simple.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 34
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_smma_simple.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_dv2.dir/rule
+.PHONY : CMakeFiles/test_smma_simple.dir/rule
 
 # Convenience name for target.
-test_ind_dv2: CMakeFiles/test_ind_dv2.dir/rule
-.PHONY : test_ind_dv2
+test_smma_simple: CMakeFiles/test_smma_simple.dir/rule
+.PHONY : test_smma_simple
 
 # clean rule for target.
-CMakeFiles/test_ind_dv2.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_dv2.dir/build.make CMakeFiles/test_ind_dv2.dir/clean
-.PHONY : CMakeFiles/test_ind_dv2.dir/clean
+CMakeFiles/test_smma_simple.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_smma_simple.dir/build.make CMakeFiles/test_smma_simple.dir/clean
+.PHONY : CMakeFiles/test_smma_simple.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/test_ind_ema.dir
+# Target rules for target CMakeFiles/test_zlema_simple.dir
 
 # All Build rule for target.
-CMakeFiles/test_ind_ema.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_ema.dir/build.make CMakeFiles/test_ind_ema.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_ema.dir/build.make CMakeFiles/test_ind_ema.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=54 "Built target test_ind_ema"
-.PHONY : CMakeFiles/test_ind_ema.dir/all
+CMakeFiles/test_zlema_simple.dir/all: CMakeFiles/backtrader_minimal_core.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_zlema_simple.dir/build.make CMakeFiles/test_zlema_simple.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_zlema_simple.dir/build.make CMakeFiles/test_zlema_simple.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=91,92 "Built target test_zlema_simple"
+.PHONY : CMakeFiles/test_zlema_simple.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/test_ind_ema.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_ema.dir/all
+CMakeFiles/test_zlema_simple.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 34
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_zlema_simple.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_ema.dir/rule
+.PHONY : CMakeFiles/test_zlema_simple.dir/rule
 
 # Convenience name for target.
-test_ind_ema: CMakeFiles/test_ind_ema.dir/rule
-.PHONY : test_ind_ema
+test_zlema_simple: CMakeFiles/test_zlema_simple.dir/rule
+.PHONY : test_zlema_simple
 
 # clean rule for target.
-CMakeFiles/test_ind_ema.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_ema.dir/build.make CMakeFiles/test_ind_ema.dir/clean
-.PHONY : CMakeFiles/test_ind_ema.dir/clean
+CMakeFiles/test_zlema_simple.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_zlema_simple.dir/build.make CMakeFiles/test_zlema_simple.dir/clean
+.PHONY : CMakeFiles/test_zlema_simple.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/test_ind_ema_simple.dir
+# Target rules for target CMakeFiles/test_upmove_simple.dir
 
 # All Build rule for target.
-CMakeFiles/test_ind_ema_simple.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_ema_simple.dir/build.make CMakeFiles/test_ind_ema_simple.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_ema_simple.dir/build.make CMakeFiles/test_ind_ema_simple.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=55 "Built target test_ind_ema_simple"
-.PHONY : CMakeFiles/test_ind_ema_simple.dir/all
+CMakeFiles/test_upmove_simple.dir/all: CMakeFiles/backtrader_minimal_core.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_upmove_simple.dir/build.make CMakeFiles/test_upmove_simple.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_upmove_simple.dir/build.make CMakeFiles/test_upmove_simple.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=87,88 "Built target test_upmove_simple"
+.PHONY : CMakeFiles/test_upmove_simple.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/test_ind_ema_simple.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_ema_simple.dir/all
+CMakeFiles/test_upmove_simple.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 34
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_upmove_simple.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_ema_simple.dir/rule
+.PHONY : CMakeFiles/test_upmove_simple.dir/rule
 
 # Convenience name for target.
-test_ind_ema_simple: CMakeFiles/test_ind_ema_simple.dir/rule
-.PHONY : test_ind_ema_simple
+test_upmove_simple: CMakeFiles/test_upmove_simple.dir/rule
+.PHONY : test_upmove_simple
 
 # clean rule for target.
-CMakeFiles/test_ind_ema_simple.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_ema_simple.dir/build.make CMakeFiles/test_ind_ema_simple.dir/clean
-.PHONY : CMakeFiles/test_ind_ema_simple.dir/clean
+CMakeFiles/test_upmove_simple.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_upmove_simple.dir/build.make CMakeFiles/test_upmove_simple.dir/clean
+.PHONY : CMakeFiles/test_upmove_simple.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/test_ind_emaenvelope.dir
+# Target rules for target CMakeFiles/test_downmove_simple.dir
 
 # All Build rule for target.
-CMakeFiles/test_ind_emaenvelope.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_emaenvelope.dir/build.make CMakeFiles/test_ind_emaenvelope.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_emaenvelope.dir/build.make CMakeFiles/test_ind_emaenvelope.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num= "Built target test_ind_emaenvelope"
-.PHONY : CMakeFiles/test_ind_emaenvelope.dir/all
+CMakeFiles/test_downmove_simple.dir/all: CMakeFiles/backtrader_minimal_core.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_downmove_simple.dir/build.make CMakeFiles/test_downmove_simple.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_downmove_simple.dir/build.make CMakeFiles/test_downmove_simple.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=47,48 "Built target test_downmove_simple"
+.PHONY : CMakeFiles/test_downmove_simple.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/test_ind_emaenvelope.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 8
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_emaenvelope.dir/all
+CMakeFiles/test_downmove_simple.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 34
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_downmove_simple.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_emaenvelope.dir/rule
+.PHONY : CMakeFiles/test_downmove_simple.dir/rule
 
 # Convenience name for target.
-test_ind_emaenvelope: CMakeFiles/test_ind_emaenvelope.dir/rule
-.PHONY : test_ind_emaenvelope
+test_downmove_simple: CMakeFiles/test_downmove_simple.dir/rule
+.PHONY : test_downmove_simple
 
 # clean rule for target.
-CMakeFiles/test_ind_emaenvelope.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_emaenvelope.dir/build.make CMakeFiles/test_ind_emaenvelope.dir/clean
-.PHONY : CMakeFiles/test_ind_emaenvelope.dir/clean
+CMakeFiles/test_downmove_simple.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_downmove_simple.dir/build.make CMakeFiles/test_downmove_simple.dir/clean
+.PHONY : CMakeFiles/test_downmove_simple.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/test_ind_emaosc.dir
+# Target rules for target CMakeFiles/test_zlind_simple.dir
 
 # All Build rule for target.
-CMakeFiles/test_ind_emaosc.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_emaosc.dir/build.make CMakeFiles/test_ind_emaosc.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_emaosc.dir/build.make CMakeFiles/test_ind_emaosc.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=56 "Built target test_ind_emaosc"
-.PHONY : CMakeFiles/test_ind_emaosc.dir/all
+CMakeFiles/test_zlind_simple.dir/all: CMakeFiles/backtrader_minimal_core.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_zlind_simple.dir/build.make CMakeFiles/test_zlind_simple.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_zlind_simple.dir/build.make CMakeFiles/test_zlind_simple.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=93,94 "Built target test_zlind_simple"
+.PHONY : CMakeFiles/test_zlind_simple.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/test_ind_emaosc.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_emaosc.dir/all
+CMakeFiles/test_zlind_simple.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 34
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_zlind_simple.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_emaosc.dir/rule
+.PHONY : CMakeFiles/test_zlind_simple.dir/rule
 
 # Convenience name for target.
-test_ind_emaosc: CMakeFiles/test_ind_emaosc.dir/rule
-.PHONY : test_ind_emaosc
+test_zlind_simple: CMakeFiles/test_zlind_simple.dir/rule
+.PHONY : test_zlind_simple
 
 # clean rule for target.
-CMakeFiles/test_ind_emaosc.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_emaosc.dir/build.make CMakeFiles/test_ind_emaosc.dir/clean
-.PHONY : CMakeFiles/test_ind_emaosc.dir/clean
+CMakeFiles/test_zlind_simple.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_zlind_simple.dir/build.make CMakeFiles/test_zlind_simple.dir/clean
+.PHONY : CMakeFiles/test_zlind_simple.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/test_ind_envelope.dir
+# Target rules for target CMakeFiles/test_ultosc_simple.dir
 
 # All Build rule for target.
-CMakeFiles/test_ind_envelope.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_envelope.dir/build.make CMakeFiles/test_ind_envelope.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_envelope.dir/build.make CMakeFiles/test_ind_envelope.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=57 "Built target test_ind_envelope"
-.PHONY : CMakeFiles/test_ind_envelope.dir/all
+CMakeFiles/test_ultosc_simple.dir/all: CMakeFiles/backtrader_minimal_core.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ultosc_simple.dir/build.make CMakeFiles/test_ultosc_simple.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ultosc_simple.dir/build.make CMakeFiles/test_ultosc_simple.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=85,86 "Built target test_ultosc_simple"
+.PHONY : CMakeFiles/test_ultosc_simple.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/test_ind_envelope.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_envelope.dir/all
+CMakeFiles/test_ultosc_simple.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 34
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ultosc_simple.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_envelope.dir/rule
+.PHONY : CMakeFiles/test_ultosc_simple.dir/rule
 
 # Convenience name for target.
-test_ind_envelope: CMakeFiles/test_ind_envelope.dir/rule
-.PHONY : test_ind_envelope
+test_ultosc_simple: CMakeFiles/test_ultosc_simple.dir/rule
+.PHONY : test_ultosc_simple
 
 # clean rule for target.
-CMakeFiles/test_ind_envelope.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_envelope.dir/build.make CMakeFiles/test_ind_envelope.dir/clean
-.PHONY : CMakeFiles/test_ind_envelope.dir/clean
+CMakeFiles/test_ultosc_simple.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ultosc_simple.dir/build.make CMakeFiles/test_ultosc_simple.dir/clean
+.PHONY : CMakeFiles/test_ultosc_simple.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/test_ind_heikinashi.dir
+# Target rules for target CMakeFiles/test_envelope_simple.dir
 
 # All Build rule for target.
-CMakeFiles/test_ind_heikinashi.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_heikinashi.dir/build.make CMakeFiles/test_ind_heikinashi.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_heikinashi.dir/build.make CMakeFiles/test_ind_heikinashi.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=58 "Built target test_ind_heikinashi"
-.PHONY : CMakeFiles/test_ind_heikinashi.dir/all
+CMakeFiles/test_envelope_simple.dir/all: CMakeFiles/backtrader_minimal_core.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_envelope_simple.dir/build.make CMakeFiles/test_envelope_simple.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_envelope_simple.dir/build.make CMakeFiles/test_envelope_simple.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=55,56 "Built target test_envelope_simple"
+.PHONY : CMakeFiles/test_envelope_simple.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/test_ind_heikinashi.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_heikinashi.dir/all
+CMakeFiles/test_envelope_simple.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 34
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_envelope_simple.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_heikinashi.dir/rule
+.PHONY : CMakeFiles/test_envelope_simple.dir/rule
 
 # Convenience name for target.
-test_ind_heikinashi: CMakeFiles/test_ind_heikinashi.dir/rule
-.PHONY : test_ind_heikinashi
+test_envelope_simple: CMakeFiles/test_envelope_simple.dir/rule
+.PHONY : test_envelope_simple
 
 # clean rule for target.
-CMakeFiles/test_ind_heikinashi.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_heikinashi.dir/build.make CMakeFiles/test_ind_heikinashi.dir/clean
-.PHONY : CMakeFiles/test_ind_heikinashi.dir/clean
+CMakeFiles/test_envelope_simple.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_envelope_simple.dir/build.make CMakeFiles/test_envelope_simple.dir/clean
+.PHONY : CMakeFiles/test_envelope_simple.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/test_ind_highest.dir
+# Target rules for target CMakeFiles/test_trix_simple.dir
 
 # All Build rule for target.
-CMakeFiles/test_ind_highest.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_highest.dir/build.make CMakeFiles/test_ind_highest.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_highest.dir/build.make CMakeFiles/test_ind_highest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num= "Built target test_ind_highest"
-.PHONY : CMakeFiles/test_ind_highest.dir/all
+CMakeFiles/test_trix_simple.dir/all: CMakeFiles/backtrader_minimal_core.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_trix_simple.dir/build.make CMakeFiles/test_trix_simple.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_trix_simple.dir/build.make CMakeFiles/test_trix_simple.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=83,84 "Built target test_trix_simple"
+.PHONY : CMakeFiles/test_trix_simple.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/test_ind_highest.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 8
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_highest.dir/all
+CMakeFiles/test_trix_simple.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 34
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_trix_simple.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_highest.dir/rule
+.PHONY : CMakeFiles/test_trix_simple.dir/rule
 
 # Convenience name for target.
-test_ind_highest: CMakeFiles/test_ind_highest.dir/rule
-.PHONY : test_ind_highest
+test_trix_simple: CMakeFiles/test_trix_simple.dir/rule
+.PHONY : test_trix_simple
 
 # clean rule for target.
-CMakeFiles/test_ind_highest.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_highest.dir/build.make CMakeFiles/test_ind_highest.dir/clean
-.PHONY : CMakeFiles/test_ind_highest.dir/clean
+CMakeFiles/test_trix_simple.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_trix_simple.dir/build.make CMakeFiles/test_trix_simple.dir/clean
+.PHONY : CMakeFiles/test_trix_simple.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/test_ind_hma.dir
+# Target rules for target CMakeFiles/test_oscillator_simple.dir
 
 # All Build rule for target.
-CMakeFiles/test_ind_hma.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_hma.dir/build.make CMakeFiles/test_ind_hma.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_hma.dir/build.make CMakeFiles/test_ind_hma.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=59 "Built target test_ind_hma"
-.PHONY : CMakeFiles/test_ind_hma.dir/all
+CMakeFiles/test_oscillator_simple.dir/all: CMakeFiles/backtrader_minimal_core.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_oscillator_simple.dir/build.make CMakeFiles/test_oscillator_simple.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_oscillator_simple.dir/build.make CMakeFiles/test_oscillator_simple.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=67,68 "Built target test_oscillator_simple"
+.PHONY : CMakeFiles/test_oscillator_simple.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/test_ind_hma.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_hma.dir/all
+CMakeFiles/test_oscillator_simple.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 34
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_oscillator_simple.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_hma.dir/rule
+.PHONY : CMakeFiles/test_oscillator_simple.dir/rule
 
 # Convenience name for target.
-test_ind_hma: CMakeFiles/test_ind_hma.dir/rule
-.PHONY : test_ind_hma
+test_oscillator_simple: CMakeFiles/test_oscillator_simple.dir/rule
+.PHONY : test_oscillator_simple
 
 # clean rule for target.
-CMakeFiles/test_ind_hma.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_hma.dir/build.make CMakeFiles/test_ind_hma.dir/clean
-.PHONY : CMakeFiles/test_ind_hma.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_ichimoku.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_ichimoku.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_ichimoku.dir/build.make CMakeFiles/test_ind_ichimoku.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_ichimoku.dir/build.make CMakeFiles/test_ind_ichimoku.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=60 "Built target test_ind_ichimoku"
-.PHONY : CMakeFiles/test_ind_ichimoku.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_ichimoku.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_ichimoku.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_ichimoku.dir/rule
-
-# Convenience name for target.
-test_ind_ichimoku: CMakeFiles/test_ind_ichimoku.dir/rule
-.PHONY : test_ind_ichimoku
-
-# clean rule for target.
-CMakeFiles/test_ind_ichimoku.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_ichimoku.dir/build.make CMakeFiles/test_ind_ichimoku.dir/clean
-.PHONY : CMakeFiles/test_ind_ichimoku.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_kama.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_kama.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_kama.dir/build.make CMakeFiles/test_ind_kama.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_kama.dir/build.make CMakeFiles/test_ind_kama.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=61 "Built target test_ind_kama"
-.PHONY : CMakeFiles/test_ind_kama.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_kama.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_kama.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_kama.dir/rule
-
-# Convenience name for target.
-test_ind_kama: CMakeFiles/test_ind_kama.dir/rule
-.PHONY : test_ind_kama
-
-# clean rule for target.
-CMakeFiles/test_ind_kama.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_kama.dir/build.make CMakeFiles/test_ind_kama.dir/clean
-.PHONY : CMakeFiles/test_ind_kama.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_kamaenvelope.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_kamaenvelope.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_kamaenvelope.dir/build.make CMakeFiles/test_ind_kamaenvelope.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_kamaenvelope.dir/build.make CMakeFiles/test_ind_kamaenvelope.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=62 "Built target test_ind_kamaenvelope"
-.PHONY : CMakeFiles/test_ind_kamaenvelope.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_kamaenvelope.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_kamaenvelope.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_kamaenvelope.dir/rule
-
-# Convenience name for target.
-test_ind_kamaenvelope: CMakeFiles/test_ind_kamaenvelope.dir/rule
-.PHONY : test_ind_kamaenvelope
-
-# clean rule for target.
-CMakeFiles/test_ind_kamaenvelope.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_kamaenvelope.dir/build.make CMakeFiles/test_ind_kamaenvelope.dir/clean
-.PHONY : CMakeFiles/test_ind_kamaenvelope.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_kamaosc.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_kamaosc.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_kamaosc.dir/build.make CMakeFiles/test_ind_kamaosc.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_kamaosc.dir/build.make CMakeFiles/test_ind_kamaosc.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num= "Built target test_ind_kamaosc"
-.PHONY : CMakeFiles/test_ind_kamaosc.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_kamaosc.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 8
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_kamaosc.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_kamaosc.dir/rule
-
-# Convenience name for target.
-test_ind_kamaosc: CMakeFiles/test_ind_kamaosc.dir/rule
-.PHONY : test_ind_kamaosc
-
-# clean rule for target.
-CMakeFiles/test_ind_kamaosc.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_kamaosc.dir/build.make CMakeFiles/test_ind_kamaosc.dir/clean
-.PHONY : CMakeFiles/test_ind_kamaosc.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_kst.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_kst.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_kst.dir/build.make CMakeFiles/test_ind_kst.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_kst.dir/build.make CMakeFiles/test_ind_kst.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=63 "Built target test_ind_kst"
-.PHONY : CMakeFiles/test_ind_kst.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_kst.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_kst.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_kst.dir/rule
-
-# Convenience name for target.
-test_ind_kst: CMakeFiles/test_ind_kst.dir/rule
-.PHONY : test_ind_kst
-
-# clean rule for target.
-CMakeFiles/test_ind_kst.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_kst.dir/build.make CMakeFiles/test_ind_kst.dir/clean
-.PHONY : CMakeFiles/test_ind_kst.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_lowest.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_lowest.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_lowest.dir/build.make CMakeFiles/test_ind_lowest.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_lowest.dir/build.make CMakeFiles/test_ind_lowest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=64 "Built target test_ind_lowest"
-.PHONY : CMakeFiles/test_ind_lowest.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_lowest.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_lowest.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_lowest.dir/rule
-
-# Convenience name for target.
-test_ind_lowest: CMakeFiles/test_ind_lowest.dir/rule
-.PHONY : test_ind_lowest
-
-# clean rule for target.
-CMakeFiles/test_ind_lowest.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_lowest.dir/build.make CMakeFiles/test_ind_lowest.dir/clean
-.PHONY : CMakeFiles/test_ind_lowest.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_lrsi.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_lrsi.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_lrsi.dir/build.make CMakeFiles/test_ind_lrsi.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_lrsi.dir/build.make CMakeFiles/test_ind_lrsi.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=65 "Built target test_ind_lrsi"
-.PHONY : CMakeFiles/test_ind_lrsi.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_lrsi.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_lrsi.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_lrsi.dir/rule
-
-# Convenience name for target.
-test_ind_lrsi: CMakeFiles/test_ind_lrsi.dir/rule
-.PHONY : test_ind_lrsi
-
-# clean rule for target.
-CMakeFiles/test_ind_lrsi.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_lrsi.dir/build.make CMakeFiles/test_ind_lrsi.dir/clean
-.PHONY : CMakeFiles/test_ind_lrsi.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_macd_simple.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_macd_simple.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_macd_simple.dir/build.make CMakeFiles/test_ind_macd_simple.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_macd_simple.dir/build.make CMakeFiles/test_ind_macd_simple.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num= "Built target test_ind_macd_simple"
-.PHONY : CMakeFiles/test_ind_macd_simple.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_macd_simple.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 8
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_macd_simple.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_macd_simple.dir/rule
-
-# Convenience name for target.
-test_ind_macd_simple: CMakeFiles/test_ind_macd_simple.dir/rule
-.PHONY : test_ind_macd_simple
-
-# clean rule for target.
-CMakeFiles/test_ind_macd_simple.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_macd_simple.dir/build.make CMakeFiles/test_ind_macd_simple.dir/clean
-.PHONY : CMakeFiles/test_ind_macd_simple.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_macdhisto.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_macdhisto.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_macdhisto.dir/build.make CMakeFiles/test_ind_macdhisto.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_macdhisto.dir/build.make CMakeFiles/test_ind_macdhisto.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=66 "Built target test_ind_macdhisto"
-.PHONY : CMakeFiles/test_ind_macdhisto.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_macdhisto.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_macdhisto.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_macdhisto.dir/rule
-
-# Convenience name for target.
-test_ind_macdhisto: CMakeFiles/test_ind_macdhisto.dir/rule
-.PHONY : test_ind_macdhisto
-
-# clean rule for target.
-CMakeFiles/test_ind_macdhisto.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_macdhisto.dir/build.make CMakeFiles/test_ind_macdhisto.dir/clean
-.PHONY : CMakeFiles/test_ind_macdhisto.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_minperiod.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_minperiod.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_minperiod.dir/build.make CMakeFiles/test_ind_minperiod.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_minperiod.dir/build.make CMakeFiles/test_ind_minperiod.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=67 "Built target test_ind_minperiod"
-.PHONY : CMakeFiles/test_ind_minperiod.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_minperiod.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_minperiod.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_minperiod.dir/rule
-
-# Convenience name for target.
-test_ind_minperiod: CMakeFiles/test_ind_minperiod.dir/rule
-.PHONY : test_ind_minperiod
-
-# clean rule for target.
-CMakeFiles/test_ind_minperiod.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_minperiod.dir/build.make CMakeFiles/test_ind_minperiod.dir/clean
-.PHONY : CMakeFiles/test_ind_minperiod.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_momentum.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_momentum.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_momentum.dir/build.make CMakeFiles/test_ind_momentum.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_momentum.dir/build.make CMakeFiles/test_ind_momentum.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=68 "Built target test_ind_momentum"
-.PHONY : CMakeFiles/test_ind_momentum.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_momentum.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_momentum.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_momentum.dir/rule
-
-# Convenience name for target.
-test_ind_momentum: CMakeFiles/test_ind_momentum.dir/rule
-.PHONY : test_ind_momentum
-
-# clean rule for target.
-CMakeFiles/test_ind_momentum.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_momentum.dir/build.make CMakeFiles/test_ind_momentum.dir/clean
-.PHONY : CMakeFiles/test_ind_momentum.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_momentumoscillator.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_momentumoscillator.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_momentumoscillator.dir/build.make CMakeFiles/test_ind_momentumoscillator.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_momentumoscillator.dir/build.make CMakeFiles/test_ind_momentumoscillator.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num= "Built target test_ind_momentumoscillator"
-.PHONY : CMakeFiles/test_ind_momentumoscillator.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_momentumoscillator.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 8
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_momentumoscillator.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_momentumoscillator.dir/rule
-
-# Convenience name for target.
-test_ind_momentumoscillator: CMakeFiles/test_ind_momentumoscillator.dir/rule
-.PHONY : test_ind_momentumoscillator
-
-# clean rule for target.
-CMakeFiles/test_ind_momentumoscillator.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_momentumoscillator.dir/build.make CMakeFiles/test_ind_momentumoscillator.dir/clean
-.PHONY : CMakeFiles/test_ind_momentumoscillator.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_oscillator.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_oscillator.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_oscillator.dir/build.make CMakeFiles/test_ind_oscillator.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_oscillator.dir/build.make CMakeFiles/test_ind_oscillator.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=69 "Built target test_ind_oscillator"
-.PHONY : CMakeFiles/test_ind_oscillator.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_oscillator.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_oscillator.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_oscillator.dir/rule
-
-# Convenience name for target.
-test_ind_oscillator: CMakeFiles/test_ind_oscillator.dir/rule
-.PHONY : test_ind_oscillator
-
-# clean rule for target.
-CMakeFiles/test_ind_oscillator.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_oscillator.dir/build.make CMakeFiles/test_ind_oscillator.dir/clean
-.PHONY : CMakeFiles/test_ind_oscillator.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_pctchange.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_pctchange.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_pctchange.dir/build.make CMakeFiles/test_ind_pctchange.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_pctchange.dir/build.make CMakeFiles/test_ind_pctchange.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=70 "Built target test_ind_pctchange"
-.PHONY : CMakeFiles/test_ind_pctchange.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_pctchange.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_pctchange.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_pctchange.dir/rule
-
-# Convenience name for target.
-test_ind_pctchange: CMakeFiles/test_ind_pctchange.dir/rule
-.PHONY : test_ind_pctchange
-
-# clean rule for target.
-CMakeFiles/test_ind_pctchange.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_pctchange.dir/build.make CMakeFiles/test_ind_pctchange.dir/clean
-.PHONY : CMakeFiles/test_ind_pctchange.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_pctrank.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_pctrank.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_pctrank.dir/build.make CMakeFiles/test_ind_pctrank.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_pctrank.dir/build.make CMakeFiles/test_ind_pctrank.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=71 "Built target test_ind_pctrank"
-.PHONY : CMakeFiles/test_ind_pctrank.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_pctrank.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_pctrank.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_pctrank.dir/rule
-
-# Convenience name for target.
-test_ind_pctrank: CMakeFiles/test_ind_pctrank.dir/rule
-.PHONY : test_ind_pctrank
-
-# clean rule for target.
-CMakeFiles/test_ind_pctrank.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_pctrank.dir/build.make CMakeFiles/test_ind_pctrank.dir/clean
-.PHONY : CMakeFiles/test_ind_pctrank.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_pgo.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_pgo.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_pgo.dir/build.make CMakeFiles/test_ind_pgo.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_pgo.dir/build.make CMakeFiles/test_ind_pgo.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=72 "Built target test_ind_pgo"
-.PHONY : CMakeFiles/test_ind_pgo.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_pgo.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_pgo.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_pgo.dir/rule
-
-# Convenience name for target.
-test_ind_pgo: CMakeFiles/test_ind_pgo.dir/rule
-.PHONY : test_ind_pgo
-
-# clean rule for target.
-CMakeFiles/test_ind_pgo.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_pgo.dir/build.make CMakeFiles/test_ind_pgo.dir/clean
-.PHONY : CMakeFiles/test_ind_pgo.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_ppo.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_ppo.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_ppo.dir/build.make CMakeFiles/test_ind_ppo.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_ppo.dir/build.make CMakeFiles/test_ind_ppo.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num= "Built target test_ind_ppo"
-.PHONY : CMakeFiles/test_ind_ppo.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_ppo.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 8
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_ppo.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_ppo.dir/rule
-
-# Convenience name for target.
-test_ind_ppo: CMakeFiles/test_ind_ppo.dir/rule
-.PHONY : test_ind_ppo
-
-# clean rule for target.
-CMakeFiles/test_ind_ppo.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_ppo.dir/build.make CMakeFiles/test_ind_ppo.dir/clean
-.PHONY : CMakeFiles/test_ind_ppo.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_pposhort.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_pposhort.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_pposhort.dir/build.make CMakeFiles/test_ind_pposhort.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_pposhort.dir/build.make CMakeFiles/test_ind_pposhort.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=73 "Built target test_ind_pposhort"
-.PHONY : CMakeFiles/test_ind_pposhort.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_pposhort.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_pposhort.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_pposhort.dir/rule
-
-# Convenience name for target.
-test_ind_pposhort: CMakeFiles/test_ind_pposhort.dir/rule
-.PHONY : test_ind_pposhort
-
-# clean rule for target.
-CMakeFiles/test_ind_pposhort.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_pposhort.dir/build.make CMakeFiles/test_ind_pposhort.dir/clean
-.PHONY : CMakeFiles/test_ind_pposhort.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_priceosc.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_priceosc.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_priceosc.dir/build.make CMakeFiles/test_ind_priceosc.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_priceosc.dir/build.make CMakeFiles/test_ind_priceosc.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=74 "Built target test_ind_priceosc"
-.PHONY : CMakeFiles/test_ind_priceosc.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_priceosc.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_priceosc.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_priceosc.dir/rule
-
-# Convenience name for target.
-test_ind_priceosc: CMakeFiles/test_ind_priceosc.dir/rule
-.PHONY : test_ind_priceosc
-
-# clean rule for target.
-CMakeFiles/test_ind_priceosc.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_priceosc.dir/build.make CMakeFiles/test_ind_priceosc.dir/clean
-.PHONY : CMakeFiles/test_ind_priceosc.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_rmi.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_rmi.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_rmi.dir/build.make CMakeFiles/test_ind_rmi.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_rmi.dir/build.make CMakeFiles/test_ind_rmi.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=75 "Built target test_ind_rmi"
-.PHONY : CMakeFiles/test_ind_rmi.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_rmi.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_rmi.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_rmi.dir/rule
-
-# Convenience name for target.
-test_ind_rmi: CMakeFiles/test_ind_rmi.dir/rule
-.PHONY : test_ind_rmi
-
-# clean rule for target.
-CMakeFiles/test_ind_rmi.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_rmi.dir/build.make CMakeFiles/test_ind_rmi.dir/clean
-.PHONY : CMakeFiles/test_ind_rmi.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_roc.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_roc.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_roc.dir/build.make CMakeFiles/test_ind_roc.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_roc.dir/build.make CMakeFiles/test_ind_roc.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num= "Built target test_ind_roc"
-.PHONY : CMakeFiles/test_ind_roc.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_roc.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 8
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_roc.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_roc.dir/rule
-
-# Convenience name for target.
-test_ind_roc: CMakeFiles/test_ind_roc.dir/rule
-.PHONY : test_ind_roc
-
-# clean rule for target.
-CMakeFiles/test_ind_roc.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_roc.dir/build.make CMakeFiles/test_ind_roc.dir/clean
-.PHONY : CMakeFiles/test_ind_roc.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_rsi.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_rsi.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_rsi.dir/build.make CMakeFiles/test_ind_rsi.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_rsi.dir/build.make CMakeFiles/test_ind_rsi.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=76 "Built target test_ind_rsi"
-.PHONY : CMakeFiles/test_ind_rsi.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_rsi.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_rsi.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_rsi.dir/rule
-
-# Convenience name for target.
-test_ind_rsi: CMakeFiles/test_ind_rsi.dir/rule
-.PHONY : test_ind_rsi
-
-# clean rule for target.
-CMakeFiles/test_ind_rsi.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_rsi.dir/build.make CMakeFiles/test_ind_rsi.dir/clean
-.PHONY : CMakeFiles/test_ind_rsi.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_rsi_safe.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_rsi_safe.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_rsi_safe.dir/build.make CMakeFiles/test_ind_rsi_safe.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_rsi_safe.dir/build.make CMakeFiles/test_ind_rsi_safe.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=77 "Built target test_ind_rsi_safe"
-.PHONY : CMakeFiles/test_ind_rsi_safe.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_rsi_safe.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_rsi_safe.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_rsi_safe.dir/rule
-
-# Convenience name for target.
-test_ind_rsi_safe: CMakeFiles/test_ind_rsi_safe.dir/rule
-.PHONY : test_ind_rsi_safe
-
-# clean rule for target.
-CMakeFiles/test_ind_rsi_safe.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_rsi_safe.dir/build.make CMakeFiles/test_ind_rsi_safe.dir/clean
-.PHONY : CMakeFiles/test_ind_rsi_safe.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_rsi_simple.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_rsi_simple.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_rsi_simple.dir/build.make CMakeFiles/test_ind_rsi_simple.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_rsi_simple.dir/build.make CMakeFiles/test_ind_rsi_simple.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=78 "Built target test_ind_rsi_simple"
-.PHONY : CMakeFiles/test_ind_rsi_simple.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_rsi_simple.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_rsi_simple.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_rsi_simple.dir/rule
-
-# Convenience name for target.
-test_ind_rsi_simple: CMakeFiles/test_ind_rsi_simple.dir/rule
-.PHONY : test_ind_rsi_simple
-
-# clean rule for target.
-CMakeFiles/test_ind_rsi_simple.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_rsi_simple.dir/build.make CMakeFiles/test_ind_rsi_simple.dir/clean
-.PHONY : CMakeFiles/test_ind_rsi_simple.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_sma.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_sma.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_sma.dir/build.make CMakeFiles/test_ind_sma.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_sma.dir/build.make CMakeFiles/test_ind_sma.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=79 "Built target test_ind_sma"
-.PHONY : CMakeFiles/test_ind_sma.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_sma.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_sma.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_sma.dir/rule
-
-# Convenience name for target.
-test_ind_sma: CMakeFiles/test_ind_sma.dir/rule
-.PHONY : test_ind_sma
-
-# clean rule for target.
-CMakeFiles/test_ind_sma.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_sma.dir/build.make CMakeFiles/test_ind_sma.dir/clean
-.PHONY : CMakeFiles/test_ind_sma.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_smaenvelope.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_smaenvelope.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_smaenvelope.dir/build.make CMakeFiles/test_ind_smaenvelope.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_smaenvelope.dir/build.make CMakeFiles/test_ind_smaenvelope.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num= "Built target test_ind_smaenvelope"
-.PHONY : CMakeFiles/test_ind_smaenvelope.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_smaenvelope.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 8
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_smaenvelope.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_smaenvelope.dir/rule
-
-# Convenience name for target.
-test_ind_smaenvelope: CMakeFiles/test_ind_smaenvelope.dir/rule
-.PHONY : test_ind_smaenvelope
-
-# clean rule for target.
-CMakeFiles/test_ind_smaenvelope.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_smaenvelope.dir/build.make CMakeFiles/test_ind_smaenvelope.dir/clean
-.PHONY : CMakeFiles/test_ind_smaenvelope.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_smaosc.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_smaosc.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_smaosc.dir/build.make CMakeFiles/test_ind_smaosc.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_smaosc.dir/build.make CMakeFiles/test_ind_smaosc.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=80 "Built target test_ind_smaosc"
-.PHONY : CMakeFiles/test_ind_smaosc.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_smaosc.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_smaosc.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_smaosc.dir/rule
-
-# Convenience name for target.
-test_ind_smaosc: CMakeFiles/test_ind_smaosc.dir/rule
-.PHONY : test_ind_smaosc
-
-# clean rule for target.
-CMakeFiles/test_ind_smaosc.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_smaosc.dir/build.make CMakeFiles/test_ind_smaosc.dir/clean
-.PHONY : CMakeFiles/test_ind_smaosc.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_smma.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_smma.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_smma.dir/build.make CMakeFiles/test_ind_smma.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_smma.dir/build.make CMakeFiles/test_ind_smma.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=81 "Built target test_ind_smma"
-.PHONY : CMakeFiles/test_ind_smma.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_smma.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_smma.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_smma.dir/rule
-
-# Convenience name for target.
-test_ind_smma: CMakeFiles/test_ind_smma.dir/rule
-.PHONY : test_ind_smma
-
-# clean rule for target.
-CMakeFiles/test_ind_smma.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_smma.dir/build.make CMakeFiles/test_ind_smma.dir/clean
-.PHONY : CMakeFiles/test_ind_smma.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_smmaenvelope.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_smmaenvelope.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_smmaenvelope.dir/build.make CMakeFiles/test_ind_smmaenvelope.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_smmaenvelope.dir/build.make CMakeFiles/test_ind_smmaenvelope.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=82 "Built target test_ind_smmaenvelope"
-.PHONY : CMakeFiles/test_ind_smmaenvelope.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_smmaenvelope.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_smmaenvelope.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_smmaenvelope.dir/rule
-
-# Convenience name for target.
-test_ind_smmaenvelope: CMakeFiles/test_ind_smmaenvelope.dir/rule
-.PHONY : test_ind_smmaenvelope
-
-# clean rule for target.
-CMakeFiles/test_ind_smmaenvelope.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_smmaenvelope.dir/build.make CMakeFiles/test_ind_smmaenvelope.dir/clean
-.PHONY : CMakeFiles/test_ind_smmaenvelope.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_smmaosc.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_smmaosc.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_smmaosc.dir/build.make CMakeFiles/test_ind_smmaosc.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_smmaosc.dir/build.make CMakeFiles/test_ind_smmaosc.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num= "Built target test_ind_smmaosc"
-.PHONY : CMakeFiles/test_ind_smmaosc.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_smmaosc.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 8
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_smmaosc.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_smmaosc.dir/rule
-
-# Convenience name for target.
-test_ind_smmaosc: CMakeFiles/test_ind_smmaosc.dir/rule
-.PHONY : test_ind_smmaosc
-
-# clean rule for target.
-CMakeFiles/test_ind_smmaosc.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_smmaosc.dir/build.make CMakeFiles/test_ind_smmaosc.dir/clean
-.PHONY : CMakeFiles/test_ind_smmaosc.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_stochastic.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_stochastic.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_stochastic.dir/build.make CMakeFiles/test_ind_stochastic.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_stochastic.dir/build.make CMakeFiles/test_ind_stochastic.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=83 "Built target test_ind_stochastic"
-.PHONY : CMakeFiles/test_ind_stochastic.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_stochastic.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_stochastic.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_stochastic.dir/rule
-
-# Convenience name for target.
-test_ind_stochastic: CMakeFiles/test_ind_stochastic.dir/rule
-.PHONY : test_ind_stochastic
-
-# clean rule for target.
-CMakeFiles/test_ind_stochastic.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_stochastic.dir/build.make CMakeFiles/test_ind_stochastic.dir/clean
-.PHONY : CMakeFiles/test_ind_stochastic.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_stochasticfull.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_stochasticfull.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_stochasticfull.dir/build.make CMakeFiles/test_ind_stochasticfull.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_stochasticfull.dir/build.make CMakeFiles/test_ind_stochasticfull.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=84 "Built target test_ind_stochasticfull"
-.PHONY : CMakeFiles/test_ind_stochasticfull.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_stochasticfull.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_stochasticfull.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_stochasticfull.dir/rule
-
-# Convenience name for target.
-test_ind_stochasticfull: CMakeFiles/test_ind_stochasticfull.dir/rule
-.PHONY : test_ind_stochasticfull
-
-# clean rule for target.
-CMakeFiles/test_ind_stochasticfull.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_stochasticfull.dir/build.make CMakeFiles/test_ind_stochasticfull.dir/clean
-.PHONY : CMakeFiles/test_ind_stochasticfull.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_sumn.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_sumn.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_sumn.dir/build.make CMakeFiles/test_ind_sumn.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_sumn.dir/build.make CMakeFiles/test_ind_sumn.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=85 "Built target test_ind_sumn"
-.PHONY : CMakeFiles/test_ind_sumn.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_sumn.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_sumn.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_sumn.dir/rule
-
-# Convenience name for target.
-test_ind_sumn: CMakeFiles/test_ind_sumn.dir/rule
-.PHONY : test_ind_sumn
-
-# clean rule for target.
-CMakeFiles/test_ind_sumn.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_sumn.dir/build.make CMakeFiles/test_ind_sumn.dir/clean
-.PHONY : CMakeFiles/test_ind_sumn.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_tema.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_tema.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_tema.dir/build.make CMakeFiles/test_ind_tema.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_tema.dir/build.make CMakeFiles/test_ind_tema.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=86 "Built target test_ind_tema"
-.PHONY : CMakeFiles/test_ind_tema.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_tema.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_tema.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_tema.dir/rule
-
-# Convenience name for target.
-test_ind_tema: CMakeFiles/test_ind_tema.dir/rule
-.PHONY : test_ind_tema
-
-# clean rule for target.
-CMakeFiles/test_ind_tema.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_tema.dir/build.make CMakeFiles/test_ind_tema.dir/clean
-.PHONY : CMakeFiles/test_ind_tema.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_temaenvelope.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_temaenvelope.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_temaenvelope.dir/build.make CMakeFiles/test_ind_temaenvelope.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_temaenvelope.dir/build.make CMakeFiles/test_ind_temaenvelope.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num= "Built target test_ind_temaenvelope"
-.PHONY : CMakeFiles/test_ind_temaenvelope.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_temaenvelope.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 8
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_temaenvelope.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_temaenvelope.dir/rule
-
-# Convenience name for target.
-test_ind_temaenvelope: CMakeFiles/test_ind_temaenvelope.dir/rule
-.PHONY : test_ind_temaenvelope
-
-# clean rule for target.
-CMakeFiles/test_ind_temaenvelope.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_temaenvelope.dir/build.make CMakeFiles/test_ind_temaenvelope.dir/clean
-.PHONY : CMakeFiles/test_ind_temaenvelope.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_temaosc.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_temaosc.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_temaosc.dir/build.make CMakeFiles/test_ind_temaosc.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_temaosc.dir/build.make CMakeFiles/test_ind_temaosc.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=87 "Built target test_ind_temaosc"
-.PHONY : CMakeFiles/test_ind_temaosc.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_temaosc.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_temaosc.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_temaosc.dir/rule
-
-# Convenience name for target.
-test_ind_temaosc: CMakeFiles/test_ind_temaosc.dir/rule
-.PHONY : test_ind_temaosc
-
-# clean rule for target.
-CMakeFiles/test_ind_temaosc.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_temaosc.dir/build.make CMakeFiles/test_ind_temaosc.dir/clean
-.PHONY : CMakeFiles/test_ind_temaosc.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_trix.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_trix.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_trix.dir/build.make CMakeFiles/test_ind_trix.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_trix.dir/build.make CMakeFiles/test_ind_trix.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=88 "Built target test_ind_trix"
-.PHONY : CMakeFiles/test_ind_trix.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_trix.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_trix.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_trix.dir/rule
-
-# Convenience name for target.
-test_ind_trix: CMakeFiles/test_ind_trix.dir/rule
-.PHONY : test_ind_trix
-
-# clean rule for target.
-CMakeFiles/test_ind_trix.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_trix.dir/build.make CMakeFiles/test_ind_trix.dir/clean
-.PHONY : CMakeFiles/test_ind_trix.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_tsi.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_tsi.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_tsi.dir/build.make CMakeFiles/test_ind_tsi.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_tsi.dir/build.make CMakeFiles/test_ind_tsi.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=89 "Built target test_ind_tsi"
-.PHONY : CMakeFiles/test_ind_tsi.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_tsi.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_tsi.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_tsi.dir/rule
-
-# Convenience name for target.
-test_ind_tsi: CMakeFiles/test_ind_tsi.dir/rule
-.PHONY : test_ind_tsi
-
-# clean rule for target.
-CMakeFiles/test_ind_tsi.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_tsi.dir/build.make CMakeFiles/test_ind_tsi.dir/clean
-.PHONY : CMakeFiles/test_ind_tsi.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_ultosc.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_ultosc.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_ultosc.dir/build.make CMakeFiles/test_ind_ultosc.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_ultosc.dir/build.make CMakeFiles/test_ind_ultosc.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num= "Built target test_ind_ultosc"
-.PHONY : CMakeFiles/test_ind_ultosc.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_ultosc.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 8
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_ultosc.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_ultosc.dir/rule
-
-# Convenience name for target.
-test_ind_ultosc: CMakeFiles/test_ind_ultosc.dir/rule
-.PHONY : test_ind_ultosc
-
-# clean rule for target.
-CMakeFiles/test_ind_ultosc.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_ultosc.dir/build.make CMakeFiles/test_ind_ultosc.dir/clean
-.PHONY : CMakeFiles/test_ind_ultosc.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_upmove.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_upmove.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_upmove.dir/build.make CMakeFiles/test_ind_upmove.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_upmove.dir/build.make CMakeFiles/test_ind_upmove.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=90 "Built target test_ind_upmove"
-.PHONY : CMakeFiles/test_ind_upmove.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_upmove.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_upmove.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_upmove.dir/rule
-
-# Convenience name for target.
-test_ind_upmove: CMakeFiles/test_ind_upmove.dir/rule
-.PHONY : test_ind_upmove
-
-# clean rule for target.
-CMakeFiles/test_ind_upmove.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_upmove.dir/build.make CMakeFiles/test_ind_upmove.dir/clean
-.PHONY : CMakeFiles/test_ind_upmove.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_vortex.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_vortex.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_vortex.dir/build.make CMakeFiles/test_ind_vortex.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_vortex.dir/build.make CMakeFiles/test_ind_vortex.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=91 "Built target test_ind_vortex"
-.PHONY : CMakeFiles/test_ind_vortex.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_vortex.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_vortex.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_vortex.dir/rule
-
-# Convenience name for target.
-test_ind_vortex: CMakeFiles/test_ind_vortex.dir/rule
-.PHONY : test_ind_vortex
-
-# clean rule for target.
-CMakeFiles/test_ind_vortex.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_vortex.dir/build.make CMakeFiles/test_ind_vortex.dir/clean
-.PHONY : CMakeFiles/test_ind_vortex.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_williamsad.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_williamsad.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_williamsad.dir/build.make CMakeFiles/test_ind_williamsad.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_williamsad.dir/build.make CMakeFiles/test_ind_williamsad.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=92 "Built target test_ind_williamsad"
-.PHONY : CMakeFiles/test_ind_williamsad.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_williamsad.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_williamsad.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_williamsad.dir/rule
-
-# Convenience name for target.
-test_ind_williamsad: CMakeFiles/test_ind_williamsad.dir/rule
-.PHONY : test_ind_williamsad
-
-# clean rule for target.
-CMakeFiles/test_ind_williamsad.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_williamsad.dir/build.make CMakeFiles/test_ind_williamsad.dir/clean
-.PHONY : CMakeFiles/test_ind_williamsad.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_williamsr.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_williamsr.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_williamsr.dir/build.make CMakeFiles/test_ind_williamsr.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_williamsr.dir/build.make CMakeFiles/test_ind_williamsr.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=93 "Built target test_ind_williamsr"
-.PHONY : CMakeFiles/test_ind_williamsr.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_williamsr.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_williamsr.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_williamsr.dir/rule
-
-# Convenience name for target.
-test_ind_williamsr: CMakeFiles/test_ind_williamsr.dir/rule
-.PHONY : test_ind_williamsr
-
-# clean rule for target.
-CMakeFiles/test_ind_williamsr.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_williamsr.dir/build.make CMakeFiles/test_ind_williamsr.dir/clean
-.PHONY : CMakeFiles/test_ind_williamsr.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_wma.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_wma.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_wma.dir/build.make CMakeFiles/test_ind_wma.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_wma.dir/build.make CMakeFiles/test_ind_wma.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num= "Built target test_ind_wma"
-.PHONY : CMakeFiles/test_ind_wma.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_wma.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 8
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_wma.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_wma.dir/rule
-
-# Convenience name for target.
-test_ind_wma: CMakeFiles/test_ind_wma.dir/rule
-.PHONY : test_ind_wma
-
-# clean rule for target.
-CMakeFiles/test_ind_wma.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_wma.dir/build.make CMakeFiles/test_ind_wma.dir/clean
-.PHONY : CMakeFiles/test_ind_wma.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_wmaenvelope.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_wmaenvelope.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_wmaenvelope.dir/build.make CMakeFiles/test_ind_wmaenvelope.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_wmaenvelope.dir/build.make CMakeFiles/test_ind_wmaenvelope.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=94 "Built target test_ind_wmaenvelope"
-.PHONY : CMakeFiles/test_ind_wmaenvelope.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_wmaenvelope.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_wmaenvelope.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_wmaenvelope.dir/rule
-
-# Convenience name for target.
-test_ind_wmaenvelope: CMakeFiles/test_ind_wmaenvelope.dir/rule
-.PHONY : test_ind_wmaenvelope
-
-# clean rule for target.
-CMakeFiles/test_ind_wmaenvelope.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_wmaenvelope.dir/build.make CMakeFiles/test_ind_wmaenvelope.dir/clean
-.PHONY : CMakeFiles/test_ind_wmaenvelope.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_wmaosc.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_wmaosc.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_wmaosc.dir/build.make CMakeFiles/test_ind_wmaosc.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_wmaosc.dir/build.make CMakeFiles/test_ind_wmaosc.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=95 "Built target test_ind_wmaosc"
-.PHONY : CMakeFiles/test_ind_wmaosc.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_wmaosc.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_wmaosc.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_wmaosc.dir/rule
-
-# Convenience name for target.
-test_ind_wmaosc: CMakeFiles/test_ind_wmaosc.dir/rule
-.PHONY : test_ind_wmaosc
-
-# clean rule for target.
-CMakeFiles/test_ind_wmaosc.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_wmaosc.dir/build.make CMakeFiles/test_ind_wmaosc.dir/clean
-.PHONY : CMakeFiles/test_ind_wmaosc.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_zlema.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_zlema.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_zlema.dir/build.make CMakeFiles/test_ind_zlema.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_zlema.dir/build.make CMakeFiles/test_ind_zlema.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=96 "Built target test_ind_zlema"
-.PHONY : CMakeFiles/test_ind_zlema.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_zlema.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_zlema.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_zlema.dir/rule
-
-# Convenience name for target.
-test_ind_zlema: CMakeFiles/test_ind_zlema.dir/rule
-.PHONY : test_ind_zlema
-
-# clean rule for target.
-CMakeFiles/test_ind_zlema.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_zlema.dir/build.make CMakeFiles/test_ind_zlema.dir/clean
-.PHONY : CMakeFiles/test_ind_zlema.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_ind_zlind.dir
-
-# All Build rule for target.
-CMakeFiles/test_ind_zlind.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_zlind.dir/build.make CMakeFiles/test_ind_zlind.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_zlind.dir/build.make CMakeFiles/test_ind_zlind.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num= "Built target test_ind_zlind"
-.PHONY : CMakeFiles/test_ind_zlind.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ind_zlind.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 8
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_ind_zlind.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/test_ind_zlind.dir/rule
-
-# Convenience name for target.
-test_ind_zlind: CMakeFiles/test_ind_zlind.dir/rule
-.PHONY : test_ind_zlind
-
-# clean rule for target.
-CMakeFiles/test_ind_zlind.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ind_zlind.dir/build.make CMakeFiles/test_ind_zlind.dir/clean
-.PHONY : CMakeFiles/test_ind_zlind.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/run_original_tests.dir
-
-# All Build rule for target.
-CMakeFiles/run_original_tests.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_original_tests.dir/build.make CMakeFiles/run_original_tests.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_original_tests.dir/build.make CMakeFiles/run_original_tests.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=37 "Built target run_original_tests"
-.PHONY : CMakeFiles/run_original_tests.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/run_original_tests.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 1
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/run_original_tests.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/run_original_tests.dir/rule
-
-# Convenience name for target.
-run_original_tests: CMakeFiles/run_original_tests.dir/rule
-.PHONY : run_original_tests
-
-# clean rule for target.
-CMakeFiles/run_original_tests.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_original_tests.dir/build.make CMakeFiles/run_original_tests.dir/clean
-.PHONY : CMakeFiles/run_original_tests.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/all_original_tests.dir
-
-# All Build rule for target.
-CMakeFiles/all_original_tests.dir/all: CMakeFiles/backtrader_original_core.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/all_original_tests.dir/build.make CMakeFiles/all_original_tests.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/all_original_tests.dir/build.make CMakeFiles/all_original_tests.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28 "Built target all_original_tests"
-.PHONY : CMakeFiles/all_original_tests.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/all_original_tests.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 36
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/all_original_tests.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/all_original_tests.dir/rule
-
-# Convenience name for target.
-all_original_tests: CMakeFiles/all_original_tests.dir/rule
-.PHONY : all_original_tests
-
-# clean rule for target.
-CMakeFiles/all_original_tests.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/all_original_tests.dir/build.make CMakeFiles/all_original_tests.dir/clean
-.PHONY : CMakeFiles/all_original_tests.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/run_original_tests_debug.dir
-
-# All Build rule for target.
-CMakeFiles/run_original_tests_debug.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_original_tests_debug.dir/build.make CMakeFiles/run_original_tests_debug.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_original_tests_debug.dir/build.make CMakeFiles/run_original_tests_debug.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num= "Built target run_original_tests_debug"
-.PHONY : CMakeFiles/run_original_tests_debug.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/run_original_tests_debug.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/run_original_tests_debug.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/run_original_tests_debug.dir/rule
-
-# Convenience name for target.
-run_original_tests_debug: CMakeFiles/run_original_tests_debug.dir/rule
-.PHONY : run_original_tests_debug
-
-# clean rule for target.
-CMakeFiles/run_original_tests_debug.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_original_tests_debug.dir/build.make CMakeFiles/run_original_tests_debug.dir/clean
-.PHONY : CMakeFiles/run_original_tests_debug.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/run_sma_test.dir
-
-# All Build rule for target.
-CMakeFiles/run_sma_test.dir/all: CMakeFiles/test_ind_sma.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_sma_test.dir/build.make CMakeFiles/run_sma_test.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_sma_test.dir/build.make CMakeFiles/run_sma_test.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=38 "Built target run_sma_test"
-.PHONY : CMakeFiles/run_sma_test.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/run_sma_test.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 10
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/run_sma_test.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/run_sma_test.dir/rule
-
-# Convenience name for target.
-run_sma_test: CMakeFiles/run_sma_test.dir/rule
-.PHONY : run_sma_test
-
-# clean rule for target.
-CMakeFiles/run_sma_test.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_sma_test.dir/build.make CMakeFiles/run_sma_test.dir/clean
-.PHONY : CMakeFiles/run_sma_test.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/run_rsi_test.dir
-
-# All Build rule for target.
-CMakeFiles/run_rsi_test.dir/all: CMakeFiles/test_ind_rsi.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_rsi_test.dir/build.make CMakeFiles/run_rsi_test.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_rsi_test.dir/build.make CMakeFiles/run_rsi_test.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num= "Built target run_rsi_test"
-.PHONY : CMakeFiles/run_rsi_test.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/run_rsi_test.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/run_rsi_test.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/run_rsi_test.dir/rule
-
-# Convenience name for target.
-run_rsi_test: CMakeFiles/run_rsi_test.dir/rule
-.PHONY : run_rsi_test
-
-# clean rule for target.
-CMakeFiles/run_rsi_test.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_rsi_test.dir/build.make CMakeFiles/run_rsi_test.dir/clean
-.PHONY : CMakeFiles/run_rsi_test.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/run_bbands_test.dir
-
-# All Build rule for target.
-CMakeFiles/run_bbands_test.dir/all: CMakeFiles/test_ind_bbands.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_bbands_test.dir/build.make CMakeFiles/run_bbands_test.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_bbands_test.dir/build.make CMakeFiles/run_bbands_test.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num= "Built target run_bbands_test"
-.PHONY : CMakeFiles/run_bbands_test.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/run_bbands_test.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/run_bbands_test.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/run_bbands_test.dir/rule
-
-# Convenience name for target.
-run_bbands_test: CMakeFiles/run_bbands_test.dir/rule
-.PHONY : run_bbands_test
-
-# clean rule for target.
-CMakeFiles/run_bbands_test.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_bbands_test.dir/build.make CMakeFiles/run_bbands_test.dir/clean
-.PHONY : CMakeFiles/run_bbands_test.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/run_atr_test.dir
-
-# All Build rule for target.
-CMakeFiles/run_atr_test.dir/all: CMakeFiles/test_ind_atr.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_atr_test.dir/build.make CMakeFiles/run_atr_test.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_atr_test.dir/build.make CMakeFiles/run_atr_test.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num= "Built target run_atr_test"
-.PHONY : CMakeFiles/run_atr_test.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/run_atr_test.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/run_atr_test.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/run_atr_test.dir/rule
-
-# Convenience name for target.
-run_atr_test: CMakeFiles/run_atr_test.dir/rule
-.PHONY : run_atr_test
-
-# clean rule for target.
-CMakeFiles/run_atr_test.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_atr_test.dir/build.make CMakeFiles/run_atr_test.dir/clean
-.PHONY : CMakeFiles/run_atr_test.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/run_stochastic_test.dir
-
-# All Build rule for target.
-CMakeFiles/run_stochastic_test.dir/all: CMakeFiles/test_ind_stochastic.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_stochastic_test.dir/build.make CMakeFiles/run_stochastic_test.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_stochastic_test.dir/build.make CMakeFiles/run_stochastic_test.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num= "Built target run_stochastic_test"
-.PHONY : CMakeFiles/run_stochastic_test.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/run_stochastic_test.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 9
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/run_stochastic_test.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles 0
-.PHONY : CMakeFiles/run_stochastic_test.dir/rule
-
-# Convenience name for target.
-run_stochastic_test: CMakeFiles/run_stochastic_test.dir/rule
-.PHONY : run_stochastic_test
-
-# clean rule for target.
-CMakeFiles/run_stochastic_test.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_stochastic_test.dir/build.make CMakeFiles/run_stochastic_test.dir/clean
-.PHONY : CMakeFiles/run_stochastic_test.dir/clean
+CMakeFiles/test_oscillator_simple.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_oscillator_simple.dir/build.make CMakeFiles/test_oscillator_simple.dir/clean
+.PHONY : CMakeFiles/test_oscillator_simple.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

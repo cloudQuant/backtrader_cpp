@@ -15,8 +15,12 @@
  * 注：SMMAEnvelope包含3条线：Mid (SMMA), Upper, Lower
  */
 
-#include "test_common.h"
-#include "indicators/SMMAEnvelope.h"
+#include "test_common_simple.h"
+
+using namespace backtrader::indicators;
+#include "indicators/smmaenvelope.h"
+
+using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
 using namespace backtrader::indicators;

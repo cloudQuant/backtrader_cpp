@@ -13,8 +13,12 @@
  * 注：ZeroLagIndicator (零滞后指标) 是一个减少滞后的移动平均线变种
  */
 
-#include "test_common.h"
-#include "indicators/ZeroLagIndicator.h"
+#include "test_common_simple.h"
+
+using namespace backtrader::indicators;
+#include "indicators/zerolagindicator.h"
+
+using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
 using namespace backtrader::indicators;

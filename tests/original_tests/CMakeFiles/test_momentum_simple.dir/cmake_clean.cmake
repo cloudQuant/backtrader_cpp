@@ -1,0 +1,11 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/test_momentum_simple.dir/test_ind_momentum_simple.cpp.o"
+  "CMakeFiles/test_momentum_simple.dir/test_ind_momentum_simple.cpp.o.d"
+  "test_momentum_simple"
+  "test_momentum_simple.pdb"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang CXX)
+  include(CMakeFiles/test_momentum_simple.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

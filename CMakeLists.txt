@@ -1,105 +1,185 @@
-cmake_minimum_required(VERSION 3.20)
-project(BacktraderCpp 
-    VERSION 0.1.0
-    DESCRIPTION "High-performance C++ backtesting framework"
-    LANGUAGES CXX)
+cmake_minimum_required(VERSION 3.16)
+project(BacktraderCpp)
 
-# 设置C++标准
-set(CMAKE_CXX_STANDARD 17)
+# Set C++20 standard
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
 
-# 编译选项
-set(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -DDEBUG")
-set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG -march=native")
-set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O2 -g -DNDEBUG")
-
-# 编译器特定优化
-if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic")
-    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -flto")
-elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic")
-    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -flto")
-elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
-    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /GL")
+# Compiler options
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -O2")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -O0 -DDEBUG")
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -DNDEBUG")
 endif()
 
-# 选项
-option(BUILD_TESTS "Build unit tests" ON)
-option(BUILD_BENCHMARKS "Build benchmark tests" ON)
-option(BUILD_PYTHON_BINDINGS "Build Python bindings" ON)
-option(ENABLE_COVERAGE "Enable code coverage" OFF)
-option(ENABLE_SANITIZERS "Enable sanitizers" OFF)
-option(USE_CONAN "Use Conan package manager" OFF)
-
-# 查找依赖包
-find_package(Threads REQUIRED)
-
-# OpenMP支持
-find_package(OpenMP)
-
-# Google Test - try system package first
-if(BUILD_TESTS)
-    find_package(PkgConfig QUIET)
-    if(PkgConfig_FOUND)
-        pkg_check_modules(GTEST gtest)
-        pkg_check_modules(GTEST_MAIN gtest_main)
-    endif()
-    
-    if(NOT GTEST_FOUND)
-        find_package(GTest QUIET)
-    endif()
-    
-    if(NOT GTest_FOUND AND NOT GTEST_FOUND)
-        message(WARNING "GTest not found, but simple tests will still be enabled")
-        # Don't disable tests completely, we have simple test
-    endif()
-endif()
-
-# Python绑定
-if(BUILD_PYTHON_BINDINGS)
-    find_package(pybind11 QUIET)
-    if(NOT pybind11_FOUND)
-        # 如果找不到pybind11，尝试使用FetchContent
-        include(FetchContent)
-        FetchContent_Declare(
-            pybind11
-            URL https://github.com/pybind/pybind11/archive/v2.11.1.zip
-        )
-        FetchContent_MakeAvailable(pybind11)
-    endif()
-endif()
-
-# 包含目录
+# Include directories
 include_directories(
     ${CMAKE_SOURCE_DIR}/include
-    ${CMAKE_SOURCE_DIR}/src
 )
 
-# 添加子目录
-add_subdirectory(src)
-add_subdirectory(include)
+# Core source files
+set(BACKTRADER_CORE_SOURCES
+    src/lineroot.cpp
+    src/linebuffer.cpp
+    src/lineseries.cpp
+    src/lineiterator.cpp
+    src/dataseries.cpp
+    src/indicator.cpp
+    src/strategy.cpp
+    src/cerebro.cpp
+    src/broker.cpp
+    src/order.cpp
+    src/position.cpp
+    src/comminfo.cpp
+    src/trade.cpp
+    src/sizer.cpp
+    src/timer.cpp
+    src/errors.cpp
+    src/mathsupport.cpp
+    src/functions.cpp
+    src/store.cpp
+    src/version.cpp
+    src/signal.cpp
+    src/fillers.cpp
+    src/flt.cpp
+    src/writer.cpp
+    src/resamplerfilter.cpp
+    src/tradingcal.cpp
+    src/talib.cpp
+    src/feed.cpp
+    src/observer.cpp
+    src/analyzer.cpp
+    src/metabase.cpp
+)
 
-if(BUILD_TESTS)
-    enable_testing()
-    add_subdirectory(tests)
-endif()
+# Indicator source files
+set(BACKTRADER_INDICATOR_SOURCES
+    src/indicators/sma.cpp
+    src/indicators/ema.cpp
+    src/indicators/rsi.cpp
+    src/indicators/macd.cpp
+    src/indicators/bollinger.cpp
+    src/indicators/atr.cpp
+    src/indicators/crossover.cpp
+    src/indicators/momentum.cpp
+    src/indicators/stochastic.cpp
+    src/indicators/aroon.cpp
+    src/indicators/williams.cpp
+    src/indicators/dema.cpp
+    src/indicators/cci.cpp
+    src/indicators/ichimoku.cpp
+    src/indicators/kama.cpp
+    src/indicators/lrsi.cpp
+    src/indicators/tsi.cpp
+    src/indicators/trix.cpp
+    src/indicators/ultimateoscillator.cpp
+    src/indicators/vortex.cpp
+    src/indicators/priceoscillator.cpp
+    src/indicators/psar.cpp
+    src/indicators/hma.cpp
+    src/indicators/smma.cpp
+    src/indicators/directionalmove.cpp
+    src/indicators/awesomeoscillator.cpp
+    src/indicators/envelope.cpp
+    src/indicators/percentchange.cpp
+    src/indicators/percentrank.cpp
+    src/indicators/pivotpoint.cpp
+    src/indicators/basicops.cpp
+    src/indicators/deviation.cpp
+    src/indicators/dpo.cpp
+    src/indicators/dma.cpp
+    src/indicators/heikinashi.cpp
+    src/indicators/dv2.cpp
+    src/indicators/accdecoscillator.cpp
+    src/indicators/wma.cpp
+    src/indicators/zlema.cpp
+    src/indicators/zlind.cpp
+    src/indicators/kst.cpp
+    src/indicators/rmi.cpp
+    src/indicators/prettygoodoscillator.cpp
+    src/indicators/oscillator.cpp
+    src/indicators/hurst.cpp
+    src/indicators/ols.cpp
+)
 
-if(BUILD_PYTHON_BINDINGS)
-    add_subdirectory(python)
-endif()
+# Analyzer source files
+set(BACKTRADER_ANALYZER_SOURCES
+    src/analyzers/returns.cpp
+    src/analyzers/drawdown.cpp
+    src/analyzers/sharpe.cpp
+    src/analyzers/timereturn.cpp
+    src/analyzers/annualreturn.cpp
+    src/analyzers/tradeanalyzer.cpp
+    src/analyzers/calmar.cpp
+    src/analyzers/sqn.cpp
+)
 
-# 安装配置
-include(GNUInstallDirs)
-install(TARGETS backtrader_core
-    EXPORT BacktraderTargets
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+# Feed source files
+set(BACKTRADER_FEED_SOURCES
+    src/feeds/btcsv.cpp
+    src/feeds/csvgeneric.cpp
+    src/feeds/yahoo.cpp
+    src/feeds/pandafeed.cpp
+)
+
+# Broker source files
+set(BACKTRADER_BROKER_SOURCES
+    src/brokers/bbroker.cpp
+    src/brokers/ibbroker.cpp
+)
+
+# Observer source files
+set(BACKTRADER_OBSERVER_SOURCES
+    src/observers/broker.cpp
+    src/observers/trades.cpp
+)
+
+# Create the core library
+add_library(backtrader_core STATIC
+    ${BACKTRADER_CORE_SOURCES}
+    ${BACKTRADER_INDICATOR_SOURCES}
+    ${BACKTRADER_ANALYZER_SOURCES}
+    ${BACKTRADER_FEED_SOURCES}
+    ${BACKTRADER_BROKER_SOURCES}
+    ${BACKTRADER_OBSERVER_SOURCES}
+)
+
+target_include_directories(backtrader_core
+    PUBLIC
+        ${CMAKE_SOURCE_DIR}/include
+    PRIVATE
+        ${CMAKE_SOURCE_DIR}/src
+)
+
+# Create an interface library for header-only parts
+add_library(backtrader_headers INTERFACE)
+target_include_directories(backtrader_headers
+    INTERFACE
+        ${CMAKE_SOURCE_DIR}/include
+)
+
+# Enable testing
+enable_testing()
+add_subdirectory(tests)
+
+# Installation
+install(TARGETS backtrader_core backtrader_headers
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+    RUNTIME DESTINATION bin
+    INCLUDES DESTINATION include
 )
 
 install(DIRECTORY include/
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+    DESTINATION include
+    FILES_MATCHING PATTERN "*.h"
 )
+
+# Print configuration
+message(STATUS "=== Backtrader C++ Configuration ===")
+message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
+message(STATUS "C++ Standard: ${CMAKE_CXX_STANDARD}")
+message(STATUS "Compiler: ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
+message(STATUS "Source files: ${CMAKE_SOURCE_DIR}/src")
+message(STATUS "Include files: ${CMAKE_SOURCE_DIR}/include")
+message(STATUS "======================================")

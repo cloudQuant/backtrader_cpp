@@ -11,11 +11,12 @@
  * chkind = btind.UpMove
  */
 
-#include "test_common.h"
-#include "indicators/UpMove.h"
+#include "test_common_simple.h"
+
+#include "indicators/upmove.h"
+
 
 using namespace backtrader::tests::original;
-using namespace backtrader::indicators;
 
 namespace {
 

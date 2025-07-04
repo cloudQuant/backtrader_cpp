@@ -13,8 +13,12 @@
  * 注：RMI (Relative Momentum Index) 是RSI的变种，使用动量而非价格变化
  */
 
-#include "test_common.h"
-#include "indicators/RMI.h"
+#include "test_common_simple.h"
+
+using namespace backtrader::indicators;
+#include "indicators/rmi.h"
+
+using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
 using namespace backtrader::indicators;

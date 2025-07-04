@@ -15,8 +15,12 @@
  * 注：EMAEnvelope包含3条线：Mid (EMA), Upper, Lower
  */
 
-#include "test_common.h"
-#include "indicators/EMAEnvelope.h"
+#include "test_common_simple.h"
+
+using namespace backtrader::indicators;
+#include "indicators/emaenvelope.h"
+
+using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
 using namespace backtrader::indicators;

@@ -10,9 +10,9 @@
 #include <cmath>
 
 // Include backtrader headers
-#include "LineRoot.h"
-#include "Common.h"
-#include "strategy/Strategy.h"
+#include "lineroot.h"
+#include "lineseries.h"
+#include "strategy.h"
 
 namespace backtrader {
 namespace tests {
@@ -92,7 +92,7 @@ inline std::vector<CSVDataReader::OHLCVData> getdata(int index = 0) {
         "2006-week-001.txt"
     };
     
-    std::string filepath = "../datas/" + datafiles[index];
+    std::string filepath = "../../../tests/datas/" + datafiles[index];
     return CSVDataReader::loadCSV(filepath);
 }
 

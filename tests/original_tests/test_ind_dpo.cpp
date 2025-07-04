@@ -11,8 +11,12 @@
  * chkind = btind.DPO
  */
 
-#include "test_common.h"
-#include "indicators/DPO.h"
+#include "test_common_simple.h"
+
+using namespace backtrader::indicators;
+#include "indicators/dpo.h"
+
+using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
 using namespace backtrader::indicators;

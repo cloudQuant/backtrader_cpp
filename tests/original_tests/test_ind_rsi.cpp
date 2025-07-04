@@ -11,8 +11,12 @@
  * chkind = btind.RSI
  */
 
-#include "test_common.h"
-#include "indicators/RSI.h"
+#include "test_common_simple.h"
+
+using namespace backtrader::indicators;
+#include "indicators/rsi.h"
+
+using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
 using namespace backtrader::indicators;

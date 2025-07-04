@@ -4,11 +4,12 @@
  */
 
 #include "test_common_simple.h"
-#include "indicators/CrossOver.h"
-#include "indicators/SMA.h"
+#include "indicators/crossover.h"
+#include "indicators/sma.h"
 
 using namespace backtrader::tests::original;
 using namespace backtrader;
+using namespace backtrader::indicators;
 
 // 测试CrossOver指标
 TEST(OriginalTests, CrossOver_Manual) {

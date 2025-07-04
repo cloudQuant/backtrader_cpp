@@ -12,10 +12,10 @@
  */
 
 #include "test_common_simple.h"
-#include "indicators/SMA.h"
+#include "indicators/sma.h"
 
 using namespace backtrader::tests::original;
-using namespace backtrader;
+using namespace backtrader::indicators;
 
 namespace {
 
@@ -36,17 +36,24 @@ TEST(OriginalTests, SMA_Manual) {
     auto csv_data = getdata(0);
     ASSERT_FALSE(csv_data.empty());
     
-    // 创建数据线
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    // 创建数据线系列
+    auto close_line_series = std::make_shared<LineSeries>();
+    close_line_series->lines->add_line(std::make_shared<LineBuffer>());
+    close_line_series->lines->add_alias("close", 0);
+    
+    // 逐步添加数据到线缓冲区
+    auto close_buffer = std::dynamic_pointer_cast<LineBuffer>(close_line_series->lines->getline(0));
+    if (close_buffer) {
+        for (size_t i = 0; i < csv_data.size(); ++i) {
+            close_buffer->append(csv_data[i].close);
+        }
+    }
     
     // 创建SMA指标（30周期）
-    auto sma = std::make_shared<SMA>(close_line, 30);
+    auto sma = std::make_shared<SMA>(close_line_series, 30);
     
-    // 逐步添加数据并计算
-    for (size_t i = 0; i < csv_data.size(); ++i) {
-        close_line->forward(csv_data[i].close);
-        sma->calculate();
-    }
+    // 计算
+    sma->calculate();
     
     // 验证关键点的值
     int data_length = static_cast<int>(csv_data.size());
@@ -87,27 +94,28 @@ protected:
         csv_data_ = getdata(0);
         ASSERT_FALSE(csv_data_.empty());
         
-        close_line_ = std::make_shared<LineRoot>(csv_data_.size(), "close");
-        for (const auto& bar : csv_data_) {
-            close_line_->forward(bar.close);
+        close_line_series_ = std::make_shared<LineSeries>();
+        close_line_series_->lines->add_line(std::make_shared<LineBuffer>());
+        close_line_series_->lines->add_alias("close", 0);
+        
+        auto close_buffer = std::dynamic_pointer_cast<LineBuffer>(close_line_series_->lines->getline(0));
+        if (close_buffer) {
+            for (size_t i = 0; i < csv_data_.size(); ++i) {
+                close_buffer->append(csv_data_[i].close);
+            }
         }
     }
     
     std::vector<CSVDataReader::OHLCVData> csv_data_;
-    std::shared_ptr<LineRoot> close_line_;
+    std::shared_ptr<LineSeries> close_line_series_;
 };
 
 TEST_P(SMAParameterizedTest, DifferentPeriods) {
     int period = GetParam();
-    auto sma = std::make_shared<SMA>(close_line_, period);
+    auto sma = std::make_shared<SMA>(close_line_series_, period);
     
     // 计算所有值
-    for (size_t i = 0; i < csv_data_.size(); ++i) {
-        sma->calculate();
-        if (i < csv_data_.size() - 1) {
-            close_line_->forward();
-        }
-    }
+    sma->calculate();
     
     // 验证基本属性
     EXPECT_EQ(sma->getMinPeriod(), period) << "SMA minimum period should match parameter";
@@ -130,22 +138,24 @@ INSTANTIATE_TEST_SUITE_P(
 // 边界条件测试
 TEST(OriginalTests, SMA_EdgeCases) {
     auto csv_data = getdata(0);
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
     
-    // 只添加几个数据点
-    for (size_t i = 0; i < std::min(size_t(5), csv_data.size()); ++i) {
-        close_line->forward(csv_data[i].close);
+    // 创建数据线系列，只使用前5个数据点
+    auto close_line_series = std::make_shared<LineSeries>();
+    close_line_series->lines->add_line(std::make_shared<LineBuffer>());
+    close_line_series->lines->add_alias("close", 0);
+    
+    auto close_buffer = std::dynamic_pointer_cast<LineBuffer>(close_line_series->lines->getline(0));
+    size_t data_count = std::min(size_t(5), csv_data.size());
+    if (close_buffer) {
+        for (size_t i = 0; i < data_count; ++i) {
+            close_buffer->append(csv_data[i].close);
+        }
     }
     
     // 测试周期大于数据量的情况
-    auto sma = std::make_shared<SMA>(close_line, 10);
+    auto sma = std::make_shared<SMA>(close_line_series, 10);
     
-    for (int i = 0; i < 5; ++i) {
-        sma->calculate();
-        if (i < 4) {
-            close_line->forward();
-        }
-    }
+    sma->calculate();
     
     // 数据不足时应该返回NaN
     double result = sma->get(0);
@@ -160,20 +170,21 @@ TEST(OriginalTests, SMA_PrecisionTest) {
         3610.23, 3633.44, 3669.98, 3687.24, 3704.55
     };
     
-    auto close_line = std::make_shared<LineRoot>(test_prices.size(), "precision_test");
-    for (double price : test_prices) {
-        close_line->forward(price);
-    }
+    auto close_line_series = std::make_shared<LineSeries>();
+    close_line_series->lines->add_line(std::make_shared<LineBuffer>());
+    close_line_series->lines->add_alias("close", 0);
     
-    auto sma5 = std::make_shared<SMA>(close_line, 5);
-    
-    // 计算到第5个数据点
-    for (size_t i = 0; i < test_prices.size(); ++i) {
-        sma5->calculate();
-        if (i < test_prices.size() - 1) {
-            close_line->forward();
+    auto close_buffer = std::dynamic_pointer_cast<LineBuffer>(close_line_series->lines->getline(0));
+    if (close_buffer) {
+        for (size_t i = 0; i < test_prices.size(); ++i) {
+            close_buffer->append(test_prices[i]);
         }
     }
+    
+    auto sma5 = std::make_shared<SMA>(close_line_series, 5);
+    
+    // 计算到所有数据点
+    sma5->calculate();
     
     // 手动计算最后5个值的平均值
     double expected = 0.0;

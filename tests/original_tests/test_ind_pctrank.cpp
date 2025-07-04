@@ -11,11 +11,12 @@
  * chkind = btind.PercentRank
  */
 
-#include "test_common.h"
-#include "indicators/PercentRank.h"
+#include "test_common_simple.h"
+
+#include "indicators/percentrank.h"
+
 
 using namespace backtrader::tests::original;
-using namespace backtrader::indicators;
 
 namespace {
 

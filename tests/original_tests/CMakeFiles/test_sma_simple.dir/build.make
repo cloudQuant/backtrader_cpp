@@ -69,30 +69,30 @@ include CMakeFiles/test_sma_simple.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/test_sma_simple.dir/flags.make
 
-CMakeFiles/test_sma_simple.dir/test_sma_simple.cpp.o: CMakeFiles/test_sma_simple.dir/flags.make
-CMakeFiles/test_sma_simple.dir/test_sma_simple.cpp.o: test_sma_simple.cpp
-CMakeFiles/test_sma_simple.dir/test_sma_simple.cpp.o: CMakeFiles/test_sma_simple.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/test_sma_simple.dir/test_sma_simple.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/test_sma_simple.dir/test_sma_simple.cpp.o -MF CMakeFiles/test_sma_simple.dir/test_sma_simple.cpp.o.d -o CMakeFiles/test_sma_simple.dir/test_sma_simple.cpp.o -c /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/test_sma_simple.cpp
+CMakeFiles/test_sma_simple.dir/test_ind_sma.cpp.o: CMakeFiles/test_sma_simple.dir/flags.make
+CMakeFiles/test_sma_simple.dir/test_ind_sma.cpp.o: test_ind_sma.cpp
+CMakeFiles/test_sma_simple.dir/test_ind_sma.cpp.o: CMakeFiles/test_sma_simple.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/test_sma_simple.dir/test_ind_sma.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/test_sma_simple.dir/test_ind_sma.cpp.o -MF CMakeFiles/test_sma_simple.dir/test_ind_sma.cpp.o.d -o CMakeFiles/test_sma_simple.dir/test_ind_sma.cpp.o -c /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/test_ind_sma.cpp
 
-CMakeFiles/test_sma_simple.dir/test_sma_simple.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/test_sma_simple.dir/test_sma_simple.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/test_sma_simple.cpp > CMakeFiles/test_sma_simple.dir/test_sma_simple.cpp.i
+CMakeFiles/test_sma_simple.dir/test_ind_sma.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/test_sma_simple.dir/test_ind_sma.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/test_ind_sma.cpp > CMakeFiles/test_sma_simple.dir/test_ind_sma.cpp.i
 
-CMakeFiles/test_sma_simple.dir/test_sma_simple.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/test_sma_simple.dir/test_sma_simple.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/test_sma_simple.cpp -o CMakeFiles/test_sma_simple.dir/test_sma_simple.cpp.s
+CMakeFiles/test_sma_simple.dir/test_ind_sma.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/test_sma_simple.dir/test_ind_sma.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/test_ind_sma.cpp -o CMakeFiles/test_sma_simple.dir/test_ind_sma.cpp.s
 
 # Object files for target test_sma_simple
 test_sma_simple_OBJECTS = \
-"CMakeFiles/test_sma_simple.dir/test_sma_simple.cpp.o"
+"CMakeFiles/test_sma_simple.dir/test_ind_sma.cpp.o"
 
 # External object files for target test_sma_simple
 test_sma_simple_EXTERNAL_OBJECTS =
 
-test_sma_simple: CMakeFiles/test_sma_simple.dir/test_sma_simple.cpp.o
+test_sma_simple: CMakeFiles/test_sma_simple.dir/test_ind_sma.cpp.o
 test_sma_simple: CMakeFiles/test_sma_simple.dir/build.make
-test_sma_simple: libbacktrader_original_core.a
+test_sma_simple: libbacktrader_minimal_core.a
 test_sma_simple: /home/yun/anaconda3/lib/libgtest.so.1.11.0
 test_sma_simple: CMakeFiles/test_sma_simple.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/original_tests/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable test_sma_simple"

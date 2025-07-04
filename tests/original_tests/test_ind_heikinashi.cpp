@@ -16,11 +16,12 @@
  * 注：HeikinAshi创建平滑的蜡烛图，有4条线：open, high, low, close
  */
 
-#include "test_common.h"
-#include "indicators/HeikinAshi.h"
+#include "test_common_simple.h"
+
+#include "indicators/heikinashi.h"
+
 
 using namespace backtrader::tests::original;
-using namespace backtrader::indicators;
 
 namespace {
 

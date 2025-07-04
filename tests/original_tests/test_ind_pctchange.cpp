@@ -11,11 +11,12 @@
  * chkind = btind.PctChange
  */
 
-#include "test_common.h"
-#include "indicators/PctChange.h"
+#include "test_common_simple.h"
+
+#include "indicators/percentchange.h"
+
 
 using namespace backtrader::tests::original;
-using namespace backtrader::indicators;
 
 namespace {
 

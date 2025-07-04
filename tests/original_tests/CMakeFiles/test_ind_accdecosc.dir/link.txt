@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/test_ind_accdecosc.dir/test_ind_accdecosc.cpp.o -o original_tests/test_ind_accdecosc  -Wl,-rpath,/home/yun/anaconda3/lib libbacktrader_original_core.a /home/yun/anaconda3/lib/libgtest.so.1.11.0 

@@ -13,8 +13,12 @@
  * 注：MomentumOscillator (动量振荡器) 基于动量指标的振荡器
  */
 
-#include "test_common.h"
-#include "indicators/MomentumOscillator.h"
+#include "test_common_simple.h"
+
+using namespace backtrader::indicators;
+#include "indicators/momentumoscillator.h"
+
+using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
 using namespace backtrader::indicators;

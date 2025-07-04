@@ -13,8 +13,12 @@
  * 注：EMAOsc (EMA Oscillator) 是价格与EMA的振荡器
  */
 
-#include "test_common.h"
-#include "indicators/EMAOsc.h"
+#include "test_common_simple.h"
+
+using namespace backtrader::indicators;
+#include "indicators/emaosc.h"
+
+using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
 using namespace backtrader::indicators;

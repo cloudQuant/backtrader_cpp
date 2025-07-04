@@ -13,8 +13,12 @@
  * chkind = btind.PPO
  */
 
-#include "test_common.h"
-#include "indicators/PPO.h"
+#include "test_common_simple.h"
+
+using namespace backtrader::indicators;
+#include "indicators/ppo.h"
+
+using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
 using namespace backtrader::indicators;

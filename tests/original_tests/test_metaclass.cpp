@@ -12,13 +12,13 @@
 #include "base/MetaClass.h"
 #include "base/LineRoot.h"
 #include "base/ParamsHolder.h"
-#include "indicators/SMA.h"
+#include "indicators/sma.h"
 #include <memory>
 #include <vector>
 #include <string>
 #include <typeinfo>
 
-using namespace backtrader;
+using namespace backtrader::indicators;
 using namespace backtrader::tests::original;
 
 // 模拟SampleParamsHolder基类

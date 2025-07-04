@@ -17,7 +17,6 @@
 #include <memory>
 #include <cassert>
 
-using namespace backtrader;
 using namespace backtrader::tests::original;
 
 // 模拟手续费信息类
