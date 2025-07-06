@@ -30,6 +30,10 @@ void AroonBase::once(int start, int end) {
     }
 }
 
+void AroonBase::calculate() {
+    next();
+}
+
 int AroonBase::find_highest_index(int period) {
     if (datas.empty() || !datas[0]->lines) return 0;
     
@@ -95,6 +99,23 @@ void AroonUp::calculate_lines() {
     aroonup_line->set(0, up_value_);
 }
 
+double AroonUp::get(int ago) const {
+    if (!lines || lines->size() == 0) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    auto aroonup_line = lines->getline(aroonup);
+    if (!aroonup_line) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    return (*aroonup_line)[ago];
+}
+
+int AroonUp::getMinPeriod() const {
+    return params.period + 1;
+}
+
 // AroonDown implementation
 AroonDown::AroonDown() : AroonBase(false, true) {
     setup_lines();
@@ -118,6 +139,23 @@ void AroonDown::calculate_lines() {
     // Calculate AroonDown: 100 * (period - distance to lowest low) / period
     down_value_ = (100.0 / params.period) * (params.period - lowest_idx);
     aroondown_line->set(0, down_value_);
+}
+
+double AroonDown::get(int ago) const {
+    if (!lines || lines->size() == 0) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    auto aroondown_line = lines->getline(aroondown);
+    if (!aroondown_line) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    return (*aroondown_line)[ago];
+}
+
+int AroonDown::getMinPeriod() const {
+    return params.period + 1;
 }
 
 // AroonUpDown implementation
@@ -306,6 +344,23 @@ void AroonUpDownOscillator::calculate_lines() {
     aroonup_line->set(0, up_value_);
     aroondown_line->set(0, down_value_);
     aroonosc_line->set(0, up_value_ - down_value_);
+}
+
+double AroonUpDownOscillator::get(int ago) const {
+    if (!lines || lines->size() < 3) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    auto aroonosc_line = lines->getline(aroonosc);
+    if (!aroonosc_line) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    return (*aroonosc_line)[ago];
+}
+
+int AroonUpDownOscillator::getMinPeriod() const {
+    return params.period + 1;
 }
 
 } // namespace backtrader

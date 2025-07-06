@@ -13,9 +13,12 @@ TrueHigh::TrueHigh() : Indicator() {
 }
 
 void TrueHigh::setup_lines() {
+    if (!lines) {
+        lines = std::make_shared<backtrader::Lines>();
+    }
     if (lines->size() == 0) {
-            lines->add_line(std::make_shared<LineBuffer>());
-        }
+        lines->add_line(std::make_shared<LineBuffer>());
+    }
 }
 
 void TrueHigh::prenext() {
@@ -54,6 +57,19 @@ void TrueHigh::once(int start, int end) {
     }
 }
 
+double TrueHigh::get(int ago) const {
+    if (!lines || lines->size() == 0) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    auto truehigh_line = lines->getline(0);
+    if (!truehigh_line) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    return (*truehigh_line)[ago];
+}
+
 // TrueLow implementation
 TrueLow::TrueLow() : Indicator() {
     setup_lines();
@@ -61,9 +77,12 @@ TrueLow::TrueLow() : Indicator() {
 }
 
 void TrueLow::setup_lines() {
+    if (!lines) {
+        lines = std::make_shared<backtrader::Lines>();
+    }
     if (lines->size() == 0) {
-            lines->add_line(std::make_shared<LineBuffer>());
-        }
+        lines->add_line(std::make_shared<LineBuffer>());
+    }
 }
 
 void TrueLow::prenext() {
@@ -102,6 +121,19 @@ void TrueLow::once(int start, int end) {
     }
 }
 
+double TrueLow::get(int ago) const {
+    if (!lines || lines->size() == 0) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    auto truelow_line = lines->getline(0);
+    if (!truelow_line) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    return (*truelow_line)[ago];
+}
+
 // TrueRange implementation
 TrueRange::TrueRange() : Indicator() {
     setup_lines();
@@ -109,9 +141,12 @@ TrueRange::TrueRange() : Indicator() {
 }
 
 void TrueRange::setup_lines() {
+    if (!lines) {
+        lines = std::make_shared<backtrader::Lines>();
+    }
     if (lines->size() == 0) {
-            lines->add_line(std::make_shared<LineBuffer>());
-        }
+        lines->add_line(std::make_shared<LineBuffer>());
+    }
 }
 
 double TrueRange::calculate_true_range(double high, double low, double prev_close) const {
@@ -164,6 +199,19 @@ void TrueRange::once(int start, int end) {
     }
 }
 
+double TrueRange::get(int ago) const {
+    if (!lines || lines->size() == 0) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    auto tr_line = lines->getline(0);
+    if (!tr_line) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    return (*tr_line)[ago];
+}
+
 // AverageTrueRange implementation
 AverageTrueRange::AverageTrueRange() : Indicator(), prev_atr_(0.0), first_calculation_(true), data_source_(nullptr), current_index_(0) {
     setup_lines();
@@ -174,6 +222,7 @@ AverageTrueRange::AverageTrueRange(std::shared_ptr<LineRoot> data) : Indicator()
     setup_lines();
     _minperiod(params.period + 1); // Need period + 1 for smoothed average
     // This constructor is for test framework compatibility
+    // The data parameter is ignored since ATR needs full OHLC data from datas[0]
 }
 
 AverageTrueRange::AverageTrueRange(std::shared_ptr<LineSeries> data_source, int period) 
@@ -184,9 +233,12 @@ AverageTrueRange::AverageTrueRange(std::shared_ptr<LineSeries> data_source, int 
 }
 
 void AverageTrueRange::setup_lines() {
+    if (!lines) {
+        lines = std::make_shared<backtrader::Lines>();
+    }
     if (lines->size() == 0) {
-            lines->add_line(std::make_shared<LineBuffer>());
-        }
+        lines->add_line(std::make_shared<LineBuffer>());
+    }
 }
 
 double AverageTrueRange::calculate_true_range(double high, double low, double prev_close) const {
@@ -221,6 +273,9 @@ void AverageTrueRange::next() {
     auto atr_line = lines->getline(atr);
     
     if (!high_line || !low_line || !close_line || !atr_line) return;
+    
+    // First, advance the line buffer to make room for new value
+    atr_line->advance();
     
     double current_high = (*high_line)[0];
     double current_low = (*low_line)[0];

@@ -117,7 +117,7 @@ inline std::vector<CSVDataReader::OHLCVData> getdata(int index = 0) {
         "2006-week-001.txt"
     };
     
-    std::string filepath = "../../../tests/datas/" + datafiles[index];
+    std::string filepath = "../../tests/datas/" + datafiles[index];
     return CSVDataReader::loadCSV(filepath);
 }
 
@@ -223,25 +223,31 @@ public:
         return 0;
     }
     
-    std::shared_ptr<LineSeries> data(int idx) {
-        if (idx < datas.size()) {
-            return datas[idx];
-        }
-        return nullptr;
-    }
+    // Commented out to avoid conflict with data member variable
+    // std::shared_ptr<LineSeries> data(int idx) {
+    //     if (idx < datas.size()) {
+    //         return datas[idx];
+    //     }
+    //     return nullptr;
+    // }
     
     void addIndicator(std::shared_ptr<LineIterator> indicator) {
         addindicator(indicator);
     }
     
     void init() override {
-        auto dataPtr = this->data(0);
-        if (dataPtr) {
-            // Get the close price line from the data series
-            auto closeLine = dataPtr->getline(DataSeries::Close);
-            if (closeLine) {
-                indicator_ = std::make_shared<IndicatorType>(std::dynamic_pointer_cast<LineRoot>(closeLine));
-                addIndicator(indicator_);
+        // For indicators that need full OHLC data (like ATR), pass the data series
+        // For indicators that only need close price, this will still work
+        if (!datas.empty() && datas[0]) {
+            // Create the indicator
+            indicator_ = std::make_shared<IndicatorType>();
+            
+            // Add the data to the indicator
+            indicator_->datas.push_back(datas[0]);
+            
+            // Add indicator to strategy's indicators list
+            if (indicator_) {
+                addindicator(indicator_);
             }
         }
     }
@@ -372,8 +378,12 @@ void runtest(const std::vector<std::vector<std::string>>& expected_vals,
     // 这里需要实现一个简化版的回测执行
     // 由于我们主要关注指标计算的正确性，可以直接模拟策略执行
     
+    // Create and add data feed to strategy
+    auto data_feed = getdata_feed(data_index);
+    ASSERT_NE(data_feed, nullptr) << "Failed to create data feed";
+    strategy->datas.push_back(std::dynamic_pointer_cast<LineSeries>(data_feed));
+    
     // 模拟策略初始化
-    // strategy->setData(data_feed); // 需要实现数据设置
     strategy->init();
     
     // 模拟策略执行
@@ -381,12 +391,21 @@ void runtest(const std::vector<std::vector<std::string>>& expected_vals,
     
     // 逐步执行策略
     for (size_t i = 0; i < csv_data.size(); ++i) {
-        if (i == 0) {
+        // Load next data point
+        bool has_data = data_feed->next();
+        if (!has_data) break;
+        
+        // Execute strategy
+        if (i < strategy->_minperiod() - 1) {
+            strategy->prenext();
+        } else if (i == strategy->_minperiod() - 1) {
             strategy->nextstart();
         } else {
             strategy->next();
         }
-        close_line->forward();
+        
+        // Advance all components
+        strategy->advance();
     }
     
     strategy->stop();

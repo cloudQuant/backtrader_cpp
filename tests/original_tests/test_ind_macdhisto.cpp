@@ -16,6 +16,7 @@
 #include "test_common.h"
 
 #include "indicators/macd.h"
+#include "indicators/rsi.h"
 
 
 using namespace backtrader::tests::original;

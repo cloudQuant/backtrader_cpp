@@ -142,6 +142,8 @@ public:
     // Utility methods expected by tests
     virtual size_t size() const;
     virtual std::shared_ptr<LineSingle> getLine(size_t idx = 0);
+    virtual double get(int ago = 0) const;
+    virtual int getMinPeriod() const;
 };
 
 class ObserverBase : public DataAccessor {

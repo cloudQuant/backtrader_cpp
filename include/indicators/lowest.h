@@ -23,6 +23,7 @@ public:
     
     Lowest();
     Lowest(std::shared_ptr<LineSeries> data_source, int period = 14);
+    Lowest(std::shared_ptr<LineRoot> data_source, int period = 14);
     virtual ~Lowest() = default;
     
     // Utility methods
@@ -39,6 +40,7 @@ private:
     
     // LineSeries support
     std::shared_ptr<LineSeries> data_source_;
+    std::shared_ptr<LineRoot> root_data_source_;
     size_t current_index_;
 };
 

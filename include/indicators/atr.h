@@ -102,6 +102,19 @@ public:
     int getMinPeriod() const { return params.period + 1; }
     void calculate() override;
     
+    // Override size() to return the correct size
+    size_t size() const override {
+        if (!lines || lines->size() == 0) return 0;
+        auto line = lines->getline(0);
+        return line ? line->size() : 0;
+    }
+    
+    // Override getLine to return the correct line
+    std::shared_ptr<LineSingle> getLine(size_t idx = 0) override {
+        if (!lines || idx >= lines->size()) return nullptr;
+        return lines->getline(idx);
+    }
+    
 protected:
     void prenext() override;
     void next() override;

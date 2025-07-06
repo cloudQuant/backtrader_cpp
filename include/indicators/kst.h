@@ -36,7 +36,14 @@ public:
     };
     
     KnowSureThing();
+    KnowSureThing(std::shared_ptr<LineRoot> data);
     virtual ~KnowSureThing() = default;
+    
+    // Test framework compatibility methods
+    double get(int ago = 0) const;
+    int getMinPeriod() const;
+    void calculate() override;
+    std::shared_ptr<LineBuffer> getLine(int index) const;
     
 protected:
     void next() override;

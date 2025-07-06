@@ -18,6 +18,9 @@ public:
     AroonBase(bool calc_up = false, bool calc_down = false);
     virtual ~AroonBase() = default;
     
+    // Calculate method (called by tests)
+    void calculate() override;
+    
 protected:
     void prenext() override;
     void next() override;
@@ -53,6 +56,9 @@ public:
     // Get method for accessing the indicator value
     double get(int ago = 0) const;
     
+    // Get minimum period
+    int getMinPeriod() const;
+    
 protected:
     void setup_lines() override;
     void calculate_lines() override;
@@ -71,6 +77,9 @@ public:
     
     // Get method for accessing the indicator value
     double get(int ago = 0) const;
+    
+    // Get minimum period
+    int getMinPeriod() const;
     
 protected:
     void setup_lines() override;
@@ -145,6 +154,9 @@ public:
     
     // Get method for accessing the indicator value
     double get(int ago = 0) const;
+    
+    // Get minimum period
+    int getMinPeriod() const;
     
 protected:
     void setup_lines() override;

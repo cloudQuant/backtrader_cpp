@@ -57,7 +57,14 @@ public:
     };
     
     MomentumOscillator();
+    MomentumOscillator(std::shared_ptr<LineRoot> data);
+    MomentumOscillator(std::shared_ptr<LineRoot> data, int period);
     virtual ~MomentumOscillator() = default;
+    
+    // Test framework compatibility methods
+    double get(int ago = 0) const;
+    int getMinPeriod() const;
+    void calculate() override;
     
 protected:
     void prenext() override;
@@ -115,7 +122,14 @@ public:
     };
     
     RateOfChange100();
+    RateOfChange100(std::shared_ptr<LineRoot> data);
+    RateOfChange100(std::shared_ptr<LineRoot> data, int period);
     virtual ~RateOfChange100() = default;
+    
+    // Utility methods for test framework compatibility
+    double get(int ago = 0) const;
+    int getMinPeriod() const;
+    void calculate() override;
     
 protected:
     void prenext() override;

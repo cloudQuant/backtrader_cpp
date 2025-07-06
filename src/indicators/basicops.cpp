@@ -139,54 +139,7 @@ double Highest::calculate_func(const std::vector<double>& data) {
     return *std::max_element(data.begin(), data.end());
 }
 
-// Lowest implementation
-Lowest::Lowest() : OperationN(), data_source_(nullptr), current_index_(0) {
-    setup_lines();
-}
-
-Lowest::Lowest(std::shared_ptr<LineRoot> data, int period) 
-    : OperationN(), data_source_(nullptr), current_index_(0) {
-    params.period = period;
-    setup_lines();
-}
-
-double Lowest::get(int ago) const {
-    if (!lines || lines->size() == 0) {
-        return std::numeric_limits<double>::quiet_NaN();
-    }
-    
-    auto line = lines->getline(lowest);
-    if (!line) {
-        return std::numeric_limits<double>::quiet_NaN();
-    }
-    
-    return (*line)[ago];
-}
-
-int Lowest::getMinPeriod() const {
-    return params.period;
-}
-
-void Lowest::calculate() {
-    if (data_source_ && current_index_ < data_source_->size()) {
-        // Implementation for LineSeries-based calculation
-        current_index_++;
-    } else {
-        // Use existing next() method for traditional calculation
-        next();
-    }
-}
-
-void Lowest::setup_lines() {
-    if (lines->size() == 0) {
-            lines->add_line(std::make_shared<LineBuffer>());
-        }
-}
-
-double Lowest::calculate_func(const std::vector<double>& data) {
-    if (data.empty()) return 0.0;
-    return *std::min_element(data.begin(), data.end());
-}
+// Note: Lowest implementation moved to dedicated lowest.cpp file
 
 // SumN implementation
 SumN::SumN() : OperationN(), data_source_(nullptr), current_index_(0) {

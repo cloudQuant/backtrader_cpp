@@ -2,6 +2,7 @@
 #include "functions.h"
 #include <algorithm>
 #include <cmath>
+#include <limits>
 
 namespace backtrader {
 
@@ -273,6 +274,28 @@ void StochasticFull::calculate_lines() {
         }
         dslow_line->set(0, sum / params.period_dslow);
     }
+}
+
+// StochasticBase utility methods for test framework compatibility
+double StochasticBase::get(int ago) const {
+    if (!lines || lines->size() == 0) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    auto k_line = lines->getline(percK);
+    if (!k_line) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    return (*k_line)[ago];
+}
+
+int StochasticBase::getMinPeriod() const {
+    return params.period;
+}
+
+void StochasticBase::calculate() {
+    next();
 }
 
 } // namespace backtrader

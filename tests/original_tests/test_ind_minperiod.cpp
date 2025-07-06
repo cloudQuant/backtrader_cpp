@@ -19,6 +19,7 @@
 #include "indicators/stochastic.h"
 #include "indicators/macd.h"
 #include "indicators/highest.h"
+#include "indicators/rsi.h"
 
 using namespace backtrader::tests::original;
 using namespace backtrader;

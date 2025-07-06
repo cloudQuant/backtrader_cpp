@@ -288,6 +288,23 @@ std::shared_ptr<LineSingle> IndicatorBase::getLine(size_t idx) {
     return lines_[idx];
 }
 
+double IndicatorBase::get(int ago) const {
+    if (lines_.empty()) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    auto line = lines_[0];
+    if (!line) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    return (*line)[ago];
+}
+
+int IndicatorBase::getMinPeriod() const {
+    return static_cast<int>(minperiod_);
+}
+
 // ObserverBase implementation
 ObserverBase::ObserverBase() : DataAccessor() {
     _ltype = LineRoot::IndType::ObsType;

@@ -8,6 +8,13 @@ LaguerreRSI::LaguerreRSI() : Indicator(), l0_(0.0), l1_(0.0), l2_(0.0), l3_(0.0)
     _minperiod(params.period);
 }
 
+LaguerreRSI::LaguerreRSI(std::shared_ptr<LineRoot> data, double gamma) 
+    : Indicator(), l0_(0.0), l1_(0.0), l2_(0.0), l3_(0.0) {
+    params.gamma = gamma;
+    setup_lines();
+    _minperiod(params.period);
+}
+
 void LaguerreRSI::setup_lines() {
     if (lines->size() == 0) {
             lines->add_line(std::make_shared<LineBuffer>());
@@ -192,6 +199,27 @@ void LaguerreFilter::once(int start, int end) {
         // Calculate filtered value
         lfilter_line->set(i, (l0 + (2.0 * l1) + (2.0 * l2) + l3) / 6.0);
     }
+}
+
+double LaguerreRSI::get(int ago) const {
+    if (!lines || lines->size() == 0) {
+        return 0.0;
+    }
+    
+    auto lrsi_line = lines->getline(Lines::lrsi);
+    if (!lrsi_line || lrsi_line->size() == 0) {
+        return 0.0;
+    }
+    
+    return (*lrsi_line)[ago];
+}
+
+int LaguerreRSI::getMinPeriod() const {
+    return params.period;
+}
+
+void LaguerreRSI::calculate() {
+    next();
 }
 
 } // namespace backtrader

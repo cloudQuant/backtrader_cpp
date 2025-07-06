@@ -1,4 +1,5 @@
 #include "indicators/crossover.h"
+#include <limits>
 
 namespace backtrader {
 
@@ -78,6 +79,19 @@ void NonZeroDifference::once(int start, int end) {
         }
         nzd_line->set(i, prev);
     }
+}
+
+double NonZeroDifference::get(int ago) const {
+    if (!lines || lines->size() == 0) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    auto nzd_line = lines->getline(nzd);
+    if (!nzd_line) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    return (*nzd_line)[ago];
 }
 
 // CrossBase implementation
@@ -165,6 +179,19 @@ void CrossBase::once(int start, int end) {
         
         cross_line->set(i, cross_detected ? 1.0 : 0.0);
     }
+}
+
+double CrossBase::get(int ago) const {
+    if (!lines || lines->size() == 0) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    auto cross_line = lines->getline(cross);
+    if (!cross_line) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    return (*cross_line)[ago];
 }
 
 // CrossUp implementation

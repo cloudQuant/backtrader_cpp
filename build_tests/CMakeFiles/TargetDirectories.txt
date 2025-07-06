@@ -1,7 +1,0 @@
-/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/build_tests/CMakeFiles/backtrader_core.dir
-/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/build_tests/CMakeFiles/edit_cache.dir
-/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/build_tests/CMakeFiles/rebuild_cache.dir
-/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/build_tests/CMakeFiles/list_install_components.dir
-/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/build_tests/CMakeFiles/install.dir
-/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/build_tests/CMakeFiles/install/local.dir
-/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/build_tests/CMakeFiles/install/strip.dir

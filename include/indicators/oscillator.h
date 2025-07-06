@@ -47,10 +47,13 @@ public:
     enum LineIndex { sma_osc = 0 };
     
     SMAOscillator();
+    SMAOscillator(std::shared_ptr<LineRoot> data, int period = 30);
     virtual ~SMAOscillator() = default;
     
     // Get method for accessing the indicator value
-    double get(int ago = 0) const;
+    double get(int ago = 0) const override;
+    int getMinPeriod() const override;
+    void calculate() override;
     
 protected:
     void next() override;
@@ -70,10 +73,13 @@ public:
     enum LineIndex { ema_osc = 0 };
     
     EMAOscillator();
+    EMAOscillator(std::shared_ptr<LineRoot> data, int period = 30);
     virtual ~EMAOscillator() = default;
     
     // Get method for accessing the indicator value
-    double get(int ago = 0) const;
+    double get(int ago = 0) const override;
+    int getMinPeriod() const override;
+    void calculate() override;
     
 protected:
     void next() override;

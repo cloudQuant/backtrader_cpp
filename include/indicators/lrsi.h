@@ -18,10 +18,13 @@ public:
     };
     
     LaguerreRSI();
+    LaguerreRSI(std::shared_ptr<LineRoot> data, double gamma = 0.5);
     virtual ~LaguerreRSI() = default;
     
     // Get method for accessing the indicator value
     double get(int ago = 0) const;
+    int getMinPeriod() const;
+    void calculate() override;
     
 protected:
     void prenext() override;

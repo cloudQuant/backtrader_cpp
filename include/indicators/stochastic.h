@@ -27,6 +27,11 @@ public:
     StochasticBase();
     virtual ~StochasticBase() = default;
     
+    // Utility methods for test framework compatibility
+    double get(int ago = 0) const;
+    int getMinPeriod() const;
+    void calculate() override;
+    
 protected:
     void prenext() override;
     void next() override;

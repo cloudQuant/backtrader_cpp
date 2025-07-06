@@ -1,4 +1,5 @@
 #include "indicators/kst.h"
+#include <limits>
 
 namespace backtrader {
 
@@ -12,34 +13,103 @@ KnowSureThing::KnowSureThing() : Indicator() {
     _minperiod(max_roc_period + max_ma_period);
     
     // Create ROC indicators
-    roc1_ = std::make_shared<RateOfChange100>();
+    roc1_ = std::make_shared<indicators::RateOfChange100>();
     roc1_->params.period = params.rp1;
     
-    roc2_ = std::make_shared<RateOfChange100>();
+    roc2_ = std::make_shared<indicators::RateOfChange100>();
     roc2_->params.period = params.rp2;
     
-    roc3_ = std::make_shared<RateOfChange100>();
+    roc3_ = std::make_shared<indicators::RateOfChange100>();
     roc3_->params.period = params.rp3;
     
-    roc4_ = std::make_shared<RateOfChange100>();
+    roc4_ = std::make_shared<indicators::RateOfChange100>();
     roc4_->params.period = params.rp4;
     
     // Create SMAs for ROCs
-    rcma1_ = std::make_shared<SMA>();
+    rcma1_ = std::make_shared<indicators::SMA>();
     rcma1_->params.period = params.rma1;
     
-    rcma2_ = std::make_shared<SMA>();
+    rcma2_ = std::make_shared<indicators::SMA>();
     rcma2_->params.period = params.rma2;
     
-    rcma3_ = std::make_shared<SMA>();
+    rcma3_ = std::make_shared<indicators::SMA>();
     rcma3_->params.period = params.rma3;
     
-    rcma4_ = std::make_shared<SMA>();
+    rcma4_ = std::make_shared<indicators::SMA>();
     rcma4_->params.period = params.rma4;
     
     // Create SMA for signal line
-    signal_sma_ = std::make_shared<SMA>();
+    signal_sma_ = std::make_shared<indicators::SMA>();
     signal_sma_->params.period = params.rsignal;
+}
+
+KnowSureThing::KnowSureThing(std::shared_ptr<LineRoot> data) : Indicator() {
+    setup_lines();
+    
+    // Calculate minimum period needed
+    int max_roc_period = std::max({params.rp1, params.rp2, params.rp3, params.rp4});
+    int max_ma_period = std::max({params.rma1, params.rma2, params.rma3, params.rma4});
+    _minperiod(max_roc_period + max_ma_period + params.rsignal);
+    
+    // Create ROC indicators with data
+    roc1_ = std::make_shared<indicators::RateOfChange100>();
+    roc1_->params.period = params.rp1;
+    
+    roc2_ = std::make_shared<indicators::RateOfChange100>();
+    roc2_->params.period = params.rp2;
+    
+    roc3_ = std::make_shared<indicators::RateOfChange100>();
+    roc3_->params.period = params.rp3;
+    
+    roc4_ = std::make_shared<indicators::RateOfChange100>();
+    roc4_->params.period = params.rp4;
+    
+    // Create SMAs for ROCs
+    rcma1_ = std::make_shared<indicators::SMA>();
+    rcma1_->params.period = params.rma1;
+    
+    rcma2_ = std::make_shared<indicators::SMA>();
+    rcma2_->params.period = params.rma2;
+    
+    rcma3_ = std::make_shared<indicators::SMA>();
+    rcma3_->params.period = params.rma3;
+    
+    rcma4_ = std::make_shared<indicators::SMA>();
+    rcma4_->params.period = params.rma4;
+    
+    // Create SMA for signal line
+    signal_sma_ = std::make_shared<indicators::SMA>();
+    signal_sma_->params.period = params.rsignal;
+}
+
+double KnowSureThing::get(int ago) const {
+    if (!lines || lines->size() == 0) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    auto line = lines->getline(Lines::kst);
+    if (!line) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    return (*line)[ago];
+}
+
+int KnowSureThing::getMinPeriod() const {
+    int max_roc_period = std::max({params.rp1, params.rp2, params.rp3, params.rp4});
+    int max_ma_period = std::max({params.rma1, params.rma2, params.rma3, params.rma4});
+    return max_roc_period + max_ma_period + params.rsignal;
+}
+
+void KnowSureThing::calculate() {
+    next();
+}
+
+std::shared_ptr<LineBuffer> KnowSureThing::getLine(int index) const {
+    if (!lines || static_cast<size_t>(index) >= lines->size()) {
+        return nullptr;
+    }
+    return lines->getline(index);
 }
 
 void KnowSureThing::setup_lines() {

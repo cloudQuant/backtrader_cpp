@@ -26,6 +26,8 @@ public:
     MACD();
     // Constructor with data source and parameters (Python-style API)
     MACD(std::shared_ptr<LineSeries> data_source, int fast_period = 12, int slow_period = 26, int signal_period = 9);
+    // Constructor for test framework compatibility (LineRoot parameter)
+    MACD(std::shared_ptr<LineRoot> data_source, int fast_period = 12, int slow_period = 26, int signal_period = 9);
     virtual ~MACD() = default;
     
     // Utility methods for tests
@@ -36,6 +38,7 @@ public:
     // Line access methods for compatibility
     double getMACDLine(int ago = 0) const;
     double getSignalLine(int ago = 0) const;
+    double getHistogram(int ago = 0) const;  // MACD - Signal
     
 protected:
     void prenext() override;
@@ -65,6 +68,8 @@ public:
     };
     
     MACDHisto();
+    // Constructor for test framework compatibility (LineRoot parameter)
+    MACDHisto(std::shared_ptr<LineRoot> data_source, int fast_period = 12, int slow_period = 26, int signal_period = 9);
     virtual ~MACDHisto() = default;
     
     // Get method for accessing the indicator value

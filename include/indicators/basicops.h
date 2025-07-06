@@ -94,31 +94,7 @@ private:
     size_t current_index_;
 };
 
-// Calculate lowest value over period
-class Lowest : public OperationN {
-public:
-    enum LineIndex { lowest = 0 };
-    
-    Lowest();
-    // Constructor for test framework compatibility
-    Lowest(std::shared_ptr<LineRoot> data, int period = 14);
-    virtual ~Lowest() = default;
-    
-    // Utility methods
-    double get(int ago = 0) const;
-    int getMinPeriod() const;
-    void calculate() override;
-    
-protected:
-    double calculate_func(const std::vector<double>& data) override;
-    
-private:
-    void setup_lines();
-    
-    // LineSeries support
-    std::shared_ptr<LineSeries> data_source_;
-    size_t current_index_;
-};
+// Note: Lowest class moved to dedicated lowest.h file
 
 // Calculate sum over period
 class SumN : public OperationN {
@@ -360,7 +336,7 @@ private:
 
 // Aliases
 using MaxN = Highest;
-using MinN = Lowest;
+// MinN alias moved to lowest.h
 using CumSum = Accum;
 using CumulativeSum = Accum;
 using ArithmeticMean = Average;

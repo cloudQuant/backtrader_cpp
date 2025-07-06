@@ -16,6 +16,7 @@
 #include <random>
 
 #include "indicators/lowest.h"
+#include "indicators/highest.h"
 
 
 using namespace backtrader::tests::original;

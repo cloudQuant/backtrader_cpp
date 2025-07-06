@@ -25,6 +25,28 @@ MACD::MACD(std::shared_ptr<LineSeries> data_source, int fast_period, int slow_pe
     _minperiod(params.period_me2 + params.period_signal - 1);
 }
 
+MACD::MACD(std::shared_ptr<LineRoot> data_source, int fast_period, int slow_period, int signal_period) 
+    : Indicator(), data_source_(nullptr), current_index_(0) {
+    params.period_me1 = fast_period;
+    params.period_me2 = slow_period;
+    params.period_signal = signal_period;
+    
+    setup_lines();
+    
+    // Set minimum period (slow EMA period + signal period - 1)
+    _minperiod(params.period_me2 + params.period_signal - 1);
+    
+    // Add the data source as input data
+    if (data_source) {
+        // Convert LineRoot to LineSeries for compatibility
+        auto line_series = std::dynamic_pointer_cast<LineSeries>(data_source);
+        if (line_series) {
+            datas.push_back(line_series);
+            data = line_series;
+        }
+    }
+}
+
 void MACD::setup_lines() {
     // Create 2 lines: macd and signal
     if (lines->size() == 0) {
@@ -171,6 +193,15 @@ MACDHisto::MACDHisto() : MACD() {
     }
 }
 
+MACDHisto::MACDHisto(std::shared_ptr<LineRoot> data_source, int fast_period, int slow_period, int signal_period) 
+    : MACD(data_source, fast_period, slow_period, signal_period) {
+    // Add histogram line (MACD already has macd and signal lines)
+    if (lines->size() < 3) {
+        lines->add_line(std::make_shared<LineBuffer>());  // histo line
+        lines->add_alias("histo", 2);
+    }
+}
+
 void MACDHisto::prenext() {
     MACD::prenext();
 }
@@ -237,6 +268,57 @@ void MACD::calculate() {
     
     // Calculate MACD for the entire dataset using once() method
     once(0, data_line->size());
+}
+
+double MACD::getMACDLine(int ago) const {
+    if (!lines || lines->size() == 0) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    auto macd_line = lines->getline(Lines::macd);
+    if (!macd_line) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    return (*macd_line)[ago];
+}
+
+double MACD::getSignalLine(int ago) const {
+    if (!lines || lines->size() <= Lines::signal) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    auto signal_line = lines->getline(Lines::signal);
+    if (!signal_line) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    return (*signal_line)[ago];
+}
+
+double MACD::getHistogram(int ago) const {
+    // Calculate histogram as MACD - Signal
+    double macd_val = getMACDLine(ago);
+    double signal_val = getSignalLine(ago);
+    
+    if (std::isnan(macd_val) || std::isnan(signal_val)) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    return macd_val - signal_val;
+}
+
+double MACDHisto::get(int ago) const {
+    if (!lines || lines->size() <= histo) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    auto histo_line = lines->getline(histo);
+    if (!histo_line) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    return (*histo_line)[ago];
 }
 
 } // namespace indicators

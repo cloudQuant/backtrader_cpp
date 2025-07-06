@@ -254,6 +254,48 @@ RateOfChange100::RateOfChange100() : Indicator() {
     _minperiod(params.period + 1);
 }
 
+RateOfChange100::RateOfChange100(std::shared_ptr<LineRoot> data) : Indicator() {
+    setup_lines();
+    
+    // Create underlying ROC indicator
+    roc_indicator_ = std::make_shared<RateOfChange>();
+    roc_indicator_->params.period = params.period;
+    
+    _minperiod(params.period + 1);
+}
+
+RateOfChange100::RateOfChange100(std::shared_ptr<LineRoot> data, int period) : Indicator() {
+    params.period = period;
+    setup_lines();
+    
+    // Create underlying ROC indicator
+    roc_indicator_ = std::make_shared<RateOfChange>();
+    roc_indicator_->params.period = params.period;
+    
+    _minperiod(params.period + 1);
+}
+
+double RateOfChange100::get(int ago) const {
+    if (!lines || lines->size() == 0) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    auto line = lines->getline(roc100);
+    if (!line) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    return (*line)[ago];
+}
+
+int RateOfChange100::getMinPeriod() const {
+    return params.period + 1;
+}
+
+void RateOfChange100::calculate() {
+    next();
+}
+
 void RateOfChange100::setup_lines() {
     if (lines->size() == 0) {
             lines->add_line(std::make_shared<LineBuffer>());
