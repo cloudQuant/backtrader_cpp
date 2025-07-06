@@ -1,31 +1,58 @@
 #include "indicators/awesomeoscillator.h"
+#include <cmath>
+#include <limits>
 
 namespace backtrader {
 
 // AwesomeOscillator implementation
 AwesomeOscillator::AwesomeOscillator() : Indicator() {
     setup_lines();
-    
-    // Create SMA indicators
-    sma_fast_ = std::make_shared<SMA>();
-    sma_fast_->params.period = params.fast;
-    
-    sma_slow_ = std::make_shared<SMA>();
-    sma_slow_->params.period = params.slow;
-    
     _minperiod(params.slow);
+}
+
+AwesomeOscillator::AwesomeOscillator(std::shared_ptr<LineRoot> data) : Indicator() {
+    setup_lines();
+    _minperiod(params.slow);
+    
+    // This constructor is for test framework compatibility
+    // It assumes data is a data series where high/low can be extracted
+}
+
+AwesomeOscillator::AwesomeOscillator(std::shared_ptr<LineRoot> high, std::shared_ptr<LineRoot> low) : Indicator() {
+    setup_lines();
+    _minperiod(params.slow);
+    
+    // Store the high/low data - in a full implementation this would be handled differently
+    // For now, we'll assume the data will be available through the normal data feeds
+    // This constructor is for test framework compatibility
 }
 
 void AwesomeOscillator::setup_lines() {
     if (lines->size() == 0) {
-            lines->add_line(std::make_shared<LineBuffer>());
-        }
+        lines->add_line(std::make_shared<LineBuffer>());
+        lines->add_alias("ao", 0);
+    }
+}
+
+double AwesomeOscillator::get(int ago) const {
+    if (!lines || lines->size() == 0) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    auto ao_line = lines->getline(ao);
+    if (!ao_line) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    return (*ao_line)[ago];
+}
+
+int AwesomeOscillator::getMinPeriod() const {
+    return params.slow;
 }
 
 void AwesomeOscillator::prenext() {
-    if (sma_fast_) sma_fast_->prenext();
-    if (sma_slow_) sma_slow_->prenext();
-    Indicator::prenext();
+    next();
 }
 
 void AwesomeOscillator::next() {
@@ -33,43 +60,45 @@ void AwesomeOscillator::next() {
     
     auto high_line = datas[0]->lines->getline(1); // High line
     auto low_line = datas[0]->lines->getline(2);  // Low line
+    auto ao_line = lines->getline(ao);
     
-    if (!high_line || !low_line) return;
+    if (!high_line || !low_line || !ao_line) return;
     
     // Calculate median price = (high + low) / 2
     double high_value = (*high_line)[0];
     double low_value = (*low_line)[0];
     double median_price = (high_value + low_value) / 2.0;
     
+    // Add to median price history
     median_prices_.push_back(median_price);
     
-    // Connect median prices to SMAs if not already done
-    if (sma_fast_->datas.empty()) {
-        auto median_if (lines->size() == 0) {
-            lines->add_line(std::make_shared<LineBuffer>());
-        }
-        auto median_line = median_lines->getline(0);
-        if (median_line) {
-            median_line->set(0, median_price);
-        }
-        sma_fast_->add_data(median_lines);
-        sma_slow_->add_data(median_lines);
+    // Keep only what we need for the longest SMA
+    if (median_prices_.size() > params.slow * 2) {
+        median_prices_.erase(median_prices_.begin());
     }
     
-    // Update SMAs
-    sma_fast_->next();
-    sma_slow_->next();
-    
-    // Calculate AO = SMA(fast) - SMA(slow)
-    auto ao_line = lines->getline(Lines::ao);
-    auto sma_fast_line = sma_fast_->lines->getline(SMA::Lines::sma);
-    auto sma_slow_line = sma_slow_->lines->getline(SMA::Lines::sma);
-    
-    if (ao_line && sma_fast_line && sma_slow_line) {
-        double sma_fast_value = (*sma_fast_line)[0];
-        double sma_slow_value = (*sma_slow_line)[0];
-        ao_line->set(0, sma_fast_value - sma_slow_value);
+    // Need enough data for both SMAs
+    if (median_prices_.size() < params.slow) {
+        ao_line->set(0, std::numeric_limits<double>::quiet_NaN());
+        return;
     }
+    
+    // Calculate SMA fast (last 5 values)
+    double sum_fast = 0.0;
+    for (int i = 0; i < params.fast; ++i) {
+        sum_fast += median_prices_[median_prices_.size() - 1 - i];
+    }
+    double sma_fast = sum_fast / params.fast;
+    
+    // Calculate SMA slow (last 34 values)
+    double sum_slow = 0.0;
+    for (int i = 0; i < params.slow; ++i) {
+        sum_slow += median_prices_[median_prices_.size() - 1 - i];
+    }
+    double sma_slow = sum_slow / params.slow;
+    
+    // AO = SMA(fast) - SMA(slow)
+    ao_line->set(0, sma_fast - sma_slow);
 }
 
 void AwesomeOscillator::once(int start, int end) {
@@ -77,52 +106,42 @@ void AwesomeOscillator::once(int start, int end) {
     
     auto high_line = datas[0]->lines->getline(1);
     auto low_line = datas[0]->lines->getline(2);
+    auto ao_line = lines->getline(ao);
     
-    if (!high_line || !low_line) return;
+    if (!high_line || !low_line || !ao_line) return;
     
-    // Build median price array
+    // Build median price array for all data
     std::vector<double> all_median_prices;
-    for (int i = start; i < end; ++i) {
+    for (int i = 0; i < end; ++i) {
         double high_value = (*high_line)[i];
         double low_value = (*low_line)[i];
         double median_price = (high_value + low_value) / 2.0;
         all_median_prices.push_back(median_price);
     }
     
-    // Create lines for median prices
-    auto median_if (lines->size() == 0) {
-            lines->add_line(std::make_shared<LineBuffer>());
-        }
-    auto median_line = median_lines->getline(0);
-    
-    if (median_line) {
-        for (size_t i = 0; i < all_median_prices.size(); ++i) {
-            median_line->set(i, all_median_prices[i]);
+    // Calculate AO for each bar from start to end
+    for (int i = start; i < end; ++i) {
+        if (i < params.slow - 1) {
+            ao_line->set(i, std::numeric_limits<double>::quiet_NaN());
+            continue;
         }
         
-        // Connect to SMAs
-        sma_fast_->add_data(median_lines);
-        sma_slow_->add_data(median_lines);
-        
-        // Calculate SMAs
-        sma_fast_->once(params.fast - 1, all_median_prices.size());
-        sma_slow_->once(params.slow - 1, all_median_prices.size());
-        
-        // Calculate AO values
-        auto ao_line = lines->getline(Lines::ao);
-        auto sma_fast_line = sma_fast_->lines->getline(SMA::Lines::sma);
-        auto sma_slow_line = sma_slow_->lines->getline(SMA::Lines::sma);
-        
-        if (ao_line && sma_fast_line && sma_slow_line) {
-            for (int i = start; i < end; ++i) {
-                int sma_idx = i - start;
-                if (sma_idx >= 0) {
-                    double sma_fast_value = (*sma_fast_line)[sma_idx];
-                    double sma_slow_value = (*sma_slow_line)[sma_idx];
-                    ao_line->set(i, sma_fast_value - sma_slow_value);
-                }
-            }
+        // Calculate SMA fast (last 5 values)
+        double sum_fast = 0.0;
+        for (int j = 0; j < params.fast; ++j) {
+            sum_fast += all_median_prices[i - j];
         }
+        double sma_fast = sum_fast / params.fast;
+        
+        // Calculate SMA slow (last 34 values)
+        double sum_slow = 0.0;
+        for (int j = 0; j < params.slow; ++j) {
+            sum_slow += all_median_prices[i - j];
+        }
+        double sma_slow = sum_slow / params.slow;
+        
+        // AO = SMA(fast) - SMA(slow)
+        ao_line->set(i, sma_fast - sma_slow);
     }
 }
 

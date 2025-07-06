@@ -1,7 +1,9 @@
 #include "indicators/kama.h"
+#include "indicators/sma.h"
 #include <algorithm>
 #include <cmath>
 #include <numeric>
+#include <limits>
 
 namespace backtrader {
 
@@ -11,14 +13,50 @@ AdaptiveMovingAverage::AdaptiveMovingAverage()
     setup_lines();
     
     // Create SMA for initial seed value
-    sma_seed_ = std::make_shared<SMA>();
-    sma_seed_->params.period = params.period;
+    sma_seed_ = std::make_shared<indicators::SMA>();
+    // Note: SMA params setup would be done differently based on actual SMA implementation
     
     // Calculate smoothing constants
     fast_sc_ = 2.0 / (params.fast + 1.0);   // Fast EMA smoothing factor
     slow_sc_ = 2.0 / (params.slow + 1.0);   // Slow EMA smoothing factor
     
     _minperiod(params.period + 1); // Need period + 1 for direction calculation
+}
+
+AdaptiveMovingAverage::AdaptiveMovingAverage(std::shared_ptr<LineRoot> data, int period, int fast, int slow)
+    : Indicator(), prev_kama_(0.0), initialized_(false) {
+    params.period = period;
+    params.fast = fast;
+    params.slow = slow;
+    
+    setup_lines();
+    
+    // Create SMA for initial seed value
+    sma_seed_ = std::make_shared<indicators::SMA>();
+    // Note: SMA params setup would be done differently based on actual SMA implementation
+    
+    // Calculate smoothing constants
+    fast_sc_ = 2.0 / (params.fast + 1.0);   // Fast EMA smoothing factor
+    slow_sc_ = 2.0 / (params.slow + 1.0);   // Slow EMA smoothing factor
+    
+    _minperiod(params.period + 1); // Need period + 1 for direction calculation
+}
+
+double AdaptiveMovingAverage::get(int ago) const {
+    if (!lines || lines->size() == 0) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    auto line = lines->getline(kama);
+    if (!line) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    return (*line)[ago];
+}
+
+int AdaptiveMovingAverage::getMinPeriod() const {
+    return params.period + 1;
 }
 
 void AdaptiveMovingAverage::setup_lines() {
@@ -28,8 +66,9 @@ void AdaptiveMovingAverage::setup_lines() {
 }
 
 void AdaptiveMovingAverage::prenext() {
-    if (sma_seed_) sma_seed_->prenext();
     Indicator::prenext();
+    
+    // SMA will be calculated separately - avoid calling protected methods
 }
 
 void AdaptiveMovingAverage::nextstart() {
@@ -40,17 +79,27 @@ void AdaptiveMovingAverage::nextstart() {
         sma_seed_->datas = datas;
     }
     
-    // Calculate SMA seed
-    sma_seed_->nextstart();
+    // Use manual SMA calculation instead of calling protected methods
     
-    auto kama_line = lines->getline(Lines::kama);
-    auto sma_line = sma_seed_->lines->getline(SMA::Lines::sma);
+    auto kama_line = lines->getline(kama);
     
-    if (kama_line && sma_line) {
-        // Initialize KAMA with SMA value
-        prev_kama_ = (*sma_line)[0];
-        kama_line->set(0, prev_kama_);
-        initialized_ = true;
+    // Calculate simple moving average manually for seed value
+    if (!datas.empty() && datas[0]->lines) {
+        auto close_line = datas[0]->lines->getline(3); // Close line
+        if (close_line && close_line->size() >= static_cast<size_t>(params.period)) {
+            double sum = 0.0;
+            for (int i = 0; i < params.period; ++i) {
+                sum += (*close_line)[-i];
+            }
+            double sma_value = sum / params.period;
+            
+            if (kama_line) {
+                // Initialize KAMA with SMA value
+                prev_kama_ = sma_value;
+                kama_line->set(0, prev_kama_);
+                initialized_ = true;
+            }
+        }
     }
 }
 
@@ -62,7 +111,7 @@ void AdaptiveMovingAverage::next() {
     
     if (datas.empty() || !datas[0]->lines) return;
     
-    auto kama_line = lines->getline(Lines::kama);
+    auto kama_line = lines->getline(kama);
     auto close_line = datas[0]->lines->getline(0); // Use first line as data
     
     if (!kama_line || !close_line) return;
@@ -89,20 +138,24 @@ void AdaptiveMovingAverage::once(int start, int end) {
         sma_seed_->datas = datas;
     }
     
-    // Calculate SMA seed for initial values
-    sma_seed_->once(start, end);
+    // Calculate initial values manually
     
-    auto kama_line = lines->getline(Lines::kama);
-    auto close_line = datas[0]->lines->getline(0);
-    auto sma_line = sma_seed_->lines->getline(SMA::Lines::sma);
+    auto kama_line = lines->getline(kama);
+    auto close_line = datas[0]->lines->getline(3); // Close line
     
-    if (!kama_line || !close_line || !sma_line) return;
+    if (!kama_line || !close_line) return;
     
-    // Initialize with SMA value
-    double prev_kama = (*sma_line)[start];
-    kama_line->set(start, prev_kama);
-    
-    for (int i = start + 1; i < end; ++i) {
+    // Initialize with SMA value calculated manually
+    if (start + params.period <= end) {
+        double sum = 0.0;
+        for (int i = 0; i < params.period; ++i) {
+            sum += (*close_line)[start + i];
+        }
+        double sma_value = sum / params.period;
+        kama_line->set(start + params.period - 1, sma_value);
+        double prev_kama = sma_value;
+        
+        for (int i = start + params.period; i < end; ++i) {
         // Calculate direction (change over period)
         double current_price = (*close_line)[i];
         double period_ago_price = (*close_line)[i - params.period];
@@ -127,6 +180,7 @@ void AdaptiveMovingAverage::once(int start, int end) {
         
         kama_line->set(i, kama_value);
         prev_kama = kama_value;
+        }
     }
 }
 

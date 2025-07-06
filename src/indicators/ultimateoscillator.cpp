@@ -38,7 +38,7 @@ double UltimateOscillator::get(int ago) const {
         return std::numeric_limits<double>::quiet_NaN();
     }
     
-    auto line = lines->getline(Lines::uo);
+    auto line = lines->getline(uo);
     if (!line) {
         return std::numeric_limits<double>::quiet_NaN();
     }
@@ -116,7 +116,7 @@ void UltimateOscillator::next() {
     auto high_line = datas[0]->lines->getline(1);   // High
     auto low_line = datas[0]->lines->getline(2);    // Low  
     auto close_line = datas[0]->lines->getline(3);  // Close
-    auto uo_line = lines->getline(Lines::uo);
+    auto uo_line = lines->getline(uo);
     
     if (!high_line || !low_line || !close_line || !uo_line) return;
     
@@ -175,7 +175,7 @@ void UltimateOscillator::once(int start, int end) {
     auto high_line = datas[0]->lines->getline(1);   // High
     auto low_line = datas[0]->lines->getline(2);    // Low  
     auto close_line = datas[0]->lines->getline(3);  // Close
-    auto uo_line = lines->getline(Lines::uo);
+    auto uo_line = lines->getline(uo);
     
     if (!high_line || !low_line || !close_line || !uo_line) return;
     

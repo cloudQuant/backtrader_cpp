@@ -22,7 +22,7 @@ double PercentChange::get(int ago) const {
         return std::numeric_limits<double>::quiet_NaN();
     }
     
-    auto line = lines->getline(Lines::pctchange);
+    auto line = lines->getline(pctchange);
     if (!line) {
         return std::numeric_limits<double>::quiet_NaN();
     }
@@ -58,7 +58,7 @@ void PercentChange::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto pctchange_line = lines->getline(Lines::pctchange);
+    auto pctchange_line = lines->getline(pctchange);
     
     if (data_line && pctchange_line) {
         double current_value = (*data_line)[0];
@@ -78,7 +78,7 @@ void PercentChange::once(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto pctchange_line = lines->getline(Lines::pctchange);
+    auto pctchange_line = lines->getline(pctchange);
     
     if (!data_line || !pctchange_line) return;
     

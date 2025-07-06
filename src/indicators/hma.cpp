@@ -18,12 +18,19 @@ HullMovingAverage::HullMovingAverage(std::shared_ptr<LineSeries> data_source, in
     _minperiod(params.period);
 }
 
+HullMovingAverage::HullMovingAverage(std::shared_ptr<LineRoot> data, int period) 
+    : Indicator(), data_source_(nullptr), current_index_(0) {
+    params.period = period;
+    setup_lines();
+    _minperiod(params.period);
+}
+
 double HullMovingAverage::get(int ago) const {
     if (!lines || lines->size() == 0) {
         return std::numeric_limits<double>::quiet_NaN();
     }
     
-    auto line = lines->getline(Lines::hma);
+    auto line = lines->getline(hma);
     if (!line) {
         return std::numeric_limits<double>::quiet_NaN();
     }
@@ -61,7 +68,7 @@ void HullMovingAverage::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_lines = datas[0]->lines;
-    auto hma_line = lines->getline(Lines::hma);
+    auto hma_line = lines->getline(hma);
     
     if (!hma_line) return;
     
@@ -95,7 +102,7 @@ void HullMovingAverage::once(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_lines = datas[0]->lines;
-    auto hma_line = lines->getline(Lines::hma);
+    auto hma_line = lines->getline(hma);
     
     if (!hma_line) return;
     

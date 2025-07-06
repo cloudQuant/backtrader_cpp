@@ -11,7 +11,7 @@
 
 #include "test_common.h"
 #include "strategy.h"
-#include "cerebro/Cerebro.h"
+#include "cerebro.h"
 #include "indicators/sma.h"
 #include "writers/WriterStringIO.h"
 #include "writers/CSVWriter.h"
@@ -25,10 +25,10 @@ using namespace backtrader::indicators;
 using namespace backtrader::tests::original;
 
 // 测试策略类
-class WriterTestStrategy : public Strategy {
+class WriterTestStrategy : public backtrader::Strategy {
 private:
     bool main_;
-    std::shared_ptr<indicators::SMA> sma_;
+    std::shared_ptr<backtrader::indicators::SMA> sma_;
 
 public:
     struct Params {
@@ -39,7 +39,7 @@ public:
 
     void init() override {
         // 创建SMA指标（使用默认参数）
-        sma_ = std::make_shared<indicators::SMA>(data(0));
+        sma_ = std::make_shared<backtrader::indicators::SMA>(data(0));
     }
 
     void next() override {
@@ -51,9 +51,9 @@ public:
 };
 
 // 运行写入器测试的辅助函数
-std::unique_ptr<Cerebro> runWriterTest(bool main = false, bool print_output = false) {
-    auto cerebro = std::make_unique<Cerebro>();
-    auto csv_data = getdata(0);
+std::unique_ptr<backtrader::Cerebro> runWriterTest(bool main = false, bool print_output = false) {
+    auto cerebro = std::make_unique<backtrader::Cerebro>();
+    auto csv_data = getdata_feed(0);
     cerebro->adddata(csv_data);
 
     // 设置策略参数
@@ -146,10 +146,10 @@ TEST(OriginalTests, Writer_OutputContent) {
 
 // 测试多个数据源的写入器
 TEST(OriginalTests, Writer_MultipleDataFeeds) {
-    auto cerebro = std::make_unique<Cerebro>();
+    auto cerebro = std::make_unique<backtrader::Cerebro>();
     
     // 添加单个数据源（对应chkdatas = 1）
-    auto csv_data = getdata(0);
+    auto csv_data = getdata_feed(0);
     cerebro->adddata(csv_data);
 
     WriterTestStrategy::Params params;
@@ -248,8 +248,8 @@ TEST(OriginalTests, Writer_LineCountValidation) {
 
 // 测试写入器配置
 TEST(OriginalTests, Writer_Configuration) {
-    auto cerebro = std::make_unique<Cerebro>();
-    auto csv_data = getdata(0);
+    auto cerebro = std::make_unique<backtrader::Cerebro>();
+    auto csv_data = getdata_feed(0);
     cerebro->adddata(csv_data);
 
     WriterTestStrategy::Params params;
@@ -366,7 +366,7 @@ TEST(OriginalTests, Writer_Performance) {
 // 测试写入器边界条件
 TEST(OriginalTests, Writer_EdgeCases) {
     // 测试无数据情况
-    auto cerebro = std::make_unique<Cerebro>();
+    auto cerebro = std::make_unique<backtrader::Cerebro>();
     
     // 不添加数据源，只添加策略和写入器
     WriterTestStrategy::Params params;
@@ -385,8 +385,8 @@ TEST(OriginalTests, Writer_EdgeCases) {
 
 // 测试多个写入器
 TEST(OriginalTests, Writer_MultipleWriters) {
-    auto cerebro = std::make_unique<Cerebro>();
-    auto csv_data = getdata(0);
+    auto cerebro = std::make_unique<backtrader::Cerebro>();
+    auto csv_data = getdata_feed(0);
     cerebro->adddata(csv_data);
 
     WriterTestStrategy::Params params;

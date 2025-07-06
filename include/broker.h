@@ -173,7 +173,7 @@ private:
     void _update_position(std::shared_ptr<Order> order, double size, double price);
 };
 
-// Broker alias
+// Broker aliases
 using BrokerBack = BackBroker;
 
 } // namespace backtrader

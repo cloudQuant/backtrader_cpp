@@ -13,23 +13,41 @@
  * 注：AccelerationDecelerationOscillator (AC) 是比尔·威廉姆斯的加速/减速振荡器
  */
 
-#include "test_common_simple.h"
-#include "indicators/accelerationdecelerationoscillator.h"
+#include "test_common.h"
+#include "indicators/accdecoscillator.h"
 #include "indicators/awesomeoscillator.h"
 #include <numeric>
 #include <random>
 #include <tuple>
 
 using namespace backtrader::tests::original;
-using namespace backtrader::indicators;
+using namespace backtrader;
 
 // 特化TestStrategy模板以支持AccelerationDecelerationOscillator的特殊构造参数
 template<>
 void TestStrategy<AccelerationDecelerationOscillator>::init() {
     auto data = this->data(0);
-    if (data && data->high() && data->low()) {
-        indicator_ = std::make_shared<AccelerationDecelerationOscillator>(data->high(), data->low());
-        addIndicator(indicator_);
+    if (data && data->lines && data->lines->size() >= 3) {
+        // Get the high and low lines from the data
+        auto high_line = data->lines->getline(1);  // High is typically line 1
+        auto low_line = data->lines->getline(2);   // Low is typically line 2
+        
+        if (high_line && low_line) {
+            // Cast to LineRoot for constructor compatibility
+            auto high_root = std::dynamic_pointer_cast<LineRoot>(high_line);
+            auto low_root = std::dynamic_pointer_cast<LineRoot>(low_line);
+            
+            if (high_root && low_root) {
+                indicator_ = std::make_shared<AccelerationDecelerationOscillator>(high_root, low_root);
+            } else {
+                // Fallback: create default constructor
+                indicator_ = std::make_shared<AccelerationDecelerationOscillator>();
+            }
+        } else {
+            indicator_ = std::make_shared<AccelerationDecelerationOscillator>();
+        }
+    } else {
+        indicator_ = std::make_shared<AccelerationDecelerationOscillator>();
     }
 }
 
@@ -61,8 +79,8 @@ TEST(OriginalTests, AccDecOsc_Manual) {
     ASSERT_FALSE(csv_data.empty());
     
     // 创建HL数据线
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -121,8 +139,8 @@ TEST(OriginalTests, AccDecOsc_CalculationLogic) {
         hl_data.push_back({base + 3.0, base - 2.0});
     }
     
-    auto high_line = std::make_shared<LineRoot>(hl_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(hl_data.size(), "low");
+    auto high_line = std::make_shared<backtrader::LineRoot>(hl_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(hl_data.size(), "low");
     
     for (const auto& [h, l] : hl_data) {
         high_line->forward(h);
@@ -133,7 +151,7 @@ TEST(OriginalTests, AccDecOsc_CalculationLogic) {
     
     // AC = AO - SMA(AO, 5)
     // 其中 AO = SMA(HL2, 5) - SMA(HL2, 34)
-    auto hl2_line = std::make_shared<LineRoot>(hl_data.size(), "hl2");
+    auto hl2_line = std::make_shared<backtrader::LineRoot>(hl_data.size(), "hl2");
     for (const auto& [h, l] : hl_data) {
         hl2_line->forward((h + l) / 2.0);
     }
@@ -166,8 +184,8 @@ TEST(OriginalTests, AccDecOsc_CalculationLogic) {
 // AccelerationDecelerationOscillator信号分析测试
 TEST(OriginalTests, AccDecOsc_SignalAnalysis) {
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -270,8 +288,8 @@ TEST(OriginalTests, AccDecOsc_MomentumChanges) {
         momentum_data.push_back({base + 3.0, base - 2.0});
     }
     
-    auto momentum_high = std::make_shared<LineRoot>(momentum_data.size(), "high");
-    auto momentum_low = std::make_shared<LineRoot>(momentum_data.size(), "low");
+    auto momentum_high = std::make_shared<backtrader::LineRoot>(momentum_data.size(), "high");
+    auto momentum_low = std::make_shared<backtrader::LineRoot>(momentum_data.size(), "low");
     
     for (const auto& [h, l] : momentum_data) {
         momentum_high->forward(h);
@@ -321,8 +339,8 @@ TEST(OriginalTests, AccDecOsc_MomentumChanges) {
 // AccelerationDecelerationOscillator与AwesomeOscillator关系测试
 TEST(OriginalTests, AccDecOsc_vs_AO_Relationship) {
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -397,8 +415,8 @@ TEST(OriginalTests, AccDecOsc_TrendConfirmation) {
         trend_data.push_back({base + 4.0, base - 3.0});
     }
     
-    auto trend_high = std::make_shared<LineRoot>(trend_data.size(), "high");
-    auto trend_low = std::make_shared<LineRoot>(trend_data.size(), "low");
+    auto trend_high = std::make_shared<backtrader::LineRoot>(trend_data.size(), "high");
+    auto trend_low = std::make_shared<backtrader::LineRoot>(trend_data.size(), "low");
     
     for (const auto& [h, l] : trend_data) {
         trend_high->forward(h);
@@ -448,8 +466,8 @@ TEST(OriginalTests, AccDecOsc_TrendConfirmation) {
 // AccelerationDecelerationOscillator发散分析测试
 TEST(OriginalTests, AccDecOsc_DivergenceAnalysis) {
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -524,8 +542,8 @@ TEST(OriginalTests, AccDecOsc_EdgeCases) {
     // 测试相同HL的情况
     std::vector<std::tuple<double, double>> flat_data(50, {100.0, 100.0});
     
-    auto flat_high = std::make_shared<LineRoot>(flat_data.size(), "flat_high");
-    auto flat_low = std::make_shared<LineRoot>(flat_data.size(), "flat_low");
+    auto flat_high = std::make_shared<backtrader::LineRoot>(flat_data.size(), "flat_high");
+    auto flat_low = std::make_shared<backtrader::LineRoot>(flat_data.size(), "flat_low");
     
     for (const auto& [h, l] : flat_data) {
         flat_high->forward(h);
@@ -550,8 +568,8 @@ TEST(OriginalTests, AccDecOsc_EdgeCases) {
     }
     
     // 测试数据不足的情况
-    auto insufficient_high = std::make_shared<LineRoot>(40, "insufficient_high");
-    auto insufficient_low = std::make_shared<LineRoot>(40, "insufficient_low");
+    auto insufficient_high = std::make_shared<backtrader::LineRoot>(40, "insufficient_high");
+    auto insufficient_low = std::make_shared<backtrader::LineRoot>(40, "insufficient_low");
     
     // 只添加少量数据点
     for (int i = 0; i < 30; ++i) {
@@ -592,8 +610,8 @@ TEST(OriginalTests, AccDecOsc_Performance) {
         });
     }
     
-    auto large_high = std::make_shared<LineRoot>(large_data.size(), "large_high");
-    auto large_low = std::make_shared<LineRoot>(large_data.size(), "large_low");
+    auto large_high = std::make_shared<backtrader::LineRoot>(large_data.size(), "large_high");
+    auto large_low = std::make_shared<backtrader::LineRoot>(large_data.size(), "large_low");
     
     for (const auto& [h, l] : large_data) {
         large_high->forward(h);

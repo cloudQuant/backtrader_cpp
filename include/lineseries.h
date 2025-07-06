@@ -7,6 +7,7 @@
 #include <string>
 #include <map>
 #include <functional>
+#include <limits>
 
 namespace backtrader {
 
@@ -115,6 +116,15 @@ public:
     
     // CSV output support
     bool csv = false;
+    
+    // OHLCV accessor methods (virtual, default NaN - override in DataSeries)
+    virtual double datetime(int ago = 0) const { return 0.0; }
+    virtual double open(int ago = 0) const { return std::numeric_limits<double>::quiet_NaN(); }
+    virtual double high(int ago = 0) const { return std::numeric_limits<double>::quiet_NaN(); }
+    virtual double low(int ago = 0) const { return std::numeric_limits<double>::quiet_NaN(); }
+    virtual double close(int ago = 0) const { return std::numeric_limits<double>::quiet_NaN(); }
+    virtual double volume(int ago = 0) const { return 0.0; }
+    virtual double openinterest(int ago = 0) const { return 0.0; }
     
 protected:
     void _init_lines();

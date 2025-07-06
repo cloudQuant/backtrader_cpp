@@ -1,4 +1,5 @@
 #include "comminfo.h"
+#include "position.h"
 #include <cmath>
 #include <sstream>
 #include <iomanip>
@@ -15,6 +16,8 @@ CommInfo::CommInfo(double commission_val,
       percabs(percabs_val), stocklike(stocklike_val) {
 }
 
+CommInfo::~CommInfo() {}
+
 double CommInfo::getcommission(double size, double price) const {
     return _getcommission(size, price, false);
 }
@@ -28,7 +31,13 @@ double CommInfo::getmargin(double price) const {
 }
 
 double CommInfo::getoperationcost(double size, double price) const {
-    return getcommission(size, price) + getmargin(price);
+    if (stocklike) {
+        // For stocks, operation cost is the full value of the position
+        return std::abs(size) * price;
+    } else {
+        // For futures/forex, operation cost is the margin requirement
+        return std::abs(size) * getmargin(price);
+    }
 }
 
 double CommInfo::getsize(double price, double cash) const {
@@ -53,8 +62,19 @@ double CommInfo::getvalue(double size, double price) const {
     return getvaluesize(size, price);
 }
 
+double CommInfo::getvalue(std::shared_ptr<Position> pos, double price) const {
+    if (!pos) return 0.0;
+    return getvaluesize(pos->size, price);
+}
+
 double CommInfo::getvaluesize(double size, double price) const {
-    return std::abs(size) * price * mult;
+    if (stocklike) {
+        // For stocks, value is size * price
+        return std::abs(size) * price;
+    } else {
+        // For futures/forex, value is size * margin
+        return std::abs(size) * getmargin(price);
+    }
 }
 
 double CommInfo::profitandloss(double size, double price, double newprice) const {
@@ -71,6 +91,12 @@ double CommInfo::cashadjust(double size, double price, double newprice) const {
 double CommInfo::get_credit_interest(double data, double pos, double dt) const {
     // Placeholder for interest calculation
     return 0.0;
+}
+
+double CommInfo::get_credit_interest(std::shared_ptr<Position> pos, double price, int days) const {
+    if (!pos) return 0.0;
+    // Calculate interest: size * price * interest_rate * days / 365
+    return pos->size * price * interest * days / 365.0;
 }
 
 std::shared_ptr<CommInfo> CommInfo::clone() const {

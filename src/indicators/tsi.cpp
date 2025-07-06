@@ -96,9 +96,9 @@ void TrueStrengthIndicator::next() {
     sm22_->next();
     
     // Calculate TSI
-    auto tsi_line = lines->getline(Lines::tsi);
-    auto sm12_line = sm12_->lines->getline(EMA::Lines::ema);
-    auto sm22_line = sm22_->lines->getline(EMA::Lines::ema);
+    auto tsi_line = lines->getline(tsi);
+    auto sm12_line = sm12_->lines->getline(EMA::ema);
+    auto sm22_line = sm22_->lines->getline(EMA::ema);
     
     if (tsi_line && sm12_line && sm22_line) {
         double sm12_value = (*sm12_line)[0];
@@ -169,9 +169,9 @@ void TrueStrengthIndicator::once(int start, int end) {
         sm22_->once(params.period1 - 1, all_abs_price_changes.size());
         
         // Calculate TSI values
-        auto tsi_line = lines->getline(Lines::tsi);
-        auto sm12_line = sm12_->lines->getline(EMA::Lines::ema);
-        auto sm22_line = sm22_->lines->getline(EMA::Lines::ema);
+        auto tsi_line = lines->getline(tsi);
+        auto sm12_line = sm12_->lines->getline(EMA::ema);
+        auto sm22_line = sm22_->lines->getline(EMA::ema);
         
         if (tsi_line && sm12_line && sm22_line) {
             for (int i = start; i < end; ++i) {

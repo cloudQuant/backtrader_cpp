@@ -21,6 +21,9 @@ public:
     Vortex();
     virtual ~Vortex() = default;
     
+    // Get method for accessing the indicator value
+    double get(int ago = 0) const;
+    
 protected:
     void prenext() override;
     void next() override;

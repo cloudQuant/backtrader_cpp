@@ -19,7 +19,7 @@
  * - Custom strategy implementation
  * - Technical indicator usage
  * - Order management
- * - Position tracking
+ * - backtrader::Position tracking
  * - Performance analysis
  */
 class SMAStrategy : public backtrader::Strategy {
@@ -40,7 +40,7 @@ public:
         std::cout << "Starting SMA Strategy:" << std::endl;
         std::cout << "  Short SMA: " << params_.short_period << " periods" << std::endl;
         std::cout << "  Long SMA: " << params_.long_period << " periods" << std::endl;
-        std::cout << "  Position size: " << params_.stake << " shares" << std::endl;
+        std::cout << "  backtrader::Position size: " << params_.stake << " shares" << std::endl;
         std::cout << "  Initial cash: $" << broker->get_cash() << std::endl;
         std::cout << std::endl;
     }

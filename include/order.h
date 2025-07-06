@@ -74,6 +74,9 @@ public:
 // Main Order class
 class Order {
 public:
+    // Type aliases for compatibility
+    using Status = OrderStatus;
+    
     // Order creation parameters
     std::shared_ptr<DataSeries> data;
     double size = 0.0;
@@ -117,6 +120,9 @@ public:
     
     // String representation
     std::string to_string() const;
+    
+    // Status string utility
+    static std::string status_string(OrderStatus status);
     
     // Clone order
     std::shared_ptr<Order> clone() const;

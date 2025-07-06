@@ -59,6 +59,12 @@ double Strategy::getpositionbyname(const std::string& name) const {
     return 0.0;
 }
 
+std::shared_ptr<Position> Strategy::position(std::shared_ptr<DataSeries> data) const {
+    // This would return the Position object for the given data
+    // For now, return nullptr as a placeholder since Position class isn't fully implemented
+    return nullptr;
+}
+
 double Strategy::getcash() const {
     // This would return the current cash balance
     // Would query the broker for cash information
@@ -75,6 +81,32 @@ double Strategy::getvalue() const {
         // return broker->getvalue();
     }
     return 0.0;
+}
+
+std::shared_ptr<LineSeries> Strategy::data(int idx) const {
+    if (idx >= 0 && idx < static_cast<int>(datas.size())) {
+        return datas[idx];
+    }
+    return nullptr;
+}
+
+size_t Strategy::len() const {
+    if (!datas.empty() && datas[0]) {
+        return datas[0]->size();
+    }
+    return 0;
+}
+
+size_t Strategy::datas_count() const {
+    return datas.size();
+}
+
+std::shared_ptr<void> Strategy::getanalyzer(const std::string& name) const {
+    auto it = _analyzer_instances.find(name);
+    if (it != _analyzer_instances.end()) {
+        return std::static_pointer_cast<void>(it->second);
+    }
+    return nullptr;
 }
 
 void Strategy::log(const std::string& message, bool doprint) {

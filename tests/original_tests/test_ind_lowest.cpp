@@ -12,12 +12,15 @@
  * chkargs = dict(period=14)
  */
 
-#include "test_common_simple.h"
+#include "test_common.h"
+#include <random>
 
 #include "indicators/lowest.h"
 
 
 using namespace backtrader::tests::original;
+using namespace backtrader;
+using namespace backtrader::indicators;
 
 namespace {
 
@@ -39,7 +42,7 @@ TEST(OriginalTests, Lowest_Manual) {
     ASSERT_FALSE(csv_data.empty());
     
     // 创建数据线
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -91,14 +94,14 @@ protected:
         csv_data_ = getdata(0);
         ASSERT_FALSE(csv_data_.empty());
         
-        close_line_ = std::make_shared<LineRoot>(csv_data_.size(), "close");
+        close_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "close");
         for (const auto& bar : csv_data_) {
             close_line_->forward(bar.close);
         }
     }
     
     std::vector<CSVDataReader::OHLCVData> csv_data_;
-    std::shared_ptr<LineRoot> close_line_;
+    std::shared_ptr<backtrader::LineRoot> close_line_;
 };
 
 TEST_P(LowestParameterizedTest, DifferentPeriods) {
@@ -137,7 +140,7 @@ TEST(OriginalTests, Lowest_CalculationLogic) {
     // 使用简单的测试数据验证Lowest计算
     std::vector<double> prices = {100.0, 95.0, 110.0, 85.0, 120.0, 90.0, 105.0, 115.0, 80.0, 125.0};
     
-    auto close_line = std::make_shared<LineRoot>(prices.size(), "lowest_calc");
+    auto close_line = std::make_shared<backtrader::LineRoot>(prices.size(), "lowest_calc");
     for (double price : prices) {
         close_line->forward(price);
     }
@@ -170,7 +173,7 @@ TEST(OriginalTests, Lowest_RollingWindow) {
     // 创建一个已知的数据序列
     std::vector<double> prices = {50, 40, 30, 35, 45, 25, 20, 15, 40, 10, 55, 5, 15, 30};
     
-    auto close_line = std::make_shared<LineRoot>(prices.size(), "rolling");
+    auto close_line = std::make_shared<backtrader::LineRoot>(prices.size(), "rolling");
     for (double price : prices) {
         close_line->forward(price);
     }
@@ -199,14 +202,14 @@ TEST(OriginalTests, Lowest_RollingWindow) {
     
     std::cout << "Rolling 3-period lowest results:" << std::endl;
     for (size_t i = 0; i < expected_results.size(); ++i) {
-        std::cout << "Position " << (i + 2) << ": " << expected_results[i] << std::endl;
+        std::cout << "backtrader::Position " << (i + 2) << ": " << expected_results[i] << std::endl;
     }
 }
 
 // 单调性测试
 TEST(OriginalTests, Lowest_Monotonicity) {
     auto csv_data = getdata(0);
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -242,7 +245,7 @@ TEST(OriginalTests, Lowest_Monotonicity) {
 // 与真实数据的一致性测试
 TEST(OriginalTests, Lowest_vs_ManualCalculation) {
     auto csv_data = getdata(0);
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -281,7 +284,7 @@ TEST(OriginalTests, Lowest_ExtremeValues) {
         110.0, 115.0, 120.0, 125.0, 130.0
     };
     
-    auto extreme_line = std::make_shared<LineRoot>(extreme_prices.size(), "extreme");
+    auto extreme_line = std::make_shared<backtrader::LineRoot>(extreme_prices.size(), "extreme");
     for (double price : extreme_prices) {
         extreme_line->forward(price);
     }
@@ -310,7 +313,7 @@ TEST(OriginalTests, Lowest_ExtremeValues) {
 // 边界条件测试
 TEST(OriginalTests, Lowest_EdgeCases) {
     // 测试数据不足的情况
-    auto insufficient_line = std::make_shared<LineRoot>(100, "insufficient");
+    auto insufficient_line = std::make_shared<backtrader::LineRoot>(100, "insufficient");
     
     // 只添加3个数据点
     std::vector<double> short_data = {100.0, 90.0, 110.0};
@@ -332,7 +335,7 @@ TEST(OriginalTests, Lowest_EdgeCases) {
     EXPECT_TRUE(std::isnan(result)) << "Lowest should return NaN when insufficient data";
     
     // 测试单个数据点的情况
-    auto single_line = std::make_shared<LineRoot>(1, "single");
+    auto single_line = std::make_shared<backtrader::LineRoot>(1, "single");
     single_line->forward(123.45);
     
     auto single_lowest = std::make_shared<Lowest>(single_line, 1);
@@ -346,8 +349,8 @@ TEST(OriginalTests, Lowest_EdgeCases) {
 // 与Highest的对称性测试
 TEST(OriginalTests, Lowest_vs_Highest_Symmetry) {
     auto csv_data = getdata(0);
-    auto close_line_lowest = std::make_shared<LineRoot>(csv_data.size(), "close_lowest");
-    auto close_line_highest = std::make_shared<LineRoot>(csv_data.size(), "close_highest");
+    auto close_line_lowest = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close_lowest");
+    auto close_line_highest = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close_highest");
     
     for (const auto& bar : csv_data) {
         close_line_lowest->forward(bar.close);
@@ -391,7 +394,7 @@ TEST(OriginalTests, Lowest_Performance) {
         large_data.push_back(dist(rng));
     }
     
-    auto large_line = std::make_shared<LineRoot>(large_data.size(), "large");
+    auto large_line = std::make_shared<backtrader::LineRoot>(large_data.size(), "large");
     for (double price : large_data) {
         large_line->forward(price);
     }

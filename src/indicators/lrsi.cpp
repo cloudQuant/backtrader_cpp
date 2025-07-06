@@ -21,7 +21,7 @@ void LaguerreRSI::prenext() {
 void LaguerreRSI::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
-    auto lrsi_line = lines->getline(Lines::lrsi);
+    auto lrsi_line = lines->getline(lrsi);
     auto data_line = datas[0]->lines->getline(0);
     
     if (!lrsi_line || !data_line) return;
@@ -70,7 +70,7 @@ void LaguerreRSI::next() {
 void LaguerreRSI::once(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
-    auto lrsi_line = lines->getline(Lines::lrsi);
+    auto lrsi_line = lines->getline(lrsi);
     auto data_line = datas[0]->lines->getline(0);
     
     if (!lrsi_line || !data_line) return;
@@ -140,7 +140,7 @@ void LaguerreFilter::prenext() {
 void LaguerreFilter::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
-    auto lfilter_line = lines->getline(Lines::lfilter);
+    auto lfilter_line = lines->getline(lfilter);
     auto data_line = datas[0]->lines->getline(0);
     
     if (!lfilter_line || !data_line) return;
@@ -166,7 +166,7 @@ void LaguerreFilter::next() {
 void LaguerreFilter::once(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
-    auto lfilter_line = lines->getline(Lines::lfilter);
+    auto lfilter_line = lines->getline(lfilter);
     auto data_line = datas[0]->lines->getline(0);
     
     if (!lfilter_line || !data_line) return;

@@ -29,8 +29,8 @@ private:
     void setup_lines();
     
     // SMMA for up and down calculations
-    std::shared_ptr<SMMA> up_smma_;
-    std::shared_ptr<SMMA> down_smma_;
+    std::shared_ptr<indicators::SMMA> up_smma_;
+    std::shared_ptr<indicators::SMMA> down_smma_;
     
     // Storage for up/down moves
     std::vector<double> up_moves_;

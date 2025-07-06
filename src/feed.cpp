@@ -323,4 +323,68 @@ std::shared_ptr<CSVDataBase> CSVFeedBase::create_data() {
     return std::make_shared<CSVDataBase>();
 }
 
+// DataReplay implementation
+DataReplay::DataReplay(std::shared_ptr<AbstractDataBase> data) 
+    : AbstractDataBase(), source_data_(data), replay_timeframe_(TimeFrame::Days), replay_compression_(1) {
+    if (source_data_) {
+        // Copy relevant parameters from source
+        params.dataname = source_data_->params.dataname;
+        params.name = source_data_->params.name + "_replay";
+    }
+}
+
+void DataReplay::configure(TimeFrame timeframe, int compression) {
+    replay_timeframe_ = timeframe;
+    replay_compression_ = compression;
+}
+
+bool DataReplay::start() {
+    if (!source_data_) return false;
+    return source_data_->start() && AbstractDataBase::start();
+}
+
+void DataReplay::stop() {
+    if (source_data_) source_data_->stop();
+    AbstractDataBase::stop();
+}
+
+bool DataReplay::_load() {
+    // Simple implementation: just pass through source data
+    if (!source_data_) return false;
+    return source_data_->next();
+}
+
+// DataResample implementation
+DataResample::DataResample(std::shared_ptr<AbstractDataBase> data) 
+    : AbstractDataBase(), source_data_(data), resample_timeframe_(TimeFrame::Days), resample_compression_(1) {
+    if (source_data_) {
+        // Copy relevant parameters from source
+        params.dataname = source_data_->params.dataname;
+        params.name = source_data_->params.name + "_resample";
+    }
+}
+
+void DataResample::resample(TimeFrame timeframe, int compression) {
+    resample_timeframe_ = timeframe;
+    resample_compression_ = compression;
+    params.timeframe = timeframe;
+    params.compression = compression;
+}
+
+bool DataResample::start() {
+    if (!source_data_) return false;
+    return source_data_->start() && AbstractDataBase::start();
+}
+
+void DataResample::stop() {
+    if (source_data_) source_data_->stop();
+    AbstractDataBase::stop();
+}
+
+bool DataResample::_load() {
+    // Simple implementation: just pass through source data
+    if (!source_data_) return false;
+    return source_data_->next();
+}
+
 } // namespace backtrader

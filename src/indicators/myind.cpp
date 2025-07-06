@@ -68,11 +68,11 @@ void MaBetweenHighAndLow::once(int start, int end) {
 }
 
 double MaBetweenHighAndLow::get_target(int ago) const {
-    if (lines_.empty() || lines_[Lines::TARGET].empty()) {
+    if (lines_.empty() || lines_[TARGET].empty()) {
         return std::numeric_limits<double>::quiet_NaN();
     }
     
-    const auto& target_line = lines_[Lines::TARGET];
+    const auto& target_line = lines_[TARGET];
     if (ago >= static_cast<int>(target_line.size()) || ago < 0) {
         return std::numeric_limits<double>::quiet_NaN();
     }
@@ -87,10 +87,10 @@ bool MaBetweenHighAndLow::is_ma_between_high_low(int ago) const {
 
 void MaBetweenHighAndLow::initialize_lines() {
     lines_.resize(1);
-    lines_[Lines::TARGET].clear();
+    lines_[TARGET].clear();
     
     line_names_.resize(1);
-    line_names_[Lines::TARGET] = "target";
+    line_names_[TARGET] = "target";
 }
 
 void MaBetweenHighAndLow::calculate_current_value() {
@@ -114,13 +114,13 @@ void MaBetweenHighAndLow::calculate_current_value() {
     double ma_value = sma_->get_ma_value(0);
     
     if (std::isnan(ma_value)) {
-        lines_[Lines::TARGET].push_back(0.0);  // False when MA not available
+        lines_[TARGET].push_back(0.0);  // False when MA not available
         return;
     }
     
     // Check if MA is between high and low
     bool is_between = check_ma_between_high_low(ma_value, high, low);
-    lines_[Lines::TARGET].push_back(is_between ? 1.0 : 0.0);
+    lines_[TARGET].push_back(is_between ? 1.0 : 0.0);
 }
 
 bool MaBetweenHighAndLow::check_ma_between_high_low(double ma_value, double high, double low) const {
@@ -185,11 +185,11 @@ void BarsLast::once(int start, int end) {
 }
 
 double BarsLast::get_bar_num(int ago) const {
-    if (lines_.empty() || lines_[Lines::BAR_NUM].empty()) {
+    if (lines_.empty() || lines_[BAR_NUM].empty()) {
         return std::numeric_limits<double>::quiet_NaN();
     }
     
-    const auto& bar_num_line = lines_[Lines::BAR_NUM];
+    const auto& bar_num_line = lines_[BAR_NUM];
     if (ago >= static_cast<int>(bar_num_line.size()) || ago < 0) {
         return std::numeric_limits<double>::quiet_NaN();
     }
@@ -215,10 +215,10 @@ void BarsLast::set_condition_function(ConditionFunc func) {
 
 void BarsLast::initialize_lines() {
     lines_.resize(1);
-    lines_[Lines::BAR_NUM].clear();
+    lines_[BAR_NUM].clear();
     
     line_names_.resize(1);
-    line_names_[Lines::BAR_NUM] = "bar_num";
+    line_names_[BAR_NUM] = "bar_num";
 }
 
 void BarsLast::update_counter() {
@@ -230,7 +230,7 @@ void BarsLast::update_counter() {
         bar_counter_++;
     }
     
-    lines_[Lines::BAR_NUM].push_back(static_cast<double>(bar_counter_));
+    lines_[BAR_NUM].push_back(static_cast<double>(bar_counter_));
     condition_met_last_bar_ = condition_met;
 }
 
@@ -314,7 +314,7 @@ void NewDiff::next() {
     
     // Calculate and store the factor
     double factor = calculate_sum_over_period();
-    lines_[Lines::FACTOR].push_back(factor);
+    lines_[FACTOR].push_back(factor);
 }
 
 void NewDiff::once(int start, int end) {
@@ -341,18 +341,18 @@ void NewDiff::once(int start, int end) {
         update_daily_values(daily_value);
         
         double factor = calculate_sum_over_period();
-        lines_[Lines::FACTOR].push_back(factor);
+        lines_[FACTOR].push_back(factor);
         
         previous_close_ = close;
     }
 }
 
 double NewDiff::get_factor(int ago) const {
-    if (lines_.empty() || lines_[Lines::FACTOR].empty()) {
+    if (lines_.empty() || lines_[FACTOR].empty()) {
         return std::numeric_limits<double>::quiet_NaN();
     }
     
-    const auto& factor_line = lines_[Lines::FACTOR];
+    const auto& factor_line = lines_[FACTOR];
     if (ago >= static_cast<int>(factor_line.size()) || ago < 0) {
         return std::numeric_limits<double>::quiet_NaN();
     }
@@ -367,11 +367,11 @@ double NewDiff::get_alpha_factor(int ago) const {
 std::vector<double> NewDiff::get_factor_history(int count) const {
     std::vector<double> history;
     
-    if (lines_.empty() || lines_[Lines::FACTOR].empty()) {
+    if (lines_.empty() || lines_[FACTOR].empty()) {
         return history;
     }
     
-    const auto& factor_line = lines_[Lines::FACTOR];
+    const auto& factor_line = lines_[FACTOR];
     int available = static_cast<int>(factor_line.size());
     int actual_count = std::min(count, available);
     
@@ -406,10 +406,10 @@ double NewDiff::get_average_factor(int period) const {
 
 void NewDiff::initialize_lines() {
     lines_.resize(1);
-    lines_[Lines::FACTOR].clear();
+    lines_[FACTOR].clear();
     
     line_names_.resize(1);
-    line_names_[Lines::FACTOR] = "factor";
+    line_names_[FACTOR] = "factor";
 }
 
 double NewDiff::calculate_daily_value(double close, double high, double low, double prev_close) {

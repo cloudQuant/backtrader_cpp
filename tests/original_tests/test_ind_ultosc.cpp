@@ -11,12 +11,15 @@
  * chkind = bt.indicators.UltimateOscillator
  */
 
-#include "test_common_simple.h"
+#include "test_common.h"
+#include <random>
 
 #include "indicators/ultimateoscillator.h"
 
 
 using namespace backtrader::tests::original;
+using namespace backtrader;
+using namespace backtrader::indicators;
 
 namespace {
 
@@ -38,9 +41,9 @@ TEST(OriginalTests, UltimateOscillator_Manual) {
     ASSERT_FALSE(csv_data.empty());
     
     // 创建数据线
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -93,9 +96,9 @@ TEST(OriginalTests, UltimateOscillator_Manual) {
 // UltimateOscillator范围验证测试
 TEST(OriginalTests, UltimateOscillator_RangeValidation) {
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -132,9 +135,9 @@ protected:
         csv_data_ = getdata(0);
         ASSERT_FALSE(csv_data_.empty());
         
-        high_line_ = std::make_shared<LineRoot>(csv_data_.size(), "high");
-        low_line_ = std::make_shared<LineRoot>(csv_data_.size(), "low");
-        close_line_ = std::make_shared<LineRoot>(csv_data_.size(), "close");
+        high_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "high");
+        low_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "low");
+        close_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "close");
         
         for (const auto& bar : csv_data_) {
             high_line_->forward(bar.high);
@@ -144,9 +147,9 @@ protected:
     }
     
     std::vector<CSVDataReader::OHLCVData> csv_data_;
-    std::shared_ptr<LineRoot> high_line_;
-    std::shared_ptr<LineRoot> low_line_;
-    std::shared_ptr<LineRoot> close_line_;
+    std::shared_ptr<backtrader::LineRoot> high_line_;
+    std::shared_ptr<backtrader::LineRoot> low_line_;
+    std::shared_ptr<backtrader::LineRoot> close_line_;
 };
 
 TEST_P(UltimateOscillatorParameterizedTest, DifferentParameters) {
@@ -203,9 +206,9 @@ TEST(OriginalTests, UltimateOscillator_CalculationLogic) {
         {"2006-01-08", 135.0, 145.0, 125.0, 140.0, 0, 0}
     };
     
-    auto high_line = std::make_shared<LineRoot>(test_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(test_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(test_data.size(), "close");
+    auto high_line = std::make_shared<backtrader::LineRoot>(test_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(test_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(test_data.size(), "close");
     
     for (const auto& bar : test_data) {
         high_line->forward(bar.high);
@@ -241,9 +244,9 @@ TEST(OriginalTests, UltimateOscillator_CalculationLogic) {
 // 超买超卖信号测试
 TEST(OriginalTests, UltimateOscillator_OverboughtOversold) {
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -293,9 +296,9 @@ TEST(OriginalTests, UltimateOscillator_OverboughtOversold) {
 // 趋势反转信号测试
 TEST(OriginalTests, UltimateOscillator_ReversalSignals) {
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -365,9 +368,9 @@ TEST(OriginalTests, UltimateOscillator_ReversalSignals) {
 // 多时间框架验证测试
 TEST(OriginalTests, UltimateOscillator_MultiTimeframe) {
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -434,9 +437,9 @@ TEST(OriginalTests, UltimateOscillator_EdgeCases) {
         flat_data.push_back(bar);
     }
     
-    auto flat_high = std::make_shared<LineRoot>(flat_data.size(), "flat_high");
-    auto flat_low = std::make_shared<LineRoot>(flat_data.size(), "flat_low");
-    auto flat_close = std::make_shared<LineRoot>(flat_data.size(), "flat_close");
+    auto flat_high = std::make_shared<backtrader::LineRoot>(flat_data.size(), "flat_high");
+    auto flat_low = std::make_shared<backtrader::LineRoot>(flat_data.size(), "flat_low");
+    auto flat_close = std::make_shared<backtrader::LineRoot>(flat_data.size(), "flat_close");
     
     for (const auto& bar : flat_data) {
         flat_high->forward(bar.high);
@@ -488,9 +491,9 @@ TEST(OriginalTests, UltimateOscillator_Performance) {
         large_data.push_back(bar);
     }
     
-    auto large_high = std::make_shared<LineRoot>(large_data.size(), "large_high");
-    auto large_low = std::make_shared<LineRoot>(large_data.size(), "large_low");
-    auto large_close = std::make_shared<LineRoot>(large_data.size(), "large_close");
+    auto large_high = std::make_shared<backtrader::LineRoot>(large_data.size(), "large_high");
+    auto large_low = std::make_shared<backtrader::LineRoot>(large_data.size(), "large_low");
+    auto large_close = std::make_shared<backtrader::LineRoot>(large_data.size(), "large_close");
     
     for (const auto& bar : large_data) {
         large_high->forward(bar.high);

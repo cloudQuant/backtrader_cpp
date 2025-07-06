@@ -1,4 +1,5 @@
 #include "analyzers/sqn.h"
+#include "trade.h"
 #include <cmath>
 #include <numeric>
 #include <algorithm>
@@ -7,6 +8,11 @@ namespace backtrader {
 
 SQN::SQN() : Analyzer(), sqn_value_(0.0), trade_count_(0) {
     // Initialize with default values
+}
+
+SQN::SQN(const std::string& name) : Analyzer(), sqn_value_(0.0), trade_count_(0) {
+    // Initialize with default values, name parameter is for compatibility
+    (void)name; // Suppress unused parameter warning
 }
 
 void SQN::start() {
@@ -39,21 +45,21 @@ void SQN::stop() {
     Analyzer::stop();
 }
 
-void SQN::notify_trade(const Trade& trade) {
+void SQN::notify_trade(std::shared_ptr<Trade> trade) {
     // Only consider closed trades
-    if (trade.status == Trade::Status::Closed) {
-        pnl_list_.push_back(trade.pnl_comm);
+    if (trade && trade->status == TradeStatus::Closed) {
+        pnl_list_.push_back(trade->pnlcomm);
         trade_count_++;
     }
 }
 
-std::map<std::string, double> SQN::get_analysis() {
-    std::map<std::string, double> analysis;
+AnalysisResult SQN::get_analysis() const {
+    AnalysisResult result;
     
-    analysis["sqn"] = sqn_value_;
-    analysis["trades"] = static_cast<double>(trade_count_);
+    result["sqn"] = sqn_value_;
+    result["trades"] = trade_count_;
     
-    return analysis;
+    return result;
 }
 
 SQN::Quality SQN::get_quality_category() const {

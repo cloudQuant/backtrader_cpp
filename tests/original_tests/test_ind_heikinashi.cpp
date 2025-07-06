@@ -16,12 +16,15 @@
  * 注：HeikinAshi创建平滑的蜡烛图，有4条线：open, high, low, close
  */
 
-#include "test_common_simple.h"
+#include "test_common.h"
+#include <random>
 
 #include "indicators/heikinashi.h"
 
 
 using namespace backtrader::tests::original;
+using namespace backtrader;
+using namespace backtrader::indicators;
 
 namespace {
 
@@ -46,10 +49,10 @@ TEST(OriginalTests, HeikinAshi_Manual) {
     ASSERT_FALSE(csv_data.empty());
     
     // 创建OHLC数据线
-    auto open_line = std::make_shared<LineRoot>(csv_data.size(), "open");
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto open_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "open");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     
     for (const auto& bar : csv_data) {
         open_line->forward(bar.open);
@@ -115,10 +118,10 @@ TEST(OriginalTests, HeikinAshi_CalculationLogic) {
         {111.0, 115.0, 109.0, 113.0}
     };
     
-    auto open_line = std::make_shared<LineRoot>(ohlc_data.size(), "open");
-    auto high_line = std::make_shared<LineRoot>(ohlc_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(ohlc_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(ohlc_data.size(), "close");
+    auto open_line = std::make_shared<backtrader::LineRoot>(ohlc_data.size(), "open");
+    auto high_line = std::make_shared<backtrader::LineRoot>(ohlc_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(ohlc_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(ohlc_data.size(), "close");
     
     for (const auto& bar : ohlc_data) {
         open_line->forward(bar[0]);
@@ -196,10 +199,10 @@ TEST(OriginalTests, HeikinAshi_CalculationLogic) {
 TEST(OriginalTests, HeikinAshi_SmoothingCharacteristics) {
     auto csv_data = getdata(0);
     
-    auto open_line = std::make_shared<LineRoot>(csv_data.size(), "open");
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto open_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "open");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     
     for (const auto& bar : csv_data) {
         open_line->forward(bar.open);
@@ -269,10 +272,10 @@ TEST(OriginalTests, HeikinAshi_TrendIdentification) {
         });
     }
     
-    auto open_line = std::make_shared<LineRoot>(uptrend_data.size(), "open");
-    auto high_line = std::make_shared<LineRoot>(uptrend_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(uptrend_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(uptrend_data.size(), "close");
+    auto open_line = std::make_shared<backtrader::LineRoot>(uptrend_data.size(), "open");
+    auto high_line = std::make_shared<backtrader::LineRoot>(uptrend_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(uptrend_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(uptrend_data.size(), "close");
     
     for (const auto& bar : uptrend_data) {
         open_line->forward(bar[0]);
@@ -326,10 +329,10 @@ TEST(OriginalTests, HeikinAshi_TrendIdentification) {
 TEST(OriginalTests, HeikinAshi_Continuity) {
     auto csv_data = getdata(0);
     
-    auto open_line = std::make_shared<LineRoot>(csv_data.size(), "open");
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto open_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "open");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     
     for (const auto& bar : csv_data) {
         open_line->forward(bar.open);
@@ -378,10 +381,10 @@ TEST(OriginalTests, HeikinAshi_Continuity) {
 TEST(OriginalTests, HeikinAshi_OriginalDataComparison) {
     auto csv_data = getdata(0);
     
-    auto open_line = std::make_shared<LineRoot>(csv_data.size(), "open");
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto open_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "open");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     
     for (const auto& bar : csv_data) {
         open_line->forward(bar.open);
@@ -433,10 +436,10 @@ TEST(OriginalTests, HeikinAshi_EdgeCases) {
     // 测试相同OHLC的情况
     std::vector<std::vector<double>> flat_data(10, {100.0, 100.0, 100.0, 100.0});
     
-    auto open_line = std::make_shared<LineRoot>(flat_data.size(), "open");
-    auto high_line = std::make_shared<LineRoot>(flat_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(flat_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(flat_data.size(), "close");
+    auto open_line = std::make_shared<backtrader::LineRoot>(flat_data.size(), "open");
+    auto high_line = std::make_shared<backtrader::LineRoot>(flat_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(flat_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(flat_data.size(), "close");
     
     for (const auto& bar : flat_data) {
         open_line->forward(bar[0]);
@@ -473,10 +476,10 @@ TEST(OriginalTests, HeikinAshi_EdgeCases) {
     }
     
     // 测试数据不足的情况
-    auto insufficient_open = std::make_shared<LineRoot>(10, "insufficient_open");
-    auto insufficient_high = std::make_shared<LineRoot>(10, "insufficient_high");
-    auto insufficient_low = std::make_shared<LineRoot>(10, "insufficient_low");
-    auto insufficient_close = std::make_shared<LineRoot>(10, "insufficient_close");
+    auto insufficient_open = std::make_shared<backtrader::LineRoot>(10, "insufficient_open");
+    auto insufficient_high = std::make_shared<backtrader::LineRoot>(10, "insufficient_high");
+    auto insufficient_low = std::make_shared<backtrader::LineRoot>(10, "insufficient_low");
+    auto insufficient_close = std::make_shared<backtrader::LineRoot>(10, "insufficient_close");
     
     // 只添加一个数据点
     insufficient_open->forward(100.0);
@@ -514,10 +517,10 @@ TEST(OriginalTests, HeikinAshi_Performance) {
         });
     }
     
-    auto large_open = std::make_shared<LineRoot>(large_data.size(), "large_open");
-    auto large_high = std::make_shared<LineRoot>(large_data.size(), "large_high");
-    auto large_low = std::make_shared<LineRoot>(large_data.size(), "large_low");
-    auto large_close = std::make_shared<LineRoot>(large_data.size(), "large_close");
+    auto large_open = std::make_shared<backtrader::LineRoot>(large_data.size(), "large_open");
+    auto large_high = std::make_shared<backtrader::LineRoot>(large_data.size(), "large_high");
+    auto large_low = std::make_shared<backtrader::LineRoot>(large_data.size(), "large_low");
+    auto large_close = std::make_shared<backtrader::LineRoot>(large_data.size(), "large_close");
     
     for (const auto& bar : large_data) {
         large_open->forward(bar[0]);

@@ -20,7 +20,13 @@ public:
     };
     
     AwesomeOscillator();
+    AwesomeOscillator(std::shared_ptr<LineRoot> data); // Constructor for test framework compatibility
+    AwesomeOscillator(std::shared_ptr<LineRoot> high, std::shared_ptr<LineRoot> low);
     virtual ~AwesomeOscillator() = default;
+    
+    // Utility methods
+    double get(int ago = 0) const;
+    int getMinPeriod() const;
     
 protected:
     void prenext() override;
@@ -29,10 +35,6 @@ protected:
     
 private:
     void setup_lines();
-    
-    // Sub-indicators
-    std::shared_ptr<SMA> sma_fast_;  // Fast SMA of median price
-    std::shared_ptr<SMA> sma_slow_;  // Slow SMA of median price
     
     // Storage for median price calculation
     std::vector<double> median_prices_;

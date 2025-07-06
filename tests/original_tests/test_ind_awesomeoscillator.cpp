@@ -13,14 +13,13 @@
  * 注：AwesomeOscillator (AO) 是比尔·威廉姆斯开发的动量指标
  */
 
-#include "test_common_simple.h"
+#include "test_common.h"
+#include <random>
 
-using namespace backtrader::indicators;
 #include "indicators/awesomeoscillator.h"
 
-using namespace backtrader::indicators;
-
 using namespace backtrader::tests::original;
+using namespace backtrader;
 using namespace backtrader::indicators;
 
 namespace {
@@ -43,8 +42,8 @@ TEST(OriginalTests, AwesomeOscillator_Manual) {
     ASSERT_FALSE(csv_data.empty());
     
     // 创建HL数据线
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -133,8 +132,8 @@ TEST(OriginalTests, AwesomeOscillator_CalculationLogic) {
         {162.0, 157.0}
     };
     
-    auto high_line = std::make_shared<LineRoot>(hl_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(hl_data.size(), "low");
+    auto high_line = std::make_shared<backtrader::LineRoot>(hl_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(hl_data.size(), "low");
     
     for (const auto& [h, l] : hl_data) {
         high_line->forward(h);
@@ -144,7 +143,7 @@ TEST(OriginalTests, AwesomeOscillator_CalculationLogic) {
     auto ao = std::make_shared<AwesomeOscillator>(high_line, low_line);
     
     // AO = SMA(HL2, 5) - SMA(HL2, 34)
-    auto hl2_line = std::make_shared<LineRoot>(hl_data.size(), "hl2");
+    auto hl2_line = std::make_shared<backtrader::LineRoot>(hl_data.size(), "hl2");
     for (const auto& [h, l] : hl_data) {
         hl2_line->forward((h + l) / 2.0);
     }
@@ -180,8 +179,8 @@ TEST(OriginalTests, AwesomeOscillator_CalculationLogic) {
 // AwesomeOscillator信号检测测试
 TEST(OriginalTests, AwesomeOscillator_SignalDetection) {
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -268,8 +267,8 @@ TEST(OriginalTests, AwesomeOscillator_MomentumAnalysis) {
         momentum_data.push_back({base + 2.0, base - 2.0});
     }
     
-    auto momentum_high = std::make_shared<LineRoot>(momentum_data.size(), "high");
-    auto momentum_low = std::make_shared<LineRoot>(momentum_data.size(), "low");
+    auto momentum_high = std::make_shared<backtrader::LineRoot>(momentum_data.size(), "high");
+    auto momentum_low = std::make_shared<backtrader::LineRoot>(momentum_data.size(), "low");
     
     for (const auto& [h, l] : momentum_data) {
         momentum_high->forward(h);
@@ -319,8 +318,8 @@ TEST(OriginalTests, AwesomeOscillator_MomentumAnalysis) {
 // AwesomeOscillator发散分析测试
 TEST(OriginalTests, AwesomeOscillator_DivergenceAnalysis) {
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -385,8 +384,8 @@ TEST(OriginalTests, AwesomeOscillator_DivergenceAnalysis) {
 // AwesomeOscillator颜色条分析测试
 TEST(OriginalTests, AwesomeOscillator_ColorBarAnalysis) {
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -458,8 +457,8 @@ TEST(OriginalTests, AwesomeOscillator_PriceRelationship) {
         pattern_data.push_back({base + range/2, base - range/2});
     }
     
-    auto pattern_high = std::make_shared<LineRoot>(pattern_data.size(), "high");
-    auto pattern_low = std::make_shared<LineRoot>(pattern_data.size(), "low");
+    auto pattern_high = std::make_shared<backtrader::LineRoot>(pattern_data.size(), "high");
+    auto pattern_low = std::make_shared<backtrader::LineRoot>(pattern_data.size(), "low");
     
     for (const auto& [h, l] : pattern_data) {
         pattern_high->forward(h);
@@ -517,8 +516,8 @@ TEST(OriginalTests, AwesomeOscillator_EdgeCases) {
     // 测试相同HL的情况
     std::vector<std::tuple<double, double>> flat_data(50, {100.0, 100.0});
     
-    auto flat_high = std::make_shared<LineRoot>(flat_data.size(), "flat_high");
-    auto flat_low = std::make_shared<LineRoot>(flat_data.size(), "flat_low");
+    auto flat_high = std::make_shared<backtrader::LineRoot>(flat_data.size(), "flat_high");
+    auto flat_low = std::make_shared<backtrader::LineRoot>(flat_data.size(), "flat_low");
     
     for (const auto& [h, l] : flat_data) {
         flat_high->forward(h);
@@ -543,8 +542,8 @@ TEST(OriginalTests, AwesomeOscillator_EdgeCases) {
     }
     
     // 测试数据不足的情况
-    auto insufficient_high = std::make_shared<LineRoot>(40, "insufficient_high");
-    auto insufficient_low = std::make_shared<LineRoot>(40, "insufficient_low");
+    auto insufficient_high = std::make_shared<backtrader::LineRoot>(40, "insufficient_high");
+    auto insufficient_low = std::make_shared<backtrader::LineRoot>(40, "insufficient_low");
     
     // 只添加少量数据点
     for (int i = 0; i < 30; ++i) {
@@ -585,8 +584,8 @@ TEST(OriginalTests, AwesomeOscillator_Performance) {
         });
     }
     
-    auto large_high = std::make_shared<LineRoot>(large_data.size(), "large_high");
-    auto large_low = std::make_shared<LineRoot>(large_data.size(), "large_low");
+    auto large_high = std::make_shared<backtrader::LineRoot>(large_data.size(), "large_high");
+    auto large_low = std::make_shared<backtrader::LineRoot>(large_data.size(), "large_low");
     
     for (const auto& [h, l] : large_data) {
         large_high->forward(h);

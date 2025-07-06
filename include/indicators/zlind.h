@@ -14,19 +14,20 @@ public:
         int gainlimit = 50;
     } params;
     
-    // Lines
-    enum Lines { 
+    // Line indices
+    enum LineIndex { 
         ec = 0  // Error correcting line
     };
     
     ZeroLagIndicator();
     ZeroLagIndicator(std::shared_ptr<LineSeries> data_source, int period = 14);
+    ZeroLagIndicator(std::shared_ptr<LineRoot> data_source, int period = 14);
     virtual ~ZeroLagIndicator() = default;
     
     // Utility methods
     double get(int ago = 0) const;
     int getMinPeriod() const;
-    void calculate();
+    void calculate() override;
     
 protected:
     void next() override;
@@ -42,6 +43,9 @@ private:
     // LineSeries support
     std::shared_ptr<LineSeries> data_source_;
     size_t current_index_;
+    
+    // LineRoot support (for LineRoot constructor)
+    std::shared_ptr<LineRoot> lineroot_source_;
 };
 
 // Aliases

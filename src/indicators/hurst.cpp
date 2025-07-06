@@ -32,7 +32,7 @@ void HurstExponent::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto hurst_line = lines->getline(Lines::hurst);
+    auto hurst_line = lines->getline(hurst);
     
     if (!data_line || !hurst_line) return;
     
@@ -51,7 +51,7 @@ void HurstExponent::once(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto hurst_line = lines->getline(Lines::hurst);
+    auto hurst_line = lines->getline(hurst);
     
     if (!data_line || !hurst_line) return;
     

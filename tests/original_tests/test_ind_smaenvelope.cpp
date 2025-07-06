@@ -15,14 +15,14 @@
  * 注：SMAEnvelope包含3条线：Mid (SMA), Upper, Lower
  */
 
-#include "test_common_simple.h"
+#include "test_common.h"
+#include <random>
 
-using namespace backtrader::indicators;
-#include "indicators/smaenvelope.h"
+#include "indicators/envelope.h"
 
-using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
+using namespace backtrader;
 using namespace backtrader::indicators;
 
 namespace {
@@ -47,7 +47,7 @@ TEST(OriginalTests, SMAEnvelope_Manual) {
     ASSERT_FALSE(csv_data.empty());
     
     // 创建数据线
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -102,14 +102,14 @@ protected:
         csv_data_ = getdata(0);
         ASSERT_FALSE(csv_data_.empty());
         
-        close_line_ = std::make_shared<LineRoot>(csv_data_.size(), "close");
+        close_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "close");
         for (const auto& bar : csv_data_) {
             close_line_->forward(bar.close);
         }
     }
     
     std::vector<CSVDataReader::OHLCVData> csv_data_;
-    std::shared_ptr<LineRoot> close_line_;
+    std::shared_ptr<backtrader::LineRoot> close_line_;
 };
 
 TEST_P(SMAEnvelopeParameterizedTest, DifferentParameters) {
@@ -174,7 +174,7 @@ TEST(OriginalTests, SMAEnvelope_CalculationLogic) {
                                   104.0, 106.0, 108.0, 110.0, 112.0, 114.0, 116.0, 118.0, 120.0, 122.0,
                                   124.0, 126.0, 128.0, 130.0, 132.0};
     
-    auto price_line = std::make_shared<LineRoot>(prices.size(), "smaenv_calc");
+    auto price_line = std::make_shared<backtrader::LineRoot>(prices.size(), "smaenv_calc");
     for (double price : prices) {
         price_line->forward(price);
     }
@@ -223,7 +223,7 @@ TEST(OriginalTests, SMAEnvelope_CalculationLogic) {
 // SMAEnvelope支撑阻力测试
 TEST(OriginalTests, SMAEnvelope_SupportResistance) {
     auto csv_data = getdata(0);
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -291,7 +291,7 @@ TEST(OriginalTests, SMAEnvelope_TrendAnalysis) {
         trend_prices.push_back(100.0 + i * 1.0);  // 线性上升趋势
     }
     
-    auto trend_line = std::make_shared<LineRoot>(trend_prices.size(), "trend");
+    auto trend_line = std::make_shared<backtrader::LineRoot>(trend_prices.size(), "trend");
     for (double price : trend_prices) {
         trend_line->forward(price);
     }
@@ -358,12 +358,12 @@ TEST(OriginalTests, SMAEnvelope_VolatilityAnalysis) {
         high_vol_prices.push_back(base + noise);
     }
     
-    auto low_vol_line = std::make_shared<LineRoot>(low_vol_prices.size(), "low_vol");
+    auto low_vol_line = std::make_shared<backtrader::LineRoot>(low_vol_prices.size(), "low_vol");
     for (double price : low_vol_prices) {
         low_vol_line->forward(price);
     }
     
-    auto high_vol_line = std::make_shared<LineRoot>(high_vol_prices.size(), "high_vol");
+    auto high_vol_line = std::make_shared<backtrader::LineRoot>(high_vol_prices.size(), "high_vol");
     for (double price : high_vol_prices) {
         high_vol_line->forward(price);
     }
@@ -415,7 +415,7 @@ TEST(OriginalTests, SMAEnvelope_VolatilityAnalysis) {
 // SMAEnvelope价格通道测试
 TEST(OriginalTests, SMAEnvelope_PriceChannel) {
     auto csv_data = getdata(0);
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -492,7 +492,7 @@ TEST(OriginalTests, SMAEnvelope_EdgeCases) {
     // 测试相同价格的情况
     std::vector<double> flat_prices(50, 100.0);
     
-    auto flat_line = std::make_shared<LineRoot>(flat_prices.size(), "flat");
+    auto flat_line = std::make_shared<backtrader::LineRoot>(flat_prices.size(), "flat");
     for (double price : flat_prices) {
         flat_line->forward(price);
     }
@@ -518,7 +518,7 @@ TEST(OriginalTests, SMAEnvelope_EdgeCases) {
     }
     
     // 测试数据不足的情况
-    auto insufficient_line = std::make_shared<LineRoot>(50, "insufficient");
+    auto insufficient_line = std::make_shared<backtrader::LineRoot>(50, "insufficient");
     
     // 只添加少量数据点
     for (int i = 0; i < 15; ++i) {
@@ -553,7 +553,7 @@ TEST(OriginalTests, SMAEnvelope_Performance) {
         large_data.push_back(dist(rng));
     }
     
-    auto large_line = std::make_shared<LineRoot>(large_data.size(), "large");
+    auto large_line = std::make_shared<backtrader::LineRoot>(large_data.size(), "large");
     for (double price : large_data) {
         large_line->forward(price);
     }

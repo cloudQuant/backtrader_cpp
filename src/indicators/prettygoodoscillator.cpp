@@ -25,7 +25,7 @@ void PrettyGoodOscillator::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_lines = datas[0]->lines;
-    auto pgo_line = lines->getline(Lines::pgo);
+    auto pgo_line = lines->getline(pgo);
     
     if (!pgo_line) return;
     
@@ -64,7 +64,7 @@ void PrettyGoodOscillator::once(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_lines = datas[0]->lines;
-    auto pgo_line = lines->getline(Lines::pgo);
+    auto pgo_line = lines->getline(pgo);
     
     if (!pgo_line) return;
     

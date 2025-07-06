@@ -11,12 +11,14 @@
  * chkind = btind.WilliamsR
  */
 
-#include "test_common_simple.h"
+#include "test_common.h"
 
 #include "indicators/williamsr.h"
 
 
 using namespace backtrader::tests::original;
+using namespace backtrader;
+using namespace backtrader::indicators;
 
 namespace {
 
@@ -38,9 +40,9 @@ TEST(OriginalTests, WilliamsR_Manual) {
     ASSERT_FALSE(csv_data.empty());
     
     // 创建数据线
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -93,9 +95,9 @@ TEST(OriginalTests, WilliamsR_Manual) {
 // Williams %R范围验证测试
 TEST(OriginalTests, WilliamsR_RangeValidation) {
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -132,9 +134,9 @@ protected:
         csv_data_ = getdata(0);
         ASSERT_FALSE(csv_data_.empty());
         
-        high_line_ = std::make_shared<LineRoot>(csv_data_.size(), "high");
-        low_line_ = std::make_shared<LineRoot>(csv_data_.size(), "low");
-        close_line_ = std::make_shared<LineRoot>(csv_data_.size(), "close");
+        high_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "high");
+        low_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "low");
+        close_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "close");
         
         for (const auto& bar : csv_data_) {
             high_line_->forward(bar.high);
@@ -144,9 +146,9 @@ protected:
     }
     
     std::vector<CSVDataReader::OHLCVData> csv_data_;
-    std::shared_ptr<LineRoot> high_line_;
-    std::shared_ptr<LineRoot> low_line_;
-    std::shared_ptr<LineRoot> close_line_;
+    std::shared_ptr<backtrader::LineRoot> high_line_;
+    std::shared_ptr<backtrader::LineRoot> low_line_;
+    std::shared_ptr<backtrader::LineRoot> close_line_;
 };
 
 TEST_P(WilliamsRParameterizedTest, DifferentPeriods) {
@@ -186,9 +188,9 @@ INSTANTIATE_TEST_SUITE_P(
 // 超买超卖测试
 TEST(OriginalTests, WilliamsR_OverboughtOversold) {
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -246,9 +248,9 @@ TEST(OriginalTests, WilliamsR_CalculationLogic) {
         {"2006-01-05", 120.0, 130.0, 110.0, 125.0, 0, 0}
     };
     
-    auto high_line = std::make_shared<LineRoot>(test_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(test_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(test_data.size(), "close");
+    auto high_line = std::make_shared<backtrader::LineRoot>(test_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(test_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(test_data.size(), "close");
     
     for (const auto& bar : test_data) {
         high_line->forward(bar.high);
@@ -301,9 +303,9 @@ TEST(OriginalTests, WilliamsR_EdgeCases) {
         top_data.push_back(bar);
     }
     
-    auto high_line = std::make_shared<LineRoot>(top_data.size(), "top_high");
-    auto low_line = std::make_shared<LineRoot>(top_data.size(), "top_low");
-    auto close_line = std::make_shared<LineRoot>(top_data.size(), "top_close");
+    auto high_line = std::make_shared<backtrader::LineRoot>(top_data.size(), "top_high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(top_data.size(), "top_low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(top_data.size(), "top_close");
     
     for (const auto& bar : top_data) {
         high_line->forward(bar.high);
@@ -342,9 +344,9 @@ TEST(OriginalTests, WilliamsR_EdgeCases) {
         bottom_data.push_back(bar);
     }
     
-    auto high_line_bot = std::make_shared<LineRoot>(bottom_data.size(), "bot_high");
-    auto low_line_bot = std::make_shared<LineRoot>(bottom_data.size(), "bot_low");
-    auto close_line_bot = std::make_shared<LineRoot>(bottom_data.size(), "bot_close");
+    auto high_line_bot = std::make_shared<backtrader::LineRoot>(bottom_data.size(), "bot_high");
+    auto low_line_bot = std::make_shared<backtrader::LineRoot>(bottom_data.size(), "bot_low");
+    auto close_line_bot = std::make_shared<backtrader::LineRoot>(bottom_data.size(), "bot_close");
     
     for (const auto& bar : bottom_data) {
         high_line_bot->forward(bar.high);
@@ -372,9 +374,9 @@ TEST(OriginalTests, WilliamsR_EdgeCases) {
 // 与Stochastic的关系测试
 TEST(OriginalTests, WilliamsR_vs_Stochastic) {
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);

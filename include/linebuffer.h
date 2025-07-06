@@ -51,7 +51,7 @@ public:
     void bind2line(std::shared_ptr<LineSingle> binding) override;
     
     // Value operations
-    double get(int ago = 0) const;
+    double get(int ago = 0) const override;
     void append(double value);
     
     // Iterator-like operations

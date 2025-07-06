@@ -16,10 +16,9 @@ DV2::DV2() : Indicator(), data_source_(nullptr), current_index_(0) {
     percent_rank_ = std::make_shared<PercentRank>();
 }
 
-DV2::DV2(std::shared_ptr<LineSeries> data_source, int period, int maperiod) 
-    : Indicator(), data_source_(data_source), current_index_(0) {
+DV2::DV2(std::shared_ptr<LineRoot> data, int period) 
+    : Indicator(), data_source_(nullptr), current_index_(0) {
     params.period = period;
-    params.maperiod = maperiod;
     setup_lines();
     _minperiod(params.period + params.maperiod - 1);
     
@@ -34,7 +33,7 @@ double DV2::get(int ago) const {
         return std::numeric_limits<double>::quiet_NaN();
     }
     
-    auto line = lines->getline(Lines::dv2);
+    auto line = lines->getline(dv2);
     if (!line) {
         return std::numeric_limits<double>::quiet_NaN();
     }
@@ -66,7 +65,7 @@ void DV2::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_lines = datas[0]->lines;
-    auto dv2_line = lines->getline(Lines::dv2);
+    auto dv2_line = lines->getline(dv2);
     
     if (!dv2_line) return;
     
@@ -133,7 +132,7 @@ void DV2::once(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_lines = datas[0]->lines;
-    auto dv2_line = lines->getline(Lines::dv2);
+    auto dv2_line = lines->getline(dv2);
     
     if (!dv2_line) return;
     

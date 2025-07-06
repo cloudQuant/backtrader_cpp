@@ -20,8 +20,7 @@ void NonZeroDifference::add_data(std::shared_ptr<LineActions> data) {
     } else if (!data1_) {
         data1_ = data;
     }
-    // Base class add_data for datas vector
-    Indicator::add_data(data);
+    // Don't add to datas vector since type mismatch (LineActions vs LineSeries)
 }
 
 void NonZeroDifference::prenext() {
@@ -31,7 +30,7 @@ void NonZeroDifference::prenext() {
 void NonZeroDifference::nextstart() {
     if (!data0_ || !data1_) return;
     
-    auto nzd_line = lines->getline(Lines::nzd);
+    auto nzd_line = lines->getline(nzd);
     if (nzd_line) {
         double diff = (*data0_)[0] - (*data1_)[0];
         nzd_line->set(0, diff);
@@ -42,7 +41,7 @@ void NonZeroDifference::nextstart() {
 void NonZeroDifference::next() {
     if (!data0_ || !data1_) return;
     
-    auto nzd_line = lines->getline(Lines::nzd);
+    auto nzd_line = lines->getline(nzd);
     if (nzd_line) {
         double diff = (*data0_)[0] - (*data1_)[0];
         if (diff != 0.0) {
@@ -57,7 +56,7 @@ void NonZeroDifference::next() {
 void NonZeroDifference::oncestart(int start, int end) {
     if (!data0_ || !data1_ || start >= end) return;
     
-    auto nzd_line = lines->getline(Lines::nzd);
+    auto nzd_line = lines->getline(nzd);
     if (nzd_line) {
         double diff = (*data0_)[start] - (*data1_)[start];
         nzd_line->set(start, diff);
@@ -67,7 +66,7 @@ void NonZeroDifference::oncestart(int start, int end) {
 void NonZeroDifference::once(int start, int end) {
     if (!data0_ || !data1_) return;
     
-    auto nzd_line = lines->getline(Lines::nzd);
+    auto nzd_line = lines->getline(nzd);
     if (!nzd_line) return;
     
     double prev = (start > 0) ? (*nzd_line)[start - 1] : 0.0;
@@ -104,7 +103,7 @@ void CrossBase::add_data(std::shared_ptr<LineActions> data) {
         nzd_->add_data(data1_);
     }
     // Base class add_data for datas vector
-    Indicator::add_data(data);
+    // Don't add to datas vector since type mismatch (LineActions vs LineSeries)
 }
 
 void CrossBase::prenext() {
@@ -118,8 +117,8 @@ void CrossBase::next() {
     // Update NZD first
     nzd_->next();
     
-    auto cross_line = lines->getline(Lines::cross);
-    auto nzd_line = nzd_->lines->getline(NonZeroDifference::Lines::nzd);
+    auto cross_line = lines->getline(cross);
+    auto nzd_line = nzd_->lines->getline(NonZeroDifference::nzd);
     
     if (cross_line && nzd_line) {
         double current_data0 = (*data0_)[0];
@@ -146,8 +145,8 @@ void CrossBase::once(int start, int end) {
     // Calculate NZD first
     nzd_->once(start, end);
     
-    auto cross_line = lines->getline(Lines::cross);
-    auto nzd_line = nzd_->lines->getline(NonZeroDifference::Lines::nzd);
+    auto cross_line = lines->getline(cross);
+    auto nzd_line = nzd_->lines->getline(NonZeroDifference::nzd);
     
     if (!cross_line || !nzd_line) return;
     
@@ -182,6 +181,13 @@ CrossOver::CrossOver() : Indicator() {
     _minperiod(2); // Needs previous value to detect crossover
 }
 
+CrossOver::CrossOver(std::shared_ptr<LineActions> data0, std::shared_ptr<LineActions> data1) : Indicator() {
+    setup_lines();
+    _minperiod(2); // Needs previous value to detect crossover
+    data0_ = data0;
+    data1_ = data1;
+}
+
 void CrossOver::setup_lines() {
     if (lines->size() == 0) {
             lines->add_line(std::make_shared<LineBuffer>());
@@ -203,7 +209,7 @@ void CrossOver::add_data(std::shared_ptr<LineActions> data) {
         downcross_->add_data(data1_);
     }
     // Base class add_data for datas vector
-    Indicator::add_data(data);
+    // Don't add to datas vector since type mismatch (LineActions vs LineSeries)
 }
 
 void CrossOver::prenext() {
@@ -219,9 +225,9 @@ void CrossOver::next() {
     upcross_->next();
     downcross_->next();
     
-    auto crossover_line = lines->getline(Lines::crossover);
-    auto upcross_line = upcross_->lines->getline(CrossUp::Lines::cross);
-    auto downcross_line = downcross_->lines->getline(CrossDown::Lines::cross);
+    auto crossover_line = lines->getline(crossover);
+    auto upcross_line = upcross_->lines->getline(CrossUp::cross);
+    auto downcross_line = downcross_->lines->getline(CrossDown::cross);
     
     if (crossover_line && upcross_line && downcross_line) {
         double up_signal = (*upcross_line)[0];
@@ -239,9 +245,9 @@ void CrossOver::once(int start, int end) {
     upcross_->once(start, end);
     downcross_->once(start, end);
     
-    auto crossover_line = lines->getline(Lines::crossover);
-    auto upcross_line = upcross_->lines->getline(CrossUp::Lines::cross);
-    auto downcross_line = downcross_->lines->getline(CrossDown::Lines::cross);
+    auto crossover_line = lines->getline(crossover);
+    auto upcross_line = upcross_->lines->getline(CrossUp::cross);
+    auto downcross_line = downcross_->lines->getline(CrossDown::cross);
     
     if (!crossover_line || !upcross_line || !downcross_line) return;
     
@@ -251,6 +257,31 @@ void CrossOver::once(int start, int end) {
         
         crossover_line->set(i, up_signal - down_signal);
     }
+}
+
+double CrossOver::get(int ago) const {
+    if (!lines || lines->size() == 0) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    auto crossover_line = lines->getline(crossover);
+    if (!crossover_line || crossover_line->size() == 0) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    // Convert ago to positive index from current position
+    int index;
+    if (ago <= 0) {
+        index = static_cast<int>(crossover_line->size()) - 1 + ago;
+    } else {
+        index = static_cast<int>(crossover_line->size()) - 1 + ago;
+    }
+    
+    if (index < 0 || index >= static_cast<int>(crossover_line->size())) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    return (*crossover_line)[index];
 }
 
 } // namespace backtrader

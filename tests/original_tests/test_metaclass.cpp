@@ -10,7 +10,7 @@
 
 #include "test_common.h"
 #include "base/MetaClass.h"
-#include "base/LineRoot.h"
+#include "base/backtrader::LineRoot.h"
 #include "base/ParamsHolder.h"
 #include "indicators/sma.h"
 #include <memory>
@@ -87,20 +87,20 @@ public:
 };
 
 // 测试多重继承的情况
-class MultipleInheritanceTest : public SampleParamsHolder, public LineRoot {
+class MultipleInheritanceTest : public SampleParamsHolder, public backtrader::LineRoot {
 private:
     std::string component_name_;
 
 public:
     explicit MultipleInheritanceTest(const std::string& name = "multi_test") 
-        : SampleParamsHolder(), LineRoot(100, name), component_name_(name) {}
+        : SampleParamsHolder(), backtrader::LineRoot(100, name), component_name_(name) {}
     
     const std::string& getComponentName() const { return component_name_; }
     
     // 测试方法调用
     void testMethodCall() {
         loadFromPackages();  // 来自SampleParamsHolder
-        forward(42.0);       // 来自LineRoot
+        forward(42.0);       // 来自backtrader::LineRoot
     }
 };
 
@@ -187,7 +187,7 @@ TEST(OriginalTests, MetaClass_MultipleInheritance) {
     // 验证两个基类都正确初始化
     EXPECT_EQ(test->getComponentName(), "multi_component") << "Component name should be set";
     EXPECT_EQ(test->getParams().period, 30) << "Should inherit default period from SampleParamsHolder";
-    EXPECT_EQ(test->name(), "multi_component") << "Should inherit name from LineRoot";
+    EXPECT_EQ(test->name(), "multi_component") << "Should inherit name from backtrader::LineRoot";
     
     // 测试方法调用不会冲突
     EXPECT_NO_THROW({
@@ -196,7 +196,7 @@ TEST(OriginalTests, MetaClass_MultipleInheritance) {
     
     // 验证可以独立操作两个基类的功能
     test->forward(123.45);
-    EXPECT_DOUBLE_EQ(test->get(0), 123.45) << "LineRoot functionality should work";
+    EXPECT_DOUBLE_EQ(test->get(0), 123.45) << "backtrader::LineRoot functionality should work";
 }
 
 // 测试模板继承
@@ -287,22 +287,22 @@ TEST(OriginalTests, MetaClass_MemoryManagement) {
 // 测试指标继承集成
 TEST(OriginalTests, MetaClass_IndicatorIntegration) {
     // 创建一个继承自指标的测试类
-    class CustomSMA : public indicators::SMA {
+    class CustomSMA : public backtrader::indicators::SMA {
     private:
         std::string custom_name_;
         
     public:
-        explicit CustomSMA(std::shared_ptr<LineRoot> data, 
+        explicit CustomSMA(std::shared_ptr<backtrader::LineRoot> data, 
                           int period = 30, 
                           const std::string& name = "CustomSMA")
-            : indicators::SMA(data, period), custom_name_(name) {}
+            : backtrader::indicators::SMA(data, period), custom_name_(name) {}
         
         const std::string& getCustomName() const { return custom_name_; }
         
         // 重写计算方法
         void calculate() override {
             // 调用基类计算
-            indicators::SMA::calculate();
+            backtrader::indicators::SMA::calculate();
             
             // 添加自定义逻辑（这里只是示例）
         }
@@ -310,7 +310,7 @@ TEST(OriginalTests, MetaClass_IndicatorIntegration) {
     
     // 创建测试数据
     auto csv_data = getdata(0);
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }

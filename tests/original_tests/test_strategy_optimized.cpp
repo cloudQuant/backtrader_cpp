@@ -11,7 +11,7 @@
 
 #include "test_common.h"
 #include "strategy.h"
-#include "cerebro/Cerebro.h"
+#include "cerebro.h"
 #include "indicators/sma.h"
 #include "indicators/crossover.h"
 #include "broker/Broker.h"
@@ -53,14 +53,14 @@ std::vector<std::string> g_check_values;
 std::vector<std::string> g_check_cash;
 
 // 优化策略类
-class OptimizedRunStrategy : public Strategy {
+class OptimizedRunStrategy : public backtrader::Strategy {
 private:
     int period_;
     bool print_data_;
     bool print_ops_;
     std::shared_ptr<Order> order_id_;
-    std::shared_ptr<indicators::SMA> sma_;
-    std::shared_ptr<indicators::CrossOver> cross_;
+    std::shared_ptr<backtrader::indicators::SMA> sma_;
+    std::shared_ptr<backtrader::indicators::CrossOver> cross_;
     std::chrono::high_resolution_clock::time_point start_time_;
 
 public:
@@ -85,15 +85,15 @@ public:
 
     void init() override {
         // 创建SMA指标
-        sma_ = std::make_shared<indicators::SMA>(data(0), period_);
+        sma_ = std::make_shared<backtrader::indicators::SMA>(data(0), period_);
         
         // 创建交叉信号
-        cross_ = std::make_shared<indicators::CrossOver>(data(0)->getLine("close"), sma_);
+        cross_ = std::make_shared<backtrader::indicators::CrossOver>(data(0)->getLine("close"), sma_);
     }
 
     void start() override {
         // 设置佣金参数
-        broker()->setCommission(2.0, 10.0, 1000.0);
+        broker_ptr()->setCommission(2.0, 10.0, 1000.0);
         start_time_ = std::chrono::high_resolution_clock::now();
     }
 
@@ -104,18 +104,18 @@ public:
         if (print_data_) {
             std::ostringstream oss;
             oss << "Time used: " << duration.count() << " us - Period " << period_ 
-                << " - Start value: " << std::fixed << std::setprecision(2) << broker()->getStartingCash()
-                << " - End value: " << std::fixed << std::setprecision(2) << broker()->getValue();
+                << " - Start value: " << std::fixed << std::setprecision(2) << broker_ptr()->getStartingCash()
+                << " - End value: " << std::fixed << std::setprecision(2) << broker_ptr()->getValue();
             log(oss.str());
         }
 
         // 记录最终值
         std::ostringstream value_ss;
-        value_ss << std::fixed << std::setprecision(2) << broker()->getValue();
+        value_ss << std::fixed << std::setprecision(2) << broker_ptr()->getValue();
         g_check_values.push_back(value_ss.str());
 
         std::ostringstream cash_ss;
-        cash_ss << std::fixed << std::setprecision(2) << broker()->getCash();
+        cash_ss << std::fixed << std::setprecision(2) << broker_ptr()->getCash();
         g_check_cash.push_back(cash_ss.str());
     }
 
@@ -126,7 +126,7 @@ public:
         }
 
         // 获取当前仓位
-        double position_size = getPosition()->getSize();
+        double position_size = getbacktrader::Position()->getSize();
 
         if (position_size == 0.0) {
             // 没有仓位时，检查买入信号
@@ -156,11 +156,11 @@ void runOptimizationTest(bool runonce, bool preload, int exbar, bool print_resul
         periods.push_back(i);
     }
 
-    auto csv_data = getdata(0);
+    auto csv_data = getdata_feed(0);
 
     // 对每个周期参数运行策略
     for (int period : periods) {
-        auto cerebro = std::make_unique<Cerebro>();
+        auto cerebro = std::make_unique<backtrader::Cerebro>();
         cerebro->setRunOnce(runonce);
         cerebro->setPreload(preload);
         
@@ -248,8 +248,8 @@ TEST(OriginalTests, StrategyOptimized_DifferentModes) {
 
 // 测试单个周期的策略运行
 TEST(OriginalTests, StrategyOptimized_SinglePeriod) {
-    auto cerebro = std::make_unique<Cerebro>();
-    auto csv_data = getdata(0);
+    auto cerebro = std::make_unique<backtrader::Cerebro>();
+    auto csv_data = getdata_feed(0);
     cerebro->adddata(csv_data);
 
     // 设置特定周期
@@ -270,8 +270,8 @@ TEST(OriginalTests, StrategyOptimized_SinglePeriod) {
     EXPECT_EQ(strategy->getPeriod(), 15) << "Strategy period should be 15";
 
     // 验证broker状态
-    double final_value = strategy->broker()->getValue();
-    double final_cash = strategy->broker()->getCash();
+    double final_value = strategy->broker_ptr()->getValue();
+    double final_cash = strategy->broker_ptr()->getCash();
     
     EXPECT_GT(final_value, 0.0) << "Final portfolio value should be positive";
     EXPECT_GT(final_cash, 0.0) << "Final cash should be positive";
@@ -283,8 +283,8 @@ TEST(OriginalTests, StrategyOptimized_ParameterRange) {
     std::vector<double> results;
 
     for (int period : test_periods) {
-        auto cerebro = std::make_unique<Cerebro>();
-        auto csv_data = getdata(0);
+        auto cerebro = std::make_unique<backtrader::Cerebro>();
+        auto csv_data = getdata_feed(0);
         cerebro->adddata(csv_data);
 
         OptimizedRunStrategy::Params params;
@@ -297,7 +297,7 @@ TEST(OriginalTests, StrategyOptimized_ParameterRange) {
         auto strategy_results = cerebro->run();
         auto strategy = std::dynamic_pointer_cast<OptimizedRunStrategy>(strategy_results[0]);
         
-        double final_value = strategy->broker()->getValue();
+        double final_value = strategy->broker_ptr()->getValue();
         results.push_back(final_value);
 
         std::cout << "Period " << period << ": Final value = " 
@@ -323,10 +323,10 @@ TEST(OriginalTests, StrategyOptimized_Performance) {
     std::vector<int> periods = {10, 15, 20, 25, 30};
 
     for (int period : periods) {
-        auto cerebro = std::make_unique<Cerebro>();
+        auto cerebro = std::make_unique<backtrader::Cerebro>();
         cerebro->setRunOnce(true);  // 使用性能较好的模式
         
-        auto csv_data = getdata(0);
+        auto csv_data = getdata_feed(0);
         cerebro->adddata(csv_data);
 
         OptimizedRunStrategy::Params params;
@@ -351,8 +351,8 @@ TEST(OriginalTests, StrategyOptimized_Performance) {
 
 // 测试策略指标
 TEST(OriginalTests, StrategyOptimized_IndicatorValues) {
-    auto cerebro = std::make_unique<Cerebro>();
-    auto csv_data = getdata(0);
+    auto cerebro = std::make_unique<backtrader::Cerebro>();
+    auto csv_data = getdata_feed(0);
     cerebro->adddata(csv_data);
 
     OptimizedRunStrategy::Params params;
@@ -372,8 +372,8 @@ TEST(OriginalTests, StrategyOptimized_IndicatorValues) {
     EXPECT_EQ(strategy->getPeriod(), 15) << "Strategy should use correct period";
     
     // 验证策略执行了交易
-    double final_value = strategy->broker()->getValue();
-    double starting_cash = strategy->broker()->getStartingCash();
+    double final_value = strategy->broker_ptr()->getValue();
+    double starting_cash = strategy->broker_ptr()->getStartingCash();
     
     // 最终价值应该与起始现金不同（说明有交易发生）
     EXPECT_NE(final_value, starting_cash) << "Strategy should have executed trades";
@@ -408,7 +408,7 @@ TEST(OriginalTests, StrategyOptimized_ConsistencyCheck) {
 // 测试边界条件
 TEST(OriginalTests, StrategyOptimized_EdgeCases) {
     // 测试最小周期
-    auto cerebro1 = std::make_unique<Cerebro>();
+    auto cerebro1 = std::make_unique<backtrader::Cerebro>();
     auto csv_data1 = getdata(0);
     cerebro1->adddata(csv_data1);
 
@@ -422,7 +422,7 @@ TEST(OriginalTests, StrategyOptimized_EdgeCases) {
     EXPECT_EQ(results1.size(), 1) << "Should handle minimum period";
 
     // 测试较大周期
-    auto cerebro2 = std::make_unique<Cerebro>();
+    auto cerebro2 = std::make_unique<backtrader::Cerebro>();
     auto csv_data2 = getdata(0);
     cerebro2->adddata(csv_data2);
 

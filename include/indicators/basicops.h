@@ -59,7 +59,7 @@ protected:
 // Apply function to data over period
 class ApplyN : public BaseApplyN {
 public:
-    enum Lines { apply = 0 };
+    enum LineIndex { apply = 0 };
     
     ApplyN();
     virtual ~ApplyN() = default;
@@ -71,16 +71,17 @@ private:
 // Calculate highest value over period
 class Highest : public OperationN {
 public:
-    enum Lines { highest = 0 };
+    enum LineIndex { highest = 0 };
     
     Highest();
-    Highest(std::shared_ptr<LineSeries> data_source, int period = 14);
+    // Constructor for test framework compatibility
+    Highest(std::shared_ptr<LineRoot> data, int period = 14);
     virtual ~Highest() = default;
     
     // Utility methods
     double get(int ago = 0) const;
     int getMinPeriod() const;
-    void calculate();
+    void calculate() override;
     
 protected:
     double calculate_func(const std::vector<double>& data) override;
@@ -96,16 +97,17 @@ private:
 // Calculate lowest value over period
 class Lowest : public OperationN {
 public:
-    enum Lines { lowest = 0 };
+    enum LineIndex { lowest = 0 };
     
     Lowest();
-    Lowest(std::shared_ptr<LineSeries> data_source, int period = 14);
+    // Constructor for test framework compatibility
+    Lowest(std::shared_ptr<LineRoot> data, int period = 14);
     virtual ~Lowest() = default;
     
     // Utility methods
     double get(int ago = 0) const;
     int getMinPeriod() const;
-    void calculate();
+    void calculate() override;
     
 protected:
     double calculate_func(const std::vector<double>& data) override;
@@ -121,7 +123,7 @@ private:
 // Calculate sum over period
 class SumN : public OperationN {
 public:
-    enum Lines { sumn = 0 };
+    enum LineIndex { sumn = 0 };
     
     SumN();
     SumN(std::shared_ptr<LineSeries> data_source, int period = 14);
@@ -130,7 +132,7 @@ public:
     // Utility methods
     double get(int ago = 0) const;
     int getMinPeriod() const;
-    void calculate();
+    void calculate() override;
     
 protected:
     double calculate_func(const std::vector<double>& data) override;
@@ -146,16 +148,17 @@ private:
 // Check if any value is non-zero over period
 class AnyN : public OperationN {
 public:
-    enum Lines { anyn = 0 };
+    enum LineIndex { anyn = 0 };
     
     AnyN();
     AnyN(std::shared_ptr<LineSeries> data_source, int period = 14);
+    AnyN(std::shared_ptr<LineRoot> data_source, int period = 14);
     virtual ~AnyN() = default;
     
     // Utility methods
     double get(int ago = 0) const;
     int getMinPeriod() const;
-    void calculate();
+    void calculate() override;
     
 protected:
     double calculate_func(const std::vector<double>& data) override;
@@ -171,16 +174,17 @@ private:
 // Check if all values are non-zero over period
 class AllN : public OperationN {
 public:
-    enum Lines { alln = 0 };
+    enum LineIndex { alln = 0 };
     
     AllN();
     AllN(std::shared_ptr<LineSeries> data_source, int period = 14);
+    AllN(std::shared_ptr<LineRoot> data_source, int period = 14);
     virtual ~AllN() = default;
     
     // Utility methods
     double get(int ago = 0) const;
     int getMinPeriod() const;
-    void calculate();
+    void calculate() override;
     
 protected:
     double calculate_func(const std::vector<double>& data) override;
@@ -201,7 +205,7 @@ public:
         std::function<double(const std::vector<double>&)> evalfunc;
     } params;
     
-    enum Lines { index = 0 };
+    enum LineIndex { index = 0 };
     
     FindFirstIndex();
     virtual ~FindFirstIndex() = default;
@@ -235,7 +239,7 @@ public:
         std::function<double(const std::vector<double>&)> evalfunc;
     } params;
     
-    enum Lines { index = 0 };
+    enum LineIndex { index = 0 };
     
     FindLastIndex();
     virtual ~FindLastIndex() = default;
@@ -268,7 +272,7 @@ public:
         double seed = 0.0;
     } params;
     
-    enum Lines { accum = 0 };
+    enum LineIndex { accum = 0 };
     
     Accum();
     virtual ~Accum() = default;
@@ -286,16 +290,17 @@ private:
 // Arithmetic average over period
 class Average : public PeriodN {
 public:
-    enum Lines { av = 0 };
+    enum LineIndex { av = 0 };
     
     Average();
     Average(std::shared_ptr<LineSeries> data_source, int period = 14);
+    Average(std::shared_ptr<LineRoot> data_source, int period = 14);
     virtual ~Average() = default;
     
     // Utility methods
     double get(int ago = 0) const;
     int getMinPeriod() const;
-    void calculate();
+    void calculate() override;
     
 protected:
     void next() override;
@@ -340,7 +345,7 @@ public:
         std::vector<double> weights;
     } params;
     
-    enum Lines { av = 0 };
+    enum LineIndex { av = 0 };
     
     WeightedAverage();
     virtual ~WeightedAverage() = default;

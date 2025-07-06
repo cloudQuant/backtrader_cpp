@@ -29,12 +29,24 @@ SmoothedMovingAverage::SmoothedMovingAverage(std::shared_ptr<LineSeries> data_so
     _minperiod(params.period);
 }
 
+SmoothedMovingAverage::SmoothedMovingAverage(std::shared_ptr<LineRoot> data, int period) 
+    : Indicator(), prev_smma_(0.0), initialized_(false), data_source_(nullptr), current_index_(0) {
+    params.period = period;
+    setup_lines();
+    
+    // Calculate smoothing factors
+    alpha_ = 1.0 / params.period;
+    alpha1_ = 1.0 - alpha_;
+    
+    _minperiod(params.period);
+}
+
 double SmoothedMovingAverage::get(int ago) const {
     if (!lines || lines->size() == 0) {
         return std::numeric_limits<double>::quiet_NaN();
     }
     
-    auto line = lines->getline(Lines::smma);
+    auto line = lines->getline(smma);
     if (!line) {
         return std::numeric_limits<double>::quiet_NaN();
     }
@@ -82,7 +94,7 @@ void SmoothedMovingAverage::prenext() {
 void SmoothedMovingAverage::nextstart() {
     if (datas.empty() || !datas[0]->lines) return;
     
-    auto smma_line = lines->getline(Lines::smma);
+    auto smma_line = lines->getline(smma);
     if (!smma_line) return;
     
     // Calculate initial SMMA as simple average of first period values
@@ -103,7 +115,7 @@ void SmoothedMovingAverage::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto smma_line = lines->getline(Lines::smma);
+    auto smma_line = lines->getline(smma);
     
     if (!data_line || !smma_line) return;
     
@@ -121,7 +133,7 @@ void SmoothedMovingAverage::once(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto smma_line = lines->getline(Lines::smma);
+    auto smma_line = lines->getline(smma);
     
     if (!data_line || !smma_line) return;
     

@@ -10,15 +10,18 @@
 
 #include "test_common.h"
 #include "indicators/fractal.h"
-#include "cerebro/Cerebro.h"
+#include "cerebro.h"
 #include "strategy.h"
 #include <memory>
 #include <vector>
 #include <iomanip>
 #include <sstream>
 #include <cmath>
+#include <random>
 
 using namespace backtrader::tests::original;
+using namespace backtrader;
+using namespace backtrader::indicators;
 
 namespace {
 
@@ -41,15 +44,15 @@ TEST(OriginalTests, Fractal_Manual) {
     ASSERT_FALSE(csv_data.empty());
     
     // 创建数据线
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
         low_line->forward(bar.low);
     }
     
     // 创建Fractal指标
-    auto fractal = std::make_shared<indicators::Fractal>(high_line, low_line);
+    auto fractal = std::make_shared<backtrader::indicators::Fractal>(high_line, low_line);
     
     // 计算所有值
     for (size_t i = 0; i < csv_data.size(); ++i) {
@@ -104,15 +107,15 @@ TEST(OriginalTests, Fractal_DetectionLogic) {
     std::vector<double> highs = {10, 15, 20, 15, 10, 12, 18, 22, 18, 14, 16, 25, 30, 25, 20};
     std::vector<double> lows = {8, 12, 17, 12, 8, 10, 15, 19, 15, 11, 13, 22, 27, 22, 17};
     
-    auto high_line = std::make_shared<LineRoot>(highs.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(lows.size(), "low");
+    auto high_line = std::make_shared<backtrader::LineRoot>(highs.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(lows.size(), "low");
     
     for (size_t i = 0; i < highs.size(); ++i) {
         high_line->forward(highs[i]);
         low_line->forward(lows[i]);
     }
     
-    auto fractal = std::make_shared<indicators::Fractal>(high_line, low_line);
+    auto fractal = std::make_shared<backtrader::indicators::Fractal>(high_line, low_line);
     
     std::vector<double> up_fractals, down_fractals;
     
@@ -154,8 +157,8 @@ TEST(OriginalTests, Fractal_DetectionLogic) {
 // 测试分形参数
 TEST(OriginalTests, Fractal_DifferentPeriods) {
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -166,7 +169,7 @@ TEST(OriginalTests, Fractal_DifferentPeriods) {
     std::vector<int> periods = {3, 5, 7, 9};
     
     for (int period : periods) {
-        auto fractal = std::make_shared<indicators::Fractal>(high_line, low_line, period);
+        auto fractal = std::make_shared<backtrader::indicators::Fractal>(high_line, low_line, period);
         
         for (size_t i = 0; i < csv_data.size(); ++i) {
             fractal->calculate();
@@ -208,15 +211,15 @@ TEST(OriginalTests, Fractal_Symmetry) {
     std::vector<double> symmetric_highs = {10, 15, 20, 25, 20, 15, 10, 15, 20, 15, 10};
     std::vector<double> symmetric_lows = {8, 12, 17, 22, 17, 12, 8, 12, 17, 12, 8};
     
-    auto high_line = std::make_shared<LineRoot>(symmetric_highs.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(symmetric_lows.size(), "low");
+    auto high_line = std::make_shared<backtrader::LineRoot>(symmetric_highs.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(symmetric_lows.size(), "low");
     
     for (size_t i = 0; i < symmetric_highs.size(); ++i) {
         high_line->forward(symmetric_highs[i]);
         low_line->forward(symmetric_lows[i]);
     }
     
-    auto fractal = std::make_shared<indicators::Fractal>(high_line, low_line, 5);
+    auto fractal = std::make_shared<backtrader::indicators::Fractal>(high_line, low_line, 5);
     
     for (size_t i = 0; i < symmetric_highs.size(); ++i) {
         fractal->calculate();
@@ -251,15 +254,15 @@ TEST(OriginalTests, Fractal_TimeLag) {
     std::vector<double> highs = {10, 20, 10, 5, 15, 25, 15, 8, 18, 30, 18, 12};
     std::vector<double> lows = {8, 18, 8, 3, 13, 23, 13, 6, 16, 28, 16, 10};
     
-    auto high_line = std::make_shared<LineRoot>(highs.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(lows.size(), "low");
+    auto high_line = std::make_shared<backtrader::LineRoot>(highs.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(lows.size(), "low");
     
     for (size_t i = 0; i < highs.size(); ++i) {
         high_line->forward(highs[i]);
         low_line->forward(lows[i]);
     }
     
-    auto fractal = std::make_shared<indicators::Fractal>(high_line, low_line, 3);
+    auto fractal = std::make_shared<backtrader::indicators::Fractal>(high_line, low_line, 3);
     
     struct FractalEvent {
         int index;
@@ -306,15 +309,15 @@ TEST(OriginalTests, Fractal_EdgeCases) {
     std::vector<double> flat_highs(20, 100.0);
     std::vector<double> flat_lows(20, 95.0);
     
-    auto high_line = std::make_shared<LineRoot>(flat_highs.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(flat_lows.size(), "low");
+    auto high_line = std::make_shared<backtrader::LineRoot>(flat_highs.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(flat_lows.size(), "low");
     
     for (size_t i = 0; i < flat_highs.size(); ++i) {
         high_line->forward(flat_highs[i]);
         low_line->forward(flat_lows[i]);
     }
     
-    auto flat_fractal = std::make_shared<indicators::Fractal>(high_line, low_line, 5);
+    auto flat_fractal = std::make_shared<backtrader::indicators::Fractal>(high_line, low_line, 5);
     
     for (size_t i = 0; i < flat_highs.size(); ++i) {
         flat_fractal->calculate();
@@ -340,15 +343,15 @@ TEST(OriginalTests, Fractal_EdgeCases) {
     std::vector<double> insufficient_highs = {10, 20, 15};
     std::vector<double> insufficient_lows = {8, 18, 13};
     
-    auto insufficient_high_line = std::make_shared<LineRoot>(insufficient_highs.size(), "high");
-    auto insufficient_low_line = std::make_shared<LineRoot>(insufficient_lows.size(), "low");
+    auto insufficient_high_line = std::make_shared<backtrader::LineRoot>(insufficient_highs.size(), "high");
+    auto insufficient_low_line = std::make_shared<backtrader::LineRoot>(insufficient_lows.size(), "low");
     
     for (size_t i = 0; i < insufficient_highs.size(); ++i) {
         insufficient_high_line->forward(insufficient_highs[i]);
         insufficient_low_line->forward(insufficient_lows[i]);
     }
     
-    auto insufficient_fractal = std::make_shared<indicators::Fractal>(
+    auto insufficient_fractal = std::make_shared<backtrader::indicators::Fractal>(
         insufficient_high_line, insufficient_low_line, 5);
     
     for (size_t i = 0; i < insufficient_highs.size(); ++i) {
@@ -385,15 +388,15 @@ TEST(OriginalTests, Fractal_Performance) {
         large_lows.push_back(base - 2.0);
     }
     
-    auto large_high_line = std::make_shared<LineRoot>(large_highs.size(), "high");
-    auto large_low_line = std::make_shared<LineRoot>(large_lows.size(), "low");
+    auto large_high_line = std::make_shared<backtrader::LineRoot>(large_highs.size(), "high");
+    auto large_low_line = std::make_shared<backtrader::LineRoot>(large_lows.size(), "low");
     
     for (size_t i = 0; i < large_highs.size(); ++i) {
         large_high_line->forward(large_highs[i]);
         large_low_line->forward(large_lows[i]);
     }
     
-    auto large_fractal = std::make_shared<indicators::Fractal>(
+    auto large_fractal = std::make_shared<backtrader::indicators::Fractal>(
         large_high_line, large_low_line, 5);
     
     auto start_time = std::chrono::high_resolution_clock::now();

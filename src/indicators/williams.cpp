@@ -23,7 +23,7 @@ void WilliamsR::prenext() {
 void WilliamsR::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
-    auto percr_line = lines->getline(Lines::percR);
+    auto percr_line = lines->getline(percR);
     auto close_line = datas[0]->lines->getline(3); // Close line
     
     if (!percr_line || !close_line) return;
@@ -44,7 +44,7 @@ void WilliamsR::next() {
 void WilliamsR::once(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
-    auto percr_line = lines->getline(Lines::percR);
+    auto percr_line = lines->getline(percR);
     auto close_line = datas[0]->lines->getline(3); // Close line
     
     if (!percr_line || !close_line) return;
@@ -123,7 +123,7 @@ void WilliamsAD::prenext() {
 void WilliamsAD::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
-    auto ad_line = lines->getline(Lines::ad);
+    auto ad_line = lines->getline(ad);
     auto close_line = datas[0]->lines->getline(3); // Close line
     
     if (!ad_line || !close_line) return;
@@ -143,8 +143,8 @@ void WilliamsAD::next() {
     double current_close = (*close_line)[0];
     double prev_close = (*close_line)[-1];
     
-    auto truehigh_line = truehigh_->lines->getline(TrueHigh::Lines::truehigh);
-    auto truelow_line = truelow_->lines->getline(TrueLow::Lines::truelow);
+    auto truehigh_line = truehigh_->lines->getline(TrueHigh::truehigh);
+    auto truelow_line = truelow_->lines->getline(TrueLow::truelow);
     
     if (!truehigh_line || !truelow_line) return;
     
@@ -180,13 +180,13 @@ void WilliamsAD::once(int start, int end) {
     truehigh_->once(start, end);
     truelow_->once(start, end);
     
-    auto ad_line = lines->getline(Lines::ad);
+    auto ad_line = lines->getline(ad);
     auto close_line = datas[0]->lines->getline(3); // Close line
     
     if (!ad_line || !close_line) return;
     
-    auto truehigh_line = truehigh_->lines->getline(TrueHigh::Lines::truehigh);
-    auto truelow_line = truelow_->lines->getline(TrueLow::Lines::truelow);
+    auto truehigh_line = truehigh_->lines->getline(TrueHigh::truehigh);
+    auto truelow_line = truelow_->lines->getline(TrueLow::truelow);
     
     if (!truehigh_line || !truelow_line) return;
     

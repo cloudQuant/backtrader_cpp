@@ -13,14 +13,14 @@
  * chkind = btind.PPO
  */
 
-#include "test_common_simple.h"
+#include "test_common.h"
+#include <random>
 
-using namespace backtrader::indicators;
 #include "indicators/ppo.h"
 
-using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
+using namespace backtrader;
 using namespace backtrader::indicators;
 
 namespace {
@@ -45,7 +45,7 @@ TEST(OriginalTests, PPO_Manual) {
     ASSERT_FALSE(csv_data.empty());
     
     // 创建数据线
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -115,7 +115,7 @@ TEST(OriginalTests, PPO_Manual) {
 // PPO关系验证测试
 TEST(OriginalTests, PPO_RelationshipValidation) {
     auto csv_data = getdata(0);
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -150,14 +150,14 @@ protected:
         csv_data_ = getdata(0);
         ASSERT_FALSE(csv_data_.empty());
         
-        close_line_ = std::make_shared<LineRoot>(csv_data_.size(), "close");
+        close_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "close");
         for (const auto& bar : csv_data_) {
             close_line_->forward(bar.close);
         }
     }
     
     std::vector<CSVDataReader::OHLCVData> csv_data_;
-    std::shared_ptr<LineRoot> close_line_;
+    std::shared_ptr<backtrader::LineRoot> close_line_;
 };
 
 TEST_P(PPOParameterizedTest, DifferentParameters) {
@@ -208,8 +208,8 @@ INSTANTIATE_TEST_SUITE_P(
 // PPO vs MACD关系测试
 TEST(OriginalTests, PPO_vs_MACD_Relationship) {
     auto csv_data = getdata(0);
-    auto close_line_ppo = std::make_shared<LineRoot>(csv_data.size(), "close_ppo");
-    auto close_line_macd = std::make_shared<LineRoot>(csv_data.size(), "close_macd");
+    auto close_line_ppo = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close_ppo");
+    auto close_line_macd = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close_macd");
     
     for (const auto& bar : csv_data) {
         close_line_ppo->forward(bar.close);
@@ -245,7 +245,7 @@ TEST(OriginalTests, PPO_vs_MACD_Relationship) {
 // 交叉信号测试
 TEST(OriginalTests, PPO_CrossoverSignals) {
     auto csv_data = getdata(0);
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -294,7 +294,7 @@ TEST(OriginalTests, PPO_CrossoverSignals) {
 // 趋势强度测试
 TEST(OriginalTests, PPO_TrendStrength) {
     auto csv_data = getdata(0);
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -338,7 +338,7 @@ TEST(OriginalTests, PPO_TrendStrength) {
 // 零线测试
 TEST(OriginalTests, PPO_ZeroLineTest) {
     auto csv_data = getdata(0);
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -394,7 +394,7 @@ TEST(OriginalTests, PPO_EdgeCases) {
     // 测试相同价格的情况
     std::vector<double> flat_prices(50, 100.0);  // 50个相同价格
     
-    auto flat_line = std::make_shared<LineRoot>(flat_prices.size(), "flat");
+    auto flat_line = std::make_shared<backtrader::LineRoot>(flat_prices.size(), "flat");
     for (double price : flat_prices) {
         flat_line->forward(price);
     }
@@ -436,7 +436,7 @@ TEST(OriginalTests, PPO_Performance) {
         large_data.push_back(dist(rng));
     }
     
-    auto large_line = std::make_shared<LineRoot>(large_data.size(), "large");
+    auto large_line = std::make_shared<backtrader::LineRoot>(large_data.size(), "large");
     for (double price : large_data) {
         large_line->forward(price);
     }

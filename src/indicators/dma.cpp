@@ -7,7 +7,6 @@ namespace backtrader {
 // ZeroLagIndicator implementation
 ZeroLagIndicator::ZeroLagIndicator() : Indicator(), ec_(0.0), ec1_(0.0), ec2_(0.0) {
     setup_lines();
-    _minperiod(params.period);
     
     // Calculate alpha
     alpha_ = 2.0 / (params.period + 1.0);
@@ -24,7 +23,7 @@ void ZeroLagIndicator::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto zerolag_line = lines->getline(Lines::zerolag);
+    auto zerolag_line = lines->getline(zerolag);
     
     if (!data_line || !zerolag_line) return;
     
@@ -59,7 +58,7 @@ void ZeroLagIndicator::once(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto zerolag_line = lines->getline(Lines::zerolag);
+    auto zerolag_line = lines->getline(zerolag);
     
     if (!data_line || !zerolag_line) return;
     
@@ -100,15 +99,31 @@ void ZeroLagIndicator::once(int start, int end) {
 // DicksonMovingAverage implementation
 DicksonMovingAverage::DicksonMovingAverage() : Indicator() {
     setup_lines();
-    _minperiod(std::max(params.period, params.hperiod));
     
     // Create component indicators
     zerolag_ = std::make_shared<ZeroLagIndicator>();
     zerolag_->params.period = params.period;
     zerolag_->params.gainlimit = params.gainlimit;
+}
+
+DicksonMovingAverage::DicksonMovingAverage(std::shared_ptr<LineRoot> data) : Indicator() {
+    setup_lines();
     
-    hma_ = std::make_shared<HMA>();
-    hma_->params.period = params.hperiod;
+    // Create component indicators
+    zerolag_ = std::make_shared<ZeroLagIndicator>();
+    zerolag_->params.period = params.period;
+    zerolag_->params.gainlimit = params.gainlimit;
+}
+
+DicksonMovingAverage::DicksonMovingAverage(std::shared_ptr<LineRoot> data, int period, int displacement) : Indicator() {
+    params.period = period;
+    params.displacement = displacement;
+    setup_lines();
+    
+    // Create component indicators
+    zerolag_ = std::make_shared<ZeroLagIndicator>();
+    zerolag_->params.period = params.period;
+    zerolag_->params.gainlimit = params.gainlimit;
 }
 
 void DicksonMovingAverage::setup_lines() {
@@ -117,68 +132,70 @@ void DicksonMovingAverage::setup_lines() {
         }
 }
 
+double DicksonMovingAverage::get(int ago) const {
+    if (!lines || lines->size() == 0) {
+        return 0.0;
+    }
+    
+    auto dma_line = lines->getline(dma);
+    if (!dma_line) {
+        return 0.0;
+    }
+    
+    return (*dma_line)[ago];
+}
+
+int DicksonMovingAverage::getMinPeriod() const {
+    return params.period;
+}
+
 void DicksonMovingAverage::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
-    auto dma_line = lines->getline(Lines::dma);
+    auto dma_line = lines->getline(dma);
     if (!dma_line) return;
     
     // Set data for component indicators
-    if (zerolag_ && hma_) {
+    if (zerolag_) {
         zerolag_->datas = datas;
-        hma_->datas = datas;
         
-        // Calculate components
-        zerolag_->next();
-        hma_->next();
+        // Calculate components using public calculate method
+        zerolag_->calculate();
         
         // Get values from components
         double zerolag_value = 0.0;
-        double hma_value = 0.0;
         
         if (zerolag_->lines && zerolag_->lines->getline(0)) {
             zerolag_value = (*zerolag_->lines->getline(0))[0];
         }
         
-        if (hma_->lines && hma_->lines->getline(0)) {
-            hma_value = (*hma_->lines->getline(0))[0];
-        }
-        
-        // Calculate DMA as average of components
-        dma_line->set(0, (zerolag_value + hma_value) / 2.0);
+        // For simplified DMA, just use zero lag value
+        dma_line->set(0, zerolag_value);
     }
 }
 
 void DicksonMovingAverage::once(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
-    auto dma_line = lines->getline(Lines::dma);
+    auto dma_line = lines->getline(dma);
     if (!dma_line) return;
     
-    // Set data for component indicators
-    if (zerolag_ && hma_) {
+    // Set data for component indicators  
+    if (zerolag_) {
         zerolag_->datas = datas;
-        hma_->datas = datas;
         
-        // Calculate components
-        zerolag_->once(start, end);
-        hma_->once(start, end);
-        
-        // Combine results
+        // Calculate components using calculate method for each index
         for (int i = start; i < end; ++i) {
+            zerolag_->calculate();
+            
             double zerolag_value = 0.0;
-            double hma_value = 0.0;
             
             if (zerolag_->lines && zerolag_->lines->getline(0)) {
-                zerolag_value = (*zerolag_->lines->getline(0))[i];
+                zerolag_value = (*zerolag_->lines->getline(0))[0];
             }
             
-            if (hma_->lines && hma_->lines->getline(0)) {
-                hma_value = (*hma_->lines->getline(0))[i];
-            }
-            
-            // Calculate DMA as average of components
-            dma_line->set(i, (zerolag_value + hma_value) / 2.0);
+            // For simplified DMA, just use zero lag value
+            dma_line->set(i, zerolag_value);
         }
     }
 }

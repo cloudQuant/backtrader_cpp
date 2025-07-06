@@ -1,8 +1,7 @@
 #pragma once
 
 #include "../indicator.h"
-#include "ema.h"
-#include "hma.h"
+#include "../lineseries.h"
 
 namespace backtrader {
 
@@ -22,6 +21,9 @@ public:
     ZeroLagIndicator();
     virtual ~ZeroLagIndicator() = default;
     
+    // Public calculation method
+    void calculate() { next(); }
+    
 protected:
     void next() override;
     void once(int start, int end) override;
@@ -29,8 +31,8 @@ protected:
 private:
     void setup_lines();
     
-    // EMA for calculation
-    std::shared_ptr<EMA> ema_;
+    // Values for calculation
+    double ema_value_;
     
     // Alpha values
     double alpha_;
@@ -47,8 +49,8 @@ class DicksonMovingAverage : public Indicator {
 public:
     struct Params {
         int period = 14;
+        int displacement = 14;  // Added displacement parameter
         int gainlimit = 50;
-        int hperiod = 7;
     } params;
     
     // Lines
@@ -57,7 +59,15 @@ public:
     };
     
     DicksonMovingAverage();
+    // Constructor for test framework compatibility
+    DicksonMovingAverage(std::shared_ptr<LineRoot> data);
+    // Constructor with period and displacement for manual tests
+    DicksonMovingAverage(std::shared_ptr<LineRoot> data, int period, int displacement);
     virtual ~DicksonMovingAverage() = default;
+    
+    // Utility methods
+    double get(int ago = 0) const;
+    int getMinPeriod() const;
     
 protected:
     void next() override;
@@ -68,7 +78,6 @@ private:
     
     // Component indicators
     std::shared_ptr<ZeroLagIndicator> zerolag_;
-    std::shared_ptr<HMA> hma_;
 };
 
 // Aliases

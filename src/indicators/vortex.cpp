@@ -65,8 +65,8 @@ void Vortex::next() {
     }
     
     // Calculate Vortex Indicators
-    auto vi_plus_line = lines->getline(Lines::vi_plus);
-    auto vi_minus_line = lines->getline(Lines::vi_minus);
+    auto vi_plus_line = lines->getline(vi_plus);
+    auto vi_minus_line = lines->getline(vi_minus);
     
     if (vi_plus_line && vi_minus_line && vm_plus_values_.size() >= params.period) {
         double sum_vm_plus = get_sum_vm_plus(params.period);
@@ -124,8 +124,8 @@ void Vortex::once(int start, int end) {
         }
     }
     
-    auto vi_plus_line = lines->getline(Lines::vi_plus);
-    auto vi_minus_line = lines->getline(Lines::vi_minus);
+    auto vi_plus_line = lines->getline(vi_plus);
+    auto vi_minus_line = lines->getline(vi_minus);
     
     if (!vi_plus_line || !vi_minus_line) return;
     

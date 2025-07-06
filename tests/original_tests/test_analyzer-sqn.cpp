@@ -13,28 +13,31 @@
 #include "strategy.h"
 #include "indicators/sma.h"
 #include "indicators/crossover.h"
-#include "cerebro/Cerebro.h"
+#include "cerebro.h"
+#include "position.h"
 #include <chrono>
 #include <iomanip>
 
 using namespace backtrader::indicators;
 using namespace backtrader::tests::original;
 
-class RunStrategy : public Strategy {
+class RunStrategy : public backtrader::Strategy {
 public:
     struct Params {
-        int period = 15;
-        int maxtrades = -1;  // -1 means None/unlimited
-        bool printdata = true;
-        bool printops = true;
-        bool stocklike = true;
+        int period;
+        int maxtrades;  // -1 means None/unlimited
+        bool printdata;
+        bool printops;
+        bool stocklike;
+        
+        Params() : period(15), maxtrades(-1), printdata(true), printops(true), stocklike(true) {}
     };
 
 private:
     Params params_;
     std::shared_ptr<Order> orderid_;
-    std::shared_ptr<indicators::SMA> sma_;
-    std::shared_ptr<indicators::CrossOver> cross_;
+    std::shared_ptr<backtrader::indicators::SMA> sma_;
+    std::shared_ptr<backtrader::indicators::CrossOver> cross_;
     
     std::vector<std::string> buycreate_;
     std::vector<std::string> sellcreate_;
@@ -61,7 +64,7 @@ public:
     }
 
     void notify_trade(const Trade& trade) override {
-        if (trade.isclosed) {
+        if (trade.isclosed()) {
             tradecount_++;
         }
     }
@@ -78,7 +81,7 @@ public:
                     std::ostringstream oss;
                     oss << "BUY, " << std::fixed << std::setprecision(2) 
                         << order.executed.price;
-                    log(oss.str(), order.executed.dt);
+                    log(oss.str(), timepoint_to_double(order.executed.dt));
                 }
                 std::ostringstream oss;
                 oss << std::fixed << std::setprecision(2) << order.executed.price;
@@ -88,7 +91,7 @@ public:
                     std::ostringstream oss;
                     oss << "SELL, " << std::fixed << std::setprecision(2) 
                         << order.executed.price;
-                    log(oss.str(), order.executed.dt);
+                    log(oss.str(), timepoint_to_double(order.executed.dt));
                 }
                 std::ostringstream oss;
                 oss << std::fixed << std::setprecision(2) << order.executed.price;
@@ -110,20 +113,20 @@ public:
         // Flag to allow new orders in the system or not
         orderid_ = nullptr;
         
-        sma_ = std::make_shared<indicators::SMA>(data(0), params_.period);
-        cross_ = std::make_shared<indicators::CrossOver>(data(0)->close(), sma_, true);
+        sma_ = std::make_shared<backtrader::indicators::SMA>(data(0), params_.period);
+        cross_ = std::make_shared<backtrader::indicators::CrossOver>(data(0), sma_, true);
     }
 
     void start() override {
         if (!params_.stocklike) {
-            broker()->setcommission(2.0, 10.0, 1000.0);
+            broker_ptr()->setcommission(2.0, 10.0, 1000.0);
         }
 
         if (params_.printdata) {
             log("-------------------------", 0.0, true);
             std::ostringstream oss;
             oss << "Starting portfolio value: " << std::fixed << std::setprecision(2) 
-                << broker()->getvalue();
+                << broker_ptr()->getvalue();
             log(oss.str(), 0.0, true);
         }
 
@@ -145,12 +148,12 @@ public:
             
             std::ostringstream oss;
             oss << "Final portfolio value: " << std::fixed << std::setprecision(2) 
-                << broker()->getvalue();
+                << broker_ptr()->getvalue();
             log(oss.str());
             
             oss.str("");
             oss << "Final cash value: " << std::fixed << std::setprecision(2) 
-                << broker()->getcash();
+                << broker_ptr()->getcash();
             log(oss.str());
             
             log("-------------------------");
@@ -181,7 +184,7 @@ public:
             return;
         }
 
-        if (!position()->size) {
+        if (!position() || !position()->size) {
             if (params_.maxtrades < 0 || tradecount_ < params_.maxtrades) {
                 if (cross_->get(0) > 0.0) {
                     if (params_.printops) {
@@ -228,11 +231,11 @@ TEST(OriginalTests, AnalyzerSQN_BasicTest) {
     std::vector<int> maxtrades_values = {-1, 0, 1};  // -1 means None/unlimited
     
     for (int maxtrades : maxtrades_values) {
-        // 创建Cerebro
-        auto cerebro = std::make_unique<Cerebro>();
+        // 创建backtrader::Cerebro
+        auto cerebro = std::make_unique<backtrader::Cerebro>();
         
         // 加载数据
-        auto data = getdata(0);
+        auto data = getdata_feed(0);
         cerebro->adddata(data);
         
         // 设置策略参数
@@ -246,7 +249,7 @@ TEST(OriginalTests, AnalyzerSQN_BasicTest) {
         cerebro->addstrategy<RunStrategy>(params);
         
         // 添加SQN分析器
-        cerebro->addanalyzer<analyzers::SQN>("SQN");
+        cerebro->addanalyzer<backtrader::analyzers::SQN>("SQN");
         
         // 运行回测
         auto results = cerebro->run();
@@ -254,25 +257,33 @@ TEST(OriginalTests, AnalyzerSQN_BasicTest) {
         ASSERT_EQ(results.size(), 1) << "Should have exactly 1 strategy result";
         
         auto& strategy = results[0];
-        auto sqn_analyzer = strategy->getanalyzer("SQN");
+        auto sqn_analyzer = strategy->getanalyzer<backtrader::SQN>("SQN");
         ASSERT_NE(sqn_analyzer, nullptr) << "SQN analyzer should exist";
         
         auto analysis = sqn_analyzer->get_analysis();
         
         // 验证结果
+        auto sqn_it = analysis.find("sqn");
+        auto trades_it = analysis.find("trades");
+        ASSERT_NE(sqn_it, analysis.end()) << "Analysis should have sqn";
+        ASSERT_NE(trades_it, analysis.end()) << "Analysis should have trades";
+        
+        double sqn_value = std::get<double>(sqn_it->second);
+        int trades_value = std::get<int>(trades_it->second);
+        
         if (maxtrades == 0 || maxtrades == 1) {
-            EXPECT_DOUBLE_EQ(analysis.sqn, 0.0) 
+            EXPECT_DOUBLE_EQ(sqn_value, 0.0) 
                 << "SQN should be 0 for " << maxtrades << " trades";
-            EXPECT_EQ(analysis.trades, maxtrades) 
+            EXPECT_EQ(trades_value, maxtrades) 
                 << "Trade count should match maxtrades";
         } else {
             // 处理不同精度
             std::ostringstream oss;
-            oss << std::fixed << std::setprecision(12) << analysis.sqn;
+            oss << std::fixed << std::setprecision(12) << sqn_value;
             std::string sqn_str = oss.str();
             EXPECT_EQ(sqn_str.substr(0, 14), "0.912550316439") 
                 << "SQN value mismatch: " << sqn_str;
-            EXPECT_EQ(analysis.trades, 11) 
+            EXPECT_EQ(trades_value, 11) 
                 << "Should have 11 trades for unlimited trading";
         }
     }
@@ -280,11 +291,11 @@ TEST(OriginalTests, AnalyzerSQN_BasicTest) {
 
 // 测试SQN分析器详细功能
 TEST(OriginalTests, AnalyzerSQN_DetailedTest) {
-    // 创建Cerebro
-    auto cerebro = std::make_unique<Cerebro>();
+    // 创建backtrader::Cerebro
+    auto cerebro = std::make_unique<backtrader::Cerebro>();
     
     // 加载数据
-    auto data = getdata(0);
+    auto data = getdata_feed(0);
     cerebro->adddata(data);
     
     // 设置策略参数
@@ -298,7 +309,7 @@ TEST(OriginalTests, AnalyzerSQN_DetailedTest) {
     cerebro->addstrategy<RunStrategy>(params);
     
     // 添加SQN分析器
-    cerebro->addanalyzer<analyzers::SQN>("SQN");
+    cerebro->addanalyzer<backtrader::analyzers::SQN>("SQN");
     
     // 运行回测
     auto results = cerebro->run();
@@ -306,31 +317,39 @@ TEST(OriginalTests, AnalyzerSQN_DetailedTest) {
     ASSERT_EQ(results.size(), 1) << "Should have exactly 1 strategy result";
     
     auto& strategy = results[0];
-    auto sqn_analyzer = strategy->getanalyzer("SQN");
+    auto sqn_analyzer = strategy->getanalyzer<backtrader::SQN>("SQN");
     ASSERT_NE(sqn_analyzer, nullptr) << "SQN analyzer should exist";
     
     auto analysis = sqn_analyzer->get_analysis();
     
     // 验证SQN值范围
-    EXPECT_GT(analysis.sqn, -10.0) << "SQN should be reasonable";
-    EXPECT_LT(analysis.sqn, 10.0) << "SQN should be reasonable";
+    auto sqn_it = analysis.find("sqn");
+    auto trades_it = analysis.find("trades");
+    ASSERT_NE(sqn_it, analysis.end()) << "Analysis should have sqn";
+    ASSERT_NE(trades_it, analysis.end()) << "Analysis should have trades";
+    
+    double sqn_value = std::get<double>(sqn_it->second);
+    int trades_value = std::get<int>(trades_it->second);
+    
+    EXPECT_GT(sqn_value, -10.0) << "SQN should be reasonable";
+    EXPECT_LT(sqn_value, 10.0) << "SQN should be reasonable";
     
     // 验证交易次数
-    EXPECT_GT(analysis.trades, 0) << "Should have some trades";
+    EXPECT_GT(trades_value, 0) << "Should have some trades";
     
     // 验证其他统计数据
-    if (analysis.trades > 0) {
-        EXPECT_TRUE(std::isfinite(analysis.sqn)) << "SQN should be finite";
+    if (trades_value > 0) {
+        EXPECT_TRUE(std::isfinite(sqn_value)) << "SQN should be finite";
     }
 }
 
 // 测试空交易的SQN
 TEST(OriginalTests, AnalyzerSQN_NoTrades) {
-    // 创建Cerebro
-    auto cerebro = std::make_unique<Cerebro>();
+    // 创建backtrader::Cerebro
+    auto cerebro = std::make_unique<backtrader::Cerebro>();
     
     // 加载数据
-    auto data = getdata(0);
+    auto data = getdata_feed(0);
     cerebro->adddata(data);
     
     // 设置策略参数 - 不允许交易
@@ -344,27 +363,35 @@ TEST(OriginalTests, AnalyzerSQN_NoTrades) {
     cerebro->addstrategy<RunStrategy>(params);
     
     // 添加SQN分析器
-    cerebro->addanalyzer<analyzers::SQN>("SQN");
+    cerebro->addanalyzer<backtrader::analyzers::SQN>("SQN");
     
     // 运行回测
     auto results = cerebro->run();
     
     auto& strategy = results[0];
-    auto sqn_analyzer = strategy->getanalyzer("SQN");
+    auto sqn_analyzer = strategy->getanalyzer<backtrader::SQN>("SQN");
     auto analysis = sqn_analyzer->get_analysis();
     
     // 没有交易时，SQN应该是0
-    EXPECT_DOUBLE_EQ(analysis.sqn, 0.0) << "SQN should be 0 with no trades";
-    EXPECT_EQ(analysis.trades, 0) << "Should have 0 trades";
+    auto sqn_it = analysis.find("sqn");
+    auto trades_it = analysis.find("trades");
+    ASSERT_NE(sqn_it, analysis.end()) << "Analysis should have sqn";
+    ASSERT_NE(trades_it, analysis.end()) << "Analysis should have trades";
+    
+    double sqn_value = std::get<double>(sqn_it->second);
+    int trades_value = std::get<int>(trades_it->second);
+    
+    EXPECT_DOUBLE_EQ(sqn_value, 0.0) << "SQN should be 0 with no trades";
+    EXPECT_EQ(trades_value, 0) << "Should have 0 trades";
 }
 
 // 测试单次交易的SQN
 TEST(OriginalTests, AnalyzerSQN_SingleTrade) {
-    // 创建Cerebro
-    auto cerebro = std::make_unique<Cerebro>();
+    // 创建backtrader::Cerebro
+    auto cerebro = std::make_unique<backtrader::Cerebro>();
     
     // 加载数据
-    auto data = getdata(0);
+    auto data = getdata_feed(0);
     cerebro->adddata(data);
     
     // 设置策略参数 - 只允许一次交易
@@ -378,29 +405,37 @@ TEST(OriginalTests, AnalyzerSQN_SingleTrade) {
     cerebro->addstrategy<RunStrategy>(params);
     
     // 添加SQN分析器
-    cerebro->addanalyzer<analyzers::SQN>("SQN");
+    cerebro->addanalyzer<backtrader::analyzers::SQN>("SQN");
     
     // 运行回测
     auto results = cerebro->run();
     
     auto& strategy = results[0];
-    auto sqn_analyzer = strategy->getanalyzer("SQN");
+    auto sqn_analyzer = strategy->getanalyzer<backtrader::SQN>("SQN");
     auto analysis = sqn_analyzer->get_analysis();
     
     // 单次交易时，标准差为0，SQN应该是0
-    EXPECT_DOUBLE_EQ(analysis.sqn, 0.0) << "SQN should be 0 with single trade";
-    EXPECT_EQ(analysis.trades, 1) << "Should have exactly 1 trade";
+    auto sqn_it = analysis.find("sqn");
+    auto trades_it = analysis.find("trades");
+    ASSERT_NE(sqn_it, analysis.end()) << "Analysis should have sqn";
+    ASSERT_NE(trades_it, analysis.end()) << "Analysis should have trades";
+    
+    double sqn_value = std::get<double>(sqn_it->second);
+    int trades_value = std::get<int>(trades_it->second);
+    
+    EXPECT_DOUBLE_EQ(sqn_value, 0.0) << "SQN should be 0 with single trade";
+    EXPECT_EQ(trades_value, 1) << "Should have exactly 1 trade";
 }
 
 // 性能测试
 TEST(OriginalTests, AnalyzerSQN_Performance) {
     auto start_time = std::chrono::high_resolution_clock::now();
     
-    // 创建Cerebro
-    auto cerebro = std::make_unique<Cerebro>();
+    // 创建backtrader::Cerebro
+    auto cerebro = std::make_unique<backtrader::Cerebro>();
     
     // 加载数据
-    auto data = getdata(0);
+    auto data = getdata_feed(0);
     cerebro->adddata(data);
     
     // 设置策略参数
@@ -414,9 +449,9 @@ TEST(OriginalTests, AnalyzerSQN_Performance) {
     cerebro->addstrategy<RunStrategy>(params);
     
     // 添加多个分析器
-    cerebro->addanalyzer<analyzers::SQN>("SQN1");
-    cerebro->addanalyzer<analyzers::SQN>("SQN2");
-    cerebro->addanalyzer<analyzers::SQN>("SQN3");
+    cerebro->addanalyzer<backtrader::analyzers::SQN>("SQN1");
+    cerebro->addanalyzer<backtrader::analyzers::SQN>("SQN2");
+    cerebro->addanalyzer<backtrader::analyzers::SQN>("SQN3");
     
     // 运行回测
     auto results = cerebro->run();
@@ -429,17 +464,29 @@ TEST(OriginalTests, AnalyzerSQN_Performance) {
     
     // 验证所有分析器都产生相同结果
     auto& strategy = results[0];
-    auto sqn1 = strategy->getanalyzer("SQN1");
-    auto sqn2 = strategy->getanalyzer("SQN2");
-    auto sqn3 = strategy->getanalyzer("SQN3");
+    auto sqn1 = strategy->getanalyzer<backtrader::SQN>("SQN1");
+    auto sqn2 = strategy->getanalyzer<backtrader::SQN>("SQN2");
+    auto sqn3 = strategy->getanalyzer<backtrader::SQN>("SQN3");
     
     auto analysis1 = sqn1->get_analysis();
     auto analysis2 = sqn2->get_analysis();
     auto analysis3 = sqn3->get_analysis();
     
-    EXPECT_DOUBLE_EQ(analysis1.sqn, analysis2.sqn) 
+    auto sqn1_it = analysis1.find("sqn");
+    auto sqn2_it = analysis2.find("sqn");
+    auto sqn3_it = analysis3.find("sqn");
+    
+    ASSERT_NE(sqn1_it, analysis1.end()) << "Analysis1 should have sqn";
+    ASSERT_NE(sqn2_it, analysis2.end()) << "Analysis2 should have sqn";
+    ASSERT_NE(sqn3_it, analysis3.end()) << "Analysis3 should have sqn";
+    
+    double sqn1_value = std::get<double>(sqn1_it->second);
+    double sqn2_value = std::get<double>(sqn2_it->second);
+    double sqn3_value = std::get<double>(sqn3_it->second);
+    
+    EXPECT_DOUBLE_EQ(sqn1_value, sqn2_value) 
         << "All SQN analyzers should produce same result";
-    EXPECT_DOUBLE_EQ(analysis2.sqn, analysis3.sqn) 
+    EXPECT_DOUBLE_EQ(sqn2_value, sqn3_value) 
         << "All SQN analyzers should produce same result";
     
     // 性能要求

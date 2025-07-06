@@ -1,6 +1,8 @@
 #pragma once
 
 #include "lineiterator.h"
+#include "broker.h"
+#include "analyzers.h"
 #include <map>
 #include <memory>
 #include <functional>
@@ -11,7 +13,6 @@ namespace backtrader {
 
 // Forward declarations
 class Cerebro;
-class Broker;
 class Sizer;
 class Trade;
 class Order;
@@ -52,7 +53,7 @@ public:
     // Environment references
     std::shared_ptr<Cerebro> env = nullptr;
     std::shared_ptr<Cerebro> cerebro = nullptr;
-    std::shared_ptr<Broker> broker = nullptr;
+    std::shared_ptr<BrokerBase> broker = nullptr;
     
     // Position sizing
     std::shared_ptr<Sizer> _sizer = nullptr;
@@ -81,6 +82,9 @@ public:
     // Slave analyzers
     std::vector<std::shared_ptr<void>> _slave_analyzers;
     
+    // Analyzer instance mapping
+    std::map<std::string, std::shared_ptr<Analyzer>> _analyzer_instances;
+    
     // Trade history
     bool _tradehistoryon = false;
     
@@ -91,7 +95,12 @@ public:
     virtual void notify_fund(double cash, double value, double fundvalue, double shares) {}
     virtual void notify_store(int status, double data) {}
     
+    // Overloaded notification methods for const reference compatibility
+    virtual void notify_order(const Order& order) {}
+    virtual void notify_trade(const Trade& trade) {}
+    
     // Strategy lifecycle methods
+    virtual void init() {}
     virtual void start() {}
     virtual void stop() {}
     virtual void prenext() override {}
@@ -117,10 +126,30 @@ public:
     // Position methods
     double getposition(std::shared_ptr<DataSeries> data = nullptr) const;
     double getpositionbyname(const std::string& name) const;
+    std::shared_ptr<Position> position(std::shared_ptr<DataSeries> data = nullptr) const;
     
     // Account information
     double getcash() const;
     double getvalue() const;
+    
+    // Broker access
+    std::shared_ptr<BrokerBase> broker_ptr() const { return broker; }
+    
+    // Data access methods
+    std::shared_ptr<LineSeries> data(int idx = 0) const;
+    size_t len() const;
+    size_t datas_count() const;
+    
+    // Analyzer access methods
+    template<typename AnalyzerType>
+    std::shared_ptr<AnalyzerType> getanalyzer(const std::string& name) const {
+        auto it = _analyzer_instances.find(name);
+        if (it != _analyzer_instances.end()) {
+            return std::dynamic_pointer_cast<AnalyzerType>(it->second);
+        }
+        return nullptr;
+    }
+    std::shared_ptr<void> getanalyzer(const std::string& name) const;
     
     // Logging
     virtual void log(const std::string& message, bool doprint = true);

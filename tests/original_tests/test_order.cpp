@@ -10,14 +10,16 @@
 
 #include "test_common.h"
 #include "broker/Order.h"
-#include "broker/Position.h"
+#include "position.h"
 #include "broker/CommInfo.h"
-#include "data/LineRoot.h"
+#include "data/backtrader::LineRoot.h"
 #include <memory>
 #include <vector>
 #include <cassert>
 
 using namespace backtrader::tests::original;
+using namespace backtrader;
+using namespace backtrader::indicators;
 
 // 模拟手续费信息类
 class FakeCommInfo : public CommInfo {
@@ -46,9 +48,9 @@ public:
 };
 
 // 模拟数据类
-class FakeData : public LineRoot {
+class FakeData : public backtrader::LineRoot {
 public:
-    FakeData() : LineRoot(1, "fake_data") {
+    FakeData() : backtrader::LineRoot(1, "fake_data") {
         forward(0.0);  // datetime
         addLine("close");
         getLine("close")->forward(0.0);
@@ -68,7 +70,7 @@ public:
 };
 
 // 执行订单的辅助函数
-void executeOrder(Position& position, Order& order, double size, double price, bool partial) {
+void executeOrder(backtrader::Position& position, Order& order, double size, double price, bool partial) {
     // 保存原始仓位价格
     double originalPrice = position.getPrice();
     
@@ -109,7 +111,7 @@ void executeOrder(Position& position, Order& order, double size, double price, b
 // 测试订单的部分执行和克隆功能
 TEST(OriginalTests, Order_PartialExecutionAndClone) {
     // 创建仓位和手续费信息
-    Position position;
+    backtrader::Position position;
     auto commInfo = std::make_shared<FakeCommInfo>();
     
     // 创建模拟数据
@@ -154,7 +156,7 @@ TEST(OriginalTests, Order_PartialExecutionAndClone) {
 
 // 测试订单状态转换
 TEST(OriginalTests, Order_StatusTransitions) {
-    Position position;
+    backtrader::Position position;
     auto commInfo = std::make_shared<FakeCommInfo>();
     auto fakeData = std::make_shared<FakeData>();
     
@@ -184,7 +186,7 @@ TEST(OriginalTests, Order_StatusTransitions) {
 
 // 测试不同类型的订单
 TEST(OriginalTests, Order_DifferentOrderTypes) {
-    Position position;
+    backtrader::Position position;
     auto commInfo = std::make_shared<FakeCommInfo>();
     auto fakeData = std::make_shared<FakeData>();
     
@@ -207,7 +209,7 @@ TEST(OriginalTests, Order_DifferentOrderTypes) {
 
 // 测试订单执行历史
 TEST(OriginalTests, Order_ExecutionHistory) {
-    Position position;
+    backtrader::Position position;
     auto commInfo = std::make_shared<FakeCommInfo>();
     auto fakeData = std::make_shared<FakeData>();
     
@@ -236,7 +238,7 @@ TEST(OriginalTests, Order_ExecutionHistory) {
 
 // 测试订单克隆的独立性
 TEST(OriginalTests, Order_CloneIndependence) {
-    Position position;
+    backtrader::Position position;
     auto commInfo = std::make_shared<FakeCommInfo>();
     auto fakeData = std::make_shared<FakeData>();
     

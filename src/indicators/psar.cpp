@@ -36,7 +36,7 @@ void ParabolicSAR::prenext() {
     }
     
     // Set NaN for prenext phase
-    auto psar_line = lines->getline(Lines::psar);
+    auto psar_line = lines->getline(psar);
     if (psar_line) {
         psar_line->set(0, std::numeric_limits<double>::quiet_NaN());
     }
@@ -84,7 +84,7 @@ void ParabolicSAR::next() {
     
     auto high_line = datas[0]->lines->getline(1);
     auto low_line = datas[0]->lines->getline(2);
-    auto psar_line = lines->getline(Lines::psar);
+    auto psar_line = lines->getline(psar);
     
     if (!high_line || !low_line || !psar_line) return;
     
@@ -151,7 +151,7 @@ void ParabolicSAR::once(int start, int end) {
     auto high_line = datas[0]->lines->getline(1);
     auto low_line = datas[0]->lines->getline(2);
     auto close_line = datas[0]->lines->getline(3);
-    auto psar_line = lines->getline(Lines::psar);
+    auto psar_line = lines->getline(psar);
     
     if (!high_line || !low_line || !close_line || !psar_line) return;
     

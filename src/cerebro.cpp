@@ -33,11 +33,11 @@ void Cerebro::replaydata(std::shared_ptr<DataSeries> data, int timeframe, int co
     adddata(data);
 }
 
-void Cerebro::setbroker(std::shared_ptr<Broker> broker) {
+void Cerebro::setbroker(std::shared_ptr<BrokerBase> broker) {
     broker_ = broker;
 }
 
-std::shared_ptr<Broker> Cerebro::getbroker() const {
+std::shared_ptr<BrokerBase> Cerebro::getbroker() const {
     return broker_;
 }
 
@@ -77,7 +77,6 @@ std::vector<std::shared_ptr<Strategy>> Cerebro::run(int maxcpus, bool preload, b
     
     // Setup phase
     _setup_observers();
-    _setup_analyzers();
     _setup_writers();
     
     if (preload && params.preload) {
@@ -96,12 +95,16 @@ std::vector<std::shared_ptr<Strategy>> Cerebro::run(int maxcpus, bool preload, b
             strategy->datas.push_back(data);
         }
         if (!strategy->datas.empty()) {
-            strategy->data = strategy->datas[0];
+            // Access the data member variable directly to avoid conflict with data() method
+            static_cast<LineIterator*>(strategy.get())->data = strategy->datas[0];
             strategy->_clock = strategy->datas[0];
         }
         
         strategies_.push_back(strategy);
     }
+    
+    // Setup analyzers after strategies are created
+    _setup_analyzers();
     
     // Run strategies
     if (runonce && params.runonce && !runonce_disabled_) {
@@ -169,8 +172,17 @@ void Cerebro::_setup_observers() {
 
 void Cerebro::_setup_analyzers() {
     // Create analyzers from factories
-    for (auto& factory : analyzer_factories_) {
-        analyzers_.push_back(factory());
+    for (size_t i = 0; i < analyzer_factories_.size(); ++i) {
+        auto analyzer = analyzer_factories_[i]();
+        analyzers_.push_back(analyzer);
+        
+        // Register analyzer with strategies if we have a name
+        if (i < analyzer_names_.size() && !strategies_.empty()) {
+            const std::string& name = analyzer_names_[i];
+            for (auto& strategy : strategies_) {
+                strategy->_analyzer_instances[name] = analyzer;
+            }
+        }
     }
 }
 

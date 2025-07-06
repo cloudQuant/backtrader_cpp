@@ -17,12 +17,25 @@ Momentum::Momentum(std::shared_ptr<LineSeries> data_source, int period)
     _minperiod(params.period + 1);
 }
 
+Momentum::Momentum(std::shared_ptr<LineRoot> data) 
+    : Indicator(), data_source_(nullptr), current_index_(0) {
+    setup_lines();
+    _minperiod(params.period + 1);
+}
+
+Momentum::Momentum(std::shared_ptr<LineRoot> data, int period) 
+    : Indicator(), data_source_(nullptr), current_index_(0) {
+    params.period = period;
+    setup_lines();
+    _minperiod(params.period + 1);
+}
+
 double Momentum::get(int ago) const {
     if (!lines || lines->size() == 0) {
         return std::numeric_limits<double>::quiet_NaN();
     }
     
-    auto line = lines->getline(Lines::momentum);
+    auto line = lines->getline(momentum);
     if (!line) {
         return std::numeric_limits<double>::quiet_NaN();
     }
@@ -58,7 +71,7 @@ void Momentum::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto momentum_line = lines->getline(Lines::momentum);
+    auto momentum_line = lines->getline(momentum);
     
     if (data_line && momentum_line) {
         double current_value = (*data_line)[0];
@@ -72,7 +85,7 @@ void Momentum::once(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto momentum_line = lines->getline(Lines::momentum);
+    auto momentum_line = lines->getline(momentum);
     
     if (!data_line || !momentum_line) return;
     
@@ -104,7 +117,7 @@ void MomentumOscillator::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto momosc_line = lines->getline(Lines::momosc);
+    auto momosc_line = lines->getline(momosc);
     
     if (data_line && momosc_line) {
         double current_value = (*data_line)[0];
@@ -123,7 +136,7 @@ void MomentumOscillator::once(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto momosc_line = lines->getline(Lines::momosc);
+    auto momosc_line = lines->getline(momosc);
     
     if (!data_line || !momosc_line) return;
     
@@ -158,7 +171,7 @@ double RateOfChange::get(int ago) const {
         return std::numeric_limits<double>::quiet_NaN();
     }
     
-    auto line = lines->getline(Lines::roc);
+    auto line = lines->getline(roc);
     if (!line) {
         return std::numeric_limits<double>::quiet_NaN();
     }
@@ -194,7 +207,7 @@ void RateOfChange::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto roc_line = lines->getline(Lines::roc);
+    auto roc_line = lines->getline(roc);
     
     if (data_line && roc_line) {
         double current_value = (*data_line)[0];
@@ -213,7 +226,7 @@ void RateOfChange::once(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto roc_line = lines->getline(Lines::roc);
+    auto roc_line = lines->getline(roc);
     
     if (!data_line || !roc_line) return;
     
@@ -263,8 +276,8 @@ void RateOfChange100::next() {
     // Skip protected method call for compilation
     // roc_indicator_->next();
     
-    auto roc100_line = lines->getline(Lines::roc100);
-    auto roc_line = roc_indicator_->lines->getline(RateOfChange::Lines::roc);
+    auto roc100_line = lines->getline(roc100);
+    auto roc_line = roc_indicator_->lines->getline(RateOfChange::roc);
     
     if (roc100_line && roc_line) {
         double roc_value = (*roc_line)[0];
@@ -283,8 +296,8 @@ void RateOfChange100::once(int start, int end) {
     // Skip protected method call for compilation
     // roc_indicator_->once(start, end);
     
-    auto roc100_line = lines->getline(Lines::roc100);
-    auto roc_line = roc_indicator_->lines->getline(RateOfChange::Lines::roc);
+    auto roc100_line = lines->getline(roc100);
+    auto roc_line = roc_indicator_->lines->getline(RateOfChange::roc);
     
     if (!roc100_line || !roc_line) return;
     

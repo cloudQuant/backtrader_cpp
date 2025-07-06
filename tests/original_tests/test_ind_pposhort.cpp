@@ -15,14 +15,14 @@
  * 注：PPOShort包含3条线：PPO, Signal, Histogram
  */
 
-#include "test_common_simple.h"
+#include "test_common.h"
+#include <random>
 
-using namespace backtrader::indicators;
 #include "indicators/pposhort.h"
 
-using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
+using namespace backtrader;
 using namespace backtrader::indicators;
 
 namespace {
@@ -47,7 +47,7 @@ TEST(OriginalTests, PPOShort_Manual) {
     ASSERT_FALSE(csv_data.empty());
     
     // 创建数据线
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -102,14 +102,14 @@ protected:
         csv_data_ = getdata(0);
         ASSERT_FALSE(csv_data_.empty());
         
-        close_line_ = std::make_shared<LineRoot>(csv_data_.size(), "close");
+        close_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "close");
         for (const auto& bar : csv_data_) {
             close_line_->forward(bar.close);
         }
     }
     
     std::vector<CSVDataReader::OHLCVData> csv_data_;
-    std::shared_ptr<LineRoot> close_line_;
+    std::shared_ptr<backtrader::LineRoot> close_line_;
 };
 
 TEST_P(PPOShortParameterizedTest, DifferentParameters) {
@@ -169,7 +169,7 @@ TEST(OriginalTests, PPOShort_CalculationLogic) {
                                   104.0, 106.0, 108.0, 110.0, 112.0, 114.0, 116.0, 118.0, 120.0, 122.0,
                                   124.0, 126.0, 128.0, 130.0, 132.0, 134.0, 136.0, 138.0, 140.0, 142.0};
     
-    auto price_line = std::make_shared<LineRoot>(prices.size(), "pposhort_calc");
+    auto price_line = std::make_shared<backtrader::LineRoot>(prices.size(), "pposhort_calc");
     for (double price : prices) {
         price_line->forward(price);
     }
@@ -213,7 +213,7 @@ TEST(OriginalTests, PPOShort_CalculationLogic) {
 // PPOShort零线穿越测试
 TEST(OriginalTests, PPOShort_ZeroCrossing) {
     auto csv_data = getdata(0);
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -277,7 +277,7 @@ TEST(OriginalTests, PPOShort_TrendAnalysis) {
         uptrend_prices.push_back(100.0 + i * 1.0);  // 强劲上升趋势
     }
     
-    auto uptrend_line = std::make_shared<LineRoot>(uptrend_prices.size(), "uptrend");
+    auto uptrend_line = std::make_shared<backtrader::LineRoot>(uptrend_prices.size(), "uptrend");
     for (double price : uptrend_prices) {
         uptrend_line->forward(price);
     }
@@ -305,7 +305,7 @@ TEST(OriginalTests, PPOShort_TrendAnalysis) {
         downtrend_prices.push_back(160.0 - i * 1.0);  // 强劲下降趋势
     }
     
-    auto downtrend_line = std::make_shared<LineRoot>(downtrend_prices.size(), "downtrend");
+    auto downtrend_line = std::make_shared<backtrader::LineRoot>(downtrend_prices.size(), "downtrend");
     for (double price : downtrend_prices) {
         downtrend_line->forward(price);
     }
@@ -349,7 +349,7 @@ TEST(OriginalTests, PPOShort_TrendAnalysis) {
 // PPOShort发散分析测试
 TEST(OriginalTests, PPOShort_DivergenceAnalysis) {
     auto csv_data = getdata(0);
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -419,7 +419,7 @@ TEST(OriginalTests, PPOShort_OscillationCharacteristics) {
         oscillating_prices.push_back(base + oscillation);
     }
     
-    auto osc_line = std::make_shared<LineRoot>(oscillating_prices.size(), "oscillating");
+    auto osc_line = std::make_shared<backtrader::LineRoot>(oscillating_prices.size(), "oscillating");
     for (double price : oscillating_prices) {
         osc_line->forward(price);
     }
@@ -469,7 +469,7 @@ TEST(OriginalTests, PPOShort_EdgeCases) {
     // 测试相同价格的情况
     std::vector<double> flat_prices(100, 100.0);
     
-    auto flat_line = std::make_shared<LineRoot>(flat_prices.size(), "flat");
+    auto flat_line = std::make_shared<backtrader::LineRoot>(flat_prices.size(), "flat");
     for (double price : flat_prices) {
         flat_line->forward(price);
     }
@@ -495,7 +495,7 @@ TEST(OriginalTests, PPOShort_EdgeCases) {
     }
     
     // 测试数据不足的情况
-    auto insufficient_line = std::make_shared<LineRoot>(100, "insufficient");
+    auto insufficient_line = std::make_shared<backtrader::LineRoot>(100, "insufficient");
     
     // 只添加少量数据点
     for (int i = 0; i < 30; ++i) {
@@ -535,7 +535,7 @@ TEST(OriginalTests, PPOShort_Performance) {
         large_data.push_back(dist(rng));
     }
     
-    auto large_line = std::make_shared<LineRoot>(large_data.size(), "large");
+    auto large_line = std::make_shared<backtrader::LineRoot>(large_data.size(), "large");
     for (double price : large_data) {
         large_line->forward(price);
     }

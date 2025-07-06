@@ -23,7 +23,7 @@ double PercentRank::get(int ago) const {
         return std::numeric_limits<double>::quiet_NaN();
     }
     
-    auto line = lines->getline(Lines::pctrank);
+    auto line = lines->getline(pctrank);
     if (!line) {
         return std::numeric_limits<double>::quiet_NaN();
     }
@@ -59,7 +59,7 @@ void PercentRank::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto pctrank_line = lines->getline(Lines::pctrank);
+    auto pctrank_line = lines->getline(pctrank);
     
     if (!data_line || !pctrank_line) return;
     
@@ -86,7 +86,7 @@ void PercentRank::once(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto pctrank_line = lines->getline(Lines::pctrank);
+    auto pctrank_line = lines->getline(pctrank);
     
     if (!data_line || !pctrank_line) return;
     

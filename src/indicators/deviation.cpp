@@ -27,7 +27,7 @@ void StandardDeviation::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto stddev_line = lines->getline(Lines::stddev);
+    auto stddev_line = lines->getline(stddev);
     
     if (!data_line || !stddev_line) return;
     
@@ -60,7 +60,7 @@ void StandardDeviation::once(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto stddev_line = lines->getline(Lines::stddev);
+    auto stddev_line = lines->getline(stddev);
     
     if (!data_line || !stddev_line) return;
     
@@ -107,7 +107,7 @@ void MeanDeviation::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto meandev_line = lines->getline(Lines::meandev);
+    auto meandev_line = lines->getline(meandev);
     
     if (!data_line || !meandev_line) return;
     
@@ -131,7 +131,7 @@ void MeanDeviation::once(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto meandev_line = lines->getline(Lines::meandev);
+    auto meandev_line = lines->getline(meandev);
     
     if (!data_line || !meandev_line) return;
     

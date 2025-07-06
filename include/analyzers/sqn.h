@@ -21,15 +21,16 @@ public:
     };
     
     SQN();
+    explicit SQN(const std::string& name);
     virtual ~SQN() = default;
     
     // Analyzer interface
     void start() override;
     void stop() override;
-    void notify_trade(const Trade& trade) override;
+    void notify_trade(std::shared_ptr<Trade> trade) override;
     
     // Get analysis data
-    std::map<std::string, double> get_analysis() override;
+    AnalysisResult get_analysis() const override;
     
     // Get SQN value and trade count
     double get_sqn() const { return sqn_value_; }

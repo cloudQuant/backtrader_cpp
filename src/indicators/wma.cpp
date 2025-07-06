@@ -36,6 +36,22 @@ WeightedMovingAverage::WeightedMovingAverage(std::shared_ptr<LineSeries> data_so
     }
 }
 
+WeightedMovingAverage::WeightedMovingAverage(std::shared_ptr<LineRoot> data, int period) 
+    : Indicator(), data_source_(nullptr), current_index_(0) {
+    params.period = period;
+    setup_lines();
+    _minperiod(params.period);
+    
+    // Calculate coefficient and weights
+    coef_ = 2.0 / (params.period * (params.period + 1.0));
+    
+    // Create weights: 1, 2, 3, ..., period
+    weights_.resize(params.period);
+    for (int i = 0; i < params.period; ++i) {
+        weights_[i] = static_cast<double>(i + 1);
+    }
+}
+
 void WeightedMovingAverage::setup_lines() {
     if (lines->size() == 0) {
             lines->add_line(std::make_shared<LineBuffer>());
@@ -46,7 +62,7 @@ void WeightedMovingAverage::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto wma_line = lines->getline(Lines::wma);
+    auto wma_line = lines->getline(wma);
     
     if (!data_line || !wma_line) return;
     
@@ -66,7 +82,7 @@ void WeightedMovingAverage::once(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto wma_line = lines->getline(Lines::wma);
+    auto wma_line = lines->getline(wma);
     
     if (!data_line || !wma_line) return;
     

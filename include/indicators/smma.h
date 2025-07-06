@@ -20,12 +20,14 @@ public:
     
     SmoothedMovingAverage();
     SmoothedMovingAverage(std::shared_ptr<LineSeries> data_source, int period = 30);
+    // Constructor for test framework compatibility
+    SmoothedMovingAverage(std::shared_ptr<LineRoot> data, int period = 30);
     virtual ~SmoothedMovingAverage() = default;
     
     // Utility methods
     double get(int ago = 0) const;
     int getMinPeriod() const;
-    void calculate();
+    void calculate() override;
     
 protected:
     void prenext() override;

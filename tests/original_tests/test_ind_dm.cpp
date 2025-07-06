@@ -14,12 +14,13 @@
  * chkind = btind.DM
  */
 
-#include "test_common_simple.h"
-
+#include "test_common.h"
 #include "indicators/dm.h"
-
+#include <random>
 
 using namespace backtrader::tests::original;
+using namespace backtrader;
+using namespace backtrader::indicators;
 
 namespace {
 
@@ -44,9 +45,9 @@ TEST(OriginalTests, DM_Manual) {
     ASSERT_FALSE(csv_data.empty());
     
     // 创建数据线
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -60,10 +61,12 @@ TEST(OriginalTests, DM_Manual) {
     // 计算所有值
     for (size_t i = 0; i < csv_data.size(); ++i) {
         dm->calculate();
+        // 移动到下一个数据点
         if (i < csv_data.size() - 1) {
-            high_line->forward();
-            low_line->forward();
-            close_line->forward();
+            const auto& next_bar = csv_data[i + 1];
+            high_line->forward(next_bar.high);
+            low_line->forward(next_bar.low);
+            close_line->forward(next_bar.close);
         }
     }
     
@@ -137,9 +140,9 @@ protected:
         csv_data_ = getdata(0);
         ASSERT_FALSE(csv_data_.empty());
         
-        high_line_ = std::make_shared<LineRoot>(csv_data_.size(), "high");
-        low_line_ = std::make_shared<LineRoot>(csv_data_.size(), "low");
-        close_line_ = std::make_shared<LineRoot>(csv_data_.size(), "close");
+        high_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "high");
+        low_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "low");
+        close_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "close");
         
         for (const auto& bar : csv_data_) {
             high_line_->forward(bar.high);
@@ -149,9 +152,9 @@ protected:
     }
     
     std::vector<CSVDataReader::OHLCVData> csv_data_;
-    std::shared_ptr<LineRoot> high_line_;
-    std::shared_ptr<LineRoot> low_line_;
-    std::shared_ptr<LineRoot> close_line_;
+    std::shared_ptr<backtrader::LineRoot> high_line_;
+    std::shared_ptr<backtrader::LineRoot> low_line_;
+    std::shared_ptr<backtrader::LineRoot> close_line_;
 };
 
 TEST_P(DMParameterizedTest, DifferentPeriods) {
@@ -162,9 +165,10 @@ TEST_P(DMParameterizedTest, DifferentPeriods) {
     for (size_t i = 0; i < csv_data_.size(); ++i) {
         dm->calculate();
         if (i < csv_data_.size() - 1) {
-            high_line_->forward();
-            low_line_->forward();
-            close_line_->forward();
+            const auto& next_bar = csv_data_[i + 1];
+            high_line_->forward(next_bar.high);
+            low_line_->forward(next_bar.low);
+            close_line_->forward(next_bar.close);
         }
     }
     
@@ -205,9 +209,9 @@ INSTANTIATE_TEST_SUITE_P(
 // 趋势强度识别测试
 TEST(OriginalTests, DM_TrendStrength) {
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -238,9 +242,10 @@ TEST(OriginalTests, DM_TrendStrength) {
         }
         
         if (i < csv_data.size() - 1) {
-            high_line->forward();
-            low_line->forward();
-            close_line->forward();
+            const auto& next_bar = csv_data[i + 1];
+            high_line->forward(next_bar.high);
+            low_line->forward(next_bar.low);
+            close_line->forward(next_bar.close);
         }
     }
     
@@ -257,9 +262,9 @@ TEST(OriginalTests, DM_TrendStrength) {
 // 方向性运动测试
 TEST(OriginalTests, DM_DirectionalMovement) {
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -288,9 +293,10 @@ TEST(OriginalTests, DM_DirectionalMovement) {
         }
         
         if (i < csv_data.size() - 1) {
-            high_line->forward();
-            low_line->forward();
-            close_line->forward();
+            const auto& next_bar = csv_data[i + 1];
+            high_line->forward(next_bar.high);
+            low_line->forward(next_bar.low);
+            close_line->forward(next_bar.close);
         }
     }
     
@@ -306,9 +312,9 @@ TEST(OriginalTests, DM_DirectionalMovement) {
 // DI交叉信号测试
 TEST(OriginalTests, DM_CrossoverSignals) {
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -349,9 +355,10 @@ TEST(OriginalTests, DM_CrossoverSignals) {
         }
         
         if (i < csv_data.size() - 1) {
-            high_line->forward();
-            low_line->forward();
-            close_line->forward();
+            const auto& next_bar = csv_data[i + 1];
+            high_line->forward(next_bar.high);
+            low_line->forward(next_bar.low);
+            close_line->forward(next_bar.close);
         }
     }
     
@@ -381,9 +388,9 @@ TEST(OriginalTests, DM_ADXTrendConfirmation) {
         trend_data.push_back(bar);
     }
     
-    auto trend_high = std::make_shared<LineRoot>(trend_data.size(), "trend_high");
-    auto trend_low = std::make_shared<LineRoot>(trend_data.size(), "trend_low");
-    auto trend_close = std::make_shared<LineRoot>(trend_data.size(), "trend_close");
+    auto trend_high = std::make_shared<backtrader::LineRoot>(trend_data.size(), "trend_high");
+    auto trend_low = std::make_shared<backtrader::LineRoot>(trend_data.size(), "trend_low");
+    auto trend_close = std::make_shared<backtrader::LineRoot>(trend_data.size(), "trend_close");
     
     for (const auto& bar : trend_data) {
         trend_high->forward(bar.high);
@@ -410,9 +417,10 @@ TEST(OriginalTests, DM_ADXTrendConfirmation) {
         }
         
         if (i < trend_data.size() - 1) {
-            trend_high->forward();
-            trend_low->forward();
-            trend_close->forward();
+            const auto& next_bar = trend_data[i + 1];
+            trend_high->forward(next_bar.high);
+            trend_low->forward(next_bar.low);
+            trend_close->forward(next_bar.close);
         }
     }
     
@@ -453,9 +461,9 @@ TEST(OriginalTests, DM_ChoppyMarket) {
         choppy_data.push_back(bar);
     }
     
-    auto choppy_high = std::make_shared<LineRoot>(choppy_data.size(), "choppy_high");
-    auto choppy_low = std::make_shared<LineRoot>(choppy_data.size(), "choppy_low");
-    auto choppy_close = std::make_shared<LineRoot>(choppy_data.size(), "choppy_close");
+    auto choppy_high = std::make_shared<backtrader::LineRoot>(choppy_data.size(), "choppy_high");
+    auto choppy_low = std::make_shared<backtrader::LineRoot>(choppy_data.size(), "choppy_low");
+    auto choppy_close = std::make_shared<backtrader::LineRoot>(choppy_data.size(), "choppy_close");
     
     for (const auto& bar : choppy_data) {
         choppy_high->forward(bar.high);
@@ -476,9 +484,10 @@ TEST(OriginalTests, DM_ChoppyMarket) {
         }
         
         if (i < choppy_data.size() - 1) {
-            choppy_high->forward();
-            choppy_low->forward();
-            choppy_close->forward();
+            const auto& next_bar = choppy_data[i + 1];
+            choppy_high->forward(next_bar.high);
+            choppy_low->forward(next_bar.low);
+            choppy_close->forward(next_bar.close);
         }
     }
     
@@ -509,9 +518,9 @@ TEST(OriginalTests, DM_EdgeCases) {
         flat_data.push_back(bar);
     }
     
-    auto flat_high = std::make_shared<LineRoot>(flat_data.size(), "flat_high");
-    auto flat_low = std::make_shared<LineRoot>(flat_data.size(), "flat_low");
-    auto flat_close = std::make_shared<LineRoot>(flat_data.size(), "flat_close");
+    auto flat_high = std::make_shared<backtrader::LineRoot>(flat_data.size(), "flat_high");
+    auto flat_low = std::make_shared<backtrader::LineRoot>(flat_data.size(), "flat_low");
+    auto flat_close = std::make_shared<backtrader::LineRoot>(flat_data.size(), "flat_close");
     
     for (const auto& bar : flat_data) {
         flat_high->forward(bar.high);
@@ -524,9 +533,10 @@ TEST(OriginalTests, DM_EdgeCases) {
     for (size_t i = 0; i < flat_data.size(); ++i) {
         flat_dm->calculate();
         if (i < flat_data.size() - 1) {
-            flat_high->forward();
-            flat_low->forward();
-            flat_close->forward();
+            const auto& next_bar = flat_data[i + 1];
+            flat_high->forward(next_bar.high);
+            flat_low->forward(next_bar.low);
+            flat_close->forward(next_bar.close);
         }
     }
     
@@ -550,9 +560,9 @@ TEST(OriginalTests, DM_EdgeCases) {
     }
     
     // 测试数据不足的情况
-    auto insufficient_high = std::make_shared<LineRoot>(100, "insufficient_high");
-    auto insufficient_low = std::make_shared<LineRoot>(100, "insufficient_low");
-    auto insufficient_close = std::make_shared<LineRoot>(100, "insufficient_close");
+    auto insufficient_high = std::make_shared<backtrader::LineRoot>(100, "insufficient_high");
+    auto insufficient_low = std::make_shared<backtrader::LineRoot>(100, "insufficient_low");
+    auto insufficient_close = std::make_shared<backtrader::LineRoot>(100, "insufficient_close");
     
     // 只添加几个数据点
     for (int i = 0; i < 30; ++i) {
@@ -566,9 +576,9 @@ TEST(OriginalTests, DM_EdgeCases) {
     for (int i = 0; i < 30; ++i) {
         insufficient_dm->calculate();
         if (i < 29) {
-            insufficient_high->forward();
-            insufficient_low->forward();
-            insufficient_close->forward();
+            insufficient_high->forward(105.0 + (i + 1));
+            insufficient_low->forward(95.0 + (i + 1));
+            insufficient_close->forward(100.0 + (i + 1));
         }
     }
     
@@ -604,9 +614,9 @@ TEST(OriginalTests, DM_Performance) {
         large_data.push_back(bar);
     }
     
-    auto large_high = std::make_shared<LineRoot>(large_data.size(), "large_high");
-    auto large_low = std::make_shared<LineRoot>(large_data.size(), "large_low");
-    auto large_close = std::make_shared<LineRoot>(large_data.size(), "large_close");
+    auto large_high = std::make_shared<backtrader::LineRoot>(large_data.size(), "large_high");
+    auto large_low = std::make_shared<backtrader::LineRoot>(large_data.size(), "large_low");
+    auto large_close = std::make_shared<backtrader::LineRoot>(large_data.size(), "large_close");
     
     for (const auto& bar : large_data) {
         large_high->forward(bar.high);
@@ -621,9 +631,10 @@ TEST(OriginalTests, DM_Performance) {
     for (size_t i = 0; i < large_data.size(); ++i) {
         large_dm->calculate();
         if (i < large_data.size() - 1) {
-            large_high->forward();
-            large_low->forward();
-            large_close->forward();
+            const auto& next_bar = large_data[i + 1];
+            large_high->forward(next_bar.high);
+            large_low->forward(next_bar.low);
+            large_close->forward(next_bar.close);
         }
     }
     

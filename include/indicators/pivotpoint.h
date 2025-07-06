@@ -25,6 +25,9 @@ public:
     PivotPoint();
     virtual ~PivotPoint() = default;
     
+    // Get method for accessing the indicator value
+    double get(int ago = 0) const;
+    
 protected:
     void prenext() override;
     void next() override;
@@ -60,6 +63,9 @@ public:
     FibonacciPivotPoint();
     virtual ~FibonacciPivotPoint() = default;
     
+    // Get method for accessing the indicator value
+    double get(int ago = 0) const;
+    
 protected:
     void prenext() override;
     void next() override;
@@ -85,6 +91,9 @@ public:
     
     DemarkPivotPoint();
     virtual ~DemarkPivotPoint() = default;
+    
+    // Get method for accessing the indicator value
+    double get(int ago = 0) const;
     
 protected:
     void prenext() override;

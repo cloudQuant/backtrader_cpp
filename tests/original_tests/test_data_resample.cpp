@@ -11,8 +11,8 @@
 
 #include "test_common.h"
 #include "indicators/sma.h"
-#include "data/DataResample.h"
-#include "cerebro/Cerebro.h"
+#include "feed.h"
+#include "cerebro.h"
 #include "strategy.h"
 #include <memory>
 #include <vector>
@@ -23,9 +23,9 @@ using namespace backtrader::indicators;
 using namespace backtrader::tests::original;
 
 // 测试策略，记录重采样过程中的数据
-class ResampleTestStrategy : public Strategy {
+class ResampleTestStrategy : public backtrader::Strategy {
 private:
-    std::shared_ptr<indicators::SMA> sma_;
+    std::shared_ptr<backtrader::indicators::SMA> sma_;
     std::vector<std::string> sma_values_;
     int next_count_;
     bool print_enabled_;
@@ -35,7 +35,7 @@ public:
         : next_count_(0), print_enabled_(print_enabled) {}
     
     void init() override {
-        sma_ = std::make_shared<indicators::SMA>(data(0), 30);
+        sma_ = std::make_shared<backtrader::indicators::SMA>(data(0), 30);
     }
     
     void next() override {
@@ -71,7 +71,7 @@ public:
     // 用于测试验证的getter
     int getNextCount() const { return next_count_; }
     const std::vector<std::string>& getSMAValues() const { return sma_values_; }
-    std::shared_ptr<indicators::SMA> getSMA() const { return sma_; }
+    std::shared_ptr<backtrader::indicators::SMA> getSMA() const { return sma_; }
 };
 
 // 测试基本数据重采样功能 - runonce模式
@@ -81,14 +81,14 @@ TEST(OriginalTests, DataResample_RunOnce) {
         "3836.453333", "3703.962333", "3741.802000"
     };
     
-    // 创建Cerebro
-    auto cerebro = std::make_unique<Cerebro>();
+    // 创建backtrader::Cerebro
+    auto cerebro = std::make_unique<backtrader::Cerebro>();
     
     // 设置运行模式 - runonce=true
     cerebro->setRunOnce(true);
     
     // 加载数据并设置重采样
-    auto data = getdata(0);
+    auto data = getdata_feed(0);
     auto resample_data = std::make_shared<DataResample>(data);
     resample_data->resample(TimeFrame::Weeks, 1);
     cerebro->adddata(resample_data);
@@ -138,14 +138,14 @@ TEST(OriginalTests, DataResample_NoRunOnce) {
         "3836.453333", "3703.962333", "3741.802000"
     };
     
-    // 创建Cerebro
-    auto cerebro = std::make_unique<Cerebro>();
+    // 创建backtrader::Cerebro
+    auto cerebro = std::make_unique<backtrader::Cerebro>();
     
     // 设置运行模式 - runonce=false
     cerebro->setRunOnce(false);
     
     // 加载数据并设置重采样
-    auto data = getdata(0);
+    auto data = getdata_feed(0);
     auto resample_data = std::make_shared<DataResample>(data);
     resample_data->resample(TimeFrame::Weeks, 1);
     cerebro->adddata(resample_data);
@@ -190,10 +190,10 @@ TEST(OriginalTests, DataResample_NoRunOnce) {
 // 测试runonce vs 非runonce模式的一致性
 TEST(OriginalTests, DataResample_RunOnceConsistency) {
     // 测试runonce=true
-    auto cerebro1 = std::make_unique<Cerebro>();
+    auto cerebro1 = std::make_unique<backtrader::Cerebro>();
     cerebro1->setRunOnce(true);
     
-    auto data1 = getdata(0);
+    auto data1 = getdata_feed(0);
     auto resample_data1 = std::make_shared<DataResample>(data1);
     resample_data1->resample(TimeFrame::Weeks, 1);
     cerebro1->adddata(resample_data1);
@@ -203,10 +203,10 @@ TEST(OriginalTests, DataResample_RunOnceConsistency) {
     auto strategy1 = std::dynamic_pointer_cast<ResampleTestStrategy>(results1[0]);
     
     // 测试runonce=false
-    auto cerebro2 = std::make_unique<Cerebro>();
+    auto cerebro2 = std::make_unique<backtrader::Cerebro>();
     cerebro2->setRunOnce(false);
     
-    auto data2 = getdata(0);
+    auto data2 = getdata_feed(0);
     auto resample_data2 = std::make_shared<DataResample>(data2);
     resample_data2->resample(TimeFrame::Weeks, 1);
     cerebro2->adddata(resample_data2);
@@ -234,8 +234,8 @@ TEST(OriginalTests, DataResample_RunOnceConsistency) {
 // 测试不同压缩比的重采样
 TEST(OriginalTests, DataResample_DifferentCompression) {
     // 测试1周压缩
-    auto cerebro1 = std::make_unique<Cerebro>();
-    auto data1 = getdata(0);
+    auto cerebro1 = std::make_unique<backtrader::Cerebro>();
+    auto data1 = getdata_feed(0);
     auto resample_data1 = std::make_shared<DataResample>(data1);
     resample_data1->resample(TimeFrame::Weeks, 1);
     cerebro1->adddata(resample_data1);
@@ -244,8 +244,8 @@ TEST(OriginalTests, DataResample_DifferentCompression) {
     auto strategy1 = std::dynamic_pointer_cast<ResampleTestStrategy>(results1[0]);
     
     // 测试2周压缩
-    auto cerebro2 = std::make_unique<Cerebro>();
-    auto data2 = getdata(0);
+    auto cerebro2 = std::make_unique<backtrader::Cerebro>();
+    auto data2 = getdata_feed(0);
     auto resample_data2 = std::make_shared<DataResample>(data2);
     resample_data2->resample(TimeFrame::Weeks, 2);
     cerebro2->adddata(resample_data2);
@@ -277,8 +277,8 @@ TEST(OriginalTests, DataResample_DifferentTimeframes) {
     std::vector<int> bar_counts;
     
     for (const auto& test : tests) {
-        auto cerebro = std::make_unique<Cerebro>();
-        auto data = getdata(0);
+        auto cerebro = std::make_unique<backtrader::Cerebro>();
+        auto data = getdata_feed(0);
         auto resample_data = std::make_shared<DataResample>(data);
         resample_data->resample(test.timeframe, 1);
         cerebro->adddata(resample_data);
@@ -300,7 +300,7 @@ TEST(OriginalTests, DataResample_DifferentTimeframes) {
 // 测试重采样数据的OHLC完整性
 TEST(OriginalTests, DataResample_OHLCIntegrity) {
     // 创建数据记录策略
-    class OHLCStrategy : public Strategy {
+    class OHLCStrategy : public backtrader::Strategy {
     public:
         struct BarData {
             double datetime;
@@ -326,11 +326,11 @@ TEST(OriginalTests, DataResample_OHLCIntegrity) {
         }
     };
     
-    // 创建Cerebro
-    auto cerebro = std::make_unique<Cerebro>();
+    // 创建backtrader::Cerebro
+    auto cerebro = std::make_unique<backtrader::Cerebro>();
     
     // 设置重采样
-    auto data = getdata(0);
+    auto data = getdata_feed(0);
     auto resample_data = std::make_shared<DataResample>(data);
     resample_data->resample(TimeFrame::Weeks, 1);
     cerebro->adddata(resample_data);
@@ -377,7 +377,7 @@ TEST(OriginalTests, DataResample_OHLCIntegrity) {
 // 测试重采样与原始数据的关系
 TEST(OriginalTests, DataResample_CompareOriginal) {
     // 先获取原始数据的统计
-    class OriginalDataStrategy : public Strategy {
+    class OriginalDataStrategy : public backtrader::Strategy {
     public:
         int bar_count = 0;
         double total_volume = 0.0;
@@ -395,15 +395,15 @@ TEST(OriginalTests, DataResample_CompareOriginal) {
     };
     
     // 测试原始数据
-    auto cerebro1 = std::make_unique<Cerebro>();
-    cerebro1->adddata(getdata(0));
+    auto cerebro1 = std::make_unique<backtrader::Cerebro>();
+    cerebro1->adddata(getdata_feed(0));
     cerebro1->addstrategy<OriginalDataStrategy>();
     auto results1 = cerebro1->run();
     auto original_strategy = std::dynamic_pointer_cast<OriginalDataStrategy>(results1[0]);
     
     // 测试重采样数据
-    auto cerebro2 = std::make_unique<Cerebro>();
-    auto data = getdata(0);
+    auto cerebro2 = std::make_unique<backtrader::Cerebro>();
+    auto data = getdata_feed(0);
     auto resample_data = std::make_shared<DataResample>(data);
     resample_data->resample(TimeFrame::Weeks, 1);
     cerebro2->adddata(resample_data);
@@ -434,7 +434,7 @@ TEST(OriginalTests, DataResample_CompareOriginal) {
 // 测试重采样时间对齐
 TEST(OriginalTests, DataResample_TimeAlignment) {
     // 创建时间检查策略
-    class TimeAlignmentStrategy : public Strategy {
+    class TimeAlignmentStrategy : public backtrader::Strategy {
     public:
         std::vector<double> datetimes;
         std::vector<std::string> date_strings;
@@ -446,11 +446,11 @@ TEST(OriginalTests, DataResample_TimeAlignment) {
         }
     };
     
-    // 创建Cerebro
-    auto cerebro = std::make_unique<Cerebro>();
+    // 创建backtrader::Cerebro
+    auto cerebro = std::make_unique<backtrader::Cerebro>();
     
     // 设置重采样
-    auto data = getdata(0);
+    auto data = getdata_feed(0);
     auto resample_data = std::make_shared<DataResample>(data);
     resample_data->resample(TimeFrame::Weeks, 1);
     cerebro->adddata(resample_data);
@@ -482,26 +482,26 @@ TEST(OriginalTests, DataResample_Performance) {
     
     // 测试两种模式的性能
     for (bool runonce : {true, false}) {
-        auto cerebro = std::make_unique<Cerebro>();
+        auto cerebro = std::make_unique<backtrader::Cerebro>();
         cerebro->setRunOnce(runonce);
         
         // 设置重采样
-        auto data = getdata(0);
+        auto data = getdata_feed(0);
         auto resample_data = std::make_shared<DataResample>(data);
         resample_data->resample(TimeFrame::Weeks, 1);
         cerebro->adddata(resample_data);
         
         // 添加复杂策略
-        class ComplexResampleStrategy : public Strategy {
+        class ComplexResampleStrategy : public backtrader::Strategy {
         public:
-            std::shared_ptr<indicators::SMA> sma_short;
-            std::shared_ptr<indicators::SMA> sma_medium;
-            std::shared_ptr<indicators::SMA> sma_long;
+            std::shared_ptr<backtrader::indicators::SMA> sma_short;
+            std::shared_ptr<backtrader::indicators::SMA> sma_medium;
+            std::shared_ptr<backtrader::indicators::SMA> sma_long;
             
             void init() override {
-                sma_short = std::make_shared<indicators::SMA>(data(0), 10);
-                sma_medium = std::make_shared<indicators::SMA>(data(0), 20);
-                sma_long = std::make_shared<indicators::SMA>(data(0), 50);
+                sma_short = std::make_shared<backtrader::indicators::SMA>(data(0), 10);
+                sma_medium = std::make_shared<backtrader::indicators::SMA>(data(0), 20);
+                sma_long = std::make_shared<backtrader::indicators::SMA>(data(0), 50);
             }
             
             void next() override {

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../analyzer.h"
+#include "../timeframe.h"
 #include <map>
 #include <string>
 #include <vector>
@@ -20,18 +21,20 @@ public:
     } params;
     
     TimeReturn();
+    explicit TimeReturn(const std::string& name);
+    TimeReturn(const std::string& name, TimeFrame timeframe);
     virtual ~TimeReturn() = default;
     
     // Analyzer interface
     void start() override;
     void next() override;
-    void notify_fund(double cash, double value, double fundvalue, int shares) override;
+    void notify_fund(double cash, double value, double fundvalue, double shares) override;
     
     // TimeFrameAnalyzerBase interface
     void on_dt_over() override;
     
-    // Get analysis data
-    std::map<std::string, double> get_analysis() override;
+    // Get analysis data  
+    AnalysisResult get_analysis() const override;
     
     // Get returns vector (for child analyzers)
     std::vector<double> get_returns() const;

@@ -18,12 +18,25 @@ DetrendedPriceOscillator::DetrendedPriceOscillator(std::shared_ptr<LineSeries> d
     _minperiod(params.period);
 }
 
+DetrendedPriceOscillator::DetrendedPriceOscillator(std::shared_ptr<LineRoot> data) 
+    : Indicator(), data_source_(nullptr), current_index_(0) {
+    setup_lines();
+    _minperiod(params.period);
+}
+
+DetrendedPriceOscillator::DetrendedPriceOscillator(std::shared_ptr<LineRoot> data, int period) 
+    : Indicator(), data_source_(nullptr), current_index_(0) {
+    params.period = period;
+    setup_lines();
+    _minperiod(params.period);
+}
+
 double DetrendedPriceOscillator::get(int ago) const {
     if (!lines || lines->size() == 0) {
         return std::numeric_limits<double>::quiet_NaN();
     }
     
-    auto line = lines->getline(Lines::dpo);
+    auto line = lines->getline(dpo);
     if (!line) {
         return std::numeric_limits<double>::quiet_NaN();
     }
@@ -55,7 +68,7 @@ void DetrendedPriceOscillator::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto dpo_line = lines->getline(Lines::dpo);
+    auto dpo_line = lines->getline(dpo);
     
     if (!data_line || !dpo_line) return;
     
@@ -68,7 +81,7 @@ void DetrendedPriceOscillator::once(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto dpo_line = lines->getline(Lines::dpo);
+    auto dpo_line = lines->getline(dpo);
     
     if (!data_line || !dpo_line) return;
     

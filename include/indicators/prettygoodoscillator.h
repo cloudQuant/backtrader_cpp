@@ -29,8 +29,8 @@ private:
     void setup_lines();
     
     // Component indicators
-    std::shared_ptr<SMA> sma_;
-    std::shared_ptr<ATR> atr_;
+    std::shared_ptr<indicators::SMA> sma_;
+    std::shared_ptr<indicators::ATR> atr_;
 };
 
 // Aliases

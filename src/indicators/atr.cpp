@@ -27,7 +27,7 @@ void TrueHigh::next() {
     
     auto high_line = datas[0]->lines->getline(1); // High
     auto close_line = datas[0]->lines->getline(3); // Close
-    auto truehigh_line = lines->getline(Lines::truehigh);
+    auto truehigh_line = lines->getline(truehigh);
     
     if (high_line && close_line && truehigh_line) {
         double current_high = (*high_line)[0];
@@ -42,7 +42,7 @@ void TrueHigh::once(int start, int end) {
     
     auto high_line = datas[0]->lines->getline(1);
     auto close_line = datas[0]->lines->getline(3);
-    auto truehigh_line = lines->getline(Lines::truehigh);
+    auto truehigh_line = lines->getline(truehigh);
     
     if (!high_line || !close_line || !truehigh_line) return;
     
@@ -75,7 +75,7 @@ void TrueLow::next() {
     
     auto low_line = datas[0]->lines->getline(2); // Low
     auto close_line = datas[0]->lines->getline(3); // Close
-    auto truelow_line = lines->getline(Lines::truelow);
+    auto truelow_line = lines->getline(truelow);
     
     if (low_line && close_line && truelow_line) {
         double current_low = (*low_line)[0];
@@ -90,7 +90,7 @@ void TrueLow::once(int start, int end) {
     
     auto low_line = datas[0]->lines->getline(2);
     auto close_line = datas[0]->lines->getline(3);
-    auto truelow_line = lines->getline(Lines::truelow);
+    auto truelow_line = lines->getline(truelow);
     
     if (!low_line || !close_line || !truelow_line) return;
     
@@ -132,7 +132,7 @@ void TrueRange::next() {
     auto high_line = datas[0]->lines->getline(1); // High
     auto low_line = datas[0]->lines->getline(2);  // Low
     auto close_line = datas[0]->lines->getline(3); // Close
-    auto tr_line = lines->getline(Lines::tr);
+    auto tr_line = lines->getline(tr);
     
     if (high_line && low_line && close_line && tr_line) {
         double current_high = (*high_line)[0];
@@ -150,7 +150,7 @@ void TrueRange::once(int start, int end) {
     auto high_line = datas[0]->lines->getline(1);
     auto low_line = datas[0]->lines->getline(2);
     auto close_line = datas[0]->lines->getline(3);
-    auto tr_line = lines->getline(Lines::tr);
+    auto tr_line = lines->getline(tr);
     
     if (!high_line || !low_line || !close_line || !tr_line) return;
     
@@ -168,6 +168,12 @@ void TrueRange::once(int start, int end) {
 AverageTrueRange::AverageTrueRange() : Indicator(), prev_atr_(0.0), first_calculation_(true), data_source_(nullptr), current_index_(0) {
     setup_lines();
     _minperiod(params.period + 1); // Need period + 1 for smoothed average
+}
+
+AverageTrueRange::AverageTrueRange(std::shared_ptr<LineRoot> data) : Indicator(), prev_atr_(0.0), first_calculation_(true), data_source_(nullptr), current_index_(0) {
+    setup_lines();
+    _minperiod(params.period + 1); // Need period + 1 for smoothed average
+    // This constructor is for test framework compatibility
 }
 
 AverageTrueRange::AverageTrueRange(std::shared_ptr<LineSeries> data_source, int period) 
@@ -212,7 +218,7 @@ void AverageTrueRange::next() {
     auto high_line = datas[0]->lines->getline(1);
     auto low_line = datas[0]->lines->getline(2);
     auto close_line = datas[0]->lines->getline(3);
-    auto atr_line = lines->getline(Lines::atr);
+    auto atr_line = lines->getline(atr);
     
     if (!high_line || !low_line || !close_line || !atr_line) return;
     
@@ -252,7 +258,7 @@ void AverageTrueRange::once(int start, int end) {
     auto high_line = datas[0]->lines->getline(1);
     auto low_line = datas[0]->lines->getline(2);
     auto close_line = datas[0]->lines->getline(3);
-    auto atr_line = lines->getline(Lines::atr);
+    auto atr_line = lines->getline(atr);
     
     if (!high_line || !low_line || !close_line || !atr_line) return;
     

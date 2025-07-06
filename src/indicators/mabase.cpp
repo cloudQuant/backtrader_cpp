@@ -206,7 +206,7 @@ void MovingAverageBase::next() {
         
         // Update the moving average line
         if (!lines_.empty()) {
-            lines_[Lines::MA].push_back(ma_value);
+            lines_[MA].push_back(ma_value);
         }
         
         is_ready_ = true;
@@ -229,7 +229,7 @@ void MovingAverageBase::once(int start, int end) {
             double ma_value = calculate_value(i);
             
             if (!lines_.empty()) {
-                lines_[Lines::MA].push_back(ma_value);
+                lines_[MA].push_back(ma_value);
             }
         }
     }
@@ -267,11 +267,11 @@ void MovingAverageBase::set_period(int period) {
 }
 
 double MovingAverageBase::get_ma_value(int ago) const {
-    if (!is_ready_ || lines_.empty() || lines_[Lines::MA].empty()) {
+    if (!is_ready_ || lines_.empty() || lines_[MA].empty()) {
         return std::numeric_limits<double>::quiet_NaN();
     }
     
-    const auto& ma_line = lines_[Lines::MA];
+    const auto& ma_line = lines_[MA];
     if (ago >= static_cast<int>(ma_line.size()) || ago < 0) {
         return std::numeric_limits<double>::quiet_NaN();
     }
@@ -282,11 +282,11 @@ double MovingAverageBase::get_ma_value(int ago) const {
 std::vector<double> MovingAverageBase::get_ma_values(int count) const {
     std::vector<double> result;
     
-    if (!is_ready_ || lines_.empty() || lines_[Lines::MA].empty()) {
+    if (!is_ready_ || lines_.empty() || lines_[MA].empty()) {
         return result;
     }
     
-    const auto& ma_line = lines_[Lines::MA];
+    const auto& ma_line = lines_[MA];
     int available = static_cast<int>(ma_line.size());
     int actual_count = std::min(count, available);
     
@@ -336,11 +336,11 @@ void MovingAverageBase::update_sum_optimization(double new_value, double old_val
 void MovingAverageBase::initialize_lines() {
     // Initialize the MA line
     lines_.resize(1);
-    lines_[Lines::MA].clear();
+    lines_[MA].clear();
     
     // Set line names
     line_names_.resize(1);
-    line_names_[Lines::MA] = "ma";
+    line_names_[MA] = "ma";
 }
 
 void MovingAverageBase::setup_plot_info() {

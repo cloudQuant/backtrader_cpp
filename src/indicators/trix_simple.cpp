@@ -37,7 +37,7 @@ double Trix::get(int ago) const {
         return std::numeric_limits<double>::quiet_NaN();
     }
     
-    auto line = lines->getline(Lines::trix);
+    auto line = lines->getline(trix);
     if (!line) {
         return std::numeric_limits<double>::quiet_NaN();
     }
@@ -74,7 +74,7 @@ void Trix::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto trix_line = lines->getline(Lines::trix);
+    auto trix_line = lines->getline(trix);
     
     if (!data_line || !trix_line) return;
     
@@ -97,7 +97,7 @@ void Trix::once(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto trix_line = lines->getline(Lines::trix);
+    auto trix_line = lines->getline(trix);
     
     if (!data_line || !trix_line) return;
     
@@ -137,8 +137,8 @@ void TrixSignal::next() {
     Trix::next();
     
     // Then calculate signal line (simplified)
-    auto trix_line = lines->getline(Lines::trix);
-    auto signal_line = lines->getline(Lines::signal);
+    auto trix_line = lines->getline(trix);
+    auto signal_line = lines->getline(signal);
     
     if (trix_line && signal_line) {
         double trix_value = (*trix_line)[0];
@@ -151,8 +151,8 @@ void TrixSignal::once(int start, int end) {
     Trix::once(start, end);
     
     // Then calculate signal line
-    auto trix_line = lines->getline(Lines::trix);
-    auto signal_line = lines->getline(Lines::signal);
+    auto trix_line = lines->getline(trix);
+    auto signal_line = lines->getline(signal);
     
     if (!trix_line || !signal_line) return;
     

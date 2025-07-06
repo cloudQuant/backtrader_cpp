@@ -13,6 +13,9 @@ public:
     explicit RSI(int period = 14);
     // Constructor with data source and period (Python-style API)
     RSI(std::shared_ptr<LineSeries> data_source, int period = 14);
+    // Constructor for test framework compatibility
+    RSI(std::shared_ptr<LineRoot> data);
+    RSI(std::shared_ptr<LineRoot> data, int period);
     virtual ~RSI() = default;
     
     void next() override;
@@ -24,7 +27,7 @@ public:
     // Utility methods for tests
     double get(int ago = 0) const;
     int getMinPeriod() const { return _minperiod(); }
-    void calculate();
+    void calculate() override;
     
 protected:
     std::vector<std::string> _get_line_names() const override;

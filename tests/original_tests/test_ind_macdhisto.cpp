@@ -13,14 +13,13 @@
  * chkind = btind.MACDHisto
  */
 
-#include "test_common_simple.h"
+#include "test_common.h"
 
-using namespace backtrader::indicators;
 #include "indicators/macd.h"
 
-using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
+using namespace backtrader;
 using namespace backtrader::indicators;
 
 namespace {
@@ -45,7 +44,7 @@ TEST(OriginalTests, MACD_Manual) {
     ASSERT_FALSE(csv_data.empty());
     
     // 创建数据线
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -115,7 +114,7 @@ TEST(OriginalTests, MACD_Manual) {
 // MACD关系验证测试
 TEST(OriginalTests, MACD_RelationshipValidation) {
     auto csv_data = getdata(0);
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -150,14 +149,14 @@ protected:
         csv_data_ = getdata(0);
         ASSERT_FALSE(csv_data_.empty());
         
-        close_line_ = std::make_shared<LineRoot>(csv_data_.size(), "close");
+        close_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "close");
         for (const auto& bar : csv_data_) {
             close_line_->forward(bar.close);
         }
     }
     
     std::vector<CSVDataReader::OHLCVData> csv_data_;
-    std::shared_ptr<LineRoot> close_line_;
+    std::shared_ptr<backtrader::LineRoot> close_line_;
 };
 
 TEST_P(MACDParameterizedTest, DifferentParameters) {
@@ -208,7 +207,7 @@ INSTANTIATE_TEST_SUITE_P(
 // 交叉信号测试
 TEST(OriginalTests, MACD_CrossoverSignals) {
     auto csv_data = getdata(0);
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -257,7 +256,7 @@ TEST(OriginalTests, MACD_CrossoverSignals) {
 // 趋势强度测试
 TEST(OriginalTests, MACD_TrendStrength) {
     auto csv_data = getdata(0);
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -312,7 +311,7 @@ TEST(OriginalTests, MACD_Divergence) {
         }
     }
     
-    auto close_line = std::make_shared<LineRoot>(prices.size(), "divergence");
+    auto close_line = std::make_shared<backtrader::LineRoot>(prices.size(), "divergence");
     for (double price : prices) {
         close_line->forward(price);
     }

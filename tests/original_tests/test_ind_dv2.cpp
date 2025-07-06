@@ -11,12 +11,15 @@
  * chkind = btind.DV2
  */
 
-#include "test_common_simple.h"
+#include "test_common.h"
+#include <random>
 
 #include "indicators/dv2.h"
 
 
 using namespace backtrader::tests::original;
+using namespace backtrader;
+using namespace backtrader::indicators;
 
 namespace {
 
@@ -37,26 +40,20 @@ TEST(OriginalTests, DV2_Manual) {
     auto csv_data = getdata(0);
     ASSERT_FALSE(csv_data.empty());
     
-    // 创建数据线
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    // 创建数据线 (DV2 typically uses close price)
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     
     for (const auto& bar : csv_data) {
-        high_line->forward(bar.high);
-        low_line->forward(bar.low);
         close_line->forward(bar.close);
     }
     
     // 创建DV2指标（默认252周期）
-    auto dv2 = std::make_shared<DV2>(high_line, low_line, close_line, 252);
+    auto dv2 = std::make_shared<DV2>(close_line, 252);
     
     // 计算所有值
     for (size_t i = 0; i < csv_data.size(); ++i) {
         dv2->calculate();
         if (i < csv_data.size() - 1) {
-            high_line->forward();
-            low_line->forward();
             close_line->forward();
         }
     }
@@ -93,17 +90,13 @@ TEST(OriginalTests, DV2_Manual) {
 // DV2范围验证测试
 TEST(OriginalTests, DV2_RangeValidation) {
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     
     for (const auto& bar : csv_data) {
-        high_line->forward(bar.high);
-        low_line->forward(bar.low);
         close_line->forward(bar.close);
     }
     
-    auto dv2 = std::make_shared<DV2>(high_line, low_line, close_line, 252);
+    auto dv2 = std::make_shared<DV2>(close_line, 252);
     
     // 计算所有值并验证范围
     for (size_t i = 0; i < csv_data.size(); ++i) {
@@ -118,8 +111,6 @@ TEST(OriginalTests, DV2_RangeValidation) {
         }
         
         if (i < csv_data.size() - 1) {
-            high_line->forward();
-            low_line->forward();
             close_line->forward();
         }
     }
@@ -132,33 +123,25 @@ protected:
         csv_data_ = getdata(0);
         ASSERT_FALSE(csv_data_.empty());
         
-        high_line_ = std::make_shared<LineRoot>(csv_data_.size(), "high");
-        low_line_ = std::make_shared<LineRoot>(csv_data_.size(), "low");
-        close_line_ = std::make_shared<LineRoot>(csv_data_.size(), "close");
+        close_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "close");
         
         for (const auto& bar : csv_data_) {
-            high_line_->forward(bar.high);
-            low_line_->forward(bar.low);
             close_line_->forward(bar.close);
         }
     }
     
     std::vector<CSVDataReader::OHLCVData> csv_data_;
-    std::shared_ptr<LineRoot> high_line_;
-    std::shared_ptr<LineRoot> low_line_;
-    std::shared_ptr<LineRoot> close_line_;
+    std::shared_ptr<backtrader::LineRoot> close_line_;
 };
 
 TEST_P(DV2ParameterizedTest, DifferentPeriods) {
     int period = GetParam();
-    auto dv2 = std::make_shared<DV2>(high_line_, low_line_, close_line_, period);
+    auto dv2 = std::make_shared<DV2>(close_line_, period);
     
     // 计算所有值
     for (size_t i = 0; i < csv_data_.size(); ++i) {
         dv2->calculate();
         if (i < csv_data_.size() - 1) {
-            high_line_->forward();
-            low_line_->forward();
             close_line_->forward();
         }
     }
@@ -212,17 +195,13 @@ TEST(OriginalTests, DV2_CalculationLogic) {
         test_data.push_back(bar);
     }
     
-    auto high_line = std::make_shared<LineRoot>(test_data.size(), "test_high");
-    auto low_line = std::make_shared<LineRoot>(test_data.size(), "test_low");
-    auto close_line = std::make_shared<LineRoot>(test_data.size(), "test_close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(test_data.size(), "test_close");
     
     for (const auto& bar : test_data) {
-        high_line->forward(bar.high);
-        low_line->forward(bar.low);
         close_line->forward(bar.close);
     }
     
-    auto dv2 = std::make_shared<DV2>(high_line, low_line, close_line, 10);
+    auto dv2 = std::make_shared<DV2>(close_line, 10);
     
     for (size_t i = 0; i < test_data.size(); ++i) {
         dv2->calculate();
@@ -240,8 +219,6 @@ TEST(OriginalTests, DV2_CalculationLogic) {
         }
         
         if (i < test_data.size() - 1) {
-            high_line->forward();
-            low_line->forward();
             close_line->forward();
         }
     }
@@ -264,9 +241,9 @@ TEST(OriginalTests, DV2_BullBearBehavior) {
         bull_data.push_back(bar);
     }
     
-    auto bull_high = std::make_shared<LineRoot>(bull_data.size(), "bull_high");
-    auto bull_low = std::make_shared<LineRoot>(bull_data.size(), "bull_low");
-    auto bull_close = std::make_shared<LineRoot>(bull_data.size(), "bull_close");
+    auto bull_high = std::make_shared<backtrader::LineRoot>(bull_data.size(), "bull_high");
+    auto bull_low = std::make_shared<backtrader::LineRoot>(bull_data.size(), "bull_low");
+    auto bull_close = std::make_shared<backtrader::LineRoot>(bull_data.size(), "bull_close");
     
     for (const auto& bar : bull_data) {
         bull_high->forward(bar.high);
@@ -274,7 +251,7 @@ TEST(OriginalTests, DV2_BullBearBehavior) {
         bull_close->forward(bar.close);
     }
     
-    auto bull_dv2 = std::make_shared<DV2>(bull_high, bull_low, bull_close, 20);
+    auto bull_dv2 = std::make_shared<DV2>(bull_close, 20);
     
     for (size_t i = 0; i < bull_data.size(); ++i) {
         bull_dv2->calculate();
@@ -308,9 +285,9 @@ TEST(OriginalTests, DV2_BullBearBehavior) {
         bear_data.push_back(bar);
     }
     
-    auto bear_high = std::make_shared<LineRoot>(bear_data.size(), "bear_high");
-    auto bear_low = std::make_shared<LineRoot>(bear_data.size(), "bear_low");
-    auto bear_close = std::make_shared<LineRoot>(bear_data.size(), "bear_close");
+    auto bear_high = std::make_shared<backtrader::LineRoot>(bear_data.size(), "bear_high");
+    auto bear_low = std::make_shared<backtrader::LineRoot>(bear_data.size(), "bear_low");
+    auto bear_close = std::make_shared<backtrader::LineRoot>(bear_data.size(), "bear_close");
     
     for (const auto& bar : bear_data) {
         bear_high->forward(bar.high);
@@ -318,7 +295,7 @@ TEST(OriginalTests, DV2_BullBearBehavior) {
         bear_close->forward(bar.close);
     }
     
-    auto bear_dv2 = std::make_shared<DV2>(bear_high, bear_low, bear_close, 20);
+    auto bear_dv2 = std::make_shared<DV2>(bear_close, 20);
     
     for (size_t i = 0; i < bear_data.size(); ++i) {
         bear_dv2->calculate();
@@ -355,9 +332,9 @@ TEST(OriginalTests, DV2_NeutralMarket) {
         neutral_data.push_back(bar);
     }
     
-    auto neutral_high = std::make_shared<LineRoot>(neutral_data.size(), "neutral_high");
-    auto neutral_low = std::make_shared<LineRoot>(neutral_data.size(), "neutral_low");
-    auto neutral_close = std::make_shared<LineRoot>(neutral_data.size(), "neutral_close");
+    auto neutral_high = std::make_shared<backtrader::LineRoot>(neutral_data.size(), "neutral_high");
+    auto neutral_low = std::make_shared<backtrader::LineRoot>(neutral_data.size(), "neutral_low");
+    auto neutral_close = std::make_shared<backtrader::LineRoot>(neutral_data.size(), "neutral_close");
     
     for (const auto& bar : neutral_data) {
         neutral_high->forward(bar.high);
@@ -365,7 +342,7 @@ TEST(OriginalTests, DV2_NeutralMarket) {
         neutral_close->forward(bar.close);
     }
     
-    auto neutral_dv2 = std::make_shared<DV2>(neutral_high, neutral_low, neutral_close, 20);
+    auto neutral_dv2 = std::make_shared<DV2>(neutral_close, 20);
     
     for (size_t i = 0; i < neutral_data.size(); ++i) {
         neutral_dv2->calculate();
@@ -388,9 +365,9 @@ TEST(OriginalTests, DV2_NeutralMarket) {
 // 均值回归信号测试
 TEST(OriginalTests, DV2_MeanReversionSignals) {
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -398,7 +375,7 @@ TEST(OriginalTests, DV2_MeanReversionSignals) {
         close_line->forward(bar.close);
     }
     
-    auto dv2 = std::make_shared<DV2>(high_line, low_line, close_line, 252);
+    auto dv2 = std::make_shared<DV2>(close_line, 252);
     
     int oversold_signals = 0;    // DV2 < 25
     int overbought_signals = 0;  // DV2 > 75
@@ -421,8 +398,6 @@ TEST(OriginalTests, DV2_MeanReversionSignals) {
         }
         
         if (i < csv_data.size() - 1) {
-            high_line->forward();
-            low_line->forward();
             close_line->forward();
         }
     }
@@ -454,9 +429,9 @@ TEST(OriginalTests, DV2_EdgeCases) {
         flat_data.push_back(bar);
     }
     
-    auto flat_high = std::make_shared<LineRoot>(flat_data.size(), "flat_high");
-    auto flat_low = std::make_shared<LineRoot>(flat_data.size(), "flat_low");
-    auto flat_close = std::make_shared<LineRoot>(flat_data.size(), "flat_close");
+    auto flat_high = std::make_shared<backtrader::LineRoot>(flat_data.size(), "flat_high");
+    auto flat_low = std::make_shared<backtrader::LineRoot>(flat_data.size(), "flat_low");
+    auto flat_close = std::make_shared<backtrader::LineRoot>(flat_data.size(), "flat_close");
     
     for (const auto& bar : flat_data) {
         flat_high->forward(bar.high);
@@ -464,7 +439,7 @@ TEST(OriginalTests, DV2_EdgeCases) {
         flat_close->forward(bar.close);
     }
     
-    auto flat_dv2 = std::make_shared<DV2>(flat_high, flat_low, flat_close, 252);
+    auto flat_dv2 = std::make_shared<DV2>(flat_close, 252);
     
     for (size_t i = 0; i < flat_data.size(); ++i) {
         flat_dv2->calculate();
@@ -483,9 +458,9 @@ TEST(OriginalTests, DV2_EdgeCases) {
     }
     
     // 测试数据不足的情况
-    auto insufficient_high = std::make_shared<LineRoot>(100, "insufficient_high");
-    auto insufficient_low = std::make_shared<LineRoot>(100, "insufficient_low");
-    auto insufficient_close = std::make_shared<LineRoot>(100, "insufficient_close");
+    auto insufficient_high = std::make_shared<backtrader::LineRoot>(100, "insufficient_high");
+    auto insufficient_low = std::make_shared<backtrader::LineRoot>(100, "insufficient_low");
+    auto insufficient_close = std::make_shared<backtrader::LineRoot>(100, "insufficient_close");
     
     // 只添加几个数据点
     for (int i = 0; i < 100; ++i) {
@@ -494,7 +469,7 @@ TEST(OriginalTests, DV2_EdgeCases) {
         insufficient_close->forward(100.0 + i);
     }
     
-    auto insufficient_dv2 = std::make_shared<DV2>(insufficient_high, insufficient_low, insufficient_close, 252);
+    auto insufficient_dv2 = std::make_shared<DV2>(insufficient_close, 252);
     
     for (int i = 0; i < 100; ++i) {
         insufficient_dv2->calculate();
@@ -537,9 +512,9 @@ TEST(OriginalTests, DV2_Performance) {
         large_data.push_back(bar);
     }
     
-    auto large_high = std::make_shared<LineRoot>(large_data.size(), "large_high");
-    auto large_low = std::make_shared<LineRoot>(large_data.size(), "large_low");
-    auto large_close = std::make_shared<LineRoot>(large_data.size(), "large_close");
+    auto large_high = std::make_shared<backtrader::LineRoot>(large_data.size(), "large_high");
+    auto large_low = std::make_shared<backtrader::LineRoot>(large_data.size(), "large_low");
+    auto large_close = std::make_shared<backtrader::LineRoot>(large_data.size(), "large_close");
     
     for (const auto& bar : large_data) {
         large_high->forward(bar.high);
@@ -547,7 +522,7 @@ TEST(OriginalTests, DV2_Performance) {
         large_close->forward(bar.close);
     }
     
-    auto large_dv2 = std::make_shared<DV2>(large_high, large_low, large_close, 252);
+    auto large_dv2 = std::make_shared<DV2>(large_close, 252);
     
     auto start_time = std::chrono::high_resolution_clock::now();
     

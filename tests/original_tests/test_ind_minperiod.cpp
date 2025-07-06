@@ -12,23 +12,16 @@
  * 注：这个测试验证多个指标组合时的最小周期计算
  */
 
-#include "test_common_simple.h"
+#include "test_common.h"
+#include <random>
 
-using namespace backtrader::indicators;
 #include "indicators/sma.h"
-
-using namespace backtrader::indicators;
 #include "indicators/stochastic.h"
-
-using namespace backtrader::indicators;
 #include "indicators/macd.h"
-
-using namespace backtrader::indicators;
 #include "indicators/highest.h"
 
-using namespace backtrader::indicators;
-
 using namespace backtrader::tests::original;
+using namespace backtrader;
 using namespace backtrader::indicators;
 
 // 多指标最小周期测试
@@ -38,9 +31,9 @@ TEST(OriginalTests, MinPeriod_MultipleIndicators) {
     ASSERT_FALSE(csv_data.empty());
     
     // 创建数据线
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
     
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
@@ -133,9 +126,9 @@ TEST(OriginalTests, MinPeriod_MultipleIndicators) {
 // 测试不同参数下的最小周期
 TEST(OriginalTests, MinPeriod_DifferentParameters) {
     auto csv_data = getdata(0);
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
     
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
@@ -189,7 +182,7 @@ TEST(OriginalTests, MinPeriod_DifferentParameters) {
 // 测试嵌套指标的最小周期计算
 TEST(OriginalTests, MinPeriod_NestedIndicators) {
     auto csv_data = getdata(0);
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
@@ -232,9 +225,9 @@ TEST(OriginalTests, MinPeriod_NestedIndicators) {
 // 测试复杂组合指标的最小周期
 TEST(OriginalTests, MinPeriod_ComplexCombination) {
     auto csv_data = getdata(0);
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
     
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
@@ -319,7 +312,7 @@ TEST(OriginalTests, MinPeriod_EdgeCases) {
     // 测试单数据点的情况
     std::vector<double> single_price = {100.0};
     
-    auto single_line = std::make_shared<LineRoot>(single_price.size(), "single");
+    auto single_line = std::make_shared<backtrader::LineRoot>(single_price.size(), "single");
     single_line->forward(100.0);
     
     auto sma_single = std::make_shared<SMA>(single_line, 1);
@@ -353,7 +346,7 @@ TEST(OriginalTests, MinPeriod_EdgeCases) {
 // 测试动态最小周期更新
 TEST(OriginalTests, MinPeriod_DynamicUpdate) {
     auto csv_data = getdata(0);
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
@@ -389,7 +382,7 @@ TEST(OriginalTests, MinPeriod_Performance) {
         large_data.push_back(dist(rng));
     }
     
-    auto large_line = std::make_shared<LineRoot>(large_data.size(), "large");
+    auto large_line = std::make_shared<backtrader::LineRoot>(large_data.size(), "large");
     for (double price : large_data) {
         large_line->forward(price);
     }

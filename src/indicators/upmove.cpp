@@ -16,12 +16,18 @@ UpMove::UpMove(std::shared_ptr<LineSeries> data_source)
     _minperiod(2);
 }
 
+UpMove::UpMove(std::shared_ptr<LineRoot> data) 
+    : Indicator(), data_source_(nullptr), current_index_(0) {
+    setup_lines();
+    _minperiod(2);
+}
+
 double UpMove::get(int ago) const {
     if (!lines || lines->size() == 0) {
         return std::numeric_limits<double>::quiet_NaN();
     }
     
-    auto line = lines->getline(Lines::upmove);
+    auto line = lines->getline(upmove);
     if (!line) {
         return std::numeric_limits<double>::quiet_NaN();
     }
@@ -53,7 +59,7 @@ void UpMove::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto upmove_line = lines->getline(Lines::upmove);
+    auto upmove_line = lines->getline(upmove);
     
     if (!data_line || !upmove_line) return;
     
@@ -69,7 +75,7 @@ void UpMove::once(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto upmove_line = lines->getline(Lines::upmove);
+    auto upmove_line = lines->getline(upmove);
     
     if (!data_line || !upmove_line) return;
     
@@ -97,12 +103,18 @@ DownMove::DownMove(std::shared_ptr<LineSeries> data_source)
     _minperiod(2);
 }
 
+DownMove::DownMove(std::shared_ptr<LineRoot> data) 
+    : Indicator(), data_source_(nullptr), current_index_(0) {
+    setup_lines();
+    _minperiod(2);
+}
+
 double DownMove::get(int ago) const {
     if (!lines || lines->size() == 0) {
         return std::numeric_limits<double>::quiet_NaN();
     }
     
-    auto line = lines->getline(Lines::downmove);
+    auto line = lines->getline(downmove);
     if (!line) {
         return std::numeric_limits<double>::quiet_NaN();
     }
@@ -134,7 +146,7 @@ void DownMove::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto downmove_line = lines->getline(Lines::downmove);
+    auto downmove_line = lines->getline(downmove);
     
     if (!data_line || !downmove_line) return;
     
@@ -150,7 +162,7 @@ void DownMove::once(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto downmove_line = lines->getline(Lines::downmove);
+    auto downmove_line = lines->getline(downmove);
     
     if (!data_line || !downmove_line) return;
     

@@ -11,12 +11,15 @@
  * chkind = btind.UpMove
  */
 
-#include "test_common_simple.h"
+#include "test_common.h"
+#include <random>
 
 #include "indicators/upmove.h"
 
 
 using namespace backtrader::tests::original;
+using namespace backtrader;
+using namespace backtrader::indicators;
 
 namespace {
 
@@ -38,7 +41,7 @@ TEST(OriginalTests, UpMove_Manual) {
     ASSERT_FALSE(csv_data.empty());
     
     // 创建数据线
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
     }
@@ -88,7 +91,7 @@ TEST(OriginalTests, UpMove_CalculationLogic) {
     // 使用简单的测试数据验证UpMove计算
     std::vector<double> high_prices = {100.0, 105.0, 102.0, 108.0, 104.0, 110.0, 106.0, 112.0, 109.0, 115.0};
     
-    auto high_line = std::make_shared<LineRoot>(high_prices.size(), "upmove_calc");
+    auto high_line = std::make_shared<backtrader::LineRoot>(high_prices.size(), "upmove_calc");
     for (double price : high_prices) {
         high_line->forward(price);
     }
@@ -127,7 +130,7 @@ TEST(OriginalTests, UpMove_UpwardMovementDetection) {
     // 创建明确的向上运动数据
     std::vector<double> upward_highs = {100.0, 105.0, 110.0, 115.0, 120.0, 125.0, 130.0};
     
-    auto up_line = std::make_shared<LineRoot>(upward_highs.size(), "upward");
+    auto up_line = std::make_shared<backtrader::LineRoot>(upward_highs.size(), "upward");
     for (double price : upward_highs) {
         up_line->forward(price);
     }
@@ -171,7 +174,7 @@ TEST(OriginalTests, UpMove_DownwardMovementTest) {
     // 创建向下运动数据
     std::vector<double> downward_highs = {130.0, 125.0, 120.0, 115.0, 110.0, 105.0, 100.0};
     
-    auto down_line = std::make_shared<LineRoot>(downward_highs.size(), "downward");
+    auto down_line = std::make_shared<backtrader::LineRoot>(downward_highs.size(), "downward");
     for (double price : downward_highs) {
         down_line->forward(price);
     }
@@ -210,7 +213,7 @@ TEST(OriginalTests, UpMove_MixedMovement) {
     // 创建混合运动数据
     std::vector<double> mixed_highs = {100.0, 105.0, 102.0, 108.0, 104.0, 112.0, 107.0, 115.0};
     
-    auto mixed_line = std::make_shared<LineRoot>(mixed_highs.size(), "mixed");
+    auto mixed_line = std::make_shared<backtrader::LineRoot>(mixed_highs.size(), "mixed");
     for (double price : mixed_highs) {
         mixed_line->forward(price);
     }
@@ -261,7 +264,7 @@ TEST(OriginalTests, UpMove_MixedMovement) {
 // UpMove累积效应测试
 TEST(OriginalTests, UpMove_CumulativeEffect) {
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
     }
@@ -313,8 +316,8 @@ TEST(OriginalTests, UpMove_CumulativeEffect) {
 TEST(OriginalTests, UpMove_DownMoveSymmetry) {
     // 使用相同的数据测试UpMove和DownMove
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -382,12 +385,12 @@ TEST(OriginalTests, UpMove_PriceVolatilityRelation) {
         stable_highs.push_back(base + volatility);
     }
     
-    auto volatile_line = std::make_shared<LineRoot>(volatile_highs.size(), "volatile");
+    auto volatile_line = std::make_shared<backtrader::LineRoot>(volatile_highs.size(), "volatile");
     for (double price : volatile_highs) {
         volatile_line->forward(price);
     }
     
-    auto stable_line = std::make_shared<LineRoot>(stable_highs.size(), "stable");
+    auto stable_line = std::make_shared<backtrader::LineRoot>(stable_highs.size(), "stable");
     for (double price : stable_highs) {
         stable_line->forward(price);
     }
@@ -450,7 +453,7 @@ TEST(OriginalTests, UpMove_EdgeCases) {
     // 测试相同价格的情况
     std::vector<double> flat_prices(100, 100.0);
     
-    auto flat_line = std::make_shared<LineRoot>(flat_prices.size(), "flat");
+    auto flat_line = std::make_shared<backtrader::LineRoot>(flat_prices.size(), "flat");
     for (double price : flat_prices) {
         flat_line->forward(price);
     }
@@ -472,7 +475,7 @@ TEST(OriginalTests, UpMove_EdgeCases) {
     }
     
     // 测试单个数据点
-    auto single_line = std::make_shared<LineRoot>(10, "single");
+    auto single_line = std::make_shared<backtrader::LineRoot>(10, "single");
     single_line->forward(100.0);
     
     auto single_upmove = std::make_shared<UpMove>(single_line);
@@ -485,7 +488,7 @@ TEST(OriginalTests, UpMove_EdgeCases) {
     // 测试极值
     std::vector<double> extreme_prices = {1e-6, 1e6, 0.0, -1e6};
     
-    auto extreme_line = std::make_shared<LineRoot>(extreme_prices.size(), "extreme");
+    auto extreme_line = std::make_shared<backtrader::LineRoot>(extreme_prices.size(), "extreme");
     for (double price : extreme_prices) {
         extreme_line->forward(price);
     }
@@ -524,7 +527,7 @@ TEST(OriginalTests, UpMove_Performance) {
         large_data.push_back(dist(rng));
     }
     
-    auto large_line = std::make_shared<LineRoot>(large_data.size(), "large");
+    auto large_line = std::make_shared<backtrader::LineRoot>(large_data.size(), "large");
     for (double price : large_data) {
         large_line->forward(price);
     }

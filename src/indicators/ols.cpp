@@ -23,8 +23,8 @@ void OLS_Slope_InterceptN::next() {
     
     auto data0_line = datas[0]->lines->getline(0);  // Y variable
     auto data1_line = datas[1]->lines->getline(0);  // X variable
-    auto slope_line = lines->getline(Lines::slope);
-    auto intercept_line = lines->getline(Lines::intercept);
+    auto slope_line = lines->getline(slope);
+    auto intercept_line = lines->getline(intercept);
     
     if (!data0_line || !data1_line || !slope_line || !intercept_line) return;
     
@@ -47,8 +47,8 @@ void OLS_Slope_InterceptN::once(int start, int end) {
     
     auto data0_line = datas[0]->lines->getline(0);  // Y variable
     auto data1_line = datas[1]->lines->getline(0);  // X variable
-    auto slope_line = lines->getline(Lines::slope);
-    auto intercept_line = lines->getline(Lines::intercept);
+    auto slope_line = lines->getline(slope);
+    auto intercept_line = lines->getline(intercept);
     
     if (!data0_line || !data1_line || !slope_line || !intercept_line) return;
     
@@ -129,10 +129,10 @@ void OLS_TransformationN::next() {
     auto data0_line = datas[0]->lines->getline(0);  // Y variable
     auto data1_line = datas[1]->lines->getline(0);  // X variable
     
-    auto spread_line = lines->getline(Lines::spread);
-    auto spread_mean_line = lines->getline(Lines::spread_mean);
-    auto spread_std_line = lines->getline(Lines::spread_std);
-    auto zscore_line = lines->getline(Lines::zscore);
+    auto spread_line = lines->getline(spread);
+    auto spread_mean_line = lines->getline(spread_mean);
+    auto spread_std_line = lines->getline(spread_std);
+    auto zscore_line = lines->getline(zscore);
     
     if (!data0_line || !data1_line || !spread_line || 
         !spread_mean_line || !spread_std_line || !zscore_line) return;
@@ -204,10 +204,10 @@ void OLS_TransformationN::once(int start, int end) {
     // Calculate for all bars (simplified implementation)
     for (int i = start; i < end; ++i) {
         // This is a simplified version - in practice would need full implementation
-        (*lines->getline(Lines::spread))[i] = 0.0;
-        (*lines->getline(Lines::spread_mean))[i] = 0.0;
-        (*lines->getline(Lines::spread_std))[i] = 0.0;
-        (*lines->getline(Lines::zscore))[i] = 0.0;
+        (*lines->getline(spread))[i] = 0.0;
+        (*lines->getline(spread_mean))[i] = 0.0;
+        (*lines->getline(spread_std))[i] = 0.0;
+        (*lines->getline(zscore))[i] = 0.0;
     }
 }
 
@@ -228,7 +228,7 @@ void OLS_BetaN::next() {
     
     auto data0_line = datas[0]->lines->getline(0);  // Y variable
     auto data1_line = datas[1]->lines->getline(0);  // X variable
-    auto beta_line = lines->getline(Lines::beta);
+    auto beta_line = lines->getline(beta);
     
     if (!data0_line || !data1_line || !beta_line) return;
     
@@ -249,7 +249,7 @@ void OLS_BetaN::once(int start, int end) {
     
     auto data0_line = datas[0]->lines->getline(0);  // Y variable
     auto data1_line = datas[1]->lines->getline(0);  // X variable
-    auto beta_line = lines->getline(Lines::beta);
+    auto beta_line = lines->getline(beta);
     
     if (!data0_line || !data1_line || !beta_line) return;
     
@@ -312,8 +312,8 @@ void CointN::next() {
     
     auto data0_line = datas[0]->lines->getline(0);
     auto data1_line = datas[1]->lines->getline(0);
-    auto score_line = lines->getline(Lines::score);
-    auto pvalue_line = lines->getline(Lines::pvalue);
+    auto score_line = lines->getline(score);
+    auto pvalue_line = lines->getline(pvalue);
     
     if (!data0_line || !data1_line || !score_line || !pvalue_line) return;
     
@@ -336,8 +336,8 @@ void CointN::once(int start, int end) {
     
     auto data0_line = datas[0]->lines->getline(0);
     auto data1_line = datas[1]->lines->getline(0);
-    auto score_line = lines->getline(Lines::score);
-    auto pvalue_line = lines->getline(Lines::pvalue);
+    auto score_line = lines->getline(score);
+    auto pvalue_line = lines->getline(pvalue);
     
     if (!data0_line || !data1_line || !score_line || !pvalue_line) return;
     

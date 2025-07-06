@@ -24,7 +24,7 @@ void UpMove::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto upmove_line = lines->getline(Lines::upmove);
+    auto upmove_line = lines->getline(upmove);
     
     if (data_line && upmove_line) {
         double current = (*data_line)[0];
@@ -37,7 +37,7 @@ void UpMove::once(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto upmove_line = lines->getline(Lines::upmove);
+    auto upmove_line = lines->getline(upmove);
     
     if (!data_line || !upmove_line) return;
     
@@ -70,7 +70,7 @@ void DownMove::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto downmove_line = lines->getline(Lines::downmove);
+    auto downmove_line = lines->getline(downmove);
     
     if (data_line && downmove_line) {
         double current = (*data_line)[0];
@@ -83,7 +83,7 @@ void DownMove::once(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto downmove_line = lines->getline(Lines::downmove);
+    auto downmove_line = lines->getline(downmove);
     
     if (!data_line || !downmove_line) return;
     
@@ -172,19 +172,19 @@ void DirectionalIndicatorBase::next() {
     }
     
     // Calculate DI values
-    auto atr_line = atr_->lines->getline(AverageTrueRange::Lines::atr);
+    auto atr_line = atr_->lines->getline(AverageTrueRange::atr);
     if (atr_line) {
         double atr_value = (*atr_line)[0];
         
         if (calc_plus_ && plus_dm_smma_->lines) {
-            auto plus_dm_smma_line = plus_dm_smma_->lines->getline(SmoothedMovingAverage::Lines::smma);
+            auto plus_dm_smma_line = plus_dm_smma_->lines->getline(SmoothedMovingAverage::smma);
             if (plus_dm_smma_line && atr_value != 0.0) {
                 di_plus_ = 100.0 * (*plus_dm_smma_line)[0] / atr_value;
             }
         }
         
         if (calc_minus_ && minus_dm_smma_->lines) {
-            auto minus_dm_smma_line = minus_dm_smma_->lines->getline(SmoothedMovingAverage::Lines::smma);
+            auto minus_dm_smma_line = minus_dm_smma_->lines->getline(SmoothedMovingAverage::smma);
             if (minus_dm_smma_line && atr_value != 0.0) {
                 di_minus_ = 100.0 * (*minus_dm_smma_line)[0] / atr_value;
             }
@@ -271,7 +271,7 @@ void PlusDirectionalIndicator::setup_lines() {
 }
 
 void PlusDirectionalIndicator::calculate_indicators() {
-    auto plus_di_line = lines->getline(Lines::plusDI);
+    auto plus_di_line = lines->getline(plusDI);
     if (plus_di_line) {
         plus_di_line->set(0, di_plus_);
     }
@@ -289,7 +289,7 @@ void MinusDirectionalIndicator::setup_lines() {
 }
 
 void MinusDirectionalIndicator::calculate_indicators() {
-    auto minus_di_line = lines->getline(Lines::minusDI);
+    auto minus_di_line = lines->getline(minusDI);
     if (minus_di_line) {
         minus_di_line->set(0, di_minus_);
     }
@@ -308,8 +308,8 @@ void DirectionalIndicator::setup_lines() {
 }
 
 void DirectionalIndicator::calculate_indicators() {
-    auto plus_di_line = lines->getline(Lines::plusDI);
-    auto minus_di_line = lines->getline(Lines::minusDI);
+    auto plus_di_line = lines->getline(plusDI);
+    auto minus_di_line = lines->getline(minusDI);
     
     if (plus_di_line) {
         plus_di_line->set(0, di_plus_);
@@ -378,9 +378,9 @@ void AverageDirectionalMovementIndex::once(int start, int end) {
 }
 
 void AverageDirectionalMovementIndex::calculate_indicators() {
-    auto adx_line = lines->getline(Lines::adx);
+    auto adx_line = lines->getline(adx);
     if (adx_line && dx_smma_->lines) {
-        auto dx_smma_line = dx_smma_->lines->getline(SmoothedMovingAverage::Lines::smma);
+        auto dx_smma_line = dx_smma_->lines->getline(SmoothedMovingAverage::smma);
         if (dx_smma_line) {
             adx_line->set(0, (*dx_smma_line)[0]);
         }
@@ -403,8 +403,8 @@ void AverageDirectionalMovementIndexRating::setup_lines() {
 void AverageDirectionalMovementIndexRating::next() {
     AverageDirectionalMovementIndex::next();
     
-    auto adx_line = lines->getline(Lines::adx);
-    auto adxr_line = lines->getline(Lines::adxr);
+    auto adx_line = lines->getline(adx);
+    auto adxr_line = lines->getline(adxr);
     
     if (adx_line && adxr_line) {
         double current_adx = (*adx_line)[0];
@@ -416,8 +416,8 @@ void AverageDirectionalMovementIndexRating::next() {
 void AverageDirectionalMovementIndexRating::once(int start, int end) {
     AverageDirectionalMovementIndex::once(start, end);
     
-    auto adx_line = lines->getline(Lines::adx);
-    auto adxr_line = lines->getline(Lines::adxr);
+    auto adx_line = lines->getline(adx);
+    auto adxr_line = lines->getline(adxr);
     
     if (adx_line && adxr_line) {
         for (int i = start; i < end; ++i) {
@@ -446,8 +446,8 @@ void DirectionalMovementIndex::setup_lines() {
 void DirectionalMovementIndex::calculate_indicators() {
     AverageDirectionalMovementIndex::calculate_indicators();
     
-    auto plus_di_line = lines->getline(Lines::plusDI);
-    auto minus_di_line = lines->getline(Lines::minusDI);
+    auto plus_di_line = lines->getline(plusDI);
+    auto minus_di_line = lines->getline(minusDI);
     
     if (plus_di_line) {
         plus_di_line->set(0, di_plus_);
@@ -472,8 +472,8 @@ void DirectionalMovement::setup_lines() {
 }
 
 void DirectionalMovement::calculate_indicators() {
-    auto plus_di_line = lines->getline(Lines::plusDI);
-    auto minus_di_line = lines->getline(Lines::minusDI);
+    auto plus_di_line = lines->getline(plusDI);
+    auto minus_di_line = lines->getline(minusDI);
     
     if (plus_di_line) {
         plus_di_line->set(0, di_plus_);

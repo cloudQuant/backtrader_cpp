@@ -52,11 +52,11 @@ void PivotPoint::next() {
     double r2 = pivot + (high - low);
     
     // Set line values
-    (*lines->getline(Lines::p))[0] = pivot;
-    (*lines->getline(Lines::s1))[0] = s1;
-    (*lines->getline(Lines::s2))[0] = s2;
-    (*lines->getline(Lines::r1))[0] = r1;
-    (*lines->getline(Lines::r2))[0] = r2;
+    (*lines->getline(p))[0] = pivot;
+    (*lines->getline(s1))[0] = s1;
+    (*lines->getline(s2))[0] = s2;
+    (*lines->getline(r1))[0] = r1;
+    (*lines->getline(r2))[0] = r2;
 }
 
 void PivotPoint::once(int start, int end) {
@@ -88,11 +88,11 @@ void PivotPoint::once(int start, int end) {
         double r2 = pivot + (high - low);
         
         // Set line values
-        (*lines->getline(Lines::p))[i] = pivot;
-        (*lines->getline(Lines::s1))[i] = s1;
-        (*lines->getline(Lines::s2))[i] = s2;
-        (*lines->getline(Lines::r1))[i] = r1;
-        (*lines->getline(Lines::r2))[i] = r2;
+        (*lines->getline(p))[i] = pivot;
+        (*lines->getline(s1))[i] = s1;
+        (*lines->getline(s2))[i] = s2;
+        (*lines->getline(r1))[i] = r1;
+        (*lines->getline(r2))[i] = r2;
     }
 }
 
@@ -151,13 +151,13 @@ void FibonacciPivotPoint::next() {
     double r3 = pivot + params.level3 * range;
     
     // Set line values
-    (*lines->getline(Lines::p))[0] = pivot;
-    (*lines->getline(Lines::s1))[0] = s1;
-    (*lines->getline(Lines::s2))[0] = s2;
-    (*lines->getline(Lines::s3))[0] = s3;
-    (*lines->getline(Lines::r1))[0] = r1;
-    (*lines->getline(Lines::r2))[0] = r2;
-    (*lines->getline(Lines::r3))[0] = r3;
+    (*lines->getline(p))[0] = pivot;
+    (*lines->getline(s1))[0] = s1;
+    (*lines->getline(s2))[0] = s2;
+    (*lines->getline(s3))[0] = s3;
+    (*lines->getline(r1))[0] = r1;
+    (*lines->getline(r2))[0] = r2;
+    (*lines->getline(r3))[0] = r3;
 }
 
 void FibonacciPivotPoint::once(int start, int end) {
@@ -194,13 +194,13 @@ void FibonacciPivotPoint::once(int start, int end) {
         double r3 = pivot + params.level3 * range;
         
         // Set line values
-        (*lines->getline(Lines::p))[i] = pivot;
-        (*lines->getline(Lines::s1))[i] = s1;
-        (*lines->getline(Lines::s2))[i] = s2;
-        (*lines->getline(Lines::s3))[i] = s3;
-        (*lines->getline(Lines::r1))[i] = r1;
-        (*lines->getline(Lines::r2))[i] = r2;
-        (*lines->getline(Lines::r3))[i] = r3;
+        (*lines->getline(p))[i] = pivot;
+        (*lines->getline(s1))[i] = s1;
+        (*lines->getline(s2))[i] = s2;
+        (*lines->getline(s3))[i] = s3;
+        (*lines->getline(r1))[i] = r1;
+        (*lines->getline(r2))[i] = r2;
+        (*lines->getline(r3))[i] = r3;
     }
 }
 
@@ -242,9 +242,9 @@ void DemarkPivotPoint::next() {
     double r1 = x / 2.0 - low;
     
     // Set line values
-    (*lines->getline(Lines::p))[0] = pivot;
-    (*lines->getline(Lines::s1))[0] = s1;
-    (*lines->getline(Lines::r1))[0] = r1;
+    (*lines->getline(p))[0] = pivot;
+    (*lines->getline(s1))[0] = s1;
+    (*lines->getline(r1))[0] = r1;
 }
 
 void DemarkPivotPoint::once(int start, int end) {
@@ -268,9 +268,9 @@ void DemarkPivotPoint::once(int start, int end) {
         double r1 = x / 2.0 - low;
         
         // Set line values
-        (*lines->getline(Lines::p))[i] = pivot;
-        (*lines->getline(Lines::s1))[i] = s1;
-        (*lines->getline(Lines::r1))[i] = r1;
+        (*lines->getline(p))[i] = pivot;
+        (*lines->getline(s1))[i] = s1;
+        (*lines->getline(r1))[i] = r1;
     }
 }
 

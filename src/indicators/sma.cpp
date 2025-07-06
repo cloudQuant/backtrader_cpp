@@ -33,6 +33,18 @@ SMA::SMA(std::shared_ptr<LineSeries> data_source, int period)
     // Do not pre-extend as it would fill with NaN values
 }
 
+SMA::SMA(std::shared_ptr<LineRoot> data_source, int period) 
+    : Indicator(), period(period), sum_(0.0), lineroot_source_(data_source), current_index_(0) {
+    // Set minimum period
+    _minperiod(period);
+    
+    // Initialize lines
+    if (lines->size() == 0) {
+        lines->add_line(std::make_shared<LineBuffer>());
+        lines->add_alias("sma", 0);
+    }
+}
+
 void SMA::next() {
     if (!data || data->lines->size() == 0) {
         return;

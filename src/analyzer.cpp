@@ -10,7 +10,7 @@
 #include <algorithm>
 #include <ctime>
 #include <chrono>
-#include <calendar.h>
+// #include <calendar.h>  // Not available on all systems
 
 namespace backtrader {
 
@@ -219,6 +219,12 @@ std::string Analyzer::_analysis_value_to_string(const AnalysisValue& value) cons
 }
 
 // TimeFrameAnalyzerBase implementation
+TimeFrameAnalyzerBase::TimeFrameAnalyzerBase() 
+    : Analyzer(), p() {
+    timeframe = p.timeframe;
+    compression = p.compression;
+}
+
 TimeFrameAnalyzerBase::TimeFrameAnalyzerBase(const Params& params) 
     : Analyzer(), p(params) {
     timeframe = p.timeframe;

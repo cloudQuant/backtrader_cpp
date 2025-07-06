@@ -72,9 +72,9 @@ void PriceOscillator::setup_lines() {
 }
 
 void PriceOscillator::calculate_oscillator() {
-    auto po_line = lines->getline(Lines::po);
-    auto ma1_line = ma1_->lines->getline(EMA::Lines::ema);
-    auto ma2_line = ma2_->lines->getline(EMA::Lines::ema);
+    auto po_line = lines->getline(po);
+    auto ma1_line = ma1_->lines->getline(EMA::ema);
+    auto ma2_line = ma2_->lines->getline(EMA::ema);
     
     if (po_line && ma1_line && ma2_line) {
         double ma1_value = (*ma1_line)[0];
@@ -120,10 +120,10 @@ void PercentagePriceOscillator::next() {
     signal_ema_->next();
     
     // Calculate signal and histogram
-    auto ppo_line = lines->getline(Lines::ppo);
-    auto signal_line = lines->getline(Lines::signal);
-    auto histo_line = lines->getline(Lines::histo);
-    auto signal_ema_line = signal_ema_->lines->getline(EMA::Lines::ema);
+    auto ppo_line = lines->getline(ppo);
+    auto signal_line = lines->getline(signal);
+    auto histo_line = lines->getline(histo);
+    auto signal_ema_line = signal_ema_->lines->getline(EMA::ema);
     
     if (signal_line && signal_ema_line) {
         signal_line->set(0, (*signal_ema_line)[0]);
@@ -146,10 +146,10 @@ void PercentagePriceOscillator::once(int start, int end) {
     signal_ema_->once(start + std::max(params.period1, params.period2) - 1, end);
     
     // Calculate signal and histogram values
-    auto ppo_line = lines->getline(Lines::ppo);
-    auto signal_line = lines->getline(Lines::signal);
-    auto histo_line = lines->getline(Lines::histo);
-    auto signal_ema_line = signal_ema_->lines->getline(EMA::Lines::ema);
+    auto ppo_line = lines->getline(ppo);
+    auto signal_line = lines->getline(signal);
+    auto histo_line = lines->getline(histo);
+    auto signal_ema_line = signal_ema_->lines->getline(EMA::ema);
     
     if (signal_line && signal_ema_line && ppo_line && histo_line) {
         for (int i = start; i < end; ++i) {
@@ -163,9 +163,9 @@ void PercentagePriceOscillator::once(int start, int end) {
 }
 
 void PercentagePriceOscillator::calculate_oscillator() {
-    auto ppo_line = lines->getline(Lines::ppo);
-    auto ma1_line = ma1_->lines->getline(EMA::Lines::ema);
-    auto ma2_line = ma2_->lines->getline(EMA::Lines::ema);
+    auto ppo_line = lines->getline(ppo);
+    auto ma1_line = ma1_->lines->getline(EMA::ema);
+    auto ma2_line = ma2_->lines->getline(EMA::ema);
     
     if (ppo_line && ma1_line && ma2_line) {
         double ma1_value = (*ma1_line)[0];

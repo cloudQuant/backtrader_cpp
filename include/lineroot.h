@@ -63,7 +63,9 @@ public:
     
     // Basic data operations (for compatibility)
     virtual void forward(double value) {}
+    virtual void forward() {}
     virtual void calculate() {}
+    virtual void reset() {}
     
     // Aliasing support
     bool aliased = false;
@@ -87,12 +89,15 @@ public:
     virtual size_t size() const = 0;
     virtual bool empty() const = 0;
     
+    // Convenience method for testing
+    virtual double get(int index) const { return (*this)[index]; }
+    
     // Forward/backward operations
     virtual void forward(size_t size = 1) = 0;
     virtual void backward(size_t size = 1) = 0;
     virtual void rewind(size_t size = 1) = 0;
     virtual void extend(size_t size = 1) = 0;
-    virtual void reset() = 0;
+    virtual void reset() override = 0;
     
     // Buffer operations
     virtual void home() = 0;
@@ -132,7 +137,7 @@ public:
     virtual void backward(size_t size = 1);
     virtual void rewind(size_t size = 1);
     virtual void extend(size_t size = 1);
-    virtual void reset();
+    void reset() override;
     virtual void home();
     virtual size_t buflen() const;
     virtual void advance(size_t size = 1);

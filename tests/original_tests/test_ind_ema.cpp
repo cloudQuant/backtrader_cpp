@@ -11,14 +11,14 @@
  * chkind = btind.EMA
  */
 
-#include "test_common_simple.h"
+#include "test_common.h"
 
-using namespace backtrader::indicators;
 #include "indicators/ema.h"
+#include "indicators/sma.h"
 
-using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
+using namespace backtrader;
 using namespace backtrader::indicators;
 
 namespace {
@@ -41,7 +41,7 @@ TEST(OriginalTests, EMA_Manual) {
     ASSERT_FALSE(csv_data.empty());
     
     // 创建数据线
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -93,14 +93,14 @@ protected:
         csv_data_ = getdata(0);
         ASSERT_FALSE(csv_data_.empty());
         
-        close_line_ = std::make_shared<LineRoot>(csv_data_.size(), "close");
+        close_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "close");
         for (const auto& bar : csv_data_) {
             close_line_->forward(bar.close);
         }
     }
     
     std::vector<CSVDataReader::OHLCVData> csv_data_;
-    std::shared_ptr<LineRoot> close_line_;
+    std::shared_ptr<backtrader::LineRoot> close_line_;
 };
 
 TEST_P(EMAParameterizedTest, DifferentPeriods) {
@@ -137,8 +137,8 @@ INSTANTIATE_TEST_SUITE_P(
 // EMA响应性测试 - EMA应该比SMA响应更快
 TEST(OriginalTests, EMA_vs_SMA_Responsiveness) {
     auto csv_data = getdata(0);
-    auto close_line_ema = std::make_shared<LineRoot>(csv_data.size(), "close_ema");
-    auto close_line_sma = std::make_shared<LineRoot>(csv_data.size(), "close_sma");
+    auto close_line_ema = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close_ema");
+    auto close_line_sma = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close_sma");
     
     for (const auto& bar : csv_data) {
         close_line_ema->forward(bar.close);
@@ -196,7 +196,7 @@ TEST(OriginalTests, EMA_SmoothingFactor) {
     // 使用一个简单的价格序列来验证EMA计算
     std::vector<double> prices = {100.0, 102.0, 101.0, 103.0, 105.0, 104.0, 106.0, 108.0};
     
-    auto close_line = std::make_shared<LineRoot>(prices.size(), "ema_smooth");
+    auto close_line = std::make_shared<backtrader::LineRoot>(prices.size(), "ema_smooth");
     for (double price : prices) {
         close_line->forward(price);
     }
@@ -233,7 +233,7 @@ TEST(OriginalTests, EMA_SmoothingFactor) {
 // 边界条件测试
 TEST(OriginalTests, EMA_EdgeCases) {
     // 测试数据不足的情况
-    auto close_line = std::make_shared<LineRoot>(100, "insufficient");
+    auto close_line = std::make_shared<backtrader::LineRoot>(100, "insufficient");
     
     // 只添加几个数据点
     for (int i = 0; i < 5; ++i) {
@@ -260,7 +260,7 @@ TEST(OriginalTests, EMA_Convergence) {
     const double constant_price = 100.0;
     const int num_points = 100;
     
-    auto close_line = std::make_shared<LineRoot>(num_points, "convergence");
+    auto close_line = std::make_shared<backtrader::LineRoot>(num_points, "convergence");
     for (int i = 0; i < num_points; ++i) {
         close_line->forward(constant_price);
     }

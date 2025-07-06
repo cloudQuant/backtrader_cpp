@@ -12,10 +12,12 @@
  * chkargs = dict(period=14)
  */
 
-#include "test_common_simple.h"
+#include "test_common.h"
 #include "indicators/basicops.h"
 
 using namespace backtrader::tests::original;
+using namespace backtrader;
+using namespace backtrader::indicators;
 
 namespace {
 

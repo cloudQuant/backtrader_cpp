@@ -11,10 +11,12 @@
  * chkind = btind.ATR
  */
 
-#include "test_common_simple.h"
+#include "test_common.h"
 #include "indicators/atr.h"
 
 using namespace backtrader::tests::original;
+using namespace backtrader;
+using namespace backtrader::indicators;
 
 namespace {
 

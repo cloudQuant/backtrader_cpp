@@ -16,12 +16,15 @@ public:
     
     UpMove();
     UpMove(std::shared_ptr<LineSeries> data_source);
+    UpMove(std::shared_ptr<LineSeries> data_source, int period);
+    // Constructor for test framework compatibility
+    UpMove(std::shared_ptr<LineRoot> data);
     virtual ~UpMove() = default;
     
     // Utility methods
     double get(int ago = 0) const;
     int getMinPeriod() const;
-    void calculate();
+    void calculate() override;
     
 protected:
     void next() override;
@@ -45,12 +48,15 @@ public:
     
     DownMove();
     DownMove(std::shared_ptr<LineSeries> data_source);
+    DownMove(std::shared_ptr<LineSeries> data_source, int period);
+    // Constructor for test framework compatibility
+    DownMove(std::shared_ptr<LineRoot> data);
     virtual ~DownMove() = default;
     
     // Utility methods
     double get(int ago = 0) const;
     int getMinPeriod() const;
-    void calculate();
+    void calculate() override;
     
 protected:
     void next() override;

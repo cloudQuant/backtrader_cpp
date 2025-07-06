@@ -95,8 +95,8 @@ Highest::Highest() : OperationN(), data_source_(nullptr), current_index_(0) {
     setup_lines();
 }
 
-Highest::Highest(std::shared_ptr<LineSeries> data_source, int period) 
-    : OperationN(), data_source_(data_source), current_index_(0) {
+Highest::Highest(std::shared_ptr<LineRoot> data, int period) 
+    : OperationN(), data_source_(nullptr), current_index_(0) {
     params.period = period;
     setup_lines();
 }
@@ -106,7 +106,7 @@ double Highest::get(int ago) const {
         return std::numeric_limits<double>::quiet_NaN();
     }
     
-    auto line = lines->getline(Lines::highest);
+    auto line = lines->getline(highest);
     if (!line) {
         return std::numeric_limits<double>::quiet_NaN();
     }
@@ -144,8 +144,8 @@ Lowest::Lowest() : OperationN(), data_source_(nullptr), current_index_(0) {
     setup_lines();
 }
 
-Lowest::Lowest(std::shared_ptr<LineSeries> data_source, int period) 
-    : OperationN(), data_source_(data_source), current_index_(0) {
+Lowest::Lowest(std::shared_ptr<LineRoot> data, int period) 
+    : OperationN(), data_source_(nullptr), current_index_(0) {
     params.period = period;
     setup_lines();
 }
@@ -155,7 +155,7 @@ double Lowest::get(int ago) const {
         return std::numeric_limits<double>::quiet_NaN();
     }
     
-    auto line = lines->getline(Lines::lowest);
+    auto line = lines->getline(lowest);
     if (!line) {
         return std::numeric_limits<double>::quiet_NaN();
     }
@@ -204,7 +204,7 @@ double SumN::get(int ago) const {
         return std::numeric_limits<double>::quiet_NaN();
     }
     
-    auto line = lines->getline(Lines::sumn);
+    auto line = lines->getline(sumn);
     if (!line) {
         return std::numeric_limits<double>::quiet_NaN();
     }
@@ -248,12 +248,25 @@ AnyN::AnyN(std::shared_ptr<LineSeries> data_source, int period)
     _minperiod(params.period);
 }
 
+AnyN::AnyN(std::shared_ptr<LineRoot> data_source, int period) 
+    : OperationN(), data_source_(nullptr), current_index_(0) {
+    params.period = period;
+    setup_lines();
+    _minperiod(params.period);
+    
+    // Convert LineRoot to LineSeries if possible
+    auto lineseries = std::dynamic_pointer_cast<LineSeries>(data_source);
+    if (lineseries) {
+        data_source_ = lineseries;
+    }
+}
+
 double AnyN::get(int ago) const {
     if (!lines || lines->size() == 0) {
         return std::numeric_limits<double>::quiet_NaN();
     }
     
-    auto line = lines->getline(Lines::anyn);
+    auto line = lines->getline(anyn);
     if (!line) {
         return std::numeric_limits<double>::quiet_NaN();
     }
@@ -300,12 +313,25 @@ AllN::AllN(std::shared_ptr<LineSeries> data_source, int period)
     _minperiod(params.period);
 }
 
+AllN::AllN(std::shared_ptr<LineRoot> data_source, int period) 
+    : OperationN(), data_source_(nullptr), current_index_(0) {
+    params.period = period;
+    setup_lines();
+    _minperiod(params.period);
+    
+    // Convert LineRoot to LineSeries if possible
+    auto lineseries = std::dynamic_pointer_cast<LineSeries>(data_source);
+    if (lineseries) {
+        data_source_ = lineseries;
+    }
+}
+
 double AllN::get(int ago) const {
     if (!lines || lines->size() == 0) {
         return std::numeric_limits<double>::quiet_NaN();
     }
     
-    auto line = lines->getline(Lines::alln);
+    auto line = lines->getline(alln);
     if (!line) {
         return std::numeric_limits<double>::quiet_NaN();
     }
@@ -434,7 +460,7 @@ void Accum::nextstart() {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto accum_line = lines->getline(Lines::accum);
+    auto accum_line = lines->getline(accum);
     
     if (!data_line || !accum_line) return;
     
@@ -445,7 +471,7 @@ void Accum::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto accum_line = lines->getline(Lines::accum);
+    auto accum_line = lines->getline(accum);
     
     if (!data_line || !accum_line) return;
     
@@ -456,7 +482,7 @@ void Accum::oncestart(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto accum_line = lines->getline(Lines::accum);
+    auto accum_line = lines->getline(accum);
     
     if (!data_line || !accum_line) return;
     
@@ -470,7 +496,7 @@ void Accum::once(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto accum_line = lines->getline(Lines::accum);
+    auto accum_line = lines->getline(accum);
     
     if (!data_line || !accum_line) return;
     
@@ -492,12 +518,25 @@ Average::Average(std::shared_ptr<LineSeries> data_source, int period)
     _minperiod(params.period);
 }
 
+Average::Average(std::shared_ptr<LineRoot> data_source, int period) 
+    : PeriodN(), data_source_(nullptr), current_index_(0) {
+    params.period = period;
+    setup_lines();
+    _minperiod(params.period);
+    
+    // Convert LineRoot to LineSeries if possible
+    auto lineseries = std::dynamic_pointer_cast<LineSeries>(data_source);
+    if (lineseries) {
+        data_source_ = lineseries;
+    }
+}
+
 double Average::get(int ago) const {
     if (!lines || lines->size() == 0) {
         return std::numeric_limits<double>::quiet_NaN();
     }
     
-    auto line = lines->getline(Lines::av);
+    auto line = lines->getline(av);
     if (!line) {
         return std::numeric_limits<double>::quiet_NaN();
     }
@@ -529,7 +568,7 @@ void Average::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto av_line = lines->getline(Lines::av);
+    auto av_line = lines->getline(av);
     
     if (!data_line || !av_line) return;
     
@@ -546,7 +585,7 @@ void Average::once(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto av_line = lines->getline(Lines::av);
+    auto av_line = lines->getline(av);
     
     if (!data_line || !av_line) return;
     
@@ -578,7 +617,7 @@ void ExponentialSmoothing::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto av_line = lines->getline(Lines::av);
+    auto av_line = lines->getline(av);
     
     if (!data_line || !av_line) return;
     
@@ -594,7 +633,7 @@ void ExponentialSmoothing::once(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto av_line = lines->getline(Lines::av);
+    auto av_line = lines->getline(av);
     
     if (!data_line || !av_line) return;
     
@@ -627,7 +666,7 @@ void WeightedAverage::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto av_line = lines->getline(Lines::av);
+    auto av_line = lines->getline(av);
     
     if (!data_line || !av_line) return;
     
@@ -643,7 +682,7 @@ void WeightedAverage::once(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto av_line = lines->getline(Lines::av);
+    auto av_line = lines->getline(av);
     
     if (!data_line || !av_line) return;
     

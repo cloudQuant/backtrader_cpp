@@ -26,7 +26,7 @@ public:
     // Utility methods
     double get(int ago = 0) const;
     int getMinPeriod() const;
-    void calculate();
+    void calculate() override;
     
 protected:
     void prenext() override;

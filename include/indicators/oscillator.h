@@ -9,19 +9,20 @@ namespace indicators {
 class Oscillator : public Indicator {
 public:
     // Lines
-    enum Lines { 
+    enum LineIndex { 
         osc = 0  // Oscillator line
     };
     
     Oscillator();
     Oscillator(std::shared_ptr<LineSeries> data_source);
+    Oscillator(std::shared_ptr<LineSeries> data_source, int period);
     Oscillator(std::shared_ptr<LineSeries> data_source, std::shared_ptr<Indicator> base_indicator);
     virtual ~Oscillator() = default;
     
     // Utility methods
     double get(int ago = 0) const;
     int getMinPeriod() const;
-    void calculate();
+    void calculate() override;
     
 protected:
     void next() override;
@@ -43,10 +44,13 @@ public:
         int period = 30;
     } params;
     
-    enum Lines { sma_osc = 0 };
+    enum LineIndex { sma_osc = 0 };
     
     SMAOscillator();
     virtual ~SMAOscillator() = default;
+    
+    // Get method for accessing the indicator value
+    double get(int ago = 0) const;
     
 protected:
     void next() override;
@@ -63,10 +67,13 @@ public:
         int period = 30;
     } params;
     
-    enum Lines { ema_osc = 0 };
+    enum LineIndex { ema_osc = 0 };
     
     EMAOscillator();
     virtual ~EMAOscillator() = default;
+    
+    // Get method for accessing the indicator value
+    double get(int ago = 0) const;
     
 protected:
     void next() override;

@@ -31,7 +31,7 @@ double ZeroLagIndicator::get(int ago) const {
         return std::numeric_limits<double>::quiet_NaN();
     }
     
-    auto line = lines->getline(Lines::ec);
+    auto line = lines->getline(ec);
     if (!line) {
         return std::numeric_limits<double>::quiet_NaN();
     }
@@ -63,7 +63,7 @@ void ZeroLagIndicator::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto ec_line = lines->getline(Lines::ec);
+    auto ec_line = lines->getline(ec);
     
     if (!data_line || !ec_line) return;
     
@@ -102,7 +102,7 @@ void ZeroLagIndicator::once(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto ec_line = lines->getline(Lines::ec);
+    auto ec_line = lines->getline(ec);
     
     if (!data_line || !ec_line) return;
     

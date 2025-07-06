@@ -26,7 +26,7 @@ void RelativeMomentumIndex::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto rmi_line = lines->getline(Lines::rmi);
+    auto rmi_line = lines->getline(rmi);
     
     if (!data_line || !rmi_line) return;
     
@@ -94,7 +94,7 @@ void RelativeMomentumIndex::once(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto rmi_line = lines->getline(Lines::rmi);
+    auto rmi_line = lines->getline(rmi);
     
     if (!data_line || !rmi_line) return;
     

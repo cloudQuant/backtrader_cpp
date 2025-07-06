@@ -11,14 +11,14 @@
  * chkind = btind.DEMA
  */
 
-#include "test_common_simple.h"
+#include "test_common.h"
+#include <random>
 
-using namespace backtrader::indicators;
 #include "indicators/dema.h"
-
-using namespace backtrader::indicators;
+#include "indicators/sma.h"
 
 using namespace backtrader::tests::original;
+using namespace backtrader;
 using namespace backtrader::indicators;
 
 namespace {
@@ -41,7 +41,7 @@ TEST(OriginalTests, DEMA_Manual) {
     ASSERT_FALSE(csv_data.empty());
     
     // 创建数据线
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -93,14 +93,14 @@ protected:
         csv_data_ = getdata(0);
         ASSERT_FALSE(csv_data_.empty());
         
-        close_line_ = std::make_shared<LineRoot>(csv_data_.size(), "close");
+        close_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "close");
         for (const auto& bar : csv_data_) {
             close_line_->forward(bar.close);
         }
     }
     
     std::vector<CSVDataReader::OHLCVData> csv_data_;
-    std::shared_ptr<LineRoot> close_line_;
+    std::shared_ptr<backtrader::LineRoot> close_line_;
 };
 
 TEST_P(DEMAParameterizedTest, DifferentPeriods) {
@@ -139,7 +139,7 @@ TEST(OriginalTests, DEMA_CalculationLogic) {
     // 使用简单的测试数据验证DEMA计算
     std::vector<double> prices = {100.0, 102.0, 104.0, 106.0, 108.0, 110.0, 112.0, 114.0, 116.0, 118.0};
     
-    auto close_line = std::make_shared<LineRoot>(prices.size(), "dema_calc");
+    auto close_line = std::make_shared<backtrader::LineRoot>(prices.size(), "dema_calc");
     for (double price : prices) {
         close_line->forward(price);
     }
@@ -148,7 +148,7 @@ TEST(OriginalTests, DEMA_CalculationLogic) {
     auto ema1 = std::make_shared<EMA>(close_line, 5);
     
     // 创建第二个EMA来验证DEMA计算
-    auto ema1_line = std::make_shared<LineRoot>(prices.size(), "ema1_values");
+    auto ema1_line = std::make_shared<backtrader::LineRoot>(prices.size(), "ema1_values");
     
     for (size_t i = 0; i < prices.size(); ++i) {
         dema->calculate();
@@ -183,8 +183,8 @@ TEST(OriginalTests, DEMA_CalculationLogic) {
 // DEMA响应性测试 - DEMA应该比EMA响应更快
 TEST(OriginalTests, DEMA_vs_EMA_Responsiveness) {
     auto csv_data = getdata(0);
-    auto close_line_dema = std::make_shared<LineRoot>(csv_data.size(), "close_dema");
-    auto close_line_ema = std::make_shared<LineRoot>(csv_data.size(), "close_ema");
+    auto close_line_dema = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close_dema");
+    auto close_line_ema = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close_ema");
     
     for (const auto& bar : csv_data) {
         close_line_dema->forward(bar.close);
@@ -239,8 +239,8 @@ TEST(OriginalTests, DEMA_vs_EMA_Responsiveness) {
 // DEMA vs SMA比较测试
 TEST(OriginalTests, DEMA_vs_SMA_Comparison) {
     auto csv_data = getdata(0);
-    auto close_line_dema = std::make_shared<LineRoot>(csv_data.size(), "close_dema");
-    auto close_line_sma = std::make_shared<LineRoot>(csv_data.size(), "close_sma");
+    auto close_line_dema = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close_dema");
+    auto close_line_sma = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close_sma");
     
     for (const auto& bar : csv_data) {
         close_line_dema->forward(bar.close);
@@ -305,9 +305,9 @@ TEST(OriginalTests, DEMA_LagTest) {
         step_prices.push_back(110.0);
     }
     
-    auto close_line_dema = std::make_shared<LineRoot>(step_prices.size(), "step_dema");
-    auto close_line_ema = std::make_shared<LineRoot>(step_prices.size(), "step_ema");
-    auto close_line_sma = std::make_shared<LineRoot>(step_prices.size(), "step_sma");
+    auto close_line_dema = std::make_shared<backtrader::LineRoot>(step_prices.size(), "step_dema");
+    auto close_line_ema = std::make_shared<backtrader::LineRoot>(step_prices.size(), "step_ema");
+    auto close_line_sma = std::make_shared<backtrader::LineRoot>(step_prices.size(), "step_sma");
     
     for (double price : step_prices) {
         close_line_dema->forward(price);
@@ -361,7 +361,7 @@ TEST(OriginalTests, DEMA_LagTest) {
 // 边界条件测试
 TEST(OriginalTests, DEMA_EdgeCases) {
     // 测试数据不足的情况
-    auto close_line = std::make_shared<LineRoot>(100, "insufficient");
+    auto close_line = std::make_shared<backtrader::LineRoot>(100, "insufficient");
     
     // 只添加几个数据点
     for (int i = 0; i < 20; ++i) {
@@ -388,7 +388,7 @@ TEST(OriginalTests, DEMA_Convergence) {
     const double constant_price = 100.0;
     const int num_points = 200;
     
-    auto close_line = std::make_shared<LineRoot>(num_points, "convergence");
+    auto close_line = std::make_shared<backtrader::LineRoot>(num_points, "convergence");
     for (int i = 0; i < num_points; ++i) {
         close_line->forward(constant_price);
     }
@@ -423,7 +423,7 @@ TEST(OriginalTests, DEMA_Performance) {
         large_data.push_back(dist(rng));
     }
     
-    auto large_line = std::make_shared<LineRoot>(large_data.size(), "large");
+    auto large_line = std::make_shared<backtrader::LineRoot>(large_data.size(), "large");
     for (double price : large_data) {
         large_line->forward(price);
     }

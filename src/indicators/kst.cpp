@@ -52,8 +52,8 @@ void KnowSureThing::setup_lines() {
 void KnowSureThing::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
-    auto kst_line = lines->getline(Lines::kst);
-    auto signal_line = lines->getline(Lines::signal);
+    auto kst_line = lines->getline(kst);
+    auto signal_line = lines->getline(signal);
     
     if (!kst_line || !signal_line) return;
     
@@ -157,8 +157,8 @@ void KnowSureThing::next() {
 void KnowSureThing::once(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
-    auto kst_line = lines->getline(Lines::kst);
-    auto signal_line = lines->getline(Lines::signal);
+    auto kst_line = lines->getline(kst);
+    auto signal_line = lines->getline(signal);
     
     if (!kst_line || !signal_line) return;
     

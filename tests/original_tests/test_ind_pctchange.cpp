@@ -11,12 +11,15 @@
  * chkind = btind.PctChange
  */
 
-#include "test_common_simple.h"
+#include "test_common.h"
+#include <random>
 
 #include "indicators/percentchange.h"
 
 
 using namespace backtrader::tests::original;
+using namespace backtrader;
+using namespace backtrader::indicators;
 
 namespace {
 
@@ -38,7 +41,7 @@ TEST(OriginalTests, PctChange_Manual) {
     ASSERT_FALSE(csv_data.empty());
     
     // 创建数据线
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -90,14 +93,14 @@ protected:
         csv_data_ = getdata(0);
         ASSERT_FALSE(csv_data_.empty());
         
-        close_line_ = std::make_shared<LineRoot>(csv_data_.size(), "close");
+        close_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "close");
         for (const auto& bar : csv_data_) {
             close_line_->forward(bar.close);
         }
     }
     
     std::vector<CSVDataReader::OHLCVData> csv_data_;
-    std::shared_ptr<LineRoot> close_line_;
+    std::shared_ptr<backtrader::LineRoot> close_line_;
 };
 
 TEST_P(PctChangeParameterizedTest, DifferentPeriods) {
@@ -136,7 +139,7 @@ TEST(OriginalTests, PctChange_CalculationLogic) {
     // 使用简单的测试数据验证PctChange计算
     std::vector<double> prices = {100.0, 102.0, 104.0, 106.0, 108.0, 110.0, 112.0, 114.0, 116.0, 118.0};
     
-    auto close_line = std::make_shared<LineRoot>(prices.size(), "pctchange_calc");
+    auto close_line = std::make_shared<backtrader::LineRoot>(prices.size(), "pctchange_calc");
     for (double price : prices) {
         close_line->forward(price);
     }
@@ -167,8 +170,8 @@ TEST(OriginalTests, PctChange_CalculationLogic) {
 // PctChange vs ROC关系测试
 TEST(OriginalTests, PctChange_vs_ROC) {
     auto csv_data = getdata(0);
-    auto close_line_pct = std::make_shared<LineRoot>(csv_data.size(), "close_pct");
-    auto close_line_roc = std::make_shared<LineRoot>(csv_data.size(), "close_roc");
+    auto close_line_pct = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close_pct");
+    auto close_line_roc = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close_roc");
     
     for (const auto& bar : csv_data) {
         close_line_pct->forward(bar.close);
@@ -206,7 +209,7 @@ TEST(OriginalTests, PctChange_TrendDetection) {
         uptrend_prices.push_back(100.0 + i * 2.0);  // 持续上升
     }
     
-    auto up_line = std::make_shared<LineRoot>(uptrend_prices.size(), "uptrend");
+    auto up_line = std::make_shared<backtrader::LineRoot>(uptrend_prices.size(), "uptrend");
     for (double price : uptrend_prices) {
         up_line->forward(price);
     }
@@ -232,7 +235,7 @@ TEST(OriginalTests, PctChange_TrendDetection) {
         downtrend_prices.push_back(200.0 - i * 2.0);  // 持续下降
     }
     
-    auto down_line = std::make_shared<LineRoot>(downtrend_prices.size(), "downtrend");
+    auto down_line = std::make_shared<backtrader::LineRoot>(downtrend_prices.size(), "downtrend");
     for (double price : downtrend_prices) {
         down_line->forward(price);
     }
@@ -261,7 +264,7 @@ TEST(OriginalTests, PctChange_PercentageCalculation) {
     // 测试百分比计算的准确性
     std::vector<double> prices = {100.0, 105.0, 110.0, 95.0, 120.0};
     
-    auto close_line = std::make_shared<LineRoot>(prices.size(), "pct_percent");
+    auto close_line = std::make_shared<backtrader::LineRoot>(prices.size(), "pct_percent");
     for (double price : prices) {
         close_line->forward(price);
     }
@@ -308,7 +311,7 @@ TEST(OriginalTests, PctChange_SidewaysMarket) {
         sideways_prices.push_back(base + oscillation);
     }
     
-    auto sideways_line = std::make_shared<LineRoot>(sideways_prices.size(), "sideways");
+    auto sideways_line = std::make_shared<backtrader::LineRoot>(sideways_prices.size(), "sideways");
     for (double price : sideways_prices) {
         sideways_line->forward(price);
     }
@@ -343,7 +346,7 @@ TEST(OriginalTests, PctChange_SidewaysMarket) {
 // 零线交叉测试
 TEST(OriginalTests, PctChange_ZeroCrossing) {
     auto csv_data = getdata(0);
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -393,7 +396,7 @@ TEST(OriginalTests, PctChange_EdgeCases) {
     // 测试除零情况（过去价格为0）
     std::vector<double> zero_prices = {0.0, 100.0, 105.0, 110.0, 115.0};
     
-    auto zero_line = std::make_shared<LineRoot>(zero_prices.size(), "zero_test");
+    auto zero_line = std::make_shared<backtrader::LineRoot>(zero_prices.size(), "zero_test");
     for (double price : zero_prices) {
         zero_line->forward(price);
     }
@@ -419,7 +422,7 @@ TEST(OriginalTests, PctChange_EdgeCases) {
     // 测试相同价格的情况
     std::vector<double> flat_prices(20, 100.0);  // 20个相同价格
     
-    auto flat_line = std::make_shared<LineRoot>(flat_prices.size(), "flat");
+    auto flat_line = std::make_shared<backtrader::LineRoot>(flat_prices.size(), "flat");
     for (double price : flat_prices) {
         flat_line->forward(price);
     }
@@ -456,7 +459,7 @@ TEST(OriginalTests, PctChange_HighVolatility) {
         volatile_prices.push_back(price);
     }
     
-    auto volatile_line = std::make_shared<LineRoot>(volatile_prices.size(), "volatile");
+    auto volatile_line = std::make_shared<backtrader::LineRoot>(volatile_prices.size(), "volatile");
     for (double price : volatile_prices) {
         volatile_line->forward(price);
     }
@@ -502,7 +505,7 @@ TEST(OriginalTests, PctChange_Performance) {
         large_data.push_back(dist(rng));
     }
     
-    auto large_line = std::make_shared<LineRoot>(large_data.size(), "large");
+    auto large_line = std::make_shared<backtrader::LineRoot>(large_data.size(), "large");
     for (double price : large_data) {
         large_line->forward(price);
     }

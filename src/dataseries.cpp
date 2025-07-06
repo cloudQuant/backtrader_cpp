@@ -89,6 +89,63 @@ std::vector<std::string> DataSeries::_get_line_names() const {
     return {"datetime", "open", "high", "low", "close", "volume", "openinterest"};
 }
 
+// OHLCV accessor methods implementation
+double DataSeries::datetime(int ago) const {
+    if (DateTime < static_cast<int>(lines->size())) {
+        auto line = lines->getline(DateTime);
+        if (line) return (*line)[-ago];
+    }
+    return 0.0;
+}
+
+double DataSeries::open(int ago) const {
+    if (Open < static_cast<int>(lines->size())) {
+        auto line = lines->getline(Open);
+        if (line) return (*line)[-ago];
+    }
+    return std::numeric_limits<double>::quiet_NaN();
+}
+
+double DataSeries::high(int ago) const {
+    if (High < static_cast<int>(lines->size())) {
+        auto line = lines->getline(High);
+        if (line) return (*line)[-ago];
+    }
+    return std::numeric_limits<double>::quiet_NaN();
+}
+
+double DataSeries::low(int ago) const {
+    if (Low < static_cast<int>(lines->size())) {
+        auto line = lines->getline(Low);
+        if (line) return (*line)[-ago];
+    }
+    return std::numeric_limits<double>::quiet_NaN();
+}
+
+double DataSeries::close(int ago) const {
+    if (Close < static_cast<int>(lines->size())) {
+        auto line = lines->getline(Close);
+        if (line) return (*line)[-ago];
+    }
+    return std::numeric_limits<double>::quiet_NaN();
+}
+
+double DataSeries::volume(int ago) const {
+    if (Volume < static_cast<int>(lines->size())) {
+        auto line = lines->getline(Volume);
+        if (line) return (*line)[-ago];
+    }
+    return 0.0;
+}
+
+double DataSeries::openinterest(int ago) const {
+    if (OpenInterest < static_cast<int>(lines->size())) {
+        auto line = lines->getline(OpenInterest);
+        if (line) return (*line)[-ago];
+    }
+    return 0.0;
+}
+
 // OHLC implementation
 OHLC::OHLC() : DataSeries() {
 }

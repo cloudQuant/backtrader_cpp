@@ -13,8 +13,8 @@ public:
         int period = 30;
     } params;
     
-    // Lines
-    enum Lines { 
+    // Line indices
+    enum LineIndex { 
         wma = 0  // Weighted Moving Average line
     };
     
@@ -22,12 +22,14 @@ public:
     WeightedMovingAverage();
     // Constructor with data source and period (Python-style API)
     WeightedMovingAverage(std::shared_ptr<LineSeries> data_source, int period = 30);
+    // Constructor for test framework compatibility
+    WeightedMovingAverage(std::shared_ptr<LineRoot> data, int period = 30);
     virtual ~WeightedMovingAverage() = default;
     
     // Utility methods for tests
     double get(int ago = 0) const;
     int getMinPeriod() const { return params.period; }
-    void calculate();
+    void calculate() override;
     
 protected:
     void next() override;

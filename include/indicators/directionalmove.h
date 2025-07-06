@@ -18,6 +18,9 @@ public:
     UpMove();
     virtual ~UpMove() = default;
     
+    // Get method for accessing the indicator value
+    double get(int ago = 0) const;
+    
 protected:
     void prenext() override;
     void next() override;
@@ -37,6 +40,9 @@ public:
     
     DownMove();
     virtual ~DownMove() = default;
+    
+    // Get method for accessing the indicator value
+    double get(int ago = 0) const;
     
 protected:
     void prenext() override;
@@ -98,6 +104,9 @@ public:
     PlusDirectionalIndicator();
     virtual ~PlusDirectionalIndicator() = default;
     
+    // Get method for accessing the indicator value
+    double get(int ago = 0) const;
+    
 protected:
     void setup_lines() override;
     void calculate_indicators() override;
@@ -113,6 +122,9 @@ public:
     
     MinusDirectionalIndicator();
     virtual ~MinusDirectionalIndicator() = default;
+    
+    // Get method for accessing the indicator value
+    double get(int ago = 0) const;
     
 protected:
     void setup_lines() override;
@@ -131,6 +143,9 @@ public:
     DirectionalIndicator();
     virtual ~DirectionalIndicator() = default;
     
+    // Get method for accessing the indicator value
+    double get(int ago = 0) const;
+    
 protected:
     void setup_lines() override;
     void calculate_indicators() override;
@@ -146,6 +161,9 @@ public:
     
     AverageDirectionalMovementIndex();
     virtual ~AverageDirectionalMovementIndex() = default;
+    
+    // Get method for accessing the indicator value
+    double get(int ago = 0) const;
     
 protected:
     void prenext() override;
@@ -172,6 +190,9 @@ public:
     AverageDirectionalMovementIndexRating();
     virtual ~AverageDirectionalMovementIndexRating() = default;
     
+    // Get method for accessing the indicator value
+    double get(int ago = 0) const;
+    
 protected:
     void next() override;
     void once(int start, int end) override;
@@ -192,6 +213,9 @@ public:
     DirectionalMovementIndex();
     virtual ~DirectionalMovementIndex() = default;
     
+    // Get method for accessing the indicator value
+    double get(int ago = 0) const;
+    
 protected:
     void setup_lines() override;
     void calculate_indicators() override;
@@ -210,6 +234,9 @@ public:
     
     DirectionalMovement();
     virtual ~DirectionalMovement() = default;
+    
+    // Get method for accessing the indicator value
+    double get(int ago = 0) const;
     
 protected:
     void setup_lines() override;

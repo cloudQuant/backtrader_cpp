@@ -62,10 +62,10 @@ void HeikinAshi::once(int start, int end) {
         double ha_low = calculate_ha_low(low, ha_open, ha_close);
         
         // Store values
-        lines_[Lines::OPEN].push_back(ha_open);
-        lines_[Lines::HIGH].push_back(ha_high);
-        lines_[Lines::LOW].push_back(ha_low);
-        lines_[Lines::CLOSE].push_back(ha_close);
+        lines_[OPEN].push_back(ha_open);
+        lines_[HIGH].push_back(ha_high);
+        lines_[LOW].push_back(ha_low);
+        lines_[CLOSE].push_back(ha_close);
         
         // Update for next iteration
         previous_ha_open_ = ha_open;
@@ -74,19 +74,19 @@ void HeikinAshi::once(int start, int end) {
 }
 
 double HeikinAshi::get_ha_open(int ago) const {
-    return get_line_value(Lines::OPEN, ago);
+    return get_line_value(OPEN, ago);
 }
 
 double HeikinAshi::get_ha_high(int ago) const {
-    return get_line_value(Lines::HIGH, ago);
+    return get_line_value(HIGH, ago);
 }
 
 double HeikinAshi::get_ha_low(int ago) const {
-    return get_line_value(Lines::LOW, ago);
+    return get_line_value(LOW, ago);
 }
 
 double HeikinAshi::get_ha_close(int ago) const {
-    return get_line_value(Lines::CLOSE, ago);
+    return get_line_value(CLOSE, ago);
 }
 
 std::vector<double> HeikinAshi::get_ha_ohlc(int ago) const {
@@ -102,10 +102,10 @@ void HeikinAshi::initialize_lines() {
     lines_.resize(4);
     line_names_.resize(4);
     
-    line_names_[Lines::OPEN] = "ha_open";
-    line_names_[Lines::HIGH] = "ha_high";
-    line_names_[Lines::LOW] = "ha_low";
-    line_names_[Lines::CLOSE] = "ha_close";
+    line_names_[OPEN] = "ha_open";
+    line_names_[HIGH] = "ha_high";
+    line_names_[LOW] = "ha_low";
+    line_names_[CLOSE] = "ha_close";
     
     for (auto& line : lines_) {
         line.clear();
@@ -143,10 +143,10 @@ void HeikinAshi::calculate_heikin_ashi_values() {
     double ha_low = calculate_ha_low(low, ha_open, ha_close);
     
     // Store values
-    lines_[Lines::OPEN].push_back(ha_open);
-    lines_[Lines::HIGH].push_back(ha_high);
-    lines_[Lines::LOW].push_back(ha_low);
-    lines_[Lines::CLOSE].push_back(ha_close);
+    lines_[OPEN].push_back(ha_open);
+    lines_[HIGH].push_back(ha_high);
+    lines_[LOW].push_back(ha_low);
+    lines_[CLOSE].push_back(ha_close);
     
     // Update for next iteration
     previous_ha_open_ = ha_open;
@@ -264,11 +264,11 @@ void HaDelta::once(int start, int end) {
 }
 
 double HaDelta::get_ha_delta(int ago) const {
-    return get_line_value(Lines::HADELTA, ago);
+    return get_line_value(HADELTA, ago);
 }
 
 double HaDelta::get_smoothed_delta(int ago) const {
-    return get_line_value(Lines::SMOOTHED, ago);
+    return get_line_value(SMOOTHED, ago);
 }
 
 bool HaDelta::is_bullish(int ago) const {
@@ -305,11 +305,11 @@ double HaDelta::get_momentum_direction(int ago) const {
 }
 
 std::vector<double> HaDelta::get_delta_history(int count) const {
-    return get_line_history(Lines::HADELTA, count);
+    return get_line_history(HADELTA, count);
 }
 
 std::vector<double> HaDelta::get_smoothed_history(int count) const {
-    return get_line_history(Lines::SMOOTHED, count);
+    return get_line_history(SMOOTHED, count);
 }
 
 double HaDelta::get_average_delta(int period) const {
@@ -372,8 +372,8 @@ void HaDelta::initialize_lines() {
     lines_.resize(2);
     line_names_.resize(2);
     
-    line_names_[Lines::HADELTA] = "haDelta";
-    line_names_[Lines::SMOOTHED] = "smoothed";
+    line_names_[HADELTA] = "haDelta";
+    line_names_[SMOOTHED] = "smoothed";
     
     for (auto& line : lines_) {
         line.clear();
@@ -387,11 +387,11 @@ void HaDelta::setup_plot_info() {
     
     // Set up line plotting information
     plot_info_.line_colors.resize(2);
-    plot_info_.line_colors[Lines::HADELTA] = "red";
-    plot_info_.line_colors[Lines::SMOOTHED] = "grey";
+    plot_info_.line_colors[HADELTA] = "red";
+    plot_info_.line_colors[SMOOTHED] = "grey";
     
     // Conditional coloring for smoothed line (green above 0, red below 0)
-    plot_info_.conditional_colors[Lines::SMOOTHED] = {
+    plot_info_.conditional_colors[SMOOTHED] = {
         {0.0, "green", "red"}  // Fill green when > 0, red when < 0
     };
 }
@@ -461,7 +461,7 @@ double HaDelta::calculate_raw_delta() {
 
 void HaDelta::calculate_delta() {
     double delta = calculate_raw_delta();
-    lines_[Lines::HADELTA].push_back(delta);
+    lines_[HADELTA].push_back(delta);
     
     // Feed delta to moving average
     if (smoothing_ma_ && !std::isnan(delta)) {
@@ -477,7 +477,7 @@ void HaDelta::update_smoothed_delta() {
     
     // Get smoothed value from moving average
     double smoothed = smoothing_ma_->get_ma_value(0);
-    lines_[Lines::SMOOTHED].push_back(smoothed);
+    lines_[SMOOTHED].push_back(smoothed);
 }
 
 MovingAverageBase* HaDelta::create_ma_from_string(const std::string& ma_type) {

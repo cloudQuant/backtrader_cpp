@@ -75,7 +75,7 @@ public:
     
     // Notification system
     virtual void _addnotification(const std::string& type, const std::string& msg) {}
-    virtual void _notify() {}
+    virtual void _notify() override {}
     
     // Plotting
     virtual void _plotinit() {}

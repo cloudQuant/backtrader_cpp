@@ -13,8 +13,8 @@ public:
         int period = 30;
     } params;
     
-    // Lines
-    enum Lines { 
+    // Line indices
+    enum LineIndex { 
         zlema = 0  // Zero Lag EMA line
     };
     
@@ -25,7 +25,7 @@ public:
     // Utility methods
     double get(int ago = 0) const;
     int getMinPeriod() const;
-    void calculate();
+    void calculate() override;
     
 protected:
     void next() override;
@@ -35,7 +35,7 @@ private:
     void setup_lines();
     
     // EMA for calculation
-    std::shared_ptr<EMA> ema_;
+    std::shared_ptr<indicators::EMA> ema_;
     
     // Lag value
     int lag_;
@@ -48,6 +48,7 @@ private:
 // Aliases
 using ZLEMA = ZeroLagExponentialMovingAverage;
 using ZeroLagEma = ZeroLagExponentialMovingAverage;
+using ZeroLagEMA = ZeroLagExponentialMovingAverage;
 
 } // namespace indicators
 } // namespace backtrader

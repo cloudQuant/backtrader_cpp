@@ -35,6 +35,49 @@ EMA::EMA(std::shared_ptr<LineSeries> data_source, int period) : Indicator(), per
     data = data_source_;
 }
 
+EMA::EMA(std::shared_ptr<LineRoot> data) : Indicator(), period(30), first_value_(true), ema_value_(0.0), data_source_(nullptr), current_index_(0), lineroot_source_(data) {
+    // Calculate alpha (smoothing factor) - same as Python implementation
+    alpha = 2.0 / (1.0 + period);
+    
+    // Set minimum period to the period parameter 
+    _minperiod(period);
+    
+    // Initialize lines
+    if (lines->size() == 0) {
+        lines->add_line(std::make_shared<LineBuffer>());
+        lines->add_alias("ema", 0);
+    }
+    
+    // Try to cast LineRoot to LineSeries for compatibility
+    auto lineseries = std::dynamic_pointer_cast<LineSeries>(data);
+    if (lineseries) {
+        data_source_ = lineseries;
+        this->data = data_source_;
+    }
+    // This constructor is for test framework compatibility
+}
+
+EMA::EMA(std::shared_ptr<LineRoot> data_source, int period) : Indicator(), period(period), first_value_(true), ema_value_(0.0), data_source_(nullptr), current_index_(0), lineroot_source_(data_source) {
+    // Calculate alpha (smoothing factor) - same as Python implementation
+    alpha = 2.0 / (1.0 + period);
+    
+    // Set minimum period to the period parameter 
+    _minperiod(period);
+    
+    // Initialize lines
+    if (lines->size() == 0) {
+        lines->add_line(std::make_shared<LineBuffer>());
+        lines->add_alias("ema", 0);
+    }
+    
+    // Try to cast LineRoot to LineSeries for compatibility
+    auto lineseries = std::dynamic_pointer_cast<LineSeries>(data_source);
+    if (lineseries) {
+        data_source_ = lineseries;
+        data = data_source_;
+    }
+}
+
 void EMA::next() {
     if (!data || data->lines->size() == 0) {
         return;

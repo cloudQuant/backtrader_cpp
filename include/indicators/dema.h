@@ -21,13 +21,17 @@ public:
     };
     
     DoubleExponentialMovingAverage();
+    // Constructor for test framework compatibility
+    DoubleExponentialMovingAverage(std::shared_ptr<LineRoot> data);
+    // Constructor for manual test compatibility
+    DoubleExponentialMovingAverage(std::shared_ptr<LineRoot> data, int period);
     DoubleExponentialMovingAverage(std::shared_ptr<LineSeries> data_source, int period = 30);
     virtual ~DoubleExponentialMovingAverage() = default;
     
     // Testing utility methods
     double get(int ago = 0) const;
     int getMinPeriod() const;
-    void calculate();
+    void calculate() override;
     
 protected:
     void prenext() override;
@@ -38,8 +42,8 @@ private:
     void setup_lines();
     
     // Sub-indicators
-    std::shared_ptr<EMA> ema1_;  // First EMA
-    std::shared_ptr<EMA> ema2_;  // EMA of EMA1
+    std::shared_ptr<indicators::EMA> ema1_;  // First EMA
+    std::shared_ptr<indicators::EMA> ema2_;  // EMA of EMA1
     
     // LineSeries support
     std::shared_ptr<LineSeries> data_source_;
@@ -59,7 +63,14 @@ public:
     };
     
     TripleExponentialMovingAverage();
+    // Constructor for test framework compatibility
+    TripleExponentialMovingAverage(std::shared_ptr<LineRoot> data);
+    TripleExponentialMovingAverage(std::shared_ptr<LineRoot> data, int period);
     virtual ~TripleExponentialMovingAverage() = default;
+    
+    // Utility methods
+    double get(int ago = 0) const;
+    int getMinPeriod() const;
     
 protected:
     void prenext() override;
@@ -70,9 +81,9 @@ private:
     void setup_lines();
     
     // Sub-indicators
-    std::shared_ptr<EMA> ema1_;  // First EMA
-    std::shared_ptr<EMA> ema2_;  // EMA of EMA1
-    std::shared_ptr<EMA> ema3_;  // EMA of EMA2
+    std::shared_ptr<indicators::EMA> ema1_;  // First EMA
+    std::shared_ptr<indicators::EMA> ema2_;  // EMA of EMA1
+    std::shared_ptr<indicators::EMA> ema3_;  // EMA of EMA2
 };
 
 // Weighted Moving Average (WMA)
@@ -88,7 +99,14 @@ public:
     };
     
     WeightedMovingAverage();
+    // Constructor for test framework compatibility
+    WeightedMovingAverage(std::shared_ptr<LineRoot> data);
+    WeightedMovingAverage(std::shared_ptr<LineRoot> data, int period);
     virtual ~WeightedMovingAverage() = default;
+    
+    // Utility methods
+    double get(int ago = 0) const;
+    int getMinPeriod() const;
     
 protected:
     void prenext() override;

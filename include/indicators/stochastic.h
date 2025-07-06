@@ -40,8 +40,8 @@ protected:
     double get_lowest(int period, int offset = 0);
     
     // Sub-indicators
-    std::shared_ptr<SMA> sma_fast_;
-    std::shared_ptr<SMA> sma_slow_;
+    std::shared_ptr<indicators::SMA> sma_fast_;
+    std::shared_ptr<indicators::SMA> sma_slow_;
     
     // Intermediate values
     std::vector<double> k_values_;
@@ -74,7 +74,7 @@ protected:
     void calculate_lines() override;
     
 private:
-    std::shared_ptr<SMA> sma_dslow_;
+    std::shared_ptr<indicators::SMA> sma_dslow_;
 };
 
 // Full Stochastic Oscillator (shows all three lines)
@@ -99,7 +99,7 @@ protected:
     void calculate_lines() override;
     
 private:
-    std::shared_ptr<SMA> sma_dslow_;
+    std::shared_ptr<indicators::SMA> sma_dslow_;
 };
 
 // Aliases

@@ -11,10 +11,13 @@
  * chkind = btind.AroonOscillator
  */
 
-#include "test_common_simple.h"
-#include "indicators/aroonoscillator.h"
+#include "test_common.h"
+#include <random>
+#include "indicators/aroon.h"
 
 using namespace backtrader::tests::original;
+using namespace backtrader;
+using namespace backtrader::indicators;
 
 namespace {
 
@@ -36,8 +39,8 @@ TEST(OriginalTests, AroonOscillator_Manual) {
     ASSERT_FALSE(csv_data.empty());
     
     // 创建数据线
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -88,8 +91,8 @@ TEST(OriginalTests, AroonOscillator_Manual) {
 // AroonOscillator范围验证测试
 TEST(OriginalTests, AroonOscillator_RangeValidation) {
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -124,8 +127,8 @@ protected:
         csv_data_ = getdata(0);
         ASSERT_FALSE(csv_data_.empty());
         
-        high_line_ = std::make_shared<LineRoot>(csv_data_.size(), "high");
-        low_line_ = std::make_shared<LineRoot>(csv_data_.size(), "low");
+        high_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "high");
+        low_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "low");
         
         for (const auto& bar : csv_data_) {
             high_line_->forward(bar.high);
@@ -134,8 +137,8 @@ protected:
     }
     
     std::vector<CSVDataReader::OHLCVData> csv_data_;
-    std::shared_ptr<LineRoot> high_line_;
-    std::shared_ptr<LineRoot> low_line_;
+    std::shared_ptr<backtrader::LineRoot> high_line_;
+    std::shared_ptr<backtrader::LineRoot> low_line_;
 };
 
 TEST_P(AroonOscillatorParameterizedTest, DifferentPeriods) {
@@ -182,8 +185,8 @@ TEST(OriginalTests, AroonOscillator_CalculationLogic) {
         {"2006-01-05", 120.0, 130.0, 85.0, 125.0, 0, 0}    
     };
     
-    auto high_line = std::make_shared<LineRoot>(test_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(test_data.size(), "low");
+    auto high_line = std::make_shared<backtrader::LineRoot>(test_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(test_data.size(), "low");
     
     for (const auto& bar : test_data) {
         high_line->forward(bar.high);
@@ -239,8 +242,8 @@ TEST(OriginalTests, AroonOscillator_CalculationLogic) {
 // 趋势识别测试
 TEST(OriginalTests, AroonOscillator_TrendIdentification) {
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -288,8 +291,8 @@ TEST(OriginalTests, AroonOscillator_TrendIdentification) {
 // 零线穿越测试
 TEST(OriginalTests, AroonOscillator_ZeroCrossing) {
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -340,10 +343,10 @@ TEST(OriginalTests, AroonOscillator_ZeroCrossing) {
 // 与AroonUpDown关系测试
 TEST(OriginalTests, AroonOscillator_vs_AroonUpDown) {
     auto csv_data = getdata(0);
-    auto high_line_osc = std::make_shared<LineRoot>(csv_data.size(), "high_osc");
-    auto low_line_osc = std::make_shared<LineRoot>(csv_data.size(), "low_osc");
-    auto high_line_updown = std::make_shared<LineRoot>(csv_data.size(), "high_updown");
-    auto low_line_updown = std::make_shared<LineRoot>(csv_data.size(), "low_updown");
+    auto high_line_osc = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high_osc");
+    auto low_line_osc = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low_osc");
+    auto high_line_updown = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high_updown");
+    auto low_line_updown = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low_updown");
     
     for (const auto& bar : csv_data) {
         high_line_osc->forward(bar.high);
@@ -398,8 +401,8 @@ TEST(OriginalTests, AroonOscillator_ExtremeValues) {
         extreme_data.push_back(bar);
     }
     
-    auto high_line = std::make_shared<LineRoot>(extreme_data.size(), "extreme_high");
-    auto low_line = std::make_shared<LineRoot>(extreme_data.size(), "extreme_low");
+    auto high_line = std::make_shared<backtrader::LineRoot>(extreme_data.size(), "extreme_high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(extreme_data.size(), "extreme_low");
     
     for (const auto& bar : extreme_data) {
         high_line->forward(bar.high);
@@ -442,8 +445,8 @@ TEST(OriginalTests, AroonOscillator_EdgeCases) {
         flat_data.push_back(bar);
     }
     
-    auto flat_high = std::make_shared<LineRoot>(flat_data.size(), "flat_high");
-    auto flat_low = std::make_shared<LineRoot>(flat_data.size(), "flat_low");
+    auto flat_high = std::make_shared<backtrader::LineRoot>(flat_data.size(), "flat_high");
+    auto flat_low = std::make_shared<backtrader::LineRoot>(flat_data.size(), "flat_low");
     
     for (const auto& bar : flat_data) {
         flat_high->forward(bar.high);
@@ -493,8 +496,8 @@ TEST(OriginalTests, AroonOscillator_Performance) {
         large_data.push_back(bar);
     }
     
-    auto large_high = std::make_shared<LineRoot>(large_data.size(), "large_high");
-    auto large_low = std::make_shared<LineRoot>(large_data.size(), "large_low");
+    auto large_high = std::make_shared<backtrader::LineRoot>(large_data.size(), "large_high");
+    auto large_low = std::make_shared<backtrader::LineRoot>(large_data.size(), "large_low");
     
     for (const auto& bar : large_data) {
         large_high->forward(bar.high);

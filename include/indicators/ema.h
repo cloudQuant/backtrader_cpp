@@ -10,8 +10,11 @@ class EMA : public Indicator {
 public:
     // Constructor with period only (original)
     explicit EMA(int period = 30);
+    // Constructor for test framework compatibility
+    explicit EMA(std::shared_ptr<LineRoot> data);
     // Constructor with data source and period (Python-style API)
     EMA(std::shared_ptr<LineSeries> data_source, int period = 30);
+    EMA(std::shared_ptr<LineRoot> data_source, int period);
     virtual ~EMA() = default;
     
     void next() override;
@@ -24,7 +27,7 @@ public:
     // Utility methods for tests
     double get(int ago = 0) const;
     int getMinPeriod() const { return period; }
-    void calculate();
+    void calculate() override;
     
 protected:
     std::vector<std::string> _get_line_names() const override;
@@ -34,6 +37,9 @@ private:
     double ema_value_;
     std::shared_ptr<LineSeries> data_source_;
     size_t current_index_;
+    
+    // LineRoot support
+    std::shared_ptr<LineRoot> lineroot_source_;
 };
 
 } // namespace indicators

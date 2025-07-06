@@ -1,0 +1,212 @@
+Backtrader C++ 测试运行报告
+生成时间: Sun Jul  6 19:50:47 CST 2025
+脚本位置: /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp
+
+[0;34m===============================================[0m
+[0;34m[INFO][0m 生成详细报告...
+
+========================= 编译结果 =========================
+成功编译的文件 (32个):
+  ✓ test_analyzer-sqn
+  ✓ test_analyzer-timereturn
+  ✓ test_comminfo
+  ✓ test_data_multiframe
+  ✓ test_data_replay
+  ✓ test_data_resample
+  ✓ test_fractal
+  ✓ test_ind_accdecosc
+  ✓ test_ind_aroonoscillator
+  ✓ test_ind_aroonupdown
+  ✓ test_ind_atr
+  ✓ test_ind_awesomeoscillator
+  ✓ test_ind_bbands
+  ✓ test_ind_cci
+  ✓ test_ind_dema
+  ✓ test_ind_demaenvelope
+  ✓ test_ind_demaosc
+  ✓ test_ind_dm
+  ✓ test_ind_dma
+  ✓ test_ind_downmove
+  ✓ test_ind_dpo
+  ✓ test_ind_dv2
+  ✓ test_ind_ema
+  ✓ test_ind_emaenvelope
+  ✓ test_ind_emaosc
+  ✓ test_ind_envelope
+  ✓ test_ind_heikinashi
+  ✓ test_ind_highest
+  ✓ test_ind_highest_simple
+  ✓ test_ind_hma
+  ✓ test_ind_ichimoku
+  ✓ test_ind_kama
+
+编译失败的文件 (51个):
+  ✗ test_ind_kamaenvelope
+  ✗ test_ind_kamaosc
+  ✗ test_ind_kst
+  ✗ test_ind_lowest
+  ✗ test_ind_lrsi
+  ✗ test_ind_macdhisto
+  ✗ test_ind_minperiod
+  ✗ test_ind_momentum
+  ✗ test_ind_momentumoscillator
+  ✗ test_ind_oscillator
+  ✗ test_ind_pctchange
+  ✗ test_ind_pctrank
+  ✗ test_ind_pgo
+  ✗ test_ind_ppo
+  ✗ test_ind_pposhort
+  ✗ test_ind_priceosc
+  ✗ test_ind_rmi
+  ✗ test_ind_roc
+  ✗ test_ind_rsi
+  ✗ test_ind_sma
+  ✗ test_ind_smaenvelope
+  ✗ test_ind_smaosc
+  ✗ test_ind_smma
+  ✗ test_ind_smmaenvelope
+  ✗ test_ind_smmaosc
+  ✗ test_ind_stochastic
+  ✗ test_ind_stochasticfull
+  ✗ test_ind_sumn
+  ✗ test_ind_tema
+  ✗ test_ind_temaenvelope
+  ✗ test_ind_temaosc
+  ✗ test_ind_trix
+  ✗ test_ind_tsi
+  ✗ test_ind_ultosc
+  ✗ test_ind_upmove
+  ✗ test_ind_vortex
+  ✗ test_ind_williamsad
+  ✗ test_ind_williamsr
+  ✗ test_ind_wma
+  ✗ test_ind_wmaenvelope
+  ✗ test_ind_wmaosc
+  ✗ test_ind_zlema
+  ✗ test_ind_zlind
+  ✗ test_macd_framework
+  ✗ test_metaclass
+  ✗ test_order
+  ✗ test_position
+  ✗ test_strategy_optimized
+  ✗ test_strategy_unoptimized
+  ✗ test_trade
+  ✗ test_writer
+
+========================= 测试结果 =========================
+测试通过的文件 (0个):
+
+测试失败的文件 (0个):
+
+========================= 错误详情 =========================
+编译错误详情:
+  test_ind_kamaenvelope: [ 32%] Linking CXX executable test_ind_highest [ 32%] Built target test_ind_highest [ 33%] Building CXX object CMakeFiles/test_ind_kamaenvelope.dir/original_tests/test_ind_kamaenvelope.cpp.o [ 34%] Linking CXX executable test_ind_heikinashi [ 35%] Linking CXX executable test_ind_emaosc [ 35%] Linking CXX executable test_ind_highest_simple [ 35%] Built target test_ind_heikinashi [ 36%] Building CXX object CMakeFiles/test_ind_kamaosc.dir/original_tests/test_ind_kamaosc.cpp.o [ 36%] Built target test_ind_emaosc [ 36%] Built target test_ind_highest_simple [ 37%] Building CXX object CMakeFiles/test_ind_kst.dir/original_tests/test_ind_kst.cpp.o [ 37%] Building CXX object CMakeFiles/test_ind_lowest.dir/original_tests/test_ind_lowest.cpp.o [ 38%] Linking CXX executable test_ind_envelope -- [ 42%] Building CXX object CMakeFiles/test_ind_minperiod.dir/original_tests/test_ind_minperiod.cpp.o 
+
+  test_ind_kamaosc: [ 35%] Linking CXX executable test_ind_highest_simple [ 35%] Built target test_ind_heikinashi [ 36%] Building CXX object CMakeFiles/test_ind_kamaosc.dir/original_tests/test_ind_kamaosc.cpp.o [ 36%] Built target test_ind_emaosc [ 36%] Built target test_ind_highest_simple [ 37%] Building CXX object CMakeFiles/test_ind_kst.dir/original_tests/test_ind_kst.cpp.o [ 37%] Building CXX object CMakeFiles/test_ind_lowest.dir/original_tests/test_ind_lowest.cpp.o [ 38%] Linking CXX executable test_ind_envelope [ 38%] Built target test_ind_envelope [ 38%] Building CXX object CMakeFiles/test_ind_lrsi.dir/original_tests/test_ind_lrsi.cpp.o [ 39%] Linking CXX executable test_ind_hma [ 39%] Built target test_ind_hma [ 40%] Building CXX object CMakeFiles/test_ind_macdhisto.dir/original_tests/test_ind_macdhisto.cpp.o -- gmake[1]: *** Waiting for unfinished jobs.... 
+
+  test_ind_kst: [ 36%] Built target test_ind_emaosc [ 36%] Built target test_ind_highest_simple [ 37%] Building CXX object CMakeFiles/test_ind_kst.dir/original_tests/test_ind_kst.cpp.o [ 37%] Building CXX object CMakeFiles/test_ind_lowest.dir/original_tests/test_ind_lowest.cpp.o [ 38%] Linking CXX executable test_ind_envelope [ 38%] Built target test_ind_envelope [ 38%] Building CXX object CMakeFiles/test_ind_lrsi.dir/original_tests/test_ind_lrsi.cpp.o [ 39%] Linking CXX executable test_ind_hma [ 39%] Built target test_ind_hma [ 40%] Building CXX object CMakeFiles/test_ind_macdhisto.dir/original_tests/test_ind_macdhisto.cpp.o [ 41%] Linking CXX executable test_ind_ichimoku [ 41%] Built target test_ind_ichimoku [ 42%] Building CXX object CMakeFiles/test_ind_minperiod.dir/original_tests/test_ind_minperiod.cpp.o -- gmake[2]: *** [CMakeFiles/test_ind_kamaosc.dir/build.make:79: CMakeFiles/test_ind_kamaosc.dir/original_tests/test_ind_kamaosc.cpp.o] Error 1 
+
+  test_ind_lowest: [ 36%] Built target test_ind_highest_simple [ 37%] Building CXX object CMakeFiles/test_ind_kst.dir/original_tests/test_ind_kst.cpp.o [ 37%] Building CXX object CMakeFiles/test_ind_lowest.dir/original_tests/test_ind_lowest.cpp.o [ 38%] Linking CXX executable test_ind_envelope [ 38%] Built target test_ind_envelope [ 38%] Building CXX object CMakeFiles/test_ind_lrsi.dir/original_tests/test_ind_lrsi.cpp.o [ 39%] Linking CXX executable test_ind_hma [ 39%] Built target test_ind_hma [ 40%] Building CXX object CMakeFiles/test_ind_macdhisto.dir/original_tests/test_ind_macdhisto.cpp.o [ 41%] Linking CXX executable test_ind_ichimoku [ 41%] Built target test_ind_ichimoku [ 42%] Building CXX object CMakeFiles/test_ind_minperiod.dir/original_tests/test_ind_minperiod.cpp.o [ 43%] Linking CXX executable test_ind_kama --    79 |   if (const ::testing::AssertionResult gtest_ar = (expression)) \ 
+
+  test_ind_lrsi: [ 38%] Linking CXX executable test_ind_envelope [ 38%] Built target test_ind_envelope [ 38%] Building CXX object CMakeFiles/test_ind_lrsi.dir/original_tests/test_ind_lrsi.cpp.o [ 39%] Linking CXX executable test_ind_hma [ 39%] Built target test_ind_hma [ 40%] Building CXX object CMakeFiles/test_ind_macdhisto.dir/original_tests/test_ind_macdhisto.cpp.o [ 41%] Linking CXX executable test_ind_ichimoku [ 41%] Built target test_ind_ichimoku [ 42%] Building CXX object CMakeFiles/test_ind_minperiod.dir/original_tests/test_ind_minperiod.cpp.o [ 43%] Linking CXX executable test_ind_kama /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/tests/original_tests/test_ind_kamaenvelope.cpp:21:10: fatal error: 'indicators/kamaenvelope.h' file not found    21 | #include "indicators/kamaenvelope.h"       |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~ --    47 | _LIBCPP_HIDE_FROM_ABI _LIBCPP_CONSTEXPR _Tp* __construct_at(_Tp* __location, _Args&&... __args) { 
+
+  test_ind_macdhisto: [ 39%] Linking CXX executable test_ind_hma [ 39%] Built target test_ind_hma [ 40%] Building CXX object CMakeFiles/test_ind_macdhisto.dir/original_tests/test_ind_macdhisto.cpp.o [ 41%] Linking CXX executable test_ind_ichimoku [ 41%] Built target test_ind_ichimoku [ 42%] Building CXX object CMakeFiles/test_ind_minperiod.dir/original_tests/test_ind_minperiod.cpp.o [ 43%] Linking CXX executable test_ind_kama /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/tests/original_tests/test_ind_kamaenvelope.cpp:21:10: fatal error: 'indicators/kamaenvelope.h' file not found    21 | #include "indicators/kamaenvelope.h"       |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~ 1 error generated. gmake[2]: *** [CMakeFiles/test_ind_kamaenvelope.dir/build.make:79: CMakeFiles/test_ind_kamaenvelope.dir/original_tests/test_ind_kamaenvelope.cpp.o] Error 1 gmake[1]: *** [CMakeFiles/Makefile2:1357: CMakeFiles/test_ind_kamaenvelope.dir/all] Error 2 --    47 | _LIBCPP_HIDE_FROM_ABI _LIBCPP_CONSTEXPR _Tp* __construct_at(_Tp* __location, _Args&&... __args) { 
+
+  test_ind_minperiod: [ 41%] Linking CXX executable test_ind_ichimoku [ 41%] Built target test_ind_ichimoku [ 42%] Building CXX object CMakeFiles/test_ind_minperiod.dir/original_tests/test_ind_minperiod.cpp.o [ 43%] Linking CXX executable test_ind_kama /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/tests/original_tests/test_ind_kamaenvelope.cpp:21:10: fatal error: 'indicators/kamaenvelope.h' file not found    21 | #include "indicators/kamaenvelope.h"       |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~ 1 error generated. gmake[2]: *** [CMakeFiles/test_ind_kamaenvelope.dir/build.make:79: CMakeFiles/test_ind_kamaenvelope.dir/original_tests/test_ind_kamaenvelope.cpp.o] Error 1 gmake[1]: *** [CMakeFiles/Makefile2:1357: CMakeFiles/test_ind_kamaenvelope.dir/all] Error 2 gmake[1]: *** Waiting for unfinished jobs.... [ 43%] Built target test_ind_kama /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/tests/original_tests/test_ind_kamaosc.cpp:19:10: fatal error: 'indicators/kamaosc.h' file not found --       |                                              ^ 
+
+  test_ind_momentum: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_momentumoscillator: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_oscillator: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_pctchange: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_pctrank: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_pgo: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_ppo: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_pposhort: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_priceosc: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_rmi: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_roc: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_rsi: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_sma: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_smaenvelope: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_smaosc: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_smma: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_smmaenvelope: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_smmaosc: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_stochastic: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_stochasticfull: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_sumn: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_tema: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_temaenvelope: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_temaosc: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_trix: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_tsi: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_ultosc: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_upmove: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_vortex: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_williamsad: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_williamsr: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_wma: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_wmaenvelope: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_wmaosc: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_zlema: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_zlind: 编译失败，未在构建输出中找到具体错误信息
+
+  test_macd_framework: 编译失败，未在构建输出中找到具体错误信息
+
+  test_metaclass: 编译失败，未在构建输出中找到具体错误信息
+
+  test_order: 编译失败，未在构建输出中找到具体错误信息
+
+  test_position: 编译失败，未在构建输出中找到具体错误信息
+
+  test_strategy_optimized: 编译失败，未在构建输出中找到具体错误信息
+
+  test_strategy_unoptimized: 编译失败，未在构建输出中找到具体错误信息
+
+  test_trade: 编译失败，未在构建输出中找到具体错误信息
+
+  test_writer: 编译失败，未在构建输出中找到具体错误信息
+
+
+========================= 汇总统计 =========================
+总测试文件数:       83
+成功编译: 32
+编译失败: 51
+测试通过: 0
+测试失败: 0
+=========================================================

@@ -11,14 +11,13 @@
  * chkind = btind.RSI
  */
 
-#include "test_common_simple.h"
+#include "test_common.h"
 
-using namespace backtrader::indicators;
 #include "indicators/rsi.h"
 
-using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
+using namespace backtrader;
 using namespace backtrader::indicators;
 
 namespace {
@@ -41,7 +40,7 @@ TEST(OriginalTests, RSI_Manual) {
     ASSERT_FALSE(csv_data.empty());
     
     // 创建数据线
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -89,7 +88,7 @@ TEST(OriginalTests, RSI_Manual) {
 // RSI范围验证测试
 TEST(OriginalTests, RSI_RangeValidation) {
     auto csv_data = getdata(0);
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -120,14 +119,14 @@ protected:
         csv_data_ = getdata(0);
         ASSERT_FALSE(csv_data_.empty());
         
-        close_line_ = std::make_shared<LineRoot>(csv_data_.size(), "close");
+        close_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "close");
         for (const auto& bar : csv_data_) {
             close_line_->forward(bar.close);
         }
     }
     
     std::vector<CSVDataReader::OHLCVData> csv_data_;
-    std::shared_ptr<LineRoot> close_line_;
+    std::shared_ptr<backtrader::LineRoot> close_line_;
 };
 
 TEST_P(RSIParameterizedTest, DifferentPeriods) {
@@ -137,8 +136,8 @@ TEST_P(RSIParameterizedTest, DifferentPeriods) {
     // 计算所有值
     for (size_t i = 0; i < csv_data_.size(); ++i) {
         rsi->calculate();
-        if (i < csv_data.size() - 1) {
-            close_line->forward();
+        if (i < csv_data_.size() - 1) {
+            close_line_->forward();
         }
     }
     
@@ -165,7 +164,7 @@ INSTANTIATE_TEST_SUITE_P(
 // 超买超卖测试
 TEST(OriginalTests, RSI_OverboughtOversold) {
     auto csv_data = getdata(0);
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -207,7 +206,7 @@ TEST(OriginalTests, RSI_OverboughtOversold) {
 // 边界条件测试
 TEST(OriginalTests, RSI_EdgeCases) {
     // 测试相同价格序列
-    auto close_line = std::make_shared<LineRoot>(100, "constant");
+    auto close_line = std::make_shared<backtrader::LineRoot>(100, "constant");
     
     // 添加相同的价格
     for (int i = 0; i < 50; ++i) {
@@ -239,7 +238,7 @@ TEST(OriginalTests, RSI_CalculationLogic) {
         108.0, 109.0, 110.0, 111.0, 112.0, 113.0, 114.0, 115.0
     };
     
-    auto close_line = std::make_shared<LineRoot>(prices.size(), "ascending");
+    auto close_line = std::make_shared<backtrader::LineRoot>(prices.size(), "ascending");
     for (double price : prices) {
         close_line->forward(price);
     }

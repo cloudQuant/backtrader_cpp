@@ -39,6 +39,15 @@ public:
         bool plotylimited = true;
     } plotinfo;
     
+    // OHLCV accessor methods (override LineSeries virtual methods)
+    double datetime(int ago = 0) const override;
+    double open(int ago = 0) const override;
+    double high(int ago = 0) const override;
+    double low(int ago = 0) const override;
+    double close(int ago = 0) const override;
+    double volume(int ago = 0) const override;
+    double openinterest(int ago = 0) const override;
+    
     // Writer support
     std::vector<std::string> getwriterheaders();
     std::vector<std::string> getwritervalues();

@@ -11,14 +11,14 @@
  * chkind = btind.TEMA
  */
 
-#include "test_common_simple.h"
+#include "test_common.h"
+#include <random>
 
-using namespace backtrader::indicators;
 #include "indicators/tema.h"
 
-using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
+using namespace backtrader;
 using namespace backtrader::indicators;
 
 namespace {
@@ -41,7 +41,7 @@ TEST(OriginalTests, TEMA_Manual) {
     ASSERT_FALSE(csv_data.empty());
     
     // 创建数据线
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -93,14 +93,14 @@ protected:
         csv_data_ = getdata(0);
         ASSERT_FALSE(csv_data_.empty());
         
-        close_line_ = std::make_shared<LineRoot>(csv_data_.size(), "close");
+        close_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "close");
         for (const auto& bar : csv_data_) {
             close_line_->forward(bar.close);
         }
     }
     
     std::vector<CSVDataReader::OHLCVData> csv_data_;
-    std::shared_ptr<LineRoot> close_line_;
+    std::shared_ptr<backtrader::LineRoot> close_line_;
 };
 
 TEST_P(TEMAParameterizedTest, DifferentPeriods) {
@@ -137,9 +137,9 @@ INSTANTIATE_TEST_SUITE_P(
 // TEMA响应性测试 - TEMA应该比DEMA和EMA响应更快
 TEST(OriginalTests, TEMA_vs_Others_Responsiveness) {
     auto csv_data = getdata(0);
-    auto close_line_tema = std::make_shared<LineRoot>(csv_data.size(), "close_tema");
-    auto close_line_dema = std::make_shared<LineRoot>(csv_data.size(), "close_dema");
-    auto close_line_ema = std::make_shared<LineRoot>(csv_data.size(), "close_ema");
+    auto close_line_tema = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close_tema");
+    auto close_line_dema = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close_dema");
+    auto close_line_ema = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close_ema");
     
     for (const auto& bar : csv_data) {
         close_line_tema->forward(bar.close);
@@ -217,9 +217,9 @@ TEST(OriginalTests, TEMA_LagTest) {
         step_prices.push_back(120.0);
     }
     
-    auto close_line_tema = std::make_shared<LineRoot>(step_prices.size(), "step_tema");
-    auto close_line_dema = std::make_shared<LineRoot>(step_prices.size(), "step_dema");
-    auto close_line_sma = std::make_shared<LineRoot>(step_prices.size(), "step_sma");
+    auto close_line_tema = std::make_shared<backtrader::LineRoot>(step_prices.size(), "step_tema");
+    auto close_line_dema = std::make_shared<backtrader::LineRoot>(step_prices.size(), "step_dema");
+    auto close_line_sma = std::make_shared<backtrader::LineRoot>(step_prices.size(), "step_sma");
     
     for (double price : step_prices) {
         close_line_tema->forward(price);
@@ -277,7 +277,7 @@ TEST(OriginalTests, TEMA_LagTest) {
 // 边界条件测试
 TEST(OriginalTests, TEMA_EdgeCases) {
     // 测试数据不足的情况
-    auto close_line = std::make_shared<LineRoot>(100, "insufficient");
+    auto close_line = std::make_shared<backtrader::LineRoot>(100, "insufficient");
     
     // 只添加几个数据点
     for (int i = 0; i < 30; ++i) {
@@ -304,7 +304,7 @@ TEST(OriginalTests, TEMA_Convergence) {
     const double constant_price = 100.0;
     const int num_points = 300;
     
-    auto close_line = std::make_shared<LineRoot>(num_points, "convergence");
+    auto close_line = std::make_shared<backtrader::LineRoot>(num_points, "convergence");
     for (int i = 0; i < num_points; ++i) {
         close_line->forward(constant_price);
     }
@@ -339,7 +339,7 @@ TEST(OriginalTests, TEMA_Performance) {
         large_data.push_back(dist(rng));
     }
     
-    auto large_line = std::make_shared<LineRoot>(large_data.size(), "large");
+    auto large_line = std::make_shared<backtrader::LineRoot>(large_data.size(), "large");
     for (double price : large_data) {
         large_line->forward(price);
     }

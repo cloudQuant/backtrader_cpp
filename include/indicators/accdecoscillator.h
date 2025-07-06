@@ -19,7 +19,12 @@ public:
     };
     
     AccelerationDecelerationOscillator();
+    AccelerationDecelerationOscillator(std::shared_ptr<LineRoot> high, std::shared_ptr<LineRoot> low);
     virtual ~AccelerationDecelerationOscillator() = default;
+    
+    // Utility methods
+    double get(int ago = 0) const;
+    int getMinPeriod() const;
     
 protected:
     void next() override;
@@ -30,7 +35,10 @@ private:
     
     // Component indicators
     std::shared_ptr<AwesomeOscillator> awesome_oscillator_;
-    std::shared_ptr<SMA> sma_;
+    
+    // Storage for calculation
+    std::vector<double> median_prices_;
+    std::vector<double> ao_values_;
 };
 
 // Aliases

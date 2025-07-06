@@ -32,10 +32,10 @@ private:
     void setup_lines();
     
     // Sub-indicators for double smoothing
-    std::shared_ptr<EMA> sm1_;   // First smoothing of price change
-    std::shared_ptr<EMA> sm12_;  // Second smoothing of price change
-    std::shared_ptr<EMA> sm2_;   // First smoothing of absolute price change
-    std::shared_ptr<EMA> sm22_;  // Second smoothing of absolute price change
+    std::shared_ptr<indicators::EMA> sm1_;   // First smoothing of price change
+    std::shared_ptr<indicators::EMA> sm12_;  // Second smoothing of price change
+    std::shared_ptr<indicators::EMA> sm2_;   // First smoothing of absolute price change
+    std::shared_ptr<indicators::EMA> sm22_;  // Second smoothing of absolute price change
     
     // Storage for intermediate calculations
     std::vector<double> price_changes_;

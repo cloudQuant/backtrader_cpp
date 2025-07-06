@@ -15,12 +15,15 @@
  * 注：StochasticFull包含3条线：%K, %D, %D slow
  */
 
-#include "test_common_simple.h"
+#include "test_common.h"
+#include <random>
 
 #include "indicators/stochasticfull.h"
 
 
 using namespace backtrader::tests::original;
+using namespace backtrader;
+using namespace backtrader::indicators;
 
 namespace {
 
@@ -44,9 +47,9 @@ TEST(OriginalTests, StochasticFull_Manual) {
     ASSERT_FALSE(csv_data.empty());
     
     // 创建HLC数据线
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -106,9 +109,9 @@ protected:
         csv_data_ = getdata(0);
         ASSERT_FALSE(csv_data_.empty());
         
-        high_line_ = std::make_shared<LineRoot>(csv_data_.size(), "high");
-        low_line_ = std::make_shared<LineRoot>(csv_data_.size(), "low");
-        close_line_ = std::make_shared<LineRoot>(csv_data_.size(), "close");
+        high_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "high");
+        low_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "low");
+        close_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "close");
         
         for (const auto& bar : csv_data_) {
             high_line_->forward(bar.high);
@@ -118,9 +121,9 @@ protected:
     }
     
     std::vector<CSVDataReader::OHLCVData> csv_data_;
-    std::shared_ptr<LineRoot> high_line_;
-    std::shared_ptr<LineRoot> low_line_;
-    std::shared_ptr<LineRoot> close_line_;
+    std::shared_ptr<backtrader::LineRoot> high_line_;
+    std::shared_ptr<backtrader::LineRoot> low_line_;
+    std::shared_ptr<backtrader::LineRoot> close_line_;
 };
 
 TEST_P(StochasticFullParameterizedTest, DifferentParameters) {
@@ -202,9 +205,9 @@ TEST(OriginalTests, StochasticFull_CalculationLogic) {
         {140.0, 134.0, 138.0}
     };
     
-    auto high_line = std::make_shared<LineRoot>(hlc_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(hlc_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(hlc_data.size(), "close");
+    auto high_line = std::make_shared<backtrader::LineRoot>(hlc_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(hlc_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(hlc_data.size(), "close");
     
     for (const auto& [h, l, c] : hlc_data) {
         high_line->forward(h);
@@ -249,9 +252,9 @@ TEST(OriginalTests, StochasticFull_CalculationLogic) {
 // StochasticFull超买超卖信号测试
 TEST(OriginalTests, StochasticFull_OverboughtOversold) {
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -315,9 +318,9 @@ TEST(OriginalTests, StochasticFull_OverboughtOversold) {
 // StochasticFull交叉信号测试
 TEST(OriginalTests, StochasticFull_CrossoverSignals) {
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -386,9 +389,9 @@ TEST(OriginalTests, StochasticFull_CrossoverSignals) {
 // StochasticFull平滑特性测试
 TEST(OriginalTests, StochasticFull_SmoothingCharacteristics) {
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -472,9 +475,9 @@ TEST(OriginalTests, StochasticFull_TrendIdentification) {
         trend_data.push_back({base + 5.0, base - 5.0, base + 1.0});  // H, L, C
     }
     
-    auto trend_high = std::make_shared<LineRoot>(trend_data.size(), "high");
-    auto trend_low = std::make_shared<LineRoot>(trend_data.size(), "low");
-    auto trend_close = std::make_shared<LineRoot>(trend_data.size(), "close");
+    auto trend_high = std::make_shared<backtrader::LineRoot>(trend_data.size(), "high");
+    auto trend_low = std::make_shared<backtrader::LineRoot>(trend_data.size(), "low");
+    auto trend_close = std::make_shared<backtrader::LineRoot>(trend_data.size(), "close");
     
     for (const auto& [h, l, c] : trend_data) {
         trend_high->forward(h);
@@ -527,9 +530,9 @@ TEST(OriginalTests, StochasticFull_EdgeCases) {
     // 测试相同HLC的情况
     std::vector<std::tuple<double, double, double>> flat_data(30, {100.0, 100.0, 100.0});
     
-    auto flat_high = std::make_shared<LineRoot>(flat_data.size(), "high");
-    auto flat_low = std::make_shared<LineRoot>(flat_data.size(), "low");
-    auto flat_close = std::make_shared<LineRoot>(flat_data.size(), "close");
+    auto flat_high = std::make_shared<backtrader::LineRoot>(flat_data.size(), "high");
+    auto flat_low = std::make_shared<backtrader::LineRoot>(flat_data.size(), "low");
+    auto flat_close = std::make_shared<backtrader::LineRoot>(flat_data.size(), "close");
     
     for (const auto& [h, l, c] : flat_data) {
         flat_high->forward(h);
@@ -560,9 +563,9 @@ TEST(OriginalTests, StochasticFull_EdgeCases) {
     }
     
     // 测试数据不足的情况
-    auto insufficient_high = std::make_shared<LineRoot>(20, "insufficient_high");
-    auto insufficient_low = std::make_shared<LineRoot>(20, "insufficient_low");
-    auto insufficient_close = std::make_shared<LineRoot>(20, "insufficient_close");
+    auto insufficient_high = std::make_shared<backtrader::LineRoot>(20, "insufficient_high");
+    auto insufficient_low = std::make_shared<backtrader::LineRoot>(20, "insufficient_low");
+    auto insufficient_close = std::make_shared<backtrader::LineRoot>(20, "insufficient_close");
     
     // 只添加少量数据点
     for (int i = 0; i < 10; ++i) {
@@ -606,9 +609,9 @@ TEST(OriginalTests, StochasticFull_Performance) {
         });
     }
     
-    auto large_high = std::make_shared<LineRoot>(large_data.size(), "large_high");
-    auto large_low = std::make_shared<LineRoot>(large_data.size(), "large_low");
-    auto large_close = std::make_shared<LineRoot>(large_data.size(), "large_close");
+    auto large_high = std::make_shared<backtrader::LineRoot>(large_data.size(), "large_high");
+    auto large_low = std::make_shared<backtrader::LineRoot>(large_data.size(), "large_low");
+    auto large_close = std::make_shared<backtrader::LineRoot>(large_data.size(), "large_close");
     
     for (const auto& [h, l, c] : large_data) {
         large_high->forward(h);

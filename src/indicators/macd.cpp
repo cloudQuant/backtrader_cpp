@@ -82,7 +82,7 @@ void MACD::next() {
     macd_history.push_back(macd_value);
     
     // Set MACD line value
-    auto macd_line = lines->getline(Lines::macd);
+    auto macd_line = lines->getline(macd);
     if (macd_line) {
         macd_line->set(0, macd_value);
     }
@@ -98,7 +98,7 @@ void MACD::next() {
     signal_history.push_back(signal_value);
     
     // Set Signal line value
-    auto signal_line = lines->getline(Lines::signal);
+    auto signal_line = lines->getline(signal);
     if (signal_line) {
         signal_line->set(0, signal_value);
     }
@@ -110,8 +110,8 @@ void MACD::once(int start, int end) {
     auto close_line = datas[0]->lines->getline(0);
     if (!close_line) return;
     
-    auto macd_line = lines->getline(Lines::macd);
-    auto signal_line = lines->getline(Lines::signal);
+    auto macd_line = lines->getline(macd);
+    auto signal_line = lines->getline(signal);
     if (!macd_line || !signal_line) return;
     
     std::vector<double> ema12_values;
@@ -180,9 +180,9 @@ void MACDHisto::next() {
     MACD::next();
     
     // Calculate histogram
-    auto macd_line = lines->getline(MACD::Lines::macd);
-    auto signal_line = lines->getline(MACD::Lines::signal);
-    auto histo_line = lines->getline(Lines::histo);
+    auto macd_line = lines->getline(MACD::macd);
+    auto signal_line = lines->getline(MACD::signal);
+    auto histo_line = lines->getline(histo);
     
     if (macd_line && signal_line && histo_line) {
         double histo_value = (*macd_line)[0] - (*signal_line)[0];
@@ -195,9 +195,9 @@ void MACDHisto::once(int start, int end) {
     MACD::once(start, end);
     
     // Calculate histogram for the entire range
-    auto macd_line = lines->getline(MACD::Lines::macd);
-    auto signal_line = lines->getline(MACD::Lines::signal);
-    auto histo_line = lines->getline(Lines::histo);
+    auto macd_line = lines->getline(MACD::macd);
+    auto signal_line = lines->getline(MACD::signal);
+    auto histo_line = lines->getline(histo);
     
     if (macd_line && signal_line && histo_line) {
         for (int i = start; i < end; ++i) {

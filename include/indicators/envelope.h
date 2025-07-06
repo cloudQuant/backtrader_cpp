@@ -4,6 +4,7 @@
 #include "../lineseries.h"
 #include "sma.h"
 #include "ema.h"
+#include "dema.h"
 #include <memory>
 
 namespace backtrader {
@@ -54,21 +55,29 @@ public:
         double perc = 2.5;  // Percentage for envelope bands
     } params;
     
-    // Lines
-    enum Lines {
+    // Line indices
+    enum LineIndex {
         src = 0,  // Source line
         top = 1,  // Top envelope band
         bot = 2   // Bottom envelope band
     };
     
     Envelope();
-    Envelope(std::shared_ptr<LineSeries> data_source, double perc = 2.5);
+    // Constructor for test framework compatibility
+    Envelope(std::shared_ptr<LineRoot> data, double perc = 2.5);
+    // Constructor with period parameter for SMA-based envelope
+    Envelope(std::shared_ptr<LineRoot> data, int period, double perc = 2.5);
     virtual ~Envelope() = default;
     
     // Utility methods
     double get(int ago = 0) const;
     int getMinPeriod() const;
-    void calculate();
+    void calculate() override;
+    
+    // Multi-line access methods for test compatibility
+    double getMidLine(int ago = 0) const;
+    double getUpperLine(int ago = 0) const;
+    double getLowerLine(int ago = 0) const;
     
 protected:
     void prenext() override;
@@ -91,15 +100,25 @@ public:
         double perc = 2.5;  // Percentage for envelope bands
     } params;
     
-    // Lines
-    enum Lines {
+    // Line indices
+    enum LineIndex {
         sma = 0,  // SMA line
         top = 1,  // Top envelope band
         bot = 2   // Bottom envelope band
     };
     
     SimpleMovingAverageEnvelope();
+    SimpleMovingAverageEnvelope(std::shared_ptr<LineSeries> data_source);
+    SimpleMovingAverageEnvelope(std::shared_ptr<LineRoot> data_source, int period = 30, double perc = 2.5);
     virtual ~SimpleMovingAverageEnvelope() = default;
+    
+    // Utility methods
+    double get(int ago = 0) const;
+    int getMinPeriod() const;
+    void calculate() override;
+    
+    // Get specific line for multi-line access
+    std::shared_ptr<LineBuffer> getLine(int index) const;
     
 protected:
     void prenext() override;
@@ -109,6 +128,10 @@ protected:
 private:
     void setup_lines();
     std::shared_ptr<indicators::SMA> sma_;
+    
+    // LineSeries support
+    std::shared_ptr<LineSeries> data_source_;
+    size_t current_index_;
 };
 
 // EMA Envelope
@@ -119,15 +142,25 @@ public:
         double perc = 2.5;  // Percentage for envelope bands
     } params;
     
-    // Lines
-    enum Lines {
+    // Line indices
+    enum LineIndex {
         ema = 0,  // EMA line
         top = 1,  // Top envelope band
         bot = 2   // Bottom envelope band
     };
     
     ExponentialMovingAverageEnvelope();
+    ExponentialMovingAverageEnvelope(std::shared_ptr<LineSeries> data_source);
+    ExponentialMovingAverageEnvelope(std::shared_ptr<LineRoot> data_source, int period = 30, double perc = 2.5);
     virtual ~ExponentialMovingAverageEnvelope() = default;
+    
+    // Utility methods
+    double get(int ago = 0) const;
+    int getMinPeriod() const;
+    void calculate() override;
+    
+    // Get specific line for multi-line access
+    std::shared_ptr<LineBuffer> getLine(int index) const;
     
 protected:
     void prenext() override;
@@ -137,11 +170,58 @@ protected:
 private:
     void setup_lines();
     std::shared_ptr<indicators::EMA> ema_;
+    
+    // LineSeries support
+    std::shared_ptr<LineSeries> data_source_;
+    size_t current_index_;
+};
+
+// DEMA Envelope
+class DoubleExponentialMovingAverageEnvelope : public Indicator {
+public:
+    struct Params {
+        int period = 30;    // DEMA period
+        double perc = 2.5;  // Percentage for envelope bands
+    } params;
+    
+    // Line indices
+    enum LineIndex {
+        dema = 0,  // DEMA line
+        top = 1,   // Top envelope band
+        bot = 2    // Bottom envelope band
+    };
+    
+    DoubleExponentialMovingAverageEnvelope();
+    DoubleExponentialMovingAverageEnvelope(std::shared_ptr<LineSeries> data_source);
+    DoubleExponentialMovingAverageEnvelope(std::shared_ptr<LineRoot> data_source, int period = 30, double perc = 2.5);
+    virtual ~DoubleExponentialMovingAverageEnvelope() = default;
+    
+    // Utility methods
+    double get(int ago = 0) const;
+    int getMinPeriod() const;
+    void calculate() override;
+    
+    // Get specific line for multi-line access
+    std::shared_ptr<LineBuffer> getLine(int index) const;
+    
+protected:
+    void prenext() override;
+    void next() override;
+    void once(int start, int end) override;
+    
+private:
+    void setup_lines();
+    std::shared_ptr<indicators::DoubleExponentialMovingAverage> dema_;
+    
+    // LineSeries support
+    std::shared_ptr<LineSeries> data_source_;
+    size_t current_index_;
 };
 
 // Aliases
 using SMAEnvelope = SimpleMovingAverageEnvelope;
 using EMAEnvelope = ExponentialMovingAverageEnvelope;
+using DEMAEnvelope = DoubleExponentialMovingAverageEnvelope;
 
 } // namespace indicators
 } // namespace backtrader

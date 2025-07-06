@@ -214,7 +214,7 @@ public:
     
 protected:
     bool _load() override;
-    virtual bool _loadline(const std::vector<std::string>& linetokens) = 0;
+    virtual bool _loadline(const std::vector<std::string>& linetokens) { return false; }
     
     // CSV parsing
     std::vector<std::string> parse_csv_line(const std::string& line);
@@ -236,6 +236,51 @@ public:
     
     // Factory method
     virtual std::shared_ptr<CSVDataBase> create_data();
+};
+
+// Data Replay class - replays historical data with timing
+class DataReplay : public AbstractDataBase {
+public:
+    DataReplay(std::shared_ptr<AbstractDataBase> data);
+    virtual ~DataReplay() = default;
+    
+    // Replay configuration
+    void configure(TimeFrame timeframe = TimeFrame::Days, int compression = 1);
+    void replay(TimeFrame timeframe, int compression = 1) { configure(timeframe, compression); }
+    
+    // Data interface
+    bool start() override;
+    void stop() override;
+    
+protected:
+    bool _load() override;
+    
+private:
+    std::shared_ptr<AbstractDataBase> source_data_;
+    TimeFrame replay_timeframe_;
+    int replay_compression_;
+};
+
+// Data Resample class - resamples data to different timeframes
+class DataResample : public AbstractDataBase {
+public:
+    DataResample(std::shared_ptr<AbstractDataBase> data);
+    virtual ~DataResample() = default;
+    
+    // Resample configuration
+    void resample(TimeFrame timeframe, int compression = 1);
+    
+    // Data interface
+    bool start() override;
+    void stop() override;
+    
+protected:
+    bool _load() override;
+    
+private:
+    std::shared_ptr<AbstractDataBase> source_data_;
+    TimeFrame resample_timeframe_;
+    int resample_compression_;
 };
 
 } // namespace backtrader

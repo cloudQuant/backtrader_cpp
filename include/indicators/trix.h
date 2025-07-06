@@ -28,7 +28,7 @@ public:
     // Utility methods
     double get(int ago = 0) const;
     int getMinPeriod() const;
-    void calculate();
+    void calculate() override;
     
 protected:
     void prenext() override;
@@ -39,9 +39,9 @@ private:
     void setup_lines();
     
     // Sub-indicators for triple EMA smoothing
-    std::shared_ptr<EMA> ema1_;  // First EMA
-    std::shared_ptr<EMA> ema2_;  // Second EMA (EMA of EMA1)
-    std::shared_ptr<EMA> ema3_;  // Third EMA (EMA of EMA2)
+    std::shared_ptr<indicators::EMA> ema1_;  // First EMA
+    std::shared_ptr<indicators::EMA> ema2_;  // Second EMA (EMA of EMA1)
+    std::shared_ptr<indicators::EMA> ema3_;  // Third EMA (EMA of EMA2)
     
     // LineSeries support
     std::shared_ptr<LineSeries> data_source_;
@@ -73,7 +73,7 @@ private:
     void setup_lines_signal();
     
     // Signal line EMA
-    std::shared_ptr<EMA> signal_ema_;
+    std::shared_ptr<indicators::EMA> signal_ema_;
 };
 
 // Aliases

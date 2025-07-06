@@ -39,7 +39,7 @@ double ZeroLagExponentialMovingAverage::get(int ago) const {
         return std::numeric_limits<double>::quiet_NaN();
     }
     
-    auto line = lines->getline(Lines::zlema);
+    auto line = lines->getline(zlema);
     if (!line) {
         return std::numeric_limits<double>::quiet_NaN();
     }
@@ -71,7 +71,7 @@ void ZeroLagExponentialMovingAverage::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto zlema_line = lines->getline(Lines::zlema);
+    auto zlema_line = lines->getline(zlema);
     
     if (!data_line || !zlema_line) return;
     
@@ -121,7 +121,7 @@ void ZeroLagExponentialMovingAverage::once(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto zlema_line = lines->getline(Lines::zlema);
+    auto zlema_line = lines->getline(zlema);
     
     if (!data_line || !zlema_line) return;
     

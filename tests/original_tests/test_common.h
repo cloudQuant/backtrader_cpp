@@ -8,11 +8,36 @@
 #include <sstream>
 #include <iomanip>
 #include <cmath>
+#include <chrono>
 
 // Include backtrader headers
 #include "lineroot.h"
 #include "lineseries.h"
 #include "strategy.h"
+#include "dataseries.h"
+#include "feed.h"
+#include "timeframe.h"
+#include "order.h"
+#include "trade.h"
+#include "indicators/crossover.h"
+#include "broker.h"
+
+// Add using declarations for common types
+using Order = backtrader::Order;
+using Trade = backtrader::Trade;
+using DataReplay = backtrader::DataReplay;
+using DataResample = backtrader::DataResample;
+using TimeFrame = backtrader::TimeFrame;
+using OrderStatus = backtrader::OrderStatus;
+using OrderType = backtrader::OrderType;
+
+// Add indicators namespace
+namespace backtrader {
+namespace indicators {
+    using CrossOver = backtrader::CrossOver;
+    // SMA is already defined in backtrader::indicators namespace
+}
+}
 
 namespace backtrader {
 namespace tests {
@@ -97,6 +122,76 @@ inline std::vector<CSVDataReader::OHLCVData> getdata(int index = 0) {
 }
 
 /**
+ * @brief Create a data feed from CSV data for use with tests
+ */
+class TestDataFeed : public backtrader::CSVDataBase {
+private:
+    std::vector<CSVDataReader::OHLCVData> csv_data_;
+    size_t current_index_;
+    
+public:
+    TestDataFeed(const std::vector<CSVDataReader::OHLCVData>& data) 
+        : csv_data_(data), current_index_(0) {
+        // Set up basic parameters
+        params.dataname = "test_data";
+        params.name = "TestData";
+        
+        // Initialize lines for OHLCV data
+        lines = std::make_shared<backtrader::Lines>();
+        for (int i = 0; i < 7; ++i) {
+            lines->add_line(std::make_shared<backtrader::LineBuffer>());
+        }
+    }
+    
+protected:
+    bool _loadline(const std::vector<std::string>& linetokens) override {
+        // This won't be called since we override _load directly
+        return false;
+    }
+    
+    bool _load() override {
+        if (current_index_ >= csv_data_.size()) {
+            return false; // End of data
+        }
+        
+        const auto& bar = csv_data_[current_index_++];
+        
+        // Set the line values (OHLCV + datetime + openinterest)
+        if (lines->size() > backtrader::DataSeries::DateTime) {
+            lines->getline(backtrader::DataSeries::DateTime)->set(0, current_index_); // Simple numeric date
+        }
+        if (lines->size() > backtrader::DataSeries::Open) {
+            lines->getline(backtrader::DataSeries::Open)->set(0, bar.open);
+        }
+        if (lines->size() > backtrader::DataSeries::High) {
+            lines->getline(backtrader::DataSeries::High)->set(0, bar.high);
+        }
+        if (lines->size() > backtrader::DataSeries::Low) {
+            lines->getline(backtrader::DataSeries::Low)->set(0, bar.low);
+        }
+        if (lines->size() > backtrader::DataSeries::Close) {
+            lines->getline(backtrader::DataSeries::Close)->set(0, bar.close);
+        }
+        if (lines->size() > backtrader::DataSeries::Volume) {
+            lines->getline(backtrader::DataSeries::Volume)->set(0, bar.volume);
+        }
+        if (lines->size() > backtrader::DataSeries::OpenInterest) {
+            lines->getline(backtrader::DataSeries::OpenInterest)->set(0, bar.openinterest);
+        }
+        
+        return true;
+    }
+};
+
+/**
+ * @brief Create a shared_ptr to AbstractDataBase from CSV data
+ */
+inline std::shared_ptr<backtrader::AbstractDataBase> getdata_feed(int index = 0) {
+    auto csv_data = getdata(index);
+    return std::make_shared<TestDataFeed>(csv_data);
+}
+
+/**
  * @brief 测试策略基类，对应Python的TestStrategy
  */
 template<typename IndicatorType>
@@ -120,11 +215,34 @@ public:
           next_calls_(0),
           main_debug_(main) {}
     
+    // Add missing methods for Strategy compatibility
+    size_t len() const {
+        if (!datas.empty() && datas[0]) {
+            return datas[0]->size();
+        }
+        return 0;
+    }
+    
+    std::shared_ptr<LineSeries> data(int idx) {
+        if (idx < datas.size()) {
+            return datas[idx];
+        }
+        return nullptr;
+    }
+    
+    void addIndicator(std::shared_ptr<LineIterator> indicator) {
+        addindicator(indicator);
+    }
+    
     void init() override {
-        auto data = this->data(0);
-        if (data && data->close()) {
-            indicator_ = std::make_shared<IndicatorType>(data->close());
-            addIndicator(indicator_);
+        auto dataPtr = this->data(0);
+        if (dataPtr) {
+            // Get the close price line from the data series
+            auto closeLine = dataPtr->getline(DataSeries::Close);
+            if (closeLine) {
+                indicator_ = std::make_shared<IndicatorType>(std::dynamic_pointer_cast<LineRoot>(closeLine));
+                addIndicator(indicator_);
+            }
         }
     }
     
@@ -152,7 +270,7 @@ public:
     
 private:
     void validateResults() {
-        int l = indicator_->len();
+        int l = indicator_->size();
         int mp = actual_min_period_;
         
         // 计算检查点，对应Python的chkpts
@@ -287,6 +405,37 @@ void runtest(const std::vector<std::vector<std::string>>& expected_vals,
         std::vector<std::vector<std::string>> expected_vals = ExpectedVals; \
         runtest<IndicatorClass>(expected_vals, MinPeriod, true); \
     }
+
+/**
+ * @brief Utility function to check if a value is NaN
+ */
+inline bool isNaN(double value) {
+    return std::isnan(value);
+}
+
+/**
+ * @brief Convert numeric date to string representation
+ * @param datetime Numeric datetime value
+ * @return String representation of the date
+ */
+inline std::string num2date(double datetime) {
+    // Simple conversion for now - in a full implementation this would
+    // convert from numeric format to human-readable date string
+    std::ostringstream oss;
+    oss << std::fixed << std::setprecision(0) << datetime;
+    return oss.str();
+}
+
+/**
+ * @brief Convert chrono time_point to double for compatibility
+ * @param tp time_point to convert
+ * @return double representation of time
+ */
+inline double timepoint_to_double(const std::chrono::system_clock::time_point& tp) {
+    auto duration = tp.time_since_epoch();
+    auto seconds = std::chrono::duration_cast<std::chrono::seconds>(duration);
+    return static_cast<double>(seconds.count());
+}
 
 } // namespace original
 } // namespace tests

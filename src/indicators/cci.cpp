@@ -17,6 +17,16 @@ CommodityChannelIndex::CommodityChannelIndex() : Indicator(), data_source_(nullp
     _minperiod(params.period);
 }
 
+CommodityChannelIndex::CommodityChannelIndex(std::shared_ptr<LineRoot> data) : Indicator(), data_source_(nullptr), current_index_(0) {
+    setup_lines();
+    
+    // Create SMA for typical price
+    tp_sma_ = std::make_shared<SMA>();
+    
+    _minperiod(params.period);
+    // This constructor is for test framework compatibility
+}
+
 CommodityChannelIndex::CommodityChannelIndex(std::shared_ptr<LineSeries> data_source, int period, double factor) 
     : Indicator(), data_source_(data_source), current_index_(0) {
     params.period = period;
@@ -43,7 +53,7 @@ void CommodityChannelIndex::prenext() {
 void CommodityChannelIndex::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
-    auto cci_line = lines->getline(Lines::cci);
+    auto cci_line = lines->getline(cci);
     if (!cci_line) return;
     
     // Calculate typical price for current bar
@@ -81,7 +91,7 @@ void CommodityChannelIndex::next() {
 void CommodityChannelIndex::once(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
-    auto cci_line = lines->getline(Lines::cci);
+    auto cci_line = lines->getline(cci);
     if (!cci_line) return;
     
     // Build typical price values for the range

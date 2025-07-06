@@ -11,14 +11,14 @@
  * chkind = btind.DPO
  */
 
-#include "test_common_simple.h"
+#include "test_common.h"
+#include <random>
 
-using namespace backtrader::indicators;
 #include "indicators/dpo.h"
 
-using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
+using namespace backtrader;
 using namespace backtrader::indicators;
 
 namespace {
@@ -41,7 +41,7 @@ TEST(OriginalTests, DPO_Manual) {
     ASSERT_FALSE(csv_data.empty());
     
     // 创建数据线
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -93,14 +93,14 @@ protected:
         csv_data_ = getdata(0);
         ASSERT_FALSE(csv_data_.empty());
         
-        close_line_ = std::make_shared<LineRoot>(csv_data_.size(), "close");
+        close_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "close");
         for (const auto& bar : csv_data_) {
             close_line_->forward(bar.close);
         }
     }
     
     std::vector<CSVDataReader::OHLCVData> csv_data_;
-    std::shared_ptr<LineRoot> close_line_;
+    std::shared_ptr<backtrader::LineRoot> close_line_;
 };
 
 TEST_P(DPOParameterizedTest, DifferentPeriods) {
@@ -146,7 +146,7 @@ TEST(OriginalTests, DPO_DetrendingEffect) {
         trend_prices.push_back(100.0 + trend + cycle);
     }
     
-    auto trend_line = std::make_shared<LineRoot>(trend_prices.size(), "trend");
+    auto trend_line = std::make_shared<backtrader::LineRoot>(trend_prices.size(), "trend");
     for (double price : trend_prices) {
         trend_line->forward(price);
     }
@@ -201,7 +201,7 @@ TEST(OriginalTests, DPO_CycleIdentification) {
         cycle_prices.push_back(100.0 + cycle);
     }
     
-    auto cycle_line = std::make_shared<LineRoot>(cycle_prices.size(), "cycle");
+    auto cycle_line = std::make_shared<backtrader::LineRoot>(cycle_prices.size(), "cycle");
     for (double price : cycle_prices) {
         cycle_line->forward(price);
     }
@@ -250,7 +250,7 @@ TEST(OriginalTests, DPO_CycleIdentification) {
 // DPO振荡特性测试
 TEST(OriginalTests, DPO_OscillationCharacteristics) {
     auto csv_data = getdata(0);
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -318,7 +318,7 @@ TEST(OriginalTests, DPO_SMARelationship) {
         simple_prices.push_back(static_cast<double>(i * 10));
     }
     
-    auto simple_line = std::make_shared<LineRoot>(simple_prices.size(), "simple");
+    auto simple_line = std::make_shared<backtrader::LineRoot>(simple_prices.size(), "simple");
     for (double price : simple_prices) {
         simple_line->forward(price);
     }
@@ -357,7 +357,7 @@ TEST(OriginalTests, DPO_SMARelationship) {
 // DPO超买超卖信号测试
 TEST(OriginalTests, DPO_OverboughtOversold) {
     auto csv_data = getdata(0);
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -423,7 +423,7 @@ TEST(OriginalTests, DPO_EdgeCases) {
     // 测试相同价格的情况
     std::vector<double> flat_prices(100, 100.0);
     
-    auto flat_line = std::make_shared<LineRoot>(flat_prices.size(), "flat");
+    auto flat_line = std::make_shared<backtrader::LineRoot>(flat_prices.size(), "flat");
     for (double price : flat_prices) {
         flat_line->forward(price);
     }
@@ -445,7 +445,7 @@ TEST(OriginalTests, DPO_EdgeCases) {
     }
     
     // 测试数据不足的情况
-    auto insufficient_line = std::make_shared<LineRoot>(100, "insufficient");
+    auto insufficient_line = std::make_shared<backtrader::LineRoot>(100, "insufficient");
     
     // 只添加几个数据点
     for (int i = 0; i < 20; ++i) {
@@ -480,7 +480,7 @@ TEST(OriginalTests, DPO_Performance) {
         large_data.push_back(dist(rng));
     }
     
-    auto large_line = std::make_shared<LineRoot>(large_data.size(), "large");
+    auto large_line = std::make_shared<backtrader::LineRoot>(large_data.size(), "large");
     for (double price : large_data) {
         large_line->forward(price);
     }

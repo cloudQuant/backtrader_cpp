@@ -25,6 +25,8 @@ public:
     
     // Constructor with default parameters (original)
     CommodityChannelIndex();
+    // Constructor for test framework compatibility
+    CommodityChannelIndex(std::shared_ptr<LineRoot> data);
     // Constructor with data source and parameters (Python-style API)
     CommodityChannelIndex(std::shared_ptr<LineSeries> data_source, int period = 20, double factor = 0.015);
     virtual ~CommodityChannelIndex() = default;
@@ -32,7 +34,7 @@ public:
     // Utility methods for tests
     double get(int ago = 0) const;
     int getMinPeriod() const { return params.period; }
-    void calculate();
+    void calculate() override;
     
 protected:
     void prenext() override;
@@ -47,7 +49,7 @@ private:
     double calculate_mean_deviation(const std::vector<double>& tp_values, double mean);
     
     // Sub-indicators
-    std::shared_ptr<SMA> tp_sma_;  // SMA of typical price
+    std::shared_ptr<indicators::SMA> tp_sma_;  // SMA of typical price
     
     // Circular buffers for typical price values
     std::vector<double> tp_values_;

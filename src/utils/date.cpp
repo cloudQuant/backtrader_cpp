@@ -2,14 +2,49 @@
 #include <sstream>
 #include <iomanip>
 #include <stdexcept>
+#include <map>
 
 namespace backtrader {
 namespace utils {
 
-// Static member initialization
-const std::map<std::string, std::chrono::hours> DateUtils::timezone_offsets_ = DateUtils::init_timezone_offsets();
+// Constants
+const TimePoint TIME_MAX = TimePoint::max();
+const TimePoint TIME_MIN = TimePoint::min();
+const std::string UTC_TIMEZONE = "UTC";
 
-std::chrono::system_clock::time_point DateUtils::str_to_datetime(const std::string& date_str, const std::string& format) {
+// Core conversion functions
+std::tm num2date(double num) {
+    // Convert numeric timestamp to date (similar to Python's num2date)
+    // Assuming num is seconds since epoch
+    auto time_t_val = static_cast<std::time_t>(num);
+    std::tm tm_val = *std::localtime(&time_t_val);
+    return tm_val;
+}
+
+TimePoint num2dt(double num) {
+    // Convert numeric timestamp to time_point
+    auto time_t_val = static_cast<std::time_t>(num);
+    return std::chrono::system_clock::from_time_t(time_t_val);
+}
+
+double date2num(const std::tm& date) {
+    // Convert date to numeric timestamp
+    std::tm copy = date;
+    return static_cast<double>(std::mktime(&copy));
+}
+
+double time2num(const std::tm& time) {
+    // Convert time to numeric timestamp
+    std::tm copy = time;
+    return static_cast<double>(std::mktime(&copy));
+}
+
+std::tm num2time(double num) {
+    // Convert numeric timestamp to time
+    return num2date(num);
+}
+
+TimePoint str2datetime(const std::string& date_str, const std::string& format) {
     std::tm tm = {};
     std::istringstream ss(date_str);
     
@@ -33,7 +68,7 @@ std::chrono::system_clock::time_point DateUtils::str_to_datetime(const std::stri
     return std::chrono::system_clock::from_time_t(std::mktime(&tm));
 }
 
-std::string DateUtils::datetime_to_str(const std::chrono::system_clock::time_point& tp, const std::string& format) {
+std::string datetime2str(const TimePoint& tp, const std::string& format) {
     auto time_t = std::chrono::system_clock::to_time_t(tp);
     auto tm = *std::localtime(&time_t);
     
@@ -55,212 +90,111 @@ std::string DateUtils::datetime_to_str(const std::chrono::system_clock::time_poi
     return ss.str();
 }
 
-double DateUtils::datetime_to_timestamp(const std::chrono::system_clock::time_point& tp) {
-    auto duration = tp.time_since_epoch();
-    auto seconds = std::chrono::duration_cast<std::chrono::seconds>(duration);
-    auto microseconds = std::chrono::duration_cast<std::chrono::microseconds>(duration - seconds);
-    
-    return static_cast<double>(seconds.count()) + static_cast<double>(microseconds.count()) / 1000000.0;
+TimePoint timestamp2datetime(int64_t timestamp, bool milliseconds) {
+    if (milliseconds) {
+        auto duration = std::chrono::milliseconds(timestamp);
+        return TimePoint(duration);
+    } else {
+        auto duration = std::chrono::seconds(timestamp);
+        return TimePoint(duration);
+    }
 }
 
-std::chrono::system_clock::time_point DateUtils::timestamp_to_datetime(double timestamp) {
-    auto seconds = static_cast<long long>(timestamp);
-    auto microseconds = static_cast<long long>((timestamp - seconds) * 1000000);
-    
-    auto duration = std::chrono::seconds(seconds) + std::chrono::microseconds(microseconds);
-    return std::chrono::system_clock::time_point(duration);
+int64_t datetime2timestamp(const TimePoint& dt, bool milliseconds) {
+    auto duration = dt.time_since_epoch();
+    if (milliseconds) {
+        auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(duration);
+        return ms.count();
+    } else {
+        auto s = std::chrono::duration_cast<std::chrono::seconds>(duration);
+        return s.count();
+    }
 }
 
-std::chrono::system_clock::time_point DateUtils::now() {
+TimePoint get_last_timeframe_timestamp(const TimePoint& dt, int timeframe) {
+    // Simple implementation - could be expanded based on timeframe enum values
+    auto time_t = std::chrono::system_clock::to_time_t(dt);
+    auto tm = *std::localtime(&time_t);
+    
+    // Reset to start of period based on timeframe
+    switch (timeframe) {
+        case 1: // Days
+            tm.tm_hour = 0;
+            tm.tm_min = 0;
+            tm.tm_sec = 0;
+            break;
+        case 2: // Weeks
+            tm.tm_hour = 0;
+            tm.tm_min = 0;
+            tm.tm_sec = 0;
+            // Move to start of week (Sunday)
+            tm.tm_mday -= tm.tm_wday;
+            break;
+        case 3: // Months
+            tm.tm_hour = 0;
+            tm.tm_min = 0;
+            tm.tm_sec = 0;
+            tm.tm_mday = 1;
+            break;
+        case 4: // Years
+            tm.tm_hour = 0;
+            tm.tm_min = 0;
+            tm.tm_sec = 0;
+            tm.tm_mday = 1;
+            tm.tm_mon = 0;
+            break;
+        default:
+            break;
+    }
+    
+    return std::chrono::system_clock::from_time_t(std::mktime(&tm));
+}
+
+// TimeZone implementation
+TimeZone::TimeZone(const std::string& tz_name) : name_(tz_name) {
+    // Simple timezone mapping - in a full implementation this would be more comprehensive
+    if (tz_name == "UTC" || tz_name == "GMT") {
+        offset_hours_ = 0;
+    } else if (tz_name == "EST") {
+        offset_hours_ = -5;
+    } else if (tz_name == "PST") {
+        offset_hours_ = -8;
+    } else if (tz_name == "CET") {
+        offset_hours_ = 1;
+    } else if (tz_name == "JST") {
+        offset_hours_ = 9;
+    } else {
+        offset_hours_ = 0; // Default to UTC
+    }
+}
+
+TimePoint TimeZone::localize(const TimePoint& dt) const {
+    return dt + std::chrono::hours(offset_hours_);
+}
+
+TimePoint TimeZone::to_utc(const TimePoint& dt) const {
+    return dt - std::chrono::hours(offset_hours_);
+}
+
+TimeZone tzparse(const std::string& tz_str) {
+    return TimeZone(tz_str);
+}
+
+// TZLocal implementation
+TimeZone TZLocal::get() {
+    // Simple implementation - returns system timezone or UTC
+    return TimeZone("UTC");
+}
+
+TimePoint TZLocal::now() {
     return std::chrono::system_clock::now();
 }
 
-std::chrono::system_clock::time_point DateUtils::today() {
-    auto now = std::chrono::system_clock::now();
-    auto time_t = std::chrono::system_clock::to_time_t(now);
-    auto tm = *std::localtime(&time_t);
-    
-    // Set time to midnight
-    tm.tm_hour = 0;
-    tm.tm_min = 0;
-    tm.tm_sec = 0;
-    
-    return std::chrono::system_clock::from_time_t(std::mktime(&tm));
-}
+// Localizer implementation
+Localizer::Localizer(const TimeZone& tz) : tz_(tz) {}
 
-std::chrono::system_clock::time_point DateUtils::add_days(const std::chrono::system_clock::time_point& tp, int days) {
-    return tp + std::chrono::hours(24 * days);
-}
-
-std::chrono::system_clock::time_point DateUtils::add_hours(const std::chrono::system_clock::time_point& tp, int hours) {
-    return tp + std::chrono::hours(hours);
-}
-
-std::chrono::system_clock::time_point DateUtils::add_minutes(const std::chrono::system_clock::time_point& tp, int minutes) {
-    return tp + std::chrono::minutes(minutes);
-}
-
-std::chrono::system_clock::time_point DateUtils::add_seconds(const std::chrono::system_clock::time_point& tp, int seconds) {
-    return tp + std::chrono::seconds(seconds);
-}
-
-int DateUtils::get_year(const std::chrono::system_clock::time_point& tp) {
-    auto time_t = std::chrono::system_clock::to_time_t(tp);
-    auto tm = *std::localtime(&time_t);
-    return tm.tm_year + 1900;
-}
-
-int DateUtils::get_month(const std::chrono::system_clock::time_point& tp) {
-    auto time_t = std::chrono::system_clock::to_time_t(tp);
-    auto tm = *std::localtime(&time_t);
-    return tm.tm_mon + 1; // tm_mon is 0-based
-}
-
-int DateUtils::get_day(const std::chrono::system_clock::time_point& tp) {
-    auto time_t = std::chrono::system_clock::to_time_t(tp);
-    auto tm = *std::localtime(&time_t);
-    return tm.tm_mday;
-}
-
-int DateUtils::get_hour(const std::chrono::system_clock::time_point& tp) {
-    auto time_t = std::chrono::system_clock::to_time_t(tp);
-    auto tm = *std::localtime(&time_t);
-    return tm.tm_hour;
-}
-
-int DateUtils::get_minute(const std::chrono::system_clock::time_point& tp) {
-    auto time_t = std::chrono::system_clock::to_time_t(tp);
-    auto tm = *std::localtime(&time_t);
-    return tm.tm_min;
-}
-
-int DateUtils::get_second(const std::chrono::system_clock::time_point& tp) {
-    auto time_t = std::chrono::system_clock::to_time_t(tp);
-    auto tm = *std::localtime(&time_t);
-    return tm.tm_sec;
-}
-
-int DateUtils::get_weekday(const std::chrono::system_clock::time_point& tp) {
-    auto time_t = std::chrono::system_clock::to_time_t(tp);
-    auto tm = *std::localtime(&time_t);
-    return tm.tm_wday; // 0 = Sunday, 1 = Monday, etc.
-}
-
-bool DateUtils::is_weekend(const std::chrono::system_clock::time_point& tp) {
-    int weekday = get_weekday(tp);
-    return weekday == 0 || weekday == 6; // Sunday or Saturday
-}
-
-bool DateUtils::is_business_day(const std::chrono::system_clock::time_point& tp) {
-    return !is_weekend(tp);
-}
-
-std::chrono::system_clock::time_point DateUtils::convert_timezone(
-    const std::chrono::system_clock::time_point& tp,
-    const std::string& from_tz,
-    const std::string& to_tz) {
-    
-    auto from_offset = get_timezone_offset(from_tz);
-    auto to_offset = get_timezone_offset(to_tz);
-    
-    // Convert: remove from_tz offset, add to_tz offset
-    return tp - from_offset + to_offset;
-}
-
-std::chrono::system_clock::time_point DateUtils::to_utc(
-    const std::chrono::system_clock::time_point& tp,
-    const std::string& from_tz) {
-    return convert_timezone(tp, from_tz, "UTC");
-}
-
-std::chrono::system_clock::time_point DateUtils::from_utc(
-    const std::chrono::system_clock::time_point& tp,
-    const std::string& to_tz) {
-    return convert_timezone(tp, "UTC", to_tz);
-}
-
-std::chrono::hours DateUtils::get_timezone_offset(const std::string& timezone) {
-    auto it = timezone_offsets_.find(timezone);
-    if (it != timezone_offsets_.end()) {
-        return it->second;
-    }
-    
-    // Default to UTC if timezone not found
-    return std::chrono::hours(0);
-}
-
-std::map<std::string, std::chrono::hours> DateUtils::init_timezone_offsets() {
-    std::map<std::string, std::chrono::hours> offsets;
-    
-    // Major timezone offsets (simplified, not accounting for DST)
-    offsets["UTC"] = std::chrono::hours(0);
-    offsets["GMT"] = std::chrono::hours(0);
-    offsets["EST"] = std::chrono::hours(-5);
-    offsets["CST"] = std::chrono::hours(-6);
-    offsets["MST"] = std::chrono::hours(-7);
-    offsets["PST"] = std::chrono::hours(-8);
-    offsets["CET"] = std::chrono::hours(1);
-    offsets["JST"] = std::chrono::hours(9);
-    offsets["AEST"] = std::chrono::hours(10);
-    offsets["HST"] = std::chrono::hours(-10);
-    
-    return offsets;
-}
-
-bool DateUtils::is_valid_date(int year, int month, int day) {
-    if (month < 1 || month > 12) return false;
-    if (day < 1) return false;
-    
-    // Days in month
-    int days_in_month[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    
-    // Check for leap year
-    if (month == 2 && is_leap_year(year)) {
-        return day <= 29;
-    }
-    
-    return day <= days_in_month[month - 1];
-}
-
-bool DateUtils::is_leap_year(int year) {
-    return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
-}
-
-std::chrono::system_clock::time_point DateUtils::get_market_open(
-    const std::chrono::system_clock::time_point& date,
-    int hour, int minute) {
-    
-    auto time_t = std::chrono::system_clock::to_time_t(date);
-    auto tm = *std::localtime(&time_t);
-    
-    tm.tm_hour = hour;
-    tm.tm_min = minute;
-    tm.tm_sec = 0;
-    
-    return std::chrono::system_clock::from_time_t(std::mktime(&tm));
-}
-
-std::chrono::system_clock::time_point DateUtils::get_market_close(
-    const std::chrono::system_clock::time_point& date,
-    int hour, int minute) {
-    
-    return get_market_open(date, hour, minute);
-}
-
-bool DateUtils::is_market_hours(
-    const std::chrono::system_clock::time_point& tp,
-    int open_hour, int open_minute,
-    int close_hour, int close_minute) {
-    
-    int current_hour = get_hour(tp);
-    int current_minute = get_minute(tp);
-    
-    int current_total_minutes = current_hour * 60 + current_minute;
-    int open_total_minutes = open_hour * 60 + open_minute;
-    int close_total_minutes = close_hour * 60 + close_minute;
-    
-    return current_total_minutes >= open_total_minutes && 
-           current_total_minutes <= close_total_minutes;
+TimePoint Localizer::operator()(const TimePoint& dt) const {
+    return tz_.localize(dt);
 }
 
 } // namespace utils

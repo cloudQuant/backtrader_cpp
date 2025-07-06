@@ -12,14 +12,15 @@
  * chkargs = dict(period=14)
  */
 
-#include "test_common_simple.h"
+#include "test_common.h"
+#include <random>
 
-using namespace backtrader::indicators;
 #include "indicators/sumn.h"
+#include "indicators/sma.h"
 
-using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
+using namespace backtrader;
 using namespace backtrader::indicators;
 
 namespace {
@@ -42,7 +43,7 @@ TEST(OriginalTests, SumN_Manual) {
     ASSERT_FALSE(csv_data.empty());
     
     // 创建数据线
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -94,14 +95,14 @@ protected:
         csv_data_ = getdata(0);
         ASSERT_FALSE(csv_data_.empty());
         
-        close_line_ = std::make_shared<LineRoot>(csv_data_.size(), "close");
+        close_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "close");
         for (const auto& bar : csv_data_) {
             close_line_->forward(bar.close);
         }
     }
     
     std::vector<CSVDataReader::OHLCVData> csv_data_;
-    std::shared_ptr<LineRoot> close_line_;
+    std::shared_ptr<backtrader::LineRoot> close_line_;
 };
 
 TEST_P(SumNParameterizedTest, DifferentPeriods) {
@@ -141,7 +142,7 @@ TEST(OriginalTests, SumN_CalculationLogic) {
     // 使用简单的测试数据验证SumN计算
     std::vector<double> prices = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0};
     
-    auto close_line = std::make_shared<LineRoot>(prices.size(), "sumn_calc");
+    auto close_line = std::make_shared<backtrader::LineRoot>(prices.size(), "sumn_calc");
     for (double price : prices) {
         close_line->forward(price);
     }
@@ -177,7 +178,7 @@ TEST(OriginalTests, SumN_RollingWindow) {
     // 测试滚动窗口机制
     std::vector<double> test_prices = {10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0};
     
-    auto test_line = std::make_shared<LineRoot>(test_prices.size(), "rolling");
+    auto test_line = std::make_shared<backtrader::LineRoot>(test_prices.size(), "rolling");
     for (double price : test_prices) {
         test_line->forward(price);
     }
@@ -228,7 +229,7 @@ TEST(OriginalTests, SumN_AccumulationEffect) {
         increasing_prices.push_back(static_cast<double>(i));
     }
     
-    auto inc_line = std::make_shared<LineRoot>(increasing_prices.size(), "increasing");
+    auto inc_line = std::make_shared<backtrader::LineRoot>(increasing_prices.size(), "increasing");
     for (double price : increasing_prices) {
         inc_line->forward(price);
     }
@@ -280,7 +281,7 @@ TEST(OriginalTests, SumN_PeriodicData) {
         periodic_prices.push_back(50.0 + 10.0 * std::sin(angle));
     }
     
-    auto periodic_line = std::make_shared<LineRoot>(periodic_prices.size(), "periodic");
+    auto periodic_line = std::make_shared<backtrader::LineRoot>(periodic_prices.size(), "periodic");
     for (double price : periodic_prices) {
         periodic_line->forward(price);
     }
@@ -329,7 +330,7 @@ TEST(OriginalTests, SumN_BoundaryValues) {
     // 测试极值
     std::vector<double> extreme_prices = {0.0, 1e6, -1e6, 1e-6, -1e-6};
     
-    auto extreme_line = std::make_shared<LineRoot>(extreme_prices.size(), "extreme");
+    auto extreme_line = std::make_shared<backtrader::LineRoot>(extreme_prices.size(), "extreme");
     for (double price : extreme_prices) {
         extreme_line->forward(price);
     }
@@ -357,7 +358,7 @@ TEST(OriginalTests, SumN_EdgeCases) {
     // 测试所有价格为零的情况
     std::vector<double> zero_prices(50, 0.0);
     
-    auto zero_line = std::make_shared<LineRoot>(zero_prices.size(), "zero");
+    auto zero_line = std::make_shared<backtrader::LineRoot>(zero_prices.size(), "zero");
     for (double price : zero_prices) {
         zero_line->forward(price);
     }
@@ -379,7 +380,7 @@ TEST(OriginalTests, SumN_EdgeCases) {
     }
     
     // 测试数据不足的情况
-    auto insufficient_line = std::make_shared<LineRoot>(100, "insufficient");
+    auto insufficient_line = std::make_shared<backtrader::LineRoot>(100, "insufficient");
     
     // 只添加几个数据点
     for (int i = 0; i < 5; ++i) {
@@ -403,7 +404,7 @@ TEST(OriginalTests, SumN_EdgeCases) {
 // 与SMA关系测试
 TEST(OriginalTests, SumN_vs_SMA_Relationship) {
     auto csv_data = getdata(0);
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -447,7 +448,7 @@ TEST(OriginalTests, SumN_Performance) {
         large_data.push_back(dist(rng));
     }
     
-    auto large_line = std::make_shared<LineRoot>(large_data.size(), "large");
+    auto large_line = std::make_shared<backtrader::LineRoot>(large_data.size(), "large");
     for (double price : large_data) {
         large_line->forward(price);
     }

@@ -29,8 +29,8 @@ private:
     void setup_lines();
     
     // Moving averages for calculation
-    std::shared_ptr<SMA> mean_sma_;
-    std::shared_ptr<SMA> meansq_sma_;
+    std::shared_ptr<indicators::SMA> mean_sma_;
+    std::shared_ptr<indicators::SMA> meansq_sma_;
 };
 
 // Mean deviation indicator
@@ -56,8 +56,8 @@ private:
     void setup_lines();
     
     // Moving averages for calculation
-    std::shared_ptr<SMA> mean_sma_;
-    std::shared_ptr<SMA> absdev_sma_;
+    std::shared_ptr<indicators::SMA> mean_sma_;
+    std::shared_ptr<indicators::SMA> absdev_sma_;
 };
 
 // Aliases

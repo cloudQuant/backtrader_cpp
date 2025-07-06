@@ -11,8 +11,8 @@
 
 #include "test_common.h"
 #include "indicators/sma.h"
-#include "data/DataReplay.h"
-#include "cerebro/Cerebro.h"
+#include "feed.h"
+#include "cerebro.h"
 #include "strategy.h"
 #include <memory>
 #include <vector>
@@ -23,9 +23,9 @@ using namespace backtrader::indicators;
 using namespace backtrader::tests::original;
 
 // 测试策略，记录重放过程中的数据
-class ReplayTestStrategy : public Strategy {
+class ReplayTestStrategy : public backtrader::Strategy {
 private:
-    std::shared_ptr<indicators::SMA> sma_;
+    std::shared_ptr<backtrader::indicators::SMA> sma_;
     std::vector<std::string> sma_values_;
     int next_count_;
     bool print_enabled_;
@@ -35,7 +35,7 @@ public:
         : next_count_(0), print_enabled_(print_enabled) {}
     
     void init() override {
-        sma_ = std::make_shared<indicators::SMA>(data(0), 30);
+        sma_ = std::make_shared<backtrader::indicators::SMA>(data(0), 30);
     }
     
     void next() override {
@@ -71,7 +71,7 @@ public:
     // 用于测试验证的getter
     int getNextCount() const { return next_count_; }
     const std::vector<std::string>& getSMAValues() const { return sma_values_; }
-    std::shared_ptr<indicators::SMA> getSMA() const { return sma_; }
+    std::shared_ptr<backtrader::indicators::SMA> getSMA() const { return sma_; }
 };
 
 // 测试基本数据重放功能
@@ -82,15 +82,15 @@ TEST(OriginalTests, DataReplay_Basic) {
         "3836.453333", "3703.962333", "3741.802000"
     };
     
-    // 创建Cerebro
-    auto cerebro = std::make_unique<Cerebro>();
+    // 创建backtrader::Cerebro
+    auto cerebro = std::make_unique<backtrader::Cerebro>();
     
     // 设置运行模式
     cerebro->setRunOnce(false);
     cerebro->setPreload(false);
     
     // 加载数据并设置重放
-    auto data = getdata(0);
+    auto data = getdata_feed(0);
     auto replay_data = std::make_shared<DataReplay>(data);
     replay_data->replay(TimeFrame::Weeks, 1);
     cerebro->adddata(replay_data);
@@ -139,13 +139,13 @@ TEST(OriginalTests, DataReplay_Basic) {
 
 // 测试不同的重放参数
 TEST(OriginalTests, DataReplay_DifferentParameters) {
-    // 创建Cerebro
-    auto cerebro = std::make_unique<Cerebro>();
+    // 创建backtrader::Cerebro
+    auto cerebro = std::make_unique<backtrader::Cerebro>();
     cerebro->setRunOnce(false);
     cerebro->setPreload(false);
     
     // 测试不同的压缩比
-    auto data = getdata(0);
+    auto data = getdata_feed(0);
     auto replay_data = std::make_shared<DataReplay>(data);
     replay_data->replay(TimeFrame::Weeks, 2);  // 2周压缩
     cerebro->adddata(replay_data);
@@ -167,13 +167,13 @@ TEST(OriginalTests, DataReplay_DifferentParameters) {
 
 // 测试月线重放
 TEST(OriginalTests, DataReplay_Monthly) {
-    // 创建Cerebro
-    auto cerebro = std::make_unique<Cerebro>();
+    // 创建backtrader::Cerebro
+    auto cerebro = std::make_unique<backtrader::Cerebro>();
     cerebro->setRunOnce(false);
     cerebro->setPreload(false);
     
     // 设置月线重放
-    auto data = getdata(0);
+    auto data = getdata_feed(0);
     auto replay_data = std::make_shared<DataReplay>(data);
     replay_data->replay(TimeFrame::Months, 1);
     cerebro->adddata(replay_data);
@@ -196,7 +196,7 @@ TEST(OriginalTests, DataReplay_Monthly) {
 // 测试重放数据的OHLC完整性
 TEST(OriginalTests, DataReplay_OHLCIntegrity) {
     // 创建数据记录策略
-    class OHLCStrategy : public Strategy {
+    class OHLCStrategy : public backtrader::Strategy {
     public:
         struct BarData {
             double datetime;
@@ -222,13 +222,13 @@ TEST(OriginalTests, DataReplay_OHLCIntegrity) {
         }
     };
     
-    // 创建Cerebro
-    auto cerebro = std::make_unique<Cerebro>();
+    // 创建backtrader::Cerebro
+    auto cerebro = std::make_unique<backtrader::Cerebro>();
     cerebro->setRunOnce(false);
     cerebro->setPreload(false);
     
     // 设置重放
-    auto data = getdata(0);
+    auto data = getdata_feed(0);
     auto replay_data = std::make_shared<DataReplay>(data);
     replay_data->replay(TimeFrame::Weeks, 1);
     cerebro->adddata(replay_data);
@@ -275,7 +275,7 @@ TEST(OriginalTests, DataReplay_OHLCIntegrity) {
 // 测试重放数据的时间顺序
 TEST(OriginalTests, DataReplay_TimeOrder) {
     // 创建时间检查策略
-    class TimeOrderStrategy : public Strategy {
+    class TimeOrderStrategy : public backtrader::Strategy {
     public:
         std::vector<double> datetimes;
         
@@ -284,13 +284,13 @@ TEST(OriginalTests, DataReplay_TimeOrder) {
         }
     };
     
-    // 创建Cerebro
-    auto cerebro = std::make_unique<Cerebro>();
+    // 创建backtrader::Cerebro
+    auto cerebro = std::make_unique<backtrader::Cerebro>();
     cerebro->setRunOnce(false);
     cerebro->setPreload(false);
     
     // 设置重放
-    auto data = getdata(0);
+    auto data = getdata_feed(0);
     auto replay_data = std::make_shared<DataReplay>(data);
     replay_data->replay(TimeFrame::Weeks, 1);
     cerebro->adddata(replay_data);
@@ -314,7 +314,7 @@ TEST(OriginalTests, DataReplay_TimeOrder) {
 // 测试重放与原始数据的关系
 TEST(OriginalTests, DataReplay_CompareOriginal) {
     // 先获取原始数据的统计
-    class OriginalDataStrategy : public Strategy {
+    class OriginalDataStrategy : public backtrader::Strategy {
     public:
         int bar_count = 0;
         double total_volume = 0.0;
@@ -328,18 +328,18 @@ TEST(OriginalTests, DataReplay_CompareOriginal) {
     };
     
     // 测试原始数据
-    auto cerebro1 = std::make_unique<Cerebro>();
-    cerebro1->adddata(getdata(0));
+    auto cerebro1 = std::make_unique<backtrader::Cerebro>();
+    cerebro1->adddata(getdata_feed(0));
     cerebro1->addstrategy<OriginalDataStrategy>();
     auto results1 = cerebro1->run();
     auto original_strategy = std::dynamic_pointer_cast<OriginalDataStrategy>(results1[0]);
     
     // 测试重放数据
-    auto cerebro2 = std::make_unique<Cerebro>();
+    auto cerebro2 = std::make_unique<backtrader::Cerebro>();
     cerebro2->setRunOnce(false);
     cerebro2->setPreload(false);
     
-    auto data = getdata(0);
+    auto data = getdata_feed(0);
     auto replay_data = std::make_shared<DataReplay>(data);
     replay_data->replay(TimeFrame::Weeks, 1);
     cerebro2->adddata(replay_data);
@@ -364,7 +364,7 @@ TEST(OriginalTests, DataReplay_CompareOriginal) {
 // 测试重放过程中的数据更新
 TEST(OriginalTests, DataReplay_DataUpdates) {
     // 创建更新跟踪策略
-    class UpdateTrackingStrategy : public Strategy {
+    class UpdateTrackingStrategy : public backtrader::Strategy {
     public:
         struct UpdateInfo {
             double datetime;
@@ -392,13 +392,13 @@ TEST(OriginalTests, DataReplay_DataUpdates) {
         }
     };
     
-    // 创建Cerebro
-    auto cerebro = std::make_unique<Cerebro>();
+    // 创建backtrader::Cerebro
+    auto cerebro = std::make_unique<backtrader::Cerebro>();
     cerebro->setRunOnce(false);
     cerebro->setPreload(false);
     
     // 设置重放
-    auto data = getdata(0);
+    auto data = getdata_feed(0);
     auto replay_data = std::make_shared<DataReplay>(data);
     replay_data->replay(TimeFrame::Weeks, 1);
     cerebro->adddata(replay_data);
@@ -435,28 +435,28 @@ TEST(OriginalTests, DataReplay_DataUpdates) {
 TEST(OriginalTests, DataReplay_Performance) {
     auto start_time = std::chrono::high_resolution_clock::now();
     
-    // 创建Cerebro
-    auto cerebro = std::make_unique<Cerebro>();
+    // 创建backtrader::Cerebro
+    auto cerebro = std::make_unique<backtrader::Cerebro>();
     cerebro->setRunOnce(false);
     cerebro->setPreload(false);
     
     // 设置重放
-    auto data = getdata(0);
+    auto data = getdata_feed(0);
     auto replay_data = std::make_shared<DataReplay>(data);
     replay_data->replay(TimeFrame::Weeks, 1);
     cerebro->adddata(replay_data);
     
     // 添加复杂策略
-    class ComplexReplayStrategy : public Strategy {
+    class ComplexReplayStrategy : public backtrader::Strategy {
     public:
-        std::shared_ptr<indicators::SMA> sma_short;
-        std::shared_ptr<indicators::SMA> sma_medium;
-        std::shared_ptr<indicators::SMA> sma_long;
+        std::shared_ptr<backtrader::indicators::SMA> sma_short;
+        std::shared_ptr<backtrader::indicators::SMA> sma_medium;
+        std::shared_ptr<backtrader::indicators::SMA> sma_long;
         
         void init() override {
-            sma_short = std::make_shared<indicators::SMA>(data(0), 10);
-            sma_medium = std::make_shared<indicators::SMA>(data(0), 20);
-            sma_long = std::make_shared<indicators::SMA>(data(0), 50);
+            sma_short = std::make_shared<backtrader::indicators::SMA>(data(0), 10);
+            sma_medium = std::make_shared<backtrader::indicators::SMA>(data(0), 20);
+            sma_long = std::make_shared<backtrader::indicators::SMA>(data(0), 50);
         }
         
         void next() override {

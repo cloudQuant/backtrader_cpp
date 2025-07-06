@@ -11,7 +11,7 @@
 
 #include "test_common.h"
 #include "strategy.h"
-#include "cerebro/Cerebro.h"
+#include "cerebro.h"
 #include "indicators/sma.h"
 #include "indicators/crossover.h"
 #include "broker/Broker.h"
@@ -48,7 +48,7 @@ const std::vector<std::string> EXPECTED_SELL_EXEC = {
 };
 
 // 非优化策略类
-class UnoptimizedRunStrategy : public Strategy {
+class UnoptimizedRunStrategy : public backtrader::Strategy {
 private:
     int period_;
     bool print_data_;
@@ -177,17 +177,17 @@ public:
     void start() override {
             if (!stock_like_) {
             // 期货模式
-            broker()->setCommission(2.0, 10.0, 1000.0);
+            broker_ptr()->setCommission(2.0, 10.0, 1000.0);
         } else {
             // 股票模式 - 设置百分比手续费  
-            broker()->setCommission(0.00001, 1.0, 0.0);
+            broker_ptr()->setCommission(0.00001, 1.0, 0.0);
         }
 
         if (print_data_) {
             log("-------------------------", 0.0, true);
             std::ostringstream oss;
             oss << "Starting portfolio value: " << std::fixed << std::setprecision(2) 
-                << broker()->getValue();
+                << broker_ptr()->getValue();
             log(oss.str(), 0.0, true);
         }
 
@@ -211,12 +211,12 @@ public:
             
             oss.str("");
             oss << "Final portfolio value: " << std::fixed << std::setprecision(2) 
-                << broker()->getValue();
+                << broker_ptr()->getValue();
             log(oss.str());
             
             oss.str("");
             oss << "Final cash value: " << std::fixed << std::setprecision(2) 
-                << broker()->getCash();
+                << broker_ptr()->getCash();
             log(oss.str());
             
             log("-------------------------");
@@ -292,7 +292,7 @@ public:
         }
 
         // 获取当前仓位
-        double position_size = getPosition()->getSize();
+        double position_size = getbacktrader::Position()->getSize();
         
         
         // Debug: 检查CrossOver状态
@@ -348,10 +348,10 @@ public:
 };
 
 // 运行策略测试的辅助函数 - 返回策略和cerebro的pair
-std::pair<std::shared_ptr<UnoptimizedRunStrategy>, std::unique_ptr<Cerebro>> runStrategyTestPair(bool stocklike, bool print_results = false) {
-    auto cerebro = std::make_unique<Cerebro>();
+std::pair<std::shared_ptr<UnoptimizedRunStrategy>, std::unique_ptr<backtrader::Cerebro>> runStrategyTestPair(bool stocklike, bool print_results = false) {
+    auto cerebro = std::make_unique<backtrader::Cerebro>();
     
-    auto csv_data = getdata(0);
+    auto csv_data = getdata_feed(0);
     std::cout << "Loaded CSV data: " << csv_data.size() << " bars" << std::endl;
     if (!csv_data.empty()) {
         std::cout << "First bar: " << csv_data[0].date << ", close: " << csv_data[0].close << std::endl;
@@ -389,8 +389,8 @@ TEST(OriginalTests, StrategyUnoptimized_StockMode) {
     auto strategy = runStrategyTest(true, false);   // 关闭debug输出
 
     // 验证最终资产值（股票模式）
-    double final_value = strategy->broker()->getValue();
-    double final_cash = strategy->broker()->getCash();
+    double final_value = strategy->broker_ptr()->getValue();
+    double final_cash = strategy->broker_ptr()->getCash();
     
     std::ostringstream value_ss, cash_ss;
     value_ss << std::fixed << std::setprecision(2) << final_value;
@@ -438,8 +438,8 @@ TEST(OriginalTests, StrategyUnoptimized_FuturesMode) {
     auto strategy = runStrategyTest(false, false);   // 关闭debug输出
 
     // 验证最终资产值（期货模式）
-    double final_value = strategy->broker()->getValue();
-    double final_cash = strategy->broker()->getCash();
+    double final_value = strategy->broker_ptr()->getValue();
+    double final_cash = strategy->broker_ptr()->getCash();
     
     std::ostringstream value_ss, cash_ss;
     value_ss << std::fixed << std::setprecision(2) << final_value;
@@ -491,8 +491,8 @@ TEST(OriginalTests, StrategyUnoptimized_TradingSequence) {
 
 // 测试指标值
 TEST(OriginalTests, StrategyUnoptimized_IndicatorValues) {
-    auto cerebro = std::make_unique<Cerebro>();
-    auto csv_data = getdata(0);
+    auto cerebro = std::make_unique<backtrader::Cerebro>();
+    auto csv_data = getdata_feed(0);
     cerebro->adddata(csv_data);
 
     UnoptimizedRunStrategy::Params params;
@@ -509,7 +509,7 @@ TEST(OriginalTests, StrategyUnoptimized_IndicatorValues) {
     EXPECT_GT(strategy->sell_create_.size(), 0) << "Strategy should have created sell orders";
     
     // 验证最终状态合理
-    double final_value = strategy->broker()->getValue();
+    double final_value = strategy->broker_ptr()->getValue();
     EXPECT_GT(final_value, 0.0) << "Final portfolio value should be positive";
 }
 
@@ -529,8 +529,8 @@ TEST(OriginalTests, StrategyUnoptimized_ModeComparison) {
         << "Both modes should have same sell executions";
 
     // 最终资产值应该不同（由于不同的手续费结构）
-    double stock_value = stock_strategy->broker()->getValue();
-    double futures_value = futures_strategy->broker()->getValue();
+    double stock_value = stock_strategy->broker_ptr()->getValue();
+    double futures_value = futures_strategy->broker_ptr()->getValue();
     
     EXPECT_NE(stock_value, futures_value) 
         << "Different modes should produce different final values";

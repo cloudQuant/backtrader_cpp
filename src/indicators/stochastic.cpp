@@ -84,8 +84,8 @@ void StochasticFast::calculate_lines() {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto close_line = datas[0]->lines->getline(3); // Close line
-    auto k_line = lines->getline(Lines::percK);
-    auto d_line = lines->getline(Lines::percD);
+    auto k_line = lines->getline(percK);
+    auto d_line = lines->getline(percD);
     
     if (!close_line || !k_line || !d_line) return;
     
@@ -144,8 +144,8 @@ void Stochastic::calculate_lines() {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto close_line = datas[0]->lines->getline(3); // Close line
-    auto k_line = lines->getline(Lines::percK);
-    auto d_line = lines->getline(Lines::percD);
+    auto k_line = lines->getline(percK);
+    auto d_line = lines->getline(percD);
     
     if (!close_line || !k_line || !d_line) return;
     
@@ -221,9 +221,9 @@ void StochasticFull::calculate_lines() {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto close_line = datas[0]->lines->getline(3); // Close line
-    auto k_line = lines->getline(Lines::percK);
-    auto d_line = lines->getline(Lines::percD);
-    auto dslow_line = lines->getline(Lines::percDSlow);
+    auto k_line = lines->getline(percK);
+    auto d_line = lines->getline(percD);
+    auto dslow_line = lines->getline(percDSlow);
     
     if (!close_line || !k_line || !d_line || !dslow_line) return;
     

@@ -62,9 +62,9 @@ private:
     void setup_lines();
     
     // Component indicators
-    std::shared_ptr<OLS_Slope_InterceptN> ols_si_;
-    std::shared_ptr<SMA> spread_sma_;
-    std::shared_ptr<StandardDeviation> spread_std_;
+    std::shared_ptr<indicators::OLS_Slope_InterceptN> ols_si_;
+    std::shared_ptr<indicators::SMA> spread_sma_;
+    std::shared_ptr<indicators::StandardDeviation> spread_std_;
     
     // Spread calculation storage
     std::vector<double> spread_values_;

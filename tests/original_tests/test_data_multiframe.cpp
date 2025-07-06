@@ -11,9 +11,10 @@
 
 #include "test_common.h"
 #include "indicators/sma.h"
-#include "data/DataFeed.h"
-#include "cerebro/Cerebro.h"
+#include "feed.h"
+#include "cerebro.h"
 #include "strategy.h"
+#include "utils/date.h"
 #include <memory>
 #include <vector>
 
@@ -21,9 +22,9 @@ using namespace backtrader::indicators;
 using namespace backtrader::tests::original;
 
 // 测试策略 - 处理多时间框架数据
-class MultiFrameStrategy : public Strategy {
+class MultiFrameStrategy : public backtrader::Strategy {
 private:
-    std::vector<std::shared_ptr<indicators::SMA>> smas_;
+    std::vector<std::shared_ptr<backtrader::indicators::SMA>> smas_;
     bool print_enabled_;
     
 public:
@@ -33,7 +34,7 @@ public:
     void init() override {
         // 为每个数据源创建SMA指标
         for (int i = 0; i < datas_count(); ++i) {
-            auto sma = std::make_shared<indicators::SMA>(data(i));
+            auto sma = std::make_shared<backtrader::indicators::SMA>(data(i));
             smas_.push_back(sma);
             
             if (print_enabled_) {
@@ -71,7 +72,7 @@ public:
     }
     
     // 获取SMA指标用于测试验证
-    const std::vector<std::shared_ptr<indicators::SMA>>& getSMAs() const {
+    const std::vector<std::shared_ptr<backtrader::indicators::SMA>>& getSMAs() const {
         return smas_;
     }
 };
@@ -81,12 +82,12 @@ TEST(OriginalTests, DataMultiFrame_Basic) {
     const int chkdatas = 2;
     const int chkmin = 151;  // 因为周线数据
     
-    // 创建Cerebro
-    auto cerebro = std::make_unique<Cerebro>();
+    // 创建backtrader::Cerebro
+    auto cerebro = std::make_unique<backtrader::Cerebro>();
     
     // 加载多个数据源
     for (int i = 0; i < chkdatas; ++i) {
-        auto data = getdata(i);
+        auto data = getdata_feed(i);
         cerebro->adddata(data);
     }
     
@@ -117,18 +118,18 @@ TEST(OriginalTests, DataMultiFrame_Basic) {
 
 // 测试不同时间框架的数据同步
 TEST(OriginalTests, DataMultiFrame_Synchronization) {
-    // 创建Cerebro
-    auto cerebro = std::make_unique<Cerebro>();
+    // 创建backtrader::Cerebro
+    auto cerebro = std::make_unique<backtrader::Cerebro>();
     
     // 加载日线和周线数据
-    auto daily_data = getdata(0);
-    auto weekly_data = getdata(1);
+    auto daily_data = getdata_feed(0);
+    auto weekly_data = getdata_feed(1);
     
     cerebro->adddata(daily_data);
     cerebro->adddata(weekly_data);
     
     // 创建测试策略来记录数据同步情况
-    class SyncTestStrategy : public Strategy {
+    class SyncTestStrategy : public backtrader::Strategy {
     public:
         struct BarInfo {
             double datetime;
@@ -182,26 +183,26 @@ TEST(OriginalTests, DataMultiFrame_Synchronization) {
 
 // 测试多时间框架指标计算
 TEST(OriginalTests, DataMultiFrame_IndicatorCalculation) {
-    // 创建Cerebro
-    auto cerebro = std::make_unique<Cerebro>();
+    // 创建backtrader::Cerebro
+    auto cerebro = std::make_unique<backtrader::Cerebro>();
     
     // 加载数据
     const int num_datas = 2;
     for (int i = 0; i < num_datas; ++i) {
-        cerebro->adddata(getdata(i));
+        cerebro->adddata(getdata_feed(i));
     }
     
     // 创建验证策略
-    class CalcTestStrategy : public Strategy {
+    class CalcTestStrategy : public backtrader::Strategy {
     public:
-        std::shared_ptr<indicators::SMA> sma_daily;
-        std::shared_ptr<indicators::SMA> sma_weekly;
+        std::shared_ptr<backtrader::indicators::SMA> sma_daily;
+        std::shared_ptr<backtrader::indicators::SMA> sma_weekly;
         std::vector<double> sma_daily_values;
         std::vector<double> sma_weekly_values;
         
         void init() override {
-            sma_daily = std::make_shared<indicators::SMA>(data(0), 20);
-            sma_weekly = std::make_shared<indicators::SMA>(data(1), 20);
+            sma_daily = std::make_shared<backtrader::indicators::SMA>(data(0), 20);
+            sma_weekly = std::make_shared<backtrader::indicators::SMA>(data(1), 20);
         }
         
         void next() override {
@@ -245,23 +246,23 @@ TEST(OriginalTests, DataMultiFrame_IndicatorCalculation) {
 
 // 测试混合时间框架策略
 TEST(OriginalTests, DataMultiFrame_MixedTimeframeStrategy) {
-    // 创建Cerebro
-    auto cerebro = std::make_unique<Cerebro>();
+    // 创建backtrader::Cerebro
+    auto cerebro = std::make_unique<backtrader::Cerebro>();
     
     // 加载数据
-    cerebro->adddata(getdata(0));  // 日线
-    cerebro->adddata(getdata(1));  // 周线
+    cerebro->adddata(getdata_feed(0));  // 日线
+    cerebro->adddata(getdata_feed(1));  // 周线
     
     // 创建混合时间框架策略
-    class MixedStrategy : public Strategy {
+    class MixedStrategy : public backtrader::Strategy {
     public:
-        std::shared_ptr<indicators::SMA> sma_short;  // 短期日线SMA
-        std::shared_ptr<indicators::SMA> sma_long;   // 长期周线SMA
+        std::shared_ptr<backtrader::indicators::SMA> sma_short;  // 短期日线SMA
+        std::shared_ptr<backtrader::indicators::SMA> sma_long;   // 长期周线SMA
         int signal_count = 0;
         
         void init() override {
-            sma_short = std::make_shared<indicators::SMA>(data(0), 10);
-            sma_long = std::make_shared<indicators::SMA>(data(1), 10);
+            sma_short = std::make_shared<backtrader::indicators::SMA>(data(0), 10);
+            sma_long = std::make_shared<backtrader::indicators::SMA>(data(1), 10);
         }
         
         void next() override {
@@ -290,15 +291,15 @@ TEST(OriginalTests, DataMultiFrame_MixedTimeframeStrategy) {
 
 // 测试数据对齐
 TEST(OriginalTests, DataMultiFrame_DataAlignment) {
-    // 创建Cerebro
-    auto cerebro = std::make_unique<Cerebro>();
+    // 创建backtrader::Cerebro
+    auto cerebro = std::make_unique<backtrader::Cerebro>();
     
     // 加载数据
-    cerebro->adddata(getdata(0));
-    cerebro->adddata(getdata(1));
+    cerebro->adddata(getdata_feed(0));
+    cerebro->adddata(getdata_feed(1));
     
     // 创建对齐测试策略
-    class AlignmentStrategy : public Strategy {
+    class AlignmentStrategy : public backtrader::Strategy {
     public:
         struct AlignmentCheck {
             double daily_dt;
@@ -314,12 +315,12 @@ TEST(OriginalTests, DataMultiFrame_DataAlignment) {
             check.weekly_dt = data(1)->datetime(0);
             
             // 检查日期对齐（同一天）
-            auto daily_date = num2date(check.daily_dt);
-            auto weekly_date = num2date(check.weekly_dt);
+            auto daily_date = backtrader::utils::num2date(check.daily_dt);
+            auto weekly_date = backtrader::utils::num2date(check.weekly_dt);
             
-            check.aligned = (daily_date.year() == weekly_date.year() &&
-                           daily_date.month() == weekly_date.month() &&
-                           daily_date.day() == weekly_date.day());
+            check.aligned = (daily_date.tm_year == weekly_date.tm_year &&
+                           daily_date.tm_mon == weekly_date.tm_mon &&
+                           daily_date.tm_mday == weekly_date.tm_mday);
             
             checks.push_back(check);
         }
@@ -353,30 +354,30 @@ TEST(OriginalTests, DataMultiFrame_DataAlignment) {
 TEST(OriginalTests, DataMultiFrame_Performance) {
     auto start_time = std::chrono::high_resolution_clock::now();
     
-    // 创建Cerebro
-    auto cerebro = std::make_unique<Cerebro>();
+    // 创建backtrader::Cerebro
+    auto cerebro = std::make_unique<backtrader::Cerebro>();
     
     // 加载多个数据源
     const int num_datas = 2;
     for (int i = 0; i < num_datas; ++i) {
-        cerebro->adddata(getdata(i));
+        cerebro->adddata(getdata_feed(i));
     }
     
     // 创建复杂策略
-    class ComplexStrategy : public Strategy {
+    class ComplexStrategy : public backtrader::Strategy {
     public:
-        std::vector<std::shared_ptr<indicators::SMA>> smas_short;
-        std::vector<std::shared_ptr<indicators::SMA>> smas_medium;
-        std::vector<std::shared_ptr<indicators::SMA>> smas_long;
+        std::vector<std::shared_ptr<backtrader::indicators::SMA>> smas_short;
+        std::vector<std::shared_ptr<backtrader::indicators::SMA>> smas_medium;
+        std::vector<std::shared_ptr<backtrader::indicators::SMA>> smas_long;
         
         void init() override {
             for (int i = 0; i < datas_count(); ++i) {
                 smas_short.push_back(
-                    std::make_shared<indicators::SMA>(data(i), 10));
+                    std::make_shared<backtrader::indicators::SMA>(data(i), 10));
                 smas_medium.push_back(
-                    std::make_shared<indicators::SMA>(data(i), 20));
+                    std::make_shared<backtrader::indicators::SMA>(data(i), 20));
                 smas_long.push_back(
-                    std::make_shared<indicators::SMA>(data(i), 50));
+                    std::make_shared<backtrader::indicators::SMA>(data(i), 50));
             }
         }
         

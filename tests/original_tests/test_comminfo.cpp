@@ -1,6 +1,6 @@
 /**
  * @file test_comminfo.cpp
- * @brief CommissionInfo测试 - 对应Python test_comminfo.py
+ * @brief backtrader::CommissionInfo测试 - 对应Python test_comminfo.py
  * 
  * 原始Python测试:
  * - 测试股票类型的佣金计算
@@ -9,16 +9,16 @@
  */
 
 #include "test_common.h"
-#include "broker/CommissionInfo.h"
-#include "broker/Position.h"
+#include "comminfo.h"
+#include "position.h"
 #include <gtest/gtest.h>
 
-using namespace backtrader::broker;
+
 
 // 测试股票类型的佣金计算
 TEST(OriginalTests, CommInfo_Stocks) {
     double commission = 0.5;
-    auto comm = std::make_shared<CommissionInfo>();
+    auto comm = std::make_shared<backtrader::CommissionInfo>();
     comm->setCommission(commission);
     
     double price = 10.0;
@@ -31,12 +31,12 @@ TEST(OriginalTests, CommInfo_Stocks) {
         << "Operation cost should equal size * price for stocks";
     
     // 测试持仓价值计算
-    auto pos = std::make_shared<Position>();
+    auto pos = std::make_shared<backtrader::Position>();
     pos->size = size;
     pos->price = price;
     double value = comm->getvalue(pos, price);
     EXPECT_DOUBLE_EQ(value, size * price) 
-        << "Position value should equal size * price for stocks";
+        << "backtrader::Position value should equal size * price for stocks";
     
     // 测试佣金计算
     double commcost = comm->getcommission(size, price);
@@ -61,7 +61,7 @@ TEST(OriginalTests, CommInfo_Futures) {
     double margin = 10.0;
     double mult = 10.0;
     
-    auto comm = std::make_shared<CommissionInfo>();
+    auto comm = std::make_shared<backtrader::CommissionInfo>();
     comm->setCommission(commission);
     comm->setMult(mult);
     comm->setMargin(margin);
@@ -77,12 +77,12 @@ TEST(OriginalTests, CommInfo_Futures) {
         << "Operation cost should equal size * margin for futures";
     
     // 测试持仓价值计算
-    auto pos = std::make_shared<Position>();
+    auto pos = std::make_shared<backtrader::Position>();
     pos->size = size;
     pos->price = price;
     double value = comm->getvalue(pos, price);
     EXPECT_DOUBLE_EQ(value, size * margin) 
-        << "Position value should equal size * margin for futures";
+        << "backtrader::Position value should equal size * margin for futures";
     
     // 测试佣金计算
     double commcost = comm->getcommission(size, price);
@@ -104,7 +104,7 @@ TEST(OriginalTests, CommInfo_Futures) {
 // 测试百分比佣金
 TEST(OriginalTests, CommInfo_PercentageCommission) {
     double commission = 0.001;  // 0.1%
-    auto comm = std::make_shared<CommissionInfo>();
+    auto comm = std::make_shared<backtrader::CommissionInfo>();
     comm->setCommission(commission);
     comm->setPercent(true);
     
@@ -120,10 +120,10 @@ TEST(OriginalTests, CommInfo_PercentageCommission) {
 // 测试固定佣金
 TEST(OriginalTests, CommInfo_FixedCommission) {
     double commission = 5.0;  // 每笔交易5元
-    auto comm = std::make_shared<CommissionInfo>();
+    auto comm = std::make_shared<backtrader::CommissionInfo>();
     comm->setCommission(commission);
     comm->setPercent(false);
-    comm->setCommtype(CommissionInfo::CommType::Fixed);
+    comm->setCommtype(backtrader::CommissionInfo::CommType::Fixed);
     
     double price = 100.0;
     double size = 50.0;
@@ -137,7 +137,7 @@ TEST(OriginalTests, CommInfo_FixedCommission) {
 // 测试混合参数情况
 TEST(OriginalTests, CommInfo_MixedParameters) {
     // 测试期货类型但有不同的参数组合
-    auto comm = std::make_shared<CommissionInfo>();
+    auto comm = std::make_shared<backtrader::CommissionInfo>();
     
     // 情况1：高保证金低乘数
     comm->setCommission(0.2);
@@ -168,7 +168,7 @@ TEST(OriginalTests, CommInfo_MixedParameters) {
 
 // 测试边界条件
 TEST(OriginalTests, CommInfo_EdgeCases) {
-    auto comm = std::make_shared<CommissionInfo>();
+    auto comm = std::make_shared<backtrader::CommissionInfo>();
     comm->setCommission(0.5);
     
     // 测试零大小
@@ -204,7 +204,7 @@ TEST(OriginalTests, CommInfo_EdgeCases) {
 
 // 测试利息计算
 TEST(OriginalTests, CommInfo_Interest) {
-    auto comm = std::make_shared<CommissionInfo>();
+    auto comm = std::make_shared<backtrader::CommissionInfo>();
     comm->setInterest(0.05);  // 5%年利率
     comm->setInterest_long(true);
     
@@ -212,7 +212,7 @@ TEST(OriginalTests, CommInfo_Interest) {
     double size = 100.0;
     int days = 30;
     
-    auto pos = std::make_shared<Position>();
+    auto pos = std::make_shared<backtrader::Position>();
     pos->size = size;
     pos->price = price;
     
@@ -224,7 +224,7 @@ TEST(OriginalTests, CommInfo_Interest) {
 
 // 测试杠杆计算
 TEST(OriginalTests, CommInfo_Leverage) {
-    auto comm = std::make_shared<CommissionInfo>();
+    auto comm = std::make_shared<backtrader::CommissionInfo>();
     comm->setLeverage(2.0);  // 2倍杠杆
     
     double price = 100.0;
@@ -239,7 +239,7 @@ TEST(OriginalTests, CommInfo_Leverage) {
 // 综合测试
 TEST(OriginalTests, CommInfo_Comprehensive) {
     // 创建一个完整的交易场景
-    auto comm = std::make_shared<CommissionInfo>();
+    auto comm = std::make_shared<backtrader::CommissionInfo>();
     comm->setCommission(0.002);  // 0.2%佣金
     comm->setPercent(true);
     comm->setMinimum(5.0);  // 最小佣金5元
@@ -262,7 +262,7 @@ TEST(OriginalTests, CommInfo_Comprehensive) {
 
 // 性能测试
 TEST(OriginalTests, CommInfo_Performance) {
-    auto comm = std::make_shared<CommissionInfo>();
+    auto comm = std::make_shared<backtrader::CommissionInfo>();
     comm->setCommission(0.5);
     comm->setMult(10.0);
     comm->setMargin(10.0);
@@ -286,7 +286,7 @@ TEST(OriginalTests, CommInfo_Performance) {
     auto end_time = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
     
-    std::cout << "CommissionInfo performance test: " << iterations 
+    std::cout << "backtrader::CommissionInfo performance test: " << iterations 
               << " iterations took " << duration.count() << " ms" << std::endl;
     std::cout << "Average time per calculation: " 
               << (duration.count() * 1000.0 / (iterations * 4)) << " microseconds" << std::endl;

@@ -172,6 +172,21 @@ std::shared_ptr<Order> Order::clone() const {
     return cloned;
 }
 
+std::string Order::status_string(OrderStatus status) {
+    switch (status) {
+        case OrderStatus::Created: return "Created";
+        case OrderStatus::Submitted: return "Submitted";
+        case OrderStatus::Accepted: return "Accepted";
+        case OrderStatus::Partial: return "Partial";
+        case OrderStatus::Completed: return "Completed";
+        case OrderStatus::Canceled: return "Canceled";
+        case OrderStatus::Expired: return "Expired";
+        case OrderStatus::Margin: return "Margin";
+        case OrderStatus::Rejected: return "Rejected";
+        default: return "Unknown";
+    }
+}
+
 // BuyOrder implementation
 BuyOrder::BuyOrder(std::shared_ptr<DataSeries> data_val,
                    double size_val,

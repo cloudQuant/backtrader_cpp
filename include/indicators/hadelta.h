@@ -158,7 +158,7 @@ protected:
     Params params_;
     
     // Internal indicators
-    std::shared_ptr<HeikinAshi> heikin_ashi_;     // Heikin-Ashi transformation
+    std::shared_ptr<indicators::HeikinAshi> heikin_ashi_;     // Heikin-Ashi transformation
     std::shared_ptr<MovingAverageBase> smoothing_ma_;  // Moving average for smoothing
     
     // Data source (either raw data or Heikin-Ashi transformed)
@@ -193,7 +193,7 @@ namespace heikin_ashi_factory {
 /**
  * Create basic Heikin-Ashi transformation
  */
-std::shared_ptr<HeikinAshi> create_heikin_ashi();
+std::shared_ptr<indicators::HeikinAshi> create_heikin_ashi();
 
 /**
  * Create HaDelta with default parameters

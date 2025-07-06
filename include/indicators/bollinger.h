@@ -24,6 +24,10 @@ public:
     
     // Constructor with default parameters (original)
     BollingerBands();
+    // Constructor for test framework compatibility
+    BollingerBands(std::shared_ptr<LineRoot> data);
+    // Constructor with data source and parameters for tests
+    BollingerBands(std::shared_ptr<LineRoot> data, int period, double devfactor);
     // Constructor with data source and parameters (Python-style API)
     BollingerBands(std::shared_ptr<LineSeries> data_source, int period = 20, double devfactor = 2.0);
     virtual ~BollingerBands() = default;
@@ -31,7 +35,16 @@ public:
     // Utility methods for tests
     double get(int ago = 0) const;
     int getMinPeriod() const { return params.period; }
-    void calculate();
+    void calculate() override;
+    
+    // Additional utility methods
+    double getBandwidth(int ago = 0) const;
+    double getPercentB(int ago = 0) const;
+    
+    // Band accessor methods
+    double getMiddleBand(int ago = 0) const;
+    double getUpperBand(int ago = 0) const;
+    double getLowerBand(int ago = 0) const;
     
 protected:
     void prenext() override;

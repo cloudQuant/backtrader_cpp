@@ -15,12 +15,13 @@
  * chkind = bt.ind.Ichimoku
  */
 
-#include "test_common_simple.h"
-
+#include "test_common.h"
 #include "indicators/ichimoku.h"
-
+#include <random>
 
 using namespace backtrader::tests::original;
+using namespace backtrader;
+using namespace backtrader::indicators;
 
 namespace {
 
@@ -46,9 +47,9 @@ TEST(OriginalTests, Ichimoku_Manual) {
     ASSERT_FALSE(csv_data.empty());
     
     // 创建数据线
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -62,10 +63,12 @@ TEST(OriginalTests, Ichimoku_Manual) {
     // 计算所有值
     for (size_t i = 0; i < csv_data.size(); ++i) {
         ichimoku->calculate();
+        // 移动到下一个数据点
         if (i < csv_data.size() - 1) {
-            high_line->forward();
-            low_line->forward();
-            close_line->forward();
+            const auto& next_bar = csv_data[i + 1];
+            high_line->forward(next_bar.high);
+            low_line->forward(next_bar.low);  
+            close_line->forward(next_bar.close);
         }
     }
     
@@ -153,9 +156,9 @@ protected:
         csv_data_ = getdata(0);
         ASSERT_FALSE(csv_data_.empty());
         
-        high_line_ = std::make_shared<LineRoot>(csv_data_.size(), "high");
-        low_line_ = std::make_shared<LineRoot>(csv_data_.size(), "low");
-        close_line_ = std::make_shared<LineRoot>(csv_data_.size(), "close");
+        high_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "high");
+        low_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "low");
+        close_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "close");
         
         for (const auto& bar : csv_data_) {
             high_line_->forward(bar.high);
@@ -165,9 +168,9 @@ protected:
     }
     
     std::vector<CSVDataReader::OHLCVData> csv_data_;
-    std::shared_ptr<LineRoot> high_line_;
-    std::shared_ptr<LineRoot> low_line_;
-    std::shared_ptr<LineRoot> close_line_;
+    std::shared_ptr<backtrader::LineRoot> high_line_;
+    std::shared_ptr<backtrader::LineRoot> low_line_;
+    std::shared_ptr<backtrader::LineRoot> close_line_;
 };
 
 TEST_P(IchimokuParameterizedTest, DifferentParameters) {
@@ -177,10 +180,12 @@ TEST_P(IchimokuParameterizedTest, DifferentParameters) {
     // 计算所有值
     for (size_t i = 0; i < csv_data_.size(); ++i) {
         ichimoku->calculate();
+        // 移动到下一个数据点
         if (i < csv_data_.size() - 1) {
-            high_line_->forward();
-            low_line_->forward();
-            close_line_->forward();
+            const auto& next_bar = csv_data_[i + 1];
+            high_line_->forward(next_bar.high);
+            low_line_->forward(next_bar.low);
+            close_line_->forward(next_bar.close);
         }
     }
     
@@ -218,9 +223,9 @@ INSTANTIATE_TEST_SUITE_P(
 // Ichimoku云图测试
 TEST(OriginalTests, Ichimoku_Cloud) {
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -267,9 +272,9 @@ TEST(OriginalTests, Ichimoku_Cloud) {
 // 转换线与基准线交叉测试
 TEST(OriginalTests, Ichimoku_TenkanKijunCrossover) {
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -328,9 +333,9 @@ TEST(OriginalTests, Ichimoku_TenkanKijunCrossover) {
 // 价格与云图关系测试
 TEST(OriginalTests, Ichimoku_PriceCloudRelation) {
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -385,9 +390,9 @@ TEST(OriginalTests, Ichimoku_PriceCloudRelation) {
 // 迟行线确认测试
 TEST(OriginalTests, Ichimoku_ChikouConfirmation) {
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -450,9 +455,9 @@ TEST(OriginalTests, Ichimoku_TrendStrength) {
         trend_data.push_back(bar);
     }
     
-    auto trend_high = std::make_shared<LineRoot>(trend_data.size(), "trend_high");
-    auto trend_low = std::make_shared<LineRoot>(trend_data.size(), "trend_low");
-    auto trend_close = std::make_shared<LineRoot>(trend_data.size(), "trend_close");
+    auto trend_high = std::make_shared<backtrader::LineRoot>(trend_data.size(), "trend_high");
+    auto trend_low = std::make_shared<backtrader::LineRoot>(trend_data.size(), "trend_low");
+    auto trend_close = std::make_shared<backtrader::LineRoot>(trend_data.size(), "trend_close");
     
     for (const auto& bar : trend_data) {
         trend_high->forward(bar.high);
@@ -522,9 +527,9 @@ TEST(OriginalTests, Ichimoku_EdgeCases) {
         flat_data.push_back(bar);
     }
     
-    auto flat_high = std::make_shared<LineRoot>(flat_data.size(), "flat_high");
-    auto flat_low = std::make_shared<LineRoot>(flat_data.size(), "flat_low");
-    auto flat_close = std::make_shared<LineRoot>(flat_data.size(), "flat_close");
+    auto flat_high = std::make_shared<backtrader::LineRoot>(flat_data.size(), "flat_high");
+    auto flat_low = std::make_shared<backtrader::LineRoot>(flat_data.size(), "flat_low");
+    auto flat_close = std::make_shared<backtrader::LineRoot>(flat_data.size(), "flat_close");
     
     for (const auto& bar : flat_data) {
         flat_high->forward(bar.high);
@@ -567,9 +572,9 @@ TEST(OriginalTests, Ichimoku_EdgeCases) {
     }
     
     // 测试数据不足的情况
-    auto insufficient_high = std::make_shared<LineRoot>(100, "insufficient_high");
-    auto insufficient_low = std::make_shared<LineRoot>(100, "insufficient_low");
-    auto insufficient_close = std::make_shared<LineRoot>(100, "insufficient_close");
+    auto insufficient_high = std::make_shared<backtrader::LineRoot>(100, "insufficient_high");
+    auto insufficient_low = std::make_shared<backtrader::LineRoot>(100, "insufficient_low");
+    auto insufficient_close = std::make_shared<backtrader::LineRoot>(100, "insufficient_close");
     
     // 只添加几个数据点
     for (int i = 0; i < 50; ++i) {
@@ -624,9 +629,9 @@ TEST(OriginalTests, Ichimoku_Performance) {
         large_data.push_back(bar);
     }
     
-    auto large_high = std::make_shared<LineRoot>(large_data.size(), "large_high");
-    auto large_low = std::make_shared<LineRoot>(large_data.size(), "large_low");
-    auto large_close = std::make_shared<LineRoot>(large_data.size(), "large_close");
+    auto large_high = std::make_shared<backtrader::LineRoot>(large_data.size(), "large_high");
+    auto large_low = std::make_shared<backtrader::LineRoot>(large_data.size(), "large_low");
+    auto large_close = std::make_shared<backtrader::LineRoot>(large_data.size(), "large_close");
     
     for (const auto& bar : large_data) {
         large_high->forward(bar.high);

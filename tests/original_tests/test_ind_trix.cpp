@@ -11,12 +11,15 @@
  * chkind = btind.Trix
  */
 
-#include "test_common_simple.h"
+#include "test_common.h"
+#include <random>
 
 #include "indicators/trix.h"
 
 
 using namespace backtrader::tests::original;
+using namespace backtrader;
+using namespace backtrader::indicators;
 
 namespace {
 
@@ -38,7 +41,7 @@ TEST(OriginalTests, TRIX_Manual) {
     ASSERT_FALSE(csv_data.empty());
     
     // 创建数据线
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -90,14 +93,14 @@ protected:
         csv_data_ = getdata(0);
         ASSERT_FALSE(csv_data_.empty());
         
-        close_line_ = std::make_shared<LineRoot>(csv_data_.size(), "close");
+        close_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "close");
         for (const auto& bar : csv_data_) {
             close_line_->forward(bar.close);
         }
     }
     
     std::vector<CSVDataReader::OHLCVData> csv_data_;
-    std::shared_ptr<LineRoot> close_line_;
+    std::shared_ptr<backtrader::LineRoot> close_line_;
 };
 
 TEST_P(TRIXParameterizedTest, DifferentPeriods) {
@@ -140,7 +143,7 @@ TEST(OriginalTests, TRIX_CalculationLogic) {
         prices.push_back(100.0 + i * 0.5);  // 线性增长
     }
     
-    auto close_line = std::make_shared<LineRoot>(prices.size(), "trix_calc");
+    auto close_line = std::make_shared<backtrader::LineRoot>(prices.size(), "trix_calc");
     for (double price : prices) {
         close_line->forward(price);
     }
@@ -172,7 +175,7 @@ TEST(OriginalTests, TRIX_TrendDetection) {
         uptrend_prices.push_back(100.0 + i * 1.0);  // 持续上升
     }
     
-    auto up_line = std::make_shared<LineRoot>(uptrend_prices.size(), "uptrend");
+    auto up_line = std::make_shared<backtrader::LineRoot>(uptrend_prices.size(), "uptrend");
     for (double price : uptrend_prices) {
         up_line->forward(price);
     }
@@ -198,7 +201,7 @@ TEST(OriginalTests, TRIX_TrendDetection) {
         downtrend_prices.push_back(200.0 - i * 1.0);  // 持续下降
     }
     
-    auto down_line = std::make_shared<LineRoot>(downtrend_prices.size(), "downtrend");
+    auto down_line = std::make_shared<backtrader::LineRoot>(downtrend_prices.size(), "downtrend");
     for (double price : downtrend_prices) {
         down_line->forward(price);
     }
@@ -225,7 +228,7 @@ TEST(OriginalTests, TRIX_TrendDetection) {
 // TRIX零线穿越测试
 TEST(OriginalTests, TRIX_ZeroCrossing) {
     auto csv_data = getdata(0);
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -283,7 +286,7 @@ TEST(OriginalTests, TRIX_FilteringCharacteristics) {
         noisy_prices.push_back(trend + noise_val);
     }
     
-    auto noisy_line = std::make_shared<LineRoot>(noisy_prices.size(), "noisy");
+    auto noisy_line = std::make_shared<backtrader::LineRoot>(noisy_prices.size(), "noisy");
     for (double price : noisy_prices) {
         noisy_line->forward(price);
     }
@@ -339,7 +342,7 @@ TEST(OriginalTests, TRIX_Divergence) {
         divergence_prices.push_back(200.0 + i * 0.2);
     }
     
-    auto div_line = std::make_shared<LineRoot>(divergence_prices.size(), "divergence");
+    auto div_line = std::make_shared<backtrader::LineRoot>(divergence_prices.size(), "divergence");
     for (double price : divergence_prices) {
         div_line->forward(price);
     }
@@ -390,7 +393,7 @@ TEST(OriginalTests, TRIX_EdgeCases) {
     // 测试相同价格的情况
     std::vector<double> flat_prices(100, 100.0);  // 100个相同价格
     
-    auto flat_line = std::make_shared<LineRoot>(flat_prices.size(), "flat");
+    auto flat_line = std::make_shared<backtrader::LineRoot>(flat_prices.size(), "flat");
     for (double price : flat_prices) {
         flat_line->forward(price);
     }
@@ -411,7 +414,7 @@ TEST(OriginalTests, TRIX_EdgeCases) {
     }
     
     // 测试数据不足的情况
-    auto insufficient_line = std::make_shared<LineRoot>(100, "insufficient");
+    auto insufficient_line = std::make_shared<backtrader::LineRoot>(100, "insufficient");
     
     // 只添加几个数据点
     for (int i = 0; i < 20; ++i) {
@@ -446,7 +449,7 @@ TEST(OriginalTests, TRIX_Performance) {
         large_data.push_back(dist(rng));
     }
     
-    auto large_line = std::make_shared<LineRoot>(large_data.size(), "large");
+    auto large_line = std::make_shared<backtrader::LineRoot>(large_data.size(), "large");
     for (double price : large_data) {
         large_line->forward(price);
     }

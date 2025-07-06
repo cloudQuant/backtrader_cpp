@@ -11,14 +11,14 @@
  * chkind = btind.SMMA
  */
 
-#include "test_common_simple.h"
+#include "test_common.h"
+#include <random>
 
-using namespace backtrader::indicators;
 #include "indicators/smma.h"
 
-using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
+using namespace backtrader;
 using namespace backtrader::indicators;
 
 namespace {
@@ -41,7 +41,7 @@ TEST(OriginalTests, SMMA_Manual) {
     ASSERT_FALSE(csv_data.empty());
     
     // 创建数据线
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -93,14 +93,14 @@ protected:
         csv_data_ = getdata(0);
         ASSERT_FALSE(csv_data_.empty());
         
-        close_line_ = std::make_shared<LineRoot>(csv_data_.size(), "close");
+        close_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "close");
         for (const auto& bar : csv_data_) {
             close_line_->forward(bar.close);
         }
     }
     
     std::vector<CSVDataReader::OHLCVData> csv_data_;
-    std::shared_ptr<LineRoot> close_line_;
+    std::shared_ptr<backtrader::LineRoot> close_line_;
 };
 
 TEST_P(SMMAParameterizedTest, DifferentPeriods) {
@@ -140,7 +140,7 @@ TEST(OriginalTests, SMMA_CalculationLogic) {
     // 使用简单的测试数据验证SMMA计算
     std::vector<double> prices = {100.0, 102.0, 104.0, 106.0, 108.0, 110.0, 108.0, 106.0, 104.0, 102.0};
     
-    auto close_line = std::make_shared<LineRoot>(prices.size(), "smma_calc");
+    auto close_line = std::make_shared<backtrader::LineRoot>(prices.size(), "smma_calc");
     for (double price : prices) {
         close_line->forward(price);
     }
@@ -191,7 +191,7 @@ TEST(OriginalTests, SMMA_SmoothingCharacteristics) {
         noisy_prices.push_back(trend + noise);
     }
     
-    auto noisy_line = std::make_shared<LineRoot>(noisy_prices.size(), "noisy");
+    auto noisy_line = std::make_shared<backtrader::LineRoot>(noisy_prices.size(), "noisy");
     for (double price : noisy_prices) {
         noisy_line->forward(price);
     }
@@ -249,7 +249,7 @@ TEST(OriginalTests, SMMA_TrendFollowing) {
         trend_prices.push_back(100.0 + i * 1.0);  // 线性上升趋势
     }
     
-    auto trend_line = std::make_shared<LineRoot>(trend_prices.size(), "trend");
+    auto trend_line = std::make_shared<backtrader::LineRoot>(trend_prices.size(), "trend");
     for (double price : trend_prices) {
         trend_line->forward(price);
     }
@@ -295,7 +295,7 @@ TEST(OriginalTests, SMMA_TrendFollowing) {
 // SMMA与EMA比较测试
 TEST(OriginalTests, SMMA_vs_EMA_Comparison) {
     auto csv_data = getdata(0);
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -353,7 +353,7 @@ TEST(OriginalTests, SMMA_ResponseSpeed) {
         step_prices.push_back(120.0);
     }
     
-    auto step_line = std::make_shared<LineRoot>(step_prices.size(), "step");
+    auto step_line = std::make_shared<backtrader::LineRoot>(step_prices.size(), "step");
     for (double price : step_prices) {
         step_line->forward(price);
     }
@@ -405,7 +405,7 @@ TEST(OriginalTests, SMMA_LagCharacteristics) {
         sine_prices.push_back(100.0 + 10.0 * std::sin(angle));
     }
     
-    auto sine_line = std::make_shared<LineRoot>(sine_prices.size(), "sine");
+    auto sine_line = std::make_shared<backtrader::LineRoot>(sine_prices.size(), "sine");
     for (double price : sine_prices) {
         sine_line->forward(price);
     }
@@ -458,7 +458,7 @@ TEST(OriginalTests, SMMA_EdgeCases) {
     // 测试相同价格的情况
     std::vector<double> flat_prices(100, 100.0);
     
-    auto flat_line = std::make_shared<LineRoot>(flat_prices.size(), "flat");
+    auto flat_line = std::make_shared<backtrader::LineRoot>(flat_prices.size(), "flat");
     for (double price : flat_prices) {
         flat_line->forward(price);
     }
@@ -480,7 +480,7 @@ TEST(OriginalTests, SMMA_EdgeCases) {
     }
     
     // 测试数据不足的情况
-    auto insufficient_line = std::make_shared<LineRoot>(100, "insufficient");
+    auto insufficient_line = std::make_shared<backtrader::LineRoot>(100, "insufficient");
     
     // 只添加几个数据点
     for (int i = 0; i < 15; ++i) {
@@ -515,7 +515,7 @@ TEST(OriginalTests, SMMA_Performance) {
         large_data.push_back(dist(rng));
     }
     
-    auto large_line = std::make_shared<LineRoot>(large_data.size(), "large");
+    auto large_line = std::make_shared<backtrader::LineRoot>(large_data.size(), "large");
     for (double price : large_data) {
         large_line->forward(price);
     }

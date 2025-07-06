@@ -13,11 +13,13 @@
 #include "broker/Trade.h"
 #include "broker/Order.h"
 #include "broker/CommInfo.h"
-#include "data/LineRoot.h"
+#include "data/backtrader::LineRoot.h"
 #include <memory>
 #include <cassert>
 
 using namespace backtrader::tests::original;
+using namespace backtrader;
+using namespace backtrader::indicators;
 
 // 模拟手续费信息类
 class FakeCommInfo : public CommInfo {
@@ -46,9 +48,9 @@ public:
 };
 
 // 模拟数据类
-class FakeData : public LineRoot {
+class FakeData : public backtrader::LineRoot {
 public:
-    FakeData() : LineRoot(1, "fake_data") {
+    FakeData() : backtrader::LineRoot(1, "fake_data") {
         forward(0.0);  // datetime
         addLine("close");
         getLine("close")->forward(0.0);

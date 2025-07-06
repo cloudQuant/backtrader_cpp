@@ -13,14 +13,16 @@
  * 注：EMAOsc (EMA Oscillator) 是价格与EMA的振荡器
  */
 
-#include "test_common_simple.h"
+#include "test_common.h"
+#include <random>
 
-using namespace backtrader::indicators;
 #include "indicators/emaosc.h"
+#include "indicators/ema.h"
+#include "indicators/smaosc.h"
 
-using namespace backtrader::indicators;
 
 using namespace backtrader::tests::original;
+using namespace backtrader;
 using namespace backtrader::indicators;
 
 namespace {
@@ -43,7 +45,7 @@ TEST(OriginalTests, EMAOsc_Manual) {
     ASSERT_FALSE(csv_data.empty());
     
     // 创建数据线
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -95,14 +97,14 @@ protected:
         csv_data_ = getdata(0);
         ASSERT_FALSE(csv_data_.empty());
         
-        close_line_ = std::make_shared<LineRoot>(csv_data_.size(), "close");
+        close_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "close");
         for (const auto& bar : csv_data_) {
             close_line_->forward(bar.close);
         }
     }
     
     std::vector<CSVDataReader::OHLCVData> csv_data_;
-    std::shared_ptr<LineRoot> close_line_;
+    std::shared_ptr<backtrader::LineRoot> close_line_;
 };
 
 TEST_P(EMAOscParameterizedTest, DifferentPeriods) {
@@ -141,7 +143,7 @@ TEST(OriginalTests, EMAOsc_CalculationLogic) {
     // 使用简单的测试数据验证EMAOsc计算
     std::vector<double> prices = {100.0, 102.0, 104.0, 106.0, 108.0, 110.0, 108.0, 106.0, 104.0, 102.0};
     
-    auto price_line = std::make_shared<LineRoot>(prices.size(), "emaosc_calc");
+    auto price_line = std::make_shared<backtrader::LineRoot>(prices.size(), "emaosc_calc");
     for (double price : prices) {
         price_line->forward(price);
     }
@@ -176,7 +178,7 @@ TEST(OriginalTests, EMAOsc_CalculationLogic) {
 // EMAOsc零线穿越测试
 TEST(OriginalTests, EMAOsc_ZeroCrossing) {
     auto csv_data = getdata(0);
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -229,7 +231,7 @@ TEST(OriginalTests, EMAOsc_TrendAnalysis) {
         trend_prices.push_back(100.0 + i * 0.5);  // 缓慢上升趋势
     }
     
-    auto trend_line = std::make_shared<LineRoot>(trend_prices.size(), "trend");
+    auto trend_line = std::make_shared<backtrader::LineRoot>(trend_prices.size(), "trend");
     for (double price : trend_prices) {
         trend_line->forward(price);
     }
@@ -285,7 +287,7 @@ TEST(OriginalTests, EMAOsc_ResponseSpeed) {
         step_prices.push_back(120.0);
     }
     
-    auto step_line = std::make_shared<LineRoot>(step_prices.size(), "step");
+    auto step_line = std::make_shared<backtrader::LineRoot>(step_prices.size(), "step");
     for (double price : step_prices) {
         step_line->forward(price);
     }
@@ -339,7 +341,7 @@ TEST(OriginalTests, EMAOsc_OscillationCharacteristics) {
         oscillating_prices.push_back(base + oscillation);
     }
     
-    auto osc_line = std::make_shared<LineRoot>(oscillating_prices.size(), "oscillating");
+    auto osc_line = std::make_shared<backtrader::LineRoot>(oscillating_prices.size(), "oscillating");
     for (double price : oscillating_prices) {
         osc_line->forward(price);
     }
@@ -389,7 +391,7 @@ TEST(OriginalTests, EMAOsc_OscillationCharacteristics) {
 // EMAOsc与不同基础指标比较测试
 TEST(OriginalTests, EMAOsc_DifferentBaseIndicators) {
     auto csv_data = getdata(0);
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -438,7 +440,7 @@ TEST(OriginalTests, EMAOsc_DifferentBaseIndicators) {
 // EMAOsc超买超卖信号测试
 TEST(OriginalTests, EMAOsc_OverboughtOversold) {
     auto csv_data = getdata(0);
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -514,7 +516,7 @@ TEST(OriginalTests, EMAOsc_MomentumAnalysis) {
         momentum_prices.push_back(momentum_prices.back() + std::max(0.1, increment));
     }
     
-    auto momentum_line = std::make_shared<LineRoot>(momentum_prices.size(), "momentum");
+    auto momentum_line = std::make_shared<backtrader::LineRoot>(momentum_prices.size(), "momentum");
     for (double price : momentum_prices) {
         momentum_line->forward(price);
     }
@@ -557,7 +559,7 @@ TEST(OriginalTests, EMAOsc_MomentumAnalysis) {
 // EMAOsc发散测试
 TEST(OriginalTests, EMAOsc_Divergence) {
     auto csv_data = getdata(0);
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -617,7 +619,7 @@ TEST(OriginalTests, EMAOsc_EdgeCases) {
     // 测试相同价格的情况
     std::vector<double> flat_prices(100, 100.0);
     
-    auto flat_line = std::make_shared<LineRoot>(flat_prices.size(), "flat");
+    auto flat_line = std::make_shared<backtrader::LineRoot>(flat_prices.size(), "flat");
     for (double price : flat_prices) {
         flat_line->forward(price);
     }
@@ -639,7 +641,7 @@ TEST(OriginalTests, EMAOsc_EdgeCases) {
     }
     
     // 测试数据不足的情况
-    auto insufficient_line = std::make_shared<LineRoot>(100, "insufficient");
+    auto insufficient_line = std::make_shared<backtrader::LineRoot>(100, "insufficient");
     
     // 只添加几个数据点
     for (int i = 0; i < 15; ++i) {
@@ -674,7 +676,7 @@ TEST(OriginalTests, EMAOsc_Performance) {
         large_data.push_back(dist(rng));
     }
     
-    auto large_line = std::make_shared<LineRoot>(large_data.size(), "large");
+    auto large_line = std::make_shared<backtrader::LineRoot>(large_data.size(), "large");
     for (double price : large_data) {
         large_line->forward(price);
     }

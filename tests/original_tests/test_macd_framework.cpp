@@ -1,4 +1,4 @@
-#include "test_common_simple.h"
+#include "test_common.h"
 #include "indicators/macd.h"
 
 using namespace backtrader::tests::original;
@@ -14,7 +14,7 @@ int main() {
     auto csv_data = getdata(0);
     std::cout << "Loaded " << csv_data.size() << " data points" << std::endl;
     
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     
     // Create MACD
     auto macd = std::make_shared<MACD>(close_line, 12, 26, 9);

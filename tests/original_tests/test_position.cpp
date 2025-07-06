@@ -10,20 +10,22 @@
  */
 
 #include "test_common.h"
-#include "broker/Position.h"
+#include "position.h"
 #include <memory>
 #include <cassert>
 #include <iostream>
 
 using namespace backtrader::tests::original;
+using namespace backtrader;
+using namespace backtrader::indicators;
 
 // 基本仓位操作测试
-TEST(OriginalTests, Position_BasicOperations) {
+TEST(OriginalTests, backtrader::Position_BasicOperations) {
     double size = 10.0;
     double price = 10.0;
     
     // 创建初始仓位
-    Position pos(size, price);
+    backtrader::Position pos(size, price);
     EXPECT_DOUBLE_EQ(pos.getSize(), size) << "Initial position size should match";
     EXPECT_DOUBLE_EQ(pos.getPrice(), price) << "Initial position price should match";
     
@@ -38,12 +40,12 @@ TEST(OriginalTests, Position_BasicOperations) {
     double closed = result.closed;
     
     // 验证仓位增加后的状态
-    EXPECT_DOUBLE_EQ(pos.getSize(), size + upsize) << "Position size should be updated";
+    EXPECT_DOUBLE_EQ(pos.getSize(), size + upsize) << "backtrader::Position size should be updated";
     EXPECT_DOUBLE_EQ(pos.getSize(), nsize) << "Returned size should match position size";
     
     // 计算期望的加权平均价格
     double expected_price = ((size * price) + (upsize * upprice)) / pos.getSize();
-    EXPECT_DOUBLE_EQ(pos.getPrice(), expected_price) << "Position price should be weighted average";
+    EXPECT_DOUBLE_EQ(pos.getPrice(), expected_price) << "backtrader::Position price should be weighted average";
     EXPECT_DOUBLE_EQ(pos.getPrice(), nprice) << "Returned price should match position price";
     
     // 验证opened和closed数量
@@ -52,9 +54,9 @@ TEST(OriginalTests, Position_BasicOperations) {
 }
 
 // 减少仓位测试
-TEST(OriginalTests, Position_ReducePosition) {
+TEST(OriginalTests, backtrader::Position_Reducebacktrader::Position) {
     // 从上一个测试的状态开始
-    Position pos(15.0, ((10.0 * 10.0) + (5.0 * 12.5)) / 15.0);  // 加权平均价格
+    backtrader::Position pos(15.0, ((10.0 * 10.0) + (5.0 * 12.5)) / 15.0);  // 加权平均价格
     
     double size = pos.getSize();
     double price = pos.getPrice();
@@ -69,11 +71,11 @@ TEST(OriginalTests, Position_ReducePosition) {
     double closed = result.closed;
     
     // 验证仓位减少后的状态
-    EXPECT_DOUBLE_EQ(pos.getSize(), size + upsize) << "Position size should be reduced";
+    EXPECT_DOUBLE_EQ(pos.getSize(), size + upsize) << "backtrader::Position size should be reduced";
     EXPECT_DOUBLE_EQ(pos.getSize(), nsize) << "Returned size should match position size";
     
     // 减少仓位时价格不变
-    EXPECT_DOUBLE_EQ(pos.getPrice(), price) << "Position price should remain unchanged when reducing";
+    EXPECT_DOUBLE_EQ(pos.getPrice(), price) << "backtrader::Position price should remain unchanged when reducing";
     EXPECT_DOUBLE_EQ(pos.getPrice(), nprice) << "Returned price should match position price";
     
     // 验证opened和closed数量
@@ -82,11 +84,11 @@ TEST(OriginalTests, Position_ReducePosition) {
 }
 
 // 反向仓位测试
-TEST(OriginalTests, Position_ReversePosition) {
+TEST(OriginalTests, backtrader::Position_Reversebacktrader::Position) {
     // 从8.0的多头仓位开始
     double initial_size = 8.0;
     double initial_price = ((10.0 * 10.0) + (5.0 * 12.5)) / 15.0;  // 从前面计算的加权平均价格
-    Position pos(initial_size, initial_price);
+    backtrader::Position pos(initial_size, initial_price);
     
     double size = pos.getSize();
     double price = pos.getPrice();
@@ -101,11 +103,11 @@ TEST(OriginalTests, Position_ReversePosition) {
     double closed = result.closed;
     
     // 验证反向仓位后的状态
-    EXPECT_DOUBLE_EQ(pos.getSize(), size + upsize) << "Position size should be negative (short)";
+    EXPECT_DOUBLE_EQ(pos.getSize(), size + upsize) << "backtrader::Position size should be negative (short)";
     EXPECT_DOUBLE_EQ(pos.getSize(), nsize) << "Returned size should match position size";
     
     // 反向仓位时价格变为新的价格
-    EXPECT_DOUBLE_EQ(pos.getPrice(), upprice) << "Position price should be new price for reverse";
+    EXPECT_DOUBLE_EQ(pos.getPrice(), upprice) << "backtrader::Position price should be new price for reverse";
     EXPECT_DOUBLE_EQ(pos.getPrice(), nprice) << "Returned price should match position price";
     
     // 验证opened和closed数量
@@ -114,12 +116,12 @@ TEST(OriginalTests, Position_ReversePosition) {
 }
 
 // 完整的Python测试用例复现
-TEST(OriginalTests, Position_PythonTestReplication) {
+TEST(OriginalTests, backtrader::Position_PythonTestReplication) {
     // 第一阶段：创建初始仓位
     double size = 10.0;
     double price = 10.0;
     
-    Position pos(size, price);
+    backtrader::Position pos(size, price);
     ASSERT_DOUBLE_EQ(pos.getSize(), size);
     ASSERT_DOUBLE_EQ(pos.getPrice(), price);
     
@@ -182,8 +184,8 @@ TEST(OriginalTests, Position_PythonTestReplication) {
 }
 
 // 测试零仓位
-TEST(OriginalTests, Position_ZeroPosition) {
-    Position pos;  // 默认构造函数应该创建零仓位
+TEST(OriginalTests, backtrader::Position_Zerobacktrader::Position) {
+    backtrader::Position pos;  // 默认构造函数应该创建零仓位
     
     EXPECT_DOUBLE_EQ(pos.getSize(), 0.0) << "Default position size should be 0";
     EXPECT_DOUBLE_EQ(pos.getPrice(), 0.0) << "Default position price should be 0";
@@ -191,28 +193,28 @@ TEST(OriginalTests, Position_ZeroPosition) {
     // 从零仓位开始建仓
     auto result = pos.update(100.0, 50.0);
     
-    EXPECT_DOUBLE_EQ(pos.getSize(), 100.0) << "Position size should be updated from zero";
-    EXPECT_DOUBLE_EQ(pos.getPrice(), 50.0) << "Position price should be set";
+    EXPECT_DOUBLE_EQ(pos.getSize(), 100.0) << "backtrader::Position size should be updated from zero";
+    EXPECT_DOUBLE_EQ(pos.getPrice(), 50.0) << "backtrader::Position price should be set";
     EXPECT_DOUBLE_EQ(result.opened, 100.0) << "All should be opened";
     EXPECT_DOUBLE_EQ(result.closed, 0.0) << "Nothing should be closed";
 }
 
 // 测试仓位清空
-TEST(OriginalTests, Position_ClosePosition) {
-    Position pos(50.0, 25.0);
+TEST(OriginalTests, backtrader::Position_Closebacktrader::Position) {
+    backtrader::Position pos(50.0, 25.0);
     
     // 完全清仓
     auto result = pos.update(-50.0, 30.0);
     
-    EXPECT_DOUBLE_EQ(pos.getSize(), 0.0) << "Position should be flat after closing";
-    EXPECT_DOUBLE_EQ(pos.getPrice(), 0.0) << "Position price should be reset to 0";
+    EXPECT_DOUBLE_EQ(pos.getSize(), 0.0) << "backtrader::Position should be flat after closing";
+    EXPECT_DOUBLE_EQ(pos.getPrice(), 0.0) << "backtrader::Position price should be reset to 0";
     EXPECT_DOUBLE_EQ(result.opened, 0.0) << "Nothing should be opened";
     EXPECT_DOUBLE_EQ(result.closed, -50.0) << "All should be closed";
 }
 
 // 测试仓位符号变化
-TEST(OriginalTests, Position_SignChanges) {
-    Position pos;
+TEST(OriginalTests, backtrader::Position_SignChanges) {
+    backtrader::Position pos;
     
     // 建立多头仓位
     pos.update(100.0, 10.0);
@@ -232,8 +234,8 @@ TEST(OriginalTests, Position_SignChanges) {
 }
 
 // 测试累积平均价格计算
-TEST(OriginalTests, Position_AveragePriceCalculation) {
-    Position pos;
+TEST(OriginalTests, backtrader::Position_AveragePriceCalculation) {
+    backtrader::Position pos;
     
     // 多次建仓，测试平均价格计算
     std::vector<std::pair<double, double>> trades = {
@@ -260,8 +262,8 @@ TEST(OriginalTests, Position_AveragePriceCalculation) {
 }
 
 // 测试部分平仓
-TEST(OriginalTests, Position_PartialClose) {
-    Position pos(100.0, 15.0);
+TEST(OriginalTests, backtrader::Position_PartialClose) {
+    backtrader::Position pos(100.0, 15.0);
     
     // 部分平仓不改变价格
     auto result = pos.update(-30.0, 20.0);
@@ -281,8 +283,8 @@ TEST(OriginalTests, Position_PartialClose) {
 }
 
 // 测试精度处理
-TEST(OriginalTests, Position_PrecisionHandling) {
-    Position pos;
+TEST(OriginalTests, backtrader::Position_PrecisionHandling) {
+    backtrader::Position pos;
     
     // 使用需要精确计算的价格
     pos.update(1.0/3.0, 1.0/7.0);
@@ -297,8 +299,8 @@ TEST(OriginalTests, Position_PrecisionHandling) {
 }
 
 // 测试极大数值
-TEST(OriginalTests, Position_LargeNumbers) {
-    Position pos;
+TEST(OriginalTests, backtrader::Position_LargeNumbers) {
+    backtrader::Position pos;
     
     // 测试大数值
     double large_size = 1e10;
@@ -324,10 +326,10 @@ TEST(OriginalTests, Position_LargeNumbers) {
 }
 
 // 性能测试
-TEST(OriginalTests, Position_Performance) {
+TEST(OriginalTests, backtrader::Position_Performance) {
     auto start_time = std::chrono::high_resolution_clock::now();
     
-    Position pos;
+    backtrader::Position pos;
     const int num_updates = 100000;
     
     // 执行大量仓位更新操作
@@ -340,7 +342,7 @@ TEST(OriginalTests, Position_Performance) {
     auto end_time = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
     
-    std::cout << "Position performance test: " << num_updates 
+    std::cout << "backtrader::Position performance test: " << num_updates 
               << " updates in " << duration.count() << " ms" << std::endl;
     
     // 验证最终状态合理
@@ -353,8 +355,8 @@ TEST(OriginalTests, Position_Performance) {
 }
 
 // 边界条件测试
-TEST(OriginalTests, Position_EdgeCases) {
-    Position pos;
+TEST(OriginalTests, backtrader::Position_EdgeCases) {
+    backtrader::Position pos;
     
     // 测试零价格（某些特殊情况下可能出现）
     auto result = pos.update(100.0, 0.0);
@@ -367,7 +369,7 @@ TEST(OriginalTests, Position_EdgeCases) {
     EXPECT_DOUBLE_EQ(pos.getPrice(), expected_price) << "Should calculate average with zero price";
     
     // 重置仓位
-    pos = Position();
+    pos = backtrader::Position();
     
     // 测试负价格（理论上不应该出现，但测试鲁棒性）
     result = pos.update(100.0, -5.0);

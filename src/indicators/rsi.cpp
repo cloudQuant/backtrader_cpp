@@ -36,6 +36,34 @@ RSI::RSI(std::shared_ptr<LineSeries> data_source, int period)
     data = data_source_;
 }
 
+RSI::RSI(std::shared_ptr<LineRoot> data) 
+    : Indicator(), period(14), avg_gain_(0.0), avg_loss_(0.0), 
+      prev_value_(std::numeric_limits<double>::quiet_NaN()), 
+      first_calculation_(true), data_source_(nullptr), current_index_(0) {
+    // Set minimum period (need period + 1 for first RSI calculation)
+    _minperiod(period + 1);
+    
+    // Initialize lines
+    if (lines->size() == 0) {
+        lines->add_line(std::make_shared<LineBuffer>());
+        lines->add_alias("rsi", 0);
+    }
+}
+
+RSI::RSI(std::shared_ptr<LineRoot> data, int period) 
+    : Indicator(), period(period), avg_gain_(0.0), avg_loss_(0.0), 
+      prev_value_(std::numeric_limits<double>::quiet_NaN()), 
+      first_calculation_(true), data_source_(nullptr), current_index_(0) {
+    // Set minimum period (need period + 1 for first RSI calculation)
+    _minperiod(period + 1);
+    
+    // Initialize lines
+    if (lines->size() == 0) {
+        lines->add_line(std::make_shared<LineBuffer>());
+        lines->add_alias("rsi", 0);
+    }
+}
+
 void RSI::next() {
     if (!data || data->lines->size() == 0) {
         return;

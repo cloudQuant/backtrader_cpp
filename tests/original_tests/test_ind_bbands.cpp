@@ -13,14 +13,12 @@
  * chkind = btind.BBands
  */
 
-#include "test_common_simple.h"
+#include "test_common.h"
 
-using namespace backtrader::indicators;
 #include "indicators/bollinger.h"
 
-using namespace backtrader::indicators;
-
 using namespace backtrader::tests::original;
+using namespace backtrader;
 using namespace backtrader::indicators;
 
 namespace {
@@ -45,7 +43,7 @@ TEST(OriginalTests, BBands_Manual) {
     ASSERT_FALSE(csv_data.empty());
     
     // 创建数据线
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -115,7 +113,7 @@ TEST(OriginalTests, BBands_Manual) {
 // 布林带关系验证测试
 TEST(OriginalTests, BBands_BandRelationships) {
     auto csv_data = getdata(0);
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -148,7 +146,7 @@ TEST(OriginalTests, BBands_BandRelationships) {
 // 布林带宽度和百分比B测试
 TEST(OriginalTests, BBands_WidthAndPercentB) {
     auto csv_data = getdata(0);
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -187,14 +185,14 @@ protected:
         csv_data_ = getdata(0);
         ASSERT_FALSE(csv_data_.empty());
         
-        close_line_ = std::make_shared<LineRoot>(csv_data_.size(), "close");
+        close_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "close");
         for (const auto& bar : csv_data_) {
             close_line_->forward(bar.close);
         }
     }
     
     std::vector<CSVDataReader::OHLCVData> csv_data_;
-    std::shared_ptr<LineRoot> close_line_;
+    std::shared_ptr<backtrader::LineRoot> close_line_;
 };
 
 TEST_P(BollingerBandsParameterizedTest, DifferentParameters) {
@@ -204,7 +202,7 @@ TEST_P(BollingerBandsParameterizedTest, DifferentParameters) {
     // 计算所有值
     for (size_t i = 0; i < csv_data_.size(); ++i) {
         bbands->calculate();
-        if (i < csv_data.size() - 1) {
+        if (i < csv_data_.size() - 1) {
             close_line_->forward();
         }
     }
@@ -243,7 +241,7 @@ INSTANTIATE_TEST_SUITE_P(
 // 价格位置测试
 TEST(OriginalTests, BBands_PricePosition) {
     auto csv_data = getdata(0);
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -304,7 +302,7 @@ TEST(OriginalTests, BBands_StandardDeviation) {
         103.0, 97.0, 104.0, 96.0, 105.0
     };
     
-    auto close_line = std::make_shared<LineRoot>(prices.size(), "stdev_test");
+    auto close_line = std::make_shared<backtrader::LineRoot>(prices.size(), "stdev_test");
     for (double price : prices) {
         close_line->forward(price);
     }

@@ -29,7 +29,7 @@ double Oscillator::get(int ago) const {
         return std::numeric_limits<double>::quiet_NaN();
     }
     
-    auto line = lines->getline(Lines::osc);
+    auto line = lines->getline(osc);
     if (!line) {
         return std::numeric_limits<double>::quiet_NaN();
     }
@@ -60,7 +60,7 @@ void Oscillator::setup_lines() {
 void Oscillator::next() {
     if (datas.empty()) return;
     
-    auto osc_line = lines->getline(Lines::osc);
+    auto osc_line = lines->getline(osc);
     if (!osc_line) return;
     
     if (datas.size() > 1) {
@@ -88,7 +88,7 @@ void Oscillator::next() {
 void Oscillator::once(int start, int end) {
     if (datas.empty()) return;
     
-    auto osc_line = lines->getline(Lines::osc);
+    auto osc_line = lines->getline(osc);
     if (!osc_line) return;
     
     if (datas.size() > 1) {
@@ -132,7 +132,7 @@ void SMAOscillator::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto osc_line = lines->getline(Lines::sma_osc);
+    auto osc_line = lines->getline(sma_osc);
     
     if (!data_line || !osc_line) return;
     
@@ -151,7 +151,7 @@ void SMAOscillator::once(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto osc_line = lines->getline(Lines::sma_osc);
+    auto osc_line = lines->getline(sma_osc);
     
     if (!data_line || !osc_line) return;
     
@@ -184,7 +184,7 @@ void EMAOscillator::next() {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto osc_line = lines->getline(Lines::ema_osc);
+    auto osc_line = lines->getline(ema_osc);
     
     if (!data_line || !osc_line) return;
     
@@ -214,7 +214,7 @@ void EMAOscillator::once(int start, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);
-    auto osc_line = lines->getline(Lines::ema_osc);
+    auto osc_line = lines->getline(ema_osc);
     
     if (!data_line || !osc_line) return;
     

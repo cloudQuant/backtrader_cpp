@@ -23,6 +23,9 @@ public:
     HurstExponent();
     virtual ~HurstExponent() = default;
     
+    // Get method for accessing the indicator value
+    double get(int ago = 0) const;
+    
 protected:
     void next() override;
     void once(int start, int end) override;

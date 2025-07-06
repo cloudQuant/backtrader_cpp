@@ -21,7 +21,13 @@ public:
     };
     
     AdaptiveMovingAverage();
+    // Constructor for test framework compatibility  
+    AdaptiveMovingAverage(std::shared_ptr<LineRoot> data, int period = 30, int fast = 2, int slow = 30);
     virtual ~AdaptiveMovingAverage() = default;
+    
+    // Utility methods for test framework compatibility
+    double get(int ago = 0) const;
+    int getMinPeriod() const;
     
 protected:
     void prenext() override;
@@ -37,7 +43,7 @@ private:
     double calculate_smoothing_constant(double efficiency_ratio);
     
     // Initial seed calculation
-    std::shared_ptr<SMA> sma_seed_;
+    std::shared_ptr<indicators::SMA> sma_seed_;
     
     // Previous KAMA value for recursive calculation
     double prev_kama_;

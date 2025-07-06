@@ -13,12 +13,13 @@
  * 注：WilliamsAD (Williams Accumulation/Distribution) 是一个成交量加权的价格指标
  */
 
-#include "test_common_simple.h"
-
+#include "test_common.h"
 #include "indicators/williamsad.h"
-
+#include <random>
 
 using namespace backtrader::tests::original;
+using namespace backtrader;
+using namespace backtrader::indicators;
 
 namespace {
 
@@ -40,10 +41,10 @@ TEST(OriginalTests, WilliamsAD_Manual) {
     ASSERT_FALSE(csv_data.empty());
     
     // 创建HLCV数据线
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
-    auto volume_line = std::make_shared<LineRoot>(csv_data.size(), "volume");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
+    auto volume_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "volume");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -111,10 +112,10 @@ TEST(OriginalTests, WilliamsAD_CalculationLogic) {
         {119.0, 115.0, 117.0, 1100.0}
     };
     
-    auto high_line = std::make_shared<LineRoot>(hlcv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(hlcv_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(hlcv_data.size(), "close");
-    auto volume_line = std::make_shared<LineRoot>(hlcv_data.size(), "volume");
+    auto high_line = std::make_shared<backtrader::LineRoot>(hlcv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(hlcv_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(hlcv_data.size(), "close");
+    auto volume_line = std::make_shared<backtrader::LineRoot>(hlcv_data.size(), "volume");
     
     for (const auto& [h, l, c, v] : hlcv_data) {
         high_line->forward(h);
@@ -169,10 +170,10 @@ TEST(OriginalTests, WilliamsAD_CalculationLogic) {
 // WilliamsAD累积特性测试
 TEST(OriginalTests, WilliamsAD_AccumulationCharacteristics) {
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
-    auto volume_line = std::make_shared<LineRoot>(csv_data.size(), "volume");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
+    auto volume_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "volume");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -254,10 +255,10 @@ TEST(OriginalTests, WilliamsAD_DistributionAccumulation) {
         });
     }
     
-    auto phase_high = std::make_shared<LineRoot>(phases_data.size(), "high");
-    auto phase_low = std::make_shared<LineRoot>(phases_data.size(), "low");
-    auto phase_close = std::make_shared<LineRoot>(phases_data.size(), "close");
-    auto phase_volume = std::make_shared<LineRoot>(phases_data.size(), "volume");
+    auto phase_high = std::make_shared<backtrader::LineRoot>(phases_data.size(), "high");
+    auto phase_low = std::make_shared<backtrader::LineRoot>(phases_data.size(), "low");
+    auto phase_close = std::make_shared<backtrader::LineRoot>(phases_data.size(), "close");
+    auto phase_volume = std::make_shared<backtrader::LineRoot>(phases_data.size(), "volume");
     
     for (const auto& [h, l, c, v] : phases_data) {
         phase_high->forward(h);
@@ -316,10 +317,10 @@ TEST(OriginalTests, WilliamsAD_DistributionAccumulation) {
 // WilliamsAD与价格发散测试
 TEST(OriginalTests, WilliamsAD_PriceDivergence) {
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
-    auto volume_line = std::make_shared<LineRoot>(csv_data.size(), "volume");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
+    auto volume_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "volume");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -415,10 +416,10 @@ TEST(OriginalTests, WilliamsAD_VolumeSensitivity) {
     }
     
     // 创建低成交量指标
-    auto low_high = std::make_shared<LineRoot>(low_vol_data.size(), "low_high");
-    auto low_low = std::make_shared<LineRoot>(low_vol_data.size(), "low_low");
-    auto low_close = std::make_shared<LineRoot>(low_vol_data.size(), "low_close");
-    auto low_volume = std::make_shared<LineRoot>(low_vol_data.size(), "low_volume");
+    auto low_high = std::make_shared<backtrader::LineRoot>(low_vol_data.size(), "low_high");
+    auto low_low = std::make_shared<backtrader::LineRoot>(low_vol_data.size(), "low_low");
+    auto low_close = std::make_shared<backtrader::LineRoot>(low_vol_data.size(), "low_close");
+    auto low_volume = std::make_shared<backtrader::LineRoot>(low_vol_data.size(), "low_volume");
     
     for (const auto& [h, l, c, v] : low_vol_data) {
         low_high->forward(h);
@@ -428,10 +429,10 @@ TEST(OriginalTests, WilliamsAD_VolumeSensitivity) {
     }
     
     // 创建高成交量指标
-    auto high_high = std::make_shared<LineRoot>(high_vol_data.size(), "high_high");
-    auto high_low = std::make_shared<LineRoot>(high_vol_data.size(), "high_low");
-    auto high_close = std::make_shared<LineRoot>(high_vol_data.size(), "high_close");
-    auto high_volume = std::make_shared<LineRoot>(high_vol_data.size(), "high_volume");
+    auto high_high = std::make_shared<backtrader::LineRoot>(high_vol_data.size(), "high_high");
+    auto high_low = std::make_shared<backtrader::LineRoot>(high_vol_data.size(), "high_low");
+    auto high_close = std::make_shared<backtrader::LineRoot>(high_vol_data.size(), "high_close");
+    auto high_volume = std::make_shared<backtrader::LineRoot>(high_vol_data.size(), "high_volume");
     
     for (const auto& [h, l, c, v] : high_vol_data) {
         high_high->forward(h);
@@ -491,10 +492,10 @@ TEST(OriginalTests, WilliamsAD_EdgeCases) {
     // 测试相同HLCV的情况
     std::vector<std::tuple<double, double, double, double>> flat_data(20, {100.0, 100.0, 100.0, 1000.0});
     
-    auto flat_high = std::make_shared<LineRoot>(flat_data.size(), "flat_high");
-    auto flat_low = std::make_shared<LineRoot>(flat_data.size(), "flat_low");
-    auto flat_close = std::make_shared<LineRoot>(flat_data.size(), "flat_close");
-    auto flat_volume = std::make_shared<LineRoot>(flat_data.size(), "flat_volume");
+    auto flat_high = std::make_shared<backtrader::LineRoot>(flat_data.size(), "flat_high");
+    auto flat_low = std::make_shared<backtrader::LineRoot>(flat_data.size(), "flat_low");
+    auto flat_close = std::make_shared<backtrader::LineRoot>(flat_data.size(), "flat_close");
+    auto flat_volume = std::make_shared<backtrader::LineRoot>(flat_data.size(), "flat_volume");
     
     for (const auto& [h, l, c, v] : flat_data) {
         flat_high->forward(h);
@@ -529,10 +530,10 @@ TEST(OriginalTests, WilliamsAD_EdgeCases) {
         {108.0, 102.0, 105.0, 0.0}
     };
     
-    auto zero_high = std::make_shared<LineRoot>(zero_vol_data.size(), "zero_high");
-    auto zero_low = std::make_shared<LineRoot>(zero_vol_data.size(), "zero_low");
-    auto zero_close = std::make_shared<LineRoot>(zero_vol_data.size(), "zero_close");
-    auto zero_volume = std::make_shared<LineRoot>(zero_vol_data.size(), "zero_volume");
+    auto zero_high = std::make_shared<backtrader::LineRoot>(zero_vol_data.size(), "zero_high");
+    auto zero_low = std::make_shared<backtrader::LineRoot>(zero_vol_data.size(), "zero_low");
+    auto zero_close = std::make_shared<backtrader::LineRoot>(zero_vol_data.size(), "zero_close");
+    auto zero_volume = std::make_shared<backtrader::LineRoot>(zero_vol_data.size(), "zero_volume");
     
     for (const auto& [h, l, c, v] : zero_vol_data) {
         zero_high->forward(h);
@@ -560,10 +561,10 @@ TEST(OriginalTests, WilliamsAD_EdgeCases) {
     }
     
     // 测试数据不足的情况
-    auto insufficient_high = std::make_shared<LineRoot>(5, "insufficient_high");
-    auto insufficient_low = std::make_shared<LineRoot>(5, "insufficient_low");
-    auto insufficient_close = std::make_shared<LineRoot>(5, "insufficient_close");
-    auto insufficient_volume = std::make_shared<LineRoot>(5, "insufficient_volume");
+    auto insufficient_high = std::make_shared<backtrader::LineRoot>(5, "insufficient_high");
+    auto insufficient_low = std::make_shared<backtrader::LineRoot>(5, "insufficient_low");
+    auto insufficient_close = std::make_shared<backtrader::LineRoot>(5, "insufficient_close");
+    auto insufficient_volume = std::make_shared<backtrader::LineRoot>(5, "insufficient_volume");
     
     // 只添加一个数据点
     insufficient_high->forward(100.0);
@@ -600,10 +601,10 @@ TEST(OriginalTests, WilliamsAD_Performance) {
         });
     }
     
-    auto large_high = std::make_shared<LineRoot>(large_data.size(), "large_high");
-    auto large_low = std::make_shared<LineRoot>(large_data.size(), "large_low");
-    auto large_close = std::make_shared<LineRoot>(large_data.size(), "large_close");
-    auto large_volume = std::make_shared<LineRoot>(large_data.size(), "large_volume");
+    auto large_high = std::make_shared<backtrader::LineRoot>(large_data.size(), "large_high");
+    auto large_low = std::make_shared<backtrader::LineRoot>(large_data.size(), "large_low");
+    auto large_close = std::make_shared<backtrader::LineRoot>(large_data.size(), "large_close");
+    auto large_volume = std::make_shared<backtrader::LineRoot>(large_data.size(), "large_volume");
     
     for (const auto& [h, l, c, v] : large_data) {
         large_high->forward(h);

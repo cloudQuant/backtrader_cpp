@@ -21,12 +21,15 @@ public:
     
     DetrendedPriceOscillator();
     DetrendedPriceOscillator(std::shared_ptr<LineSeries> data_source, int period = 20);
+    // Constructor for test framework compatibility
+    DetrendedPriceOscillator(std::shared_ptr<LineRoot> data);
+    DetrendedPriceOscillator(std::shared_ptr<LineRoot> data, int period);
     virtual ~DetrendedPriceOscillator() = default;
     
     // Utility methods
     double get(int ago = 0) const;
     int getMinPeriod() const;
-    void calculate();
+    void calculate() override;
     
 protected:
     void next() override;
@@ -36,7 +39,7 @@ private:
     void setup_lines();
     
     // Moving average for calculation
-    std::shared_ptr<SMA> sma_;
+    std::shared_ptr<indicators::SMA> sma_;
     
     // Helper method to calculate DPO value
     double calculate_dpo(int index);

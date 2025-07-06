@@ -17,6 +17,9 @@ public:
     TrueHigh();
     virtual ~TrueHigh() = default;
     
+    // Get method for accessing the indicator value
+    double get(int ago = 0) const;
+    
 protected:
     void prenext() override;
     void next() override;
@@ -37,6 +40,9 @@ public:
     TrueLow();
     virtual ~TrueLow() = default;
     
+    // Get method for accessing the indicator value
+    double get(int ago = 0) const;
+    
 protected:
     void prenext() override;
     void next() override;
@@ -56,6 +62,9 @@ public:
     
     TrueRange();
     virtual ~TrueRange() = default;
+    
+    // Get method for accessing the indicator value
+    double get(int ago = 0) const;
     
 protected:
     void prenext() override;
@@ -82,6 +91,8 @@ public:
     
     // Constructor with default parameters (original)
     AverageTrueRange();
+    // Constructor for test framework compatibility
+    AverageTrueRange(std::shared_ptr<LineRoot> data);
     // Constructor with data source and period (Python-style API)
     AverageTrueRange(std::shared_ptr<LineSeries> data_source, int period = 14);
     virtual ~AverageTrueRange() = default;
@@ -89,7 +100,7 @@ public:
     // Utility methods for tests
     double get(int ago = 0) const;
     int getMinPeriod() const { return params.period + 1; }
-    void calculate();
+    void calculate() override;
     
 protected:
     void prenext() override;

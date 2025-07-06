@@ -20,12 +20,15 @@ public:
     
     Momentum();
     Momentum(std::shared_ptr<LineSeries> data_source, int period = 12);
+    // Constructor for test framework compatibility
+    Momentum(std::shared_ptr<LineRoot> data);
+    Momentum(std::shared_ptr<LineRoot> data, int period);
     virtual ~Momentum() = default;
     
     // Utility methods
     double get(int ago = 0) const;
     int getMinPeriod() const;
-    void calculate();
+    void calculate() override;
     
 protected:
     void prenext() override;
@@ -84,7 +87,7 @@ public:
     // Utility methods
     double get(int ago = 0) const;
     int getMinPeriod() const;
-    void calculate();
+    void calculate() override;
     
 protected:
     void prenext() override;
@@ -121,7 +124,7 @@ protected:
     
 private:
     void setup_lines();
-    std::shared_ptr<RateOfChange> roc_indicator_;
+    std::shared_ptr<indicators::RateOfChange> roc_indicator_;
 };
 
 // Aliases

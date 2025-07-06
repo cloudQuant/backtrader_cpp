@@ -22,13 +22,14 @@ public:
     };
     
     DV2();
-    DV2(std::shared_ptr<LineSeries> data_source, int period = 252, int maperiod = 2);
+    // Constructor for test framework compatibility
+    DV2(std::shared_ptr<LineRoot> data, int period = 252);
     virtual ~DV2() = default;
     
     // Utility methods
     double get(int ago = 0) const;
     int getMinPeriod() const;
-    void calculate();
+    void calculate() override;
     
 protected:
     void next() override;
@@ -38,8 +39,8 @@ private:
     void setup_lines();
     
     // Component indicators
-    std::shared_ptr<SMA> sma_;
-    std::shared_ptr<PercentRank> percent_rank_;
+    std::shared_ptr<indicators::SMA> sma_;
+    std::shared_ptr<indicators::PercentRank> percent_rank_;
     
     // Intermediate data storage
     std::vector<double> chl_values_;

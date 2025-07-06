@@ -11,7 +11,7 @@
 namespace backtrader {
 
 // Forward declarations
-class Broker;
+class BrokerBase;
 class Observer;
 class Analyzer;
 class Writer;
@@ -67,10 +67,14 @@ public:
     void replaydata(std::shared_ptr<DataSeries> data, int timeframe, int compression = 1);
     
     // Broker management
-    void setbroker(std::shared_ptr<Broker> broker);
-    std::shared_ptr<Broker> getbroker() const;
+    void setbroker(std::shared_ptr<BrokerBase> broker);
+    std::shared_ptr<BrokerBase> getbroker() const;
     void setcash(double cash);
     void setcommission(double commission, double margin = 0.0, double mult = 1.0);
+    
+    // Configuration setters
+    void setRunOnce(bool runonce) { params.runonce = runonce; }
+    void setPreload(bool preload) { params.preload = preload; }
     
     // Observer management
     void addobserver(std::function<std::shared_ptr<Observer>()> observer_factory);
@@ -83,6 +87,17 @@ public:
     
     // Analyzer management
     void addanalyzer(std::function<std::shared_ptr<Analyzer>()> analyzer_factory);
+    template<typename AnalyzerType, typename... Args>
+    void addanalyzer(const std::string& name, Args&&... args) {
+        addanalyzer([name, args...]() -> std::shared_ptr<Analyzer> {
+            auto analyzer = std::make_shared<AnalyzerType>(args...);
+            // Store the analyzer with its name for later retrieval
+            return analyzer;
+        });
+        // Store the name for tracking
+        analyzer_names_.push_back(name);
+    }
+    
     template<typename AnalyzerType, typename... Args>
     void addanalyzer(Args&&... args) {
         addanalyzer([args...]() -> std::shared_ptr<Analyzer> {
@@ -124,11 +139,12 @@ private:
     std::vector<std::shared_ptr<Observer>> observers_;
     std::vector<std::function<std::shared_ptr<Analyzer>()>> analyzer_factories_;
     std::vector<std::shared_ptr<Analyzer>> analyzers_;
+    std::vector<std::string> analyzer_names_;
     std::vector<std::shared_ptr<Writer>> writers_;
     std::vector<std::shared_ptr<Timer>> timers_;
     
     // Broker
-    std::shared_ptr<Broker> broker_;
+    std::shared_ptr<BrokerBase> broker_;
     
     // State
     size_t strategy_id_counter_;

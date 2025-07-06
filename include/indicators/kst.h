@@ -46,9 +46,9 @@ private:
     void setup_lines();
     
     // Component indicators
-    std::shared_ptr<RateOfChange100> roc1_, roc2_, roc3_, roc4_;
-    std::shared_ptr<SMA> rcma1_, rcma2_, rcma3_, rcma4_;
-    std::shared_ptr<SMA> signal_sma_;
+    std::shared_ptr<indicators::RateOfChange100> roc1_, roc2_, roc3_, roc4_;
+    std::shared_ptr<indicators::SMA> rcma1_, rcma2_, rcma3_, rcma4_;
+    std::shared_ptr<indicators::SMA> signal_sma_;
 };
 
 // Aliases

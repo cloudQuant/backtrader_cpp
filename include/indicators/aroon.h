@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../indicator.h"
+#include "../lineroot.h"
 #include <memory>
 
 namespace backtrader {
@@ -49,6 +50,9 @@ public:
     AroonUp();
     virtual ~AroonUp() = default;
     
+    // Get method for accessing the indicator value
+    double get(int ago = 0) const;
+    
 protected:
     void setup_lines() override;
     void calculate_lines() override;
@@ -65,6 +69,9 @@ public:
     AroonDown();
     virtual ~AroonDown() = default;
     
+    // Get method for accessing the indicator value
+    double get(int ago = 0) const;
+    
 protected:
     void setup_lines() override;
     void calculate_lines() override;
@@ -80,7 +87,19 @@ public:
     };
     
     AroonUpDown();
+    AroonUpDown(std::shared_ptr<LineRoot> data); // Constructor for test framework compatibility
+    AroonUpDown(std::shared_ptr<LineRoot> high, std::shared_ptr<LineRoot> low, int period = 14);
     virtual ~AroonUpDown() = default;
+    
+    // Get method for accessing the indicator value
+    double get(int ago = 0) const;
+    
+    // Get AroonUp and AroonDown values
+    double getAroonUp(int ago = 0) const;
+    double getAroonDown(int ago = 0) const;
+    
+    // Get minimum period
+    int getMinPeriod() const;
     
 protected:
     void setup_lines() override;
@@ -96,7 +115,15 @@ public:
     };
     
     AroonOscillator();
+    AroonOscillator(std::shared_ptr<LineRoot> data); // Constructor for test framework compatibility
+    AroonOscillator(std::shared_ptr<LineRoot> high, std::shared_ptr<LineRoot> low, int period = 14);
     virtual ~AroonOscillator() = default;
+    
+    // Get method for accessing the indicator value
+    double get(int ago = 0) const;
+    
+    // Get minimum period
+    int getMinPeriod() const;
     
 protected:
     void setup_lines() override;
@@ -115,6 +142,9 @@ public:
     
     AroonUpDownOscillator();
     virtual ~AroonUpDownOscillator() = default;
+    
+    // Get method for accessing the indicator value
+    double get(int ago = 0) const;
     
 protected:
     void setup_lines() override;

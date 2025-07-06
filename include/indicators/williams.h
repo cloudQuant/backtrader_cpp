@@ -23,6 +23,9 @@ public:
     WilliamsR();
     virtual ~WilliamsR() = default;
     
+    // Get method for accessing the indicator value
+    double get(int ago = 0) const;
+    
 protected:
     void prenext() override;
     void next() override;
@@ -46,6 +49,9 @@ public:
     
     WilliamsAD();
     virtual ~WilliamsAD() = default;
+    
+    // Get method for accessing the indicator value
+    double get(int ago = 0) const;
     
 protected:
     void prenext() override;

@@ -31,7 +31,11 @@ public:
     // Utility methods for tests
     double get(int ago = 0) const;
     int getMinPeriod() const;
-    void calculate();
+    void calculate() override;
+    
+    // Line access methods for compatibility
+    double getMACDLine(int ago = 0) const;
+    double getSignalLine(int ago = 0) const;
     
 protected:
     void prenext() override;
@@ -62,6 +66,9 @@ public:
     
     MACDHisto();
     virtual ~MACDHisto() = default;
+    
+    // Get method for accessing the indicator value
+    double get(int ago = 0) const;
     
 protected:
     void prenext() override;

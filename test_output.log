@@ -1,0 +1,1056 @@
+[0;34m===============================================[0m
+[0;34m[INFO][0m Backtrader C++ 测试运行脚本
+[0;34m[INFO][0m 脚本位置: /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp
+[0;34m[INFO][0m 测试目录: /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/tests
+[0;34m[INFO][0m 构建目录: /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/build_tests
+[0;34m[INFO][0m 超时设置: 10秒
+[0;34m===============================================[0m
+[0;34m[INFO][0m 检查依赖...
+[0;32m[SUCCESS][0m 依赖检查完成
+[0;34m[INFO][0m 创建构建目录...
+[1;33m[WARNING][0m 构建目录已存在，正在清理...
+[0;32m[SUCCESS][0m 构建目录创建完成: /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/build_tests
+[0;34m[INFO][0m 默认使用 CMake 构建模式（推荐），使用8核并行编译
+[0;34m[INFO][0m 如需使用直接编译模式，请使用 --compile-all 选项
+[0;34m[INFO][0m 使用 CMake 构建测试...
+[0;34m[INFO][0m 配置backtrader_cpp项目（使用8核并行编译）...
+-- The C compiler identification is AppleClang 16.0.0.16000026
+-- The CXX compiler identification is AppleClang 16.0.0.16000026
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- === Backtrader C++ Configuration ===
+-- Build type: Debug
+-- C++ Standard: 20
+-- Compiler: AppleClang 16.0.0.16000026
+-- Source files: /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src
+-- Include files: /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include
+-- ======================================
+-- Configuring done (0.7s)
+-- Generating done (0.0s)
+-- Build files have been written to: /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/build_tests
+[0;32m[SUCCESS][0m 项目配置成功
+[0;34m[INFO][0m 编译所有backtrader_cpp源文件（8核并行）...
+[  1%] Building CXX object CMakeFiles/backtrader_core.dir/src/lineroot.cpp.o
+[  4%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicator.cpp.o
+[  4%] Building CXX object CMakeFiles/backtrader_core.dir/src/metabase.cpp.o
+[  6%] Building CXX object CMakeFiles/backtrader_core.dir/src/lineiterator.cpp.o
+[  9%] Building CXX object CMakeFiles/backtrader_core.dir/src/errors.cpp.o
+[  9%] Building CXX object CMakeFiles/backtrader_core.dir/src/linebuffer.cpp.o
+[ 11%] Building CXX object CMakeFiles/backtrader_core.dir/src/dataseries.cpp.o
+[ 13%] Building CXX object CMakeFiles/backtrader_core.dir/src/lineseries.cpp.o
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/linebuffer.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/linebuffer.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/lineroot.cpp:1:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/lineiterator.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/lineseries.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/dataseries.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/dataseries.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicator.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+1 warning generated.
+[ 14%] Building CXX object CMakeFiles/backtrader_core.dir/src/mathsupport.cpp.o
+[ 16%] Building CXX object CMakeFiles/backtrader_core.dir/src/version.cpp.o
+1 warning generated.
+1 warning generated.
+[ 18%] Building CXX object CMakeFiles/backtrader_core.dir/src/comminfo.cpp.o
+[ 19%] Building CXX object CMakeFiles/backtrader_core.dir/src/position.cpp.o
+1 warning generated.
+[ 21%] Building CXX object CMakeFiles/backtrader_core.dir/src/feed.cpp.o
+1 warning generated.
+[ 22%] Building CXX object CMakeFiles/backtrader_core.dir/src/cerebro.cpp.o
+[ 24%] Building CXX object CMakeFiles/backtrader_core.dir/src/strategy.cpp.o
+1 warning generated.
+[ 26%] Building CXX object CMakeFiles/backtrader_core.dir/src/order.cpp.o
+[ 27%] Building CXX object CMakeFiles/backtrader_core.dir/src/trade.cpp.o
+[ 29%] Building CXX object CMakeFiles/backtrader_core.dir/src/analyzer.cpp.o
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/feed.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/feed.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/dataseries.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/strategy.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/strategy.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/cerebro.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/cerebro.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/strategy.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+[ 31%] Building CXX object CMakeFiles/backtrader_core.dir/src/utils/date.cpp.o
+[ 32%] Building CXX object CMakeFiles/backtrader_core.dir/src/analyzers/sqn.cpp.o
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/order.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/order.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/dataseries.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/trade.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/trade.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/order.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/dataseries.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+1 warning generated.
+[ 34%] Building CXX object CMakeFiles/backtrader_core.dir/src/analyzers/timereturn.cpp.o
+1 warning generated.
+[ 36%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/sma.cpp.o
+1 warning generated.
+[ 37%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/ema.cpp.o
+1 warning generated.
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/analyzer.cpp:2:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/strategy.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+[ 39%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/wma.cpp.o
+[ 40%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/crossover.cpp.o
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/analyzer.cpp:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/observer.h:47:18: warning: '_start' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   47 |     virtual void _start();
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineroot.h:24:18: note: overridden virtual function is here
+   24 |     virtual void _start() {}
+      |                  ^
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/analyzers/sqn.cpp:2:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/trade.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/order.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/dataseries.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+1 warning generated.
+[ 42%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/basicops.cpp.o
+1 warning generated.
+[ 44%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/dm.cpp.o
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/ema.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/ema.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/sma.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/sma.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+2 warnings generated.
+[ 45%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/williamsad.cpp.o
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/wma.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/wma.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/crossover.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/crossover.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+1 warning generated.
+[ 47%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/envelope.cpp.o
+1 warning generated.
+[ 49%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/lowest.cpp.o
+[ 50%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/zlema.cpp.o
+1 warning generated.
+[ 52%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/zlind.cpp.o
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/basicops.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/basicops.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+1 warning generated.
+[ 54%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/ichimoku.cpp.o
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/dm.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/dm.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/williamsad.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/williamsad.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+1 warning generated.
+[ 55%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/rsi.cpp.o
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/envelope.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/envelope.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/lowest.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/lowest.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/zlema.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/zlema.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+1 warning generated.
+1 warning generated.
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/zlind.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/zlind.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+[ 57%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/macd.cpp.o
+[ 59%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/bollinger.cpp.o
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/ichimoku.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/ichimoku.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+1 warning generated.
+1 warning generated.
+[ 60%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/atr.cpp.o
+[ 62%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/dema.cpp.o
+1 warning generated.
+[ 63%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/momentum.cpp.o
+1 warning generated.
+[ 65%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/cci.cpp.o
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/rsi.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/rsi.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+1 warning generated.
+[ 67%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/hma.cpp.o
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/macd.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/macd.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/bollinger.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/bollinger.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+1 warning generated.
+[ 68%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/dpo.cpp.o
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/atr.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/atr.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/dema.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/dema.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/momentum.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/momentum.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+1 warning generated.
+1 warning generated.
+[ 70%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/dv2.cpp.o
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/hma.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/hma.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+[ 72%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/percentrank.cpp.o
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/cci.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/cci.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+1 warning generated.
+[ 73%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/percentchange.cpp.o
+1 warning generated.
+[ 75%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/smma.cpp.o
+1 warning generated.
+1 warning generated.
+[ 77%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/upmove.cpp.o
+1 warning generated.
+[ 78%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/ultimateoscillator.cpp.o
+[ 80%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/trix.cpp.o
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/dpo.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/dpo.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/dv2.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/dv2.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/percentrank.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/percentrank.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+1 warning generated.
+[ 81%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/oscillator.cpp.o
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/percentchange.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/percentchange.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/trix.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/trix.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+1 warning generated.
+1 warning generated.
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/smma.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/smma.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+[ 83%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/accdecoscillator.cpp.o
+[ 85%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/awesomeoscillator.cpp.o
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/upmove.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/upmove.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/ultimateoscillator.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/ultimateoscillator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+1 warning generated.
+[ 86%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/fractal.cpp.o
+1 warning generated.
+[ 88%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/aroon.cpp.o
+1 warning generated.
+[ 90%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/demaosc.cpp.o
+1 warning generated.
+1 warning generated.
+[ 91%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/dma.cpp.o
+[ 93%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/emaosc.cpp.o
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/oscillator.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/oscillator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/accdecoscillator.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/accdecoscillator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/awesomeoscillator.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/awesomeoscillator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+1 warning generated.
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/fractal.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/fractal.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+[ 95%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/smaosc.cpp.o
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/aroon.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/aroon.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+1 warning generated.
+[ 96%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/temaosc.cpp.o
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/demaosc.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/demaosc.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/emaosc.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/emaosc.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/dma.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/dma.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+1 warning generated.
+[ 98%] Building CXX object CMakeFiles/backtrader_core.dir/src/indicators/roc.cpp.o
+1 warning generated.
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/dma.cpp:1:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/dma.h:25:10: warning: 'calculate' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+   25 |     void calculate() { next(); }
+      |          ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:67:18: note: overridden virtual function is here
+   67 |     virtual void calculate() {}
+      |                  ^
+1 warning generated.
+1 warning generated.
+1 warning generated.
+2 warnings generated.
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/smaosc.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/smaosc.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/temaosc.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/temaosc.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/src/indicators/roc.cpp:1:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/roc.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../indicator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineiterator.h:3:
+In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineseries.h:3:
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]
+  100 |     virtual void reset() = 0;
+      |                  ^
+/Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/include/indicators/../lineroot.h:68:18: note: overridden virtual function is here
+   68 |     virtual void reset() {}
+      |                  ^
+1 warning generated.
+1 warning generated.
+1 warning generated.
+[100%] Linking CXX static library libbacktrader_core.a
+[100%] Built target backtrader_core
+[0;32m[SUCCESS][0m backtrader_cpp编译成功
+[0;34m[INFO][0m 配置测试文件（8核并行编译）...
+[0;32m[SUCCESS][0m 测试配置成功
+[0;34m[INFO][0m 编译所有测试文件（8核并行，失败不停止）...
+[1;33m[WARNING][0m 测试编译过程中有失败，但已继续编译其他文件
+[0;34m[INFO][0m 收集测试编译结果...
+[0;34m===============================================[0m
+[0;34m[INFO][0m CMake测试编译结果统计:
+[0;32m[SUCCESS][0m 成功编译: 20 个测试
+[0;31m[ERROR][0m 编译失败: 63 个测试
+[0;34m[INFO][0m 成功编译的测试：
+  ✓ test_analyzer-sqn
+  ✓ test_analyzer-timereturn
+  ✓ test_comminfo
+  ✓ test_data_multiframe
+  ✓ test_data_replay
+  ✓ test_data_resample
+  ✓ test_fractal
+  ✓ test_ind_accdecosc
+  ✓ test_ind_aroonoscillator
+  ✓ test_ind_aroonupdown
+  ✓ test_ind_atr
+  ✓ test_ind_awesomeoscillator
+  ✓ test_ind_bbands
+  ✓ test_ind_cci
+  ✓ test_ind_dema
+  ✓ test_ind_demaenvelope
+  ✓ test_ind_dm
+  ✓ test_ind_downmove
+  ✓ test_ind_ema
+  ✓ test_ind_emaenvelope
+[0;34m[INFO][0m 编译失败的测试：
+  ✗ test_ind_demaosc
+  ✗ test_ind_dma
+  ✗ test_ind_dpo
+  ✗ test_ind_dv2
+  ✗ test_ind_emaosc
+  ✗ test_ind_envelope
+  ✗ test_ind_heikinashi
+  ✗ test_ind_highest
+  ✗ test_ind_highest_simple
+  ✗ test_ind_hma
+  ✗ test_ind_ichimoku
+  ✗ test_ind_kama
+  ✗ test_ind_kamaenvelope
+  ✗ test_ind_kamaosc
+  ✗ test_ind_kst
+  ✗ test_ind_lowest
+  ✗ test_ind_lrsi
+  ✗ test_ind_macdhisto
+  ✗ test_ind_minperiod
+  ✗ test_ind_momentum
+  ✗ test_ind_momentumoscillator
+  ✗ test_ind_oscillator
+  ✗ test_ind_pctchange
+  ✗ test_ind_pctrank
+  ✗ test_ind_pgo
+  ✗ test_ind_ppo
+  ✗ test_ind_pposhort
+  ✗ test_ind_priceosc
+  ✗ test_ind_rmi
+  ✗ test_ind_roc
+  ✗ test_ind_rsi
+  ✗ test_ind_sma
+  ✗ test_ind_smaenvelope
+  ✗ test_ind_smaosc
+  ✗ test_ind_smma
+  ✗ test_ind_smmaenvelope
+  ✗ test_ind_smmaosc
+  ✗ test_ind_stochastic
+  ✗ test_ind_stochasticfull
+  ✗ test_ind_sumn
+  ✗ test_ind_tema
+  ✗ test_ind_temaenvelope
+  ✗ test_ind_temaosc
+  ✗ test_ind_trix
+  ✗ test_ind_tsi
+  ✗ test_ind_ultosc
+  ✗ test_ind_upmove
+  ✗ test_ind_vortex
+  ✗ test_ind_williamsad
+  ✗ test_ind_williamsr
+  ✗ test_ind_wma
+  ✗ test_ind_wmaenvelope
+  ✗ test_ind_wmaosc
+  ✗ test_ind_zlema
+  ✗ test_ind_zlind
+  ✗ test_macd_framework
+  ✗ test_metaclass
+  ✗ test_order
+  ✗ test_position
+  ✗ test_strategy_optimized
+  ✗ test_strategy_unoptimized
+  ✗ test_trade
+  ✗ test_writer
+[0;34m[INFO][0m 保存编译错误信息到: /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/build_tests/cmake_compilation_errors.log
+[0;32m[SUCCESS][0m 编译错误信息已保存到: /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/build_tests/cmake_compilation_errors.log
+[0;34m[INFO][0m 使用 CTest 运行测试...
+[1;33m[WARNING][0m 未找到 CTest 配置文件
+[0;34m===============================================[0m
+[0;34m[INFO][0m 生成详细报告...
+
+========================= 编译结果 =========================
+成功编译的文件 (20个):
+  ✓ test_analyzer-sqn
+  ✓ test_analyzer-timereturn
+  ✓ test_comminfo
+  ✓ test_data_multiframe
+  ✓ test_data_replay
+  ✓ test_data_resample
+  ✓ test_fractal
+  ✓ test_ind_accdecosc
+  ✓ test_ind_aroonoscillator
+  ✓ test_ind_aroonupdown
+  ✓ test_ind_atr
+  ✓ test_ind_awesomeoscillator
+  ✓ test_ind_bbands
+  ✓ test_ind_cci
+  ✓ test_ind_dema
+  ✓ test_ind_demaenvelope
+  ✓ test_ind_dm
+  ✓ test_ind_downmove
+  ✓ test_ind_ema
+  ✓ test_ind_emaenvelope
+
+编译失败的文件 (63个):
+  ✗ test_ind_demaosc
+  ✗ test_ind_dma
+  ✗ test_ind_dpo
+  ✗ test_ind_dv2
+  ✗ test_ind_emaosc
+  ✗ test_ind_envelope
+  ✗ test_ind_heikinashi
+  ✗ test_ind_highest
+  ✗ test_ind_highest_simple
+  ✗ test_ind_hma
+  ✗ test_ind_ichimoku
+  ✗ test_ind_kama
+  ✗ test_ind_kamaenvelope
+  ✗ test_ind_kamaosc
+  ✗ test_ind_kst
+  ✗ test_ind_lowest
+  ✗ test_ind_lrsi
+  ✗ test_ind_macdhisto
+  ✗ test_ind_minperiod
+  ✗ test_ind_momentum
+  ✗ test_ind_momentumoscillator
+  ✗ test_ind_oscillator
+  ✗ test_ind_pctchange
+  ✗ test_ind_pctrank
+  ✗ test_ind_pgo
+  ✗ test_ind_ppo
+  ✗ test_ind_pposhort
+  ✗ test_ind_priceosc
+  ✗ test_ind_rmi
+  ✗ test_ind_roc
+  ✗ test_ind_rsi
+  ✗ test_ind_sma
+  ✗ test_ind_smaenvelope
+  ✗ test_ind_smaosc
+  ✗ test_ind_smma
+  ✗ test_ind_smmaenvelope
+  ✗ test_ind_smmaosc
+  ✗ test_ind_stochastic
+  ✗ test_ind_stochasticfull
+  ✗ test_ind_sumn
+  ✗ test_ind_tema
+  ✗ test_ind_temaenvelope
+  ✗ test_ind_temaosc
+  ✗ test_ind_trix
+  ✗ test_ind_tsi
+  ✗ test_ind_ultosc
+  ✗ test_ind_upmove
+  ✗ test_ind_vortex
+  ✗ test_ind_williamsad
+  ✗ test_ind_williamsr
+  ✗ test_ind_wma
+  ✗ test_ind_wmaenvelope
+  ✗ test_ind_wmaosc
+  ✗ test_ind_zlema
+  ✗ test_ind_zlind
+  ✗ test_macd_framework
+  ✗ test_metaclass
+  ✗ test_order
+  ✗ test_position
+  ✗ test_strategy_optimized
+  ✗ test_strategy_unoptimized
+  ✗ test_trade
+  ✗ test_writer
+
+========================= 测试结果 =========================
+测试通过的文件 (0个):
+
+测试失败的文件 (0个):
+
+========================= 错误详情 =========================
+编译错误详情:
+  test_ind_demaosc: [ 15%] Built target test_ind_atr 1 warning generated. [ 15%] Building CXX object CMakeFiles/test_ind_demaosc.dir/original_tests/test_ind_demaosc.cpp.o [ 15%] Linking CXX executable test_ind_aroonoscillator 1 warning generated. 1 warning generated. [ 15%] Linking CXX executable test_ind_cci [ 16%] Linking CXX executable test_ind_awesomeoscillator [ 16%] Built target test_ind_aroonoscillator [ 17%] Building CXX object CMakeFiles/test_ind_dm.dir/original_tests/test_ind_dm.cpp.o [ 17%] Built target test_ind_cci [ 17%] Built target test_ind_awesomeoscillator 1 warning generated. -- [ 22%] Linking CXX executable test_ind_dema 
+
+  test_ind_dma: 1 warning generated. [ 18%] Linking CXX executable test_ind_aroonupdown [ 19%] Building CXX object CMakeFiles/test_ind_dma.dir/original_tests/test_ind_dma.cpp.o [ 20%] Building CXX object CMakeFiles/test_ind_downmove.dir/original_tests/test_ind_downmove.cpp.o [ 20%] Built target test_ind_aroonupdown [ 20%] Building CXX object CMakeFiles/test_ind_dpo.dir/original_tests/test_ind_dpo.cpp.o 1 warning generated. [ 20%] Linking CXX executable test_ind_bbands [ 20%] Built target test_ind_bbands [ 20%] Building CXX object CMakeFiles/test_ind_dv2.dir/original_tests/test_ind_dv2.cpp.o 1 warning generated. [ 21%] Linking CXX executable test_ind_demaenvelope 1 warning generated. --    68 |     virtual void reset() {} 
+
+  test_ind_dpo: [ 20%] Building CXX object CMakeFiles/test_ind_downmove.dir/original_tests/test_ind_downmove.cpp.o [ 20%] Built target test_ind_aroonupdown [ 20%] Building CXX object CMakeFiles/test_ind_dpo.dir/original_tests/test_ind_dpo.cpp.o 1 warning generated. [ 20%] Linking CXX executable test_ind_bbands [ 20%] Built target test_ind_bbands [ 20%] Building CXX object CMakeFiles/test_ind_dv2.dir/original_tests/test_ind_dv2.cpp.o 1 warning generated. [ 21%] Linking CXX executable test_ind_demaenvelope 1 warning generated. [ 22%] Linking CXX executable test_ind_dema [ 22%] Built target test_ind_demaenvelope In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/tests/original_tests/test_ind_demaosc.cpp:16: --    58 | using DEMAOsc = DoubleExponentialMovingAverageOscillator; 
+
+  test_ind_dv2: [ 20%] Linking CXX executable test_ind_bbands [ 20%] Built target test_ind_bbands [ 20%] Building CXX object CMakeFiles/test_ind_dv2.dir/original_tests/test_ind_dv2.cpp.o 1 warning generated. [ 21%] Linking CXX executable test_ind_demaenvelope 1 warning generated. [ 22%] Linking CXX executable test_ind_dema [ 22%] Built target test_ind_demaenvelope In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/tests/original_tests/test_ind_demaosc.cpp:16: In file included from /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/tests/original_tests/test_common.h:14: /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/build_tests/../include/lineroot.h:100:18: warning: 'reset' overrides a member function but is not marked 'override' [-Winconsistent-missing-override]   100 |     virtual void reset() = 0;       |                  ^ --       |                     ^ 
+
+  test_ind_emaosc: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_envelope: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_heikinashi: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_highest: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_highest_simple: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_hma: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_ichimoku: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_kama: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_kamaenvelope: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_kamaosc: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_kst: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_lowest: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_lrsi: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_macdhisto: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_minperiod: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_momentum: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_momentumoscillator: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_oscillator: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_pctchange: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_pctrank: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_pgo: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_ppo: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_pposhort: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_priceosc: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_rmi: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_roc: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_rsi: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_sma: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_smaenvelope: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_smaosc: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_smma: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_smmaenvelope: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_smmaosc: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_stochastic: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_stochasticfull: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_sumn: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_tema: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_temaenvelope: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_temaosc: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_trix: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_tsi: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_ultosc: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_upmove: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_vortex: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_williamsad: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_williamsr: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_wma: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_wmaenvelope: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_wmaosc: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_zlema: 编译失败，未在构建输出中找到具体错误信息
+
+  test_ind_zlind: 编译失败，未在构建输出中找到具体错误信息
+
+  test_macd_framework: 编译失败，未在构建输出中找到具体错误信息
+
+  test_metaclass: 编译失败，未在构建输出中找到具体错误信息
+
+  test_order: 编译失败，未在构建输出中找到具体错误信息
+
+  test_position: 编译失败，未在构建输出中找到具体错误信息
+
+  test_strategy_optimized: 编译失败，未在构建输出中找到具体错误信息
+
+  test_strategy_unoptimized: 编译失败，未在构建输出中找到具体错误信息
+
+  test_trade: 编译失败，未在构建输出中找到具体错误信息
+
+  test_writer: 编译失败，未在构建输出中找到具体错误信息
+
+
+========================= 汇总统计 =========================
+总测试文件数:       83
+成功编译: 20
+编译失败: 63
+测试通过: 0
+测试失败: 0
+=========================================================
+[0;34m[INFO][0m 保存报告到: /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/build_tests/test_report.txt
+[0;32m[SUCCESS][0m 报告已保存到: /Users/yunjinqi/Documents/my_work/refactor_backtrader/backtrader_cpp/build_tests/test_report.txt
+[0;34m===============================================[0m
+[0;32m[SUCCESS][0m 测试运行脚本执行完成

@@ -11,10 +11,11 @@
  * chkind = btind.WMA
  */
 
-#include "test_common_simple.h"
+#include "test_common.h"
 #include "indicators/wma.h"
 
 using namespace backtrader::tests::original;
+using namespace backtrader::indicators;
 
 namespace {
 

@@ -26,8 +26,8 @@ protected:
     virtual void calculate_oscillator() = 0;
     
     // Sub-indicators
-    std::shared_ptr<EMA> ma1_;  // Short EMA
-    std::shared_ptr<EMA> ma2_;  // Long EMA
+    std::shared_ptr<indicators::EMA> ma1_;  // Short EMA
+    std::shared_ptr<indicators::EMA> ma2_;  // Long EMA
 };
 
 // Price Oscillator (Absolute)
@@ -73,7 +73,7 @@ protected:
     
 private:
     bool use_long_denominator_;  // Use long MA as denominator if true, short MA if false
-    std::shared_ptr<EMA> signal_ema_;  // Signal line EMA
+    std::shared_ptr<indicators::EMA> signal_ema_;  // Signal line EMA
 };
 
 // Percentage Price Oscillator Short (uses short MA as denominator)

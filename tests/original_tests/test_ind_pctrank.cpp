@@ -11,12 +11,15 @@
  * chkind = btind.PercentRank
  */
 
-#include "test_common_simple.h"
+#include "test_common.h"
+#include <random>
 
 #include "indicators/percentrank.h"
 
 
 using namespace backtrader::tests::original;
+using namespace backtrader;
+using namespace backtrader::indicators;
 
 namespace {
 
@@ -38,7 +41,7 @@ TEST(OriginalTests, PercentRank_Manual) {
     ASSERT_FALSE(csv_data.empty());
     
     // 创建数据线
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
     }
@@ -86,7 +89,7 @@ TEST(OriginalTests, PercentRank_Manual) {
 // PercentRank范围验证测试
 TEST(OriginalTests, PercentRank_RangeValidation) {
     auto csv_data = getdata(0);
-    auto close_line = std::make_shared<LineRoot>(csv_data.size(), "close");
+    auto close_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "close");
     
     for (const auto& bar : csv_data) {
         close_line->forward(bar.close);
@@ -119,14 +122,14 @@ protected:
         csv_data_ = getdata(0);
         ASSERT_FALSE(csv_data_.empty());
         
-        close_line_ = std::make_shared<LineRoot>(csv_data_.size(), "close");
+        close_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "close");
         for (const auto& bar : csv_data_) {
             close_line_->forward(bar.close);
         }
     }
     
     std::vector<CSVDataReader::OHLCVData> csv_data_;
-    std::shared_ptr<LineRoot> close_line_;
+    std::shared_ptr<backtrader::LineRoot> close_line_;
 };
 
 TEST_P(PercentRankParameterizedTest, DifferentPeriods) {
@@ -166,7 +169,7 @@ TEST(OriginalTests, PercentRank_CalculationLogic) {
     // 使用简单的测试数据验证PercentRank计算
     std::vector<double> prices = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0};
     
-    auto close_line = std::make_shared<LineRoot>(prices.size(), "rank_calc");
+    auto close_line = std::make_shared<backtrader::LineRoot>(prices.size(), "rank_calc");
     for (double price : prices) {
         close_line->forward(price);
     }
@@ -212,7 +215,7 @@ TEST(OriginalTests, PercentRank_MonotonicIncreasing) {
         monotonic_prices.push_back(100.0 + i);
     }
     
-    auto monotonic_line = std::make_shared<LineRoot>(monotonic_prices.size(), "monotonic");
+    auto monotonic_line = std::make_shared<backtrader::LineRoot>(monotonic_prices.size(), "monotonic");
     for (double price : monotonic_prices) {
         monotonic_line->forward(price);
     }
@@ -244,7 +247,7 @@ TEST(OriginalTests, PercentRank_MonotonicDecreasing) {
         monotonic_prices.push_back(200.0 - i);
     }
     
-    auto monotonic_line = std::make_shared<LineRoot>(monotonic_prices.size(), "monotonic_dec");
+    auto monotonic_line = std::make_shared<backtrader::LineRoot>(monotonic_prices.size(), "monotonic_dec");
     for (double price : monotonic_prices) {
         monotonic_line->forward(price);
     }
@@ -273,7 +276,7 @@ TEST(OriginalTests, PercentRank_DuplicateValues) {
     // 测试包含重复值的序列
     std::vector<double> duplicate_prices = {100.0, 105.0, 105.0, 110.0, 110.0, 110.0, 115.0, 115.0, 120.0, 120.0};
     
-    auto duplicate_line = std::make_shared<LineRoot>(duplicate_prices.size(), "duplicate");
+    auto duplicate_line = std::make_shared<backtrader::LineRoot>(duplicate_prices.size(), "duplicate");
     for (double price : duplicate_prices) {
         duplicate_line->forward(price);
     }
@@ -307,7 +310,7 @@ TEST(OriginalTests, PercentRank_OscillatingMarket) {
         oscillating_prices.push_back(base + oscillation);
     }
     
-    auto oscillating_line = std::make_shared<LineRoot>(oscillating_prices.size(), "oscillating");
+    auto oscillating_line = std::make_shared<backtrader::LineRoot>(oscillating_prices.size(), "oscillating");
     for (double price : oscillating_prices) {
         oscillating_line->forward(price);
     }
@@ -344,7 +347,7 @@ TEST(OriginalTests, PercentRank_ExtremeValues) {
     // 创建包含极值的数据
     std::vector<double> extreme_prices = {100.0, 101.0, 102.0, 1000.0, 103.0, 104.0, 105.0, 10.0, 106.0, 107.0};
     
-    auto extreme_line = std::make_shared<LineRoot>(extreme_prices.size(), "extreme");
+    auto extreme_line = std::make_shared<backtrader::LineRoot>(extreme_prices.size(), "extreme");
     for (double price : extreme_prices) {
         extreme_line->forward(price);
     }
@@ -380,7 +383,7 @@ TEST(OriginalTests, PercentRank_EdgeCases) {
     // 测试所有价格相同的情况
     std::vector<double> flat_prices(50, 100.0);
     
-    auto flat_line = std::make_shared<LineRoot>(flat_prices.size(), "flat");
+    auto flat_line = std::make_shared<backtrader::LineRoot>(flat_prices.size(), "flat");
     for (double price : flat_prices) {
         flat_line->forward(price);
     }
@@ -403,7 +406,7 @@ TEST(OriginalTests, PercentRank_EdgeCases) {
     }
     
     // 测试数据不足的情况
-    auto insufficient_line = std::make_shared<LineRoot>(100, "insufficient");
+    auto insufficient_line = std::make_shared<backtrader::LineRoot>(100, "insufficient");
     
     // 只添加几个数据点
     for (int i = 0; i < 5; ++i) {
@@ -438,7 +441,7 @@ TEST(OriginalTests, PercentRank_Performance) {
         large_data.push_back(dist(rng));
     }
     
-    auto large_line = std::make_shared<LineRoot>(large_data.size(), "large");
+    auto large_line = std::make_shared<backtrader::LineRoot>(large_data.size(), "large");
     for (double price : large_data) {
         large_line->forward(price);
     }

@@ -12,10 +12,13 @@
  * chkind = btind.AroonUpDown
  */
 
-#include "test_common_simple.h"
-#include "indicators/aroonupdown.h"
+#include "test_common.h"
+#include <random>
+#include "indicators/aroon.h"
 
 using namespace backtrader::tests::original;
+using namespace backtrader;
+using namespace backtrader::indicators;
 
 namespace {
 
@@ -38,8 +41,8 @@ TEST(OriginalTests, AroonUpDown_Manual) {
     ASSERT_FALSE(csv_data.empty());
     
     // 创建数据线
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -100,8 +103,8 @@ TEST(OriginalTests, AroonUpDown_Manual) {
 // Aroon范围验证测试
 TEST(OriginalTests, AroonUpDown_RangeValidation) {
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -142,8 +145,8 @@ protected:
         csv_data_ = getdata(0);
         ASSERT_FALSE(csv_data_.empty());
         
-        high_line_ = std::make_shared<LineRoot>(csv_data_.size(), "high");
-        low_line_ = std::make_shared<LineRoot>(csv_data_.size(), "low");
+        high_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "high");
+        low_line_ = std::make_shared<backtrader::LineRoot>(csv_data_.size(), "low");
         
         for (const auto& bar : csv_data_) {
             high_line_->forward(bar.high);
@@ -152,8 +155,8 @@ protected:
     }
     
     std::vector<CSVDataReader::OHLCVData> csv_data_;
-    std::shared_ptr<LineRoot> high_line_;
-    std::shared_ptr<LineRoot> low_line_;
+    std::shared_ptr<backtrader::LineRoot> high_line_;
+    std::shared_ptr<backtrader::LineRoot> low_line_;
 };
 
 TEST_P(AroonUpDownParameterizedTest, DifferentPeriods) {
@@ -205,8 +208,8 @@ TEST(OriginalTests, AroonUpDown_CalculationLogic) {
         {"2006-01-05", 120.0, 130.0, 85.0, 125.0, 0, 0}    // 更高的最高点，但最低点
     };
     
-    auto high_line = std::make_shared<LineRoot>(test_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(test_data.size(), "low");
+    auto high_line = std::make_shared<backtrader::LineRoot>(test_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(test_data.size(), "low");
     
     for (const auto& bar : test_data) {
         high_line->forward(bar.high);
@@ -263,8 +266,8 @@ TEST(OriginalTests, AroonUpDown_CalculationLogic) {
 // 趋势识别测试
 TEST(OriginalTests, AroonUpDown_TrendIdentification) {
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -313,8 +316,8 @@ TEST(OriginalTests, AroonUpDown_TrendIdentification) {
 // 交叉信号测试
 TEST(OriginalTests, AroonUpDown_CrossoverSignals) {
     auto csv_data = getdata(0);
-    auto high_line = std::make_shared<LineRoot>(csv_data.size(), "high");
-    auto low_line = std::make_shared<LineRoot>(csv_data.size(), "low");
+    auto high_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(csv_data.size(), "low");
     
     for (const auto& bar : csv_data) {
         high_line->forward(bar.high);
@@ -386,8 +389,8 @@ TEST(OriginalTests, AroonUpDown_ExtremeValues) {
         extreme_data.push_back(bar);
     }
     
-    auto high_line = std::make_shared<LineRoot>(extreme_data.size(), "extreme_high");
-    auto low_line = std::make_shared<LineRoot>(extreme_data.size(), "extreme_low");
+    auto high_line = std::make_shared<backtrader::LineRoot>(extreme_data.size(), "extreme_high");
+    auto low_line = std::make_shared<backtrader::LineRoot>(extreme_data.size(), "extreme_low");
     
     for (const auto& bar : extreme_data) {
         high_line->forward(bar.high);
@@ -422,8 +425,8 @@ TEST(OriginalTests, AroonUpDown_ExtremeValues) {
 // 边界条件测试
 TEST(OriginalTests, AroonUpDown_EdgeCases) {
     // 测试数据不足的情况
-    auto insufficient_high = std::make_shared<LineRoot>(100, "insufficient_high");
-    auto insufficient_low = std::make_shared<LineRoot>(100, "insufficient_low");
+    auto insufficient_high = std::make_shared<backtrader::LineRoot>(100, "insufficient_high");
+    auto insufficient_low = std::make_shared<backtrader::LineRoot>(100, "insufficient_low");
     
     // 只添加3个数据点
     std::vector<CSVDataReader::OHLCVData> short_data = {
@@ -479,8 +482,8 @@ TEST(OriginalTests, AroonUpDown_Performance) {
         large_data.push_back(bar);
     }
     
-    auto large_high = std::make_shared<LineRoot>(large_data.size(), "large_high");
-    auto large_low = std::make_shared<LineRoot>(large_data.size(), "large_low");
+    auto large_high = std::make_shared<backtrader::LineRoot>(large_data.size(), "large_high");
+    auto large_low = std::make_shared<backtrader::LineRoot>(large_data.size(), "large_low");
     
     for (const auto& bar : large_data) {
         large_high->forward(bar.high);
