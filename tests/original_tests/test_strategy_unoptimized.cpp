@@ -91,41 +91,41 @@ public:
         }
     }
 
-    void notifyOrder(std::shared_ptr<Order> order) override {
-        if (order->getStatus() == OrderStatus::Submitted || 
-            order->getStatus() == OrderStatus::Accepted) {
+    void notify_order(std::shared_ptr<Order> order) override {
+        if (order->status == OrderStatus::Submitted || 
+            order->status == OrderStatus::Accepted) {
             return;  // 等待进一步通知
         }
 
-        if (order->getStatus() == OrderStatus::Completed) {
-            if (order->getType() == OrderType::Buy) {
+        if (order->status == OrderStatus::Completed) {
+            if (order->type == OrderType::Market && order->size > 0) {
                 if (print_ops_) {
                     std::ostringstream oss;
                     oss << "BUY, " << std::fixed << std::setprecision(2) 
-                        << order->getExecuted().getPrice();
-                    log(oss.str(), order->getExecuted().getDatetime());
+                        << order->executed.price;
+                    log(oss.str());
                 }
                 
                 std::ostringstream price_ss;
-                price_ss << std::fixed << std::setprecision(2) << order->getExecuted().getPrice();
+                price_ss << std::fixed << std::setprecision(2) << order->executed.price;
                 buy_exec_.push_back(price_ss.str());
             } else {  // 卖出订单
                 if (print_ops_) {
                     std::ostringstream oss;
                     oss << "SELL, " << std::fixed << std::setprecision(2) 
-                        << order->getExecuted().getPrice();
-                    log(oss.str(), order->getExecuted().getDatetime());
+                        << order->executed.price;
+                    log(oss.str());
                 }
                 
                 std::ostringstream price_ss;
-                price_ss << std::fixed << std::setprecision(2) << order->getExecuted().getPrice();
+                price_ss << std::fixed << std::setprecision(2) << order->executed.price;
                 sell_exec_.push_back(price_ss.str());
             }
-        } else if (order->getStatus() == OrderStatus::Expired || 
-                   order->getStatus() == OrderStatus::Cancelled || 
-                   order->getStatus() == OrderStatus::Margin) {
+        } else if (order->status == OrderStatus::Expired || 
+                   order->status == OrderStatus::Canceled || 
+                   order->status == OrderStatus::Margin) {
             if (print_ops_) {
-                log(order->getStatusString());
+                log(order->status_string(order->status));
             }
         }
 
@@ -136,13 +136,13 @@ public:
     void init() override {
         // Debug: 检查数据源
         auto data_feed = data(0);
-        auto close_line = data_feed ? data_feed->getClose() : nullptr;
+        auto close_line = data_feed;
         
         std::cout << "*** Init: data_feed=" << (data_feed ? "valid" : "null") 
                   << ", close_line=" << (close_line ? "valid" : "null") << std::endl;
         
         if (close_line) {
-            std::cout << "*** Close line len=" << close_line->len() << std::endl;
+            std::cout << "*** Close line available" << std::endl;
         }
         
         // 延迟创建指标，因为在init()时数据尚未forward
@@ -153,20 +153,20 @@ public:
         // 在首次运行时创建指标（此时数据已经forward）
         if (!sma_) {
             auto data_feed = data(0);
-            auto close_line = data_feed ? data_feed->getClose() : nullptr;
+            auto close_line = data_feed;
             
-            if (close_line && close_line->len() > 0) {
-                std::cout << "*** Creating indicators with close line len=" << close_line->len() << std::endl;
+            if (close_line) {
+                std::cout << "*** Creating indicators with close line" << std::endl;
                 
                 // 创建SMA指标
                 sma_ = std::make_shared<SMA>(close_line, period_);
-                addIndicator(sma_);  // 添加到指标列表
+                addindicator(sma_);  // 添加到指标列表
                 
                 // 创建交叉信号
-                cross_ = std::make_shared<CrossOver>(data_feed->getLine("close"), sma_->getOutput(0));
-                addIndicator(cross_);  // 添加到指标列表
+                cross_ = std::make_shared<CrossOver>(data_feed, sma_);
+                addindicator(cross_);  // 添加到指标列表
                 
-                std::cout << "*** Indicators created, count=" << indicators_.size() << std::endl;
+                std::cout << "*** Indicators created" << std::endl;
             }
         }
         
@@ -177,17 +177,17 @@ public:
     void start() override {
             if (!stock_like_) {
             // 期货模式
-            broker_ptr()->setCommission(2.0, 10.0, 1000.0);
+            broker_ptr()->setcommission(2.0, 10.0, 1000.0);
         } else {
             // 股票模式 - 设置百分比手续费  
-            broker_ptr()->setCommission(0.00001, 1.0, 0.0);
+            broker_ptr()->setcommission(0.00001, 1.0, 0.0);
         }
 
         if (print_data_) {
             log("-------------------------", 0.0, true);
             std::ostringstream oss;
             oss << "Starting portfolio value: " << std::fixed << std::setprecision(2) 
-                << broker_ptr()->getValue();
+                << broker_ptr()->getvalue();
             log(oss.str(), 0.0, true);
         }
 
@@ -211,12 +211,12 @@ public:
             
             oss.str("");
             oss << "Final portfolio value: " << std::fixed << std::setprecision(2) 
-                << broker_ptr()->getValue();
+                << broker_ptr()->getvalue();
             log(oss.str());
             
             oss.str("");
             oss << "Final cash value: " << std::fixed << std::setprecision(2) 
-                << broker_ptr()->getCash();
+                << broker_ptr()->getcash();
             log(oss.str());
             
             log("-------------------------");
@@ -256,14 +256,14 @@ public:
                 << data(0)->low(0) << ", " << data(0)->close(0);
             
             // 只有当SMA有数据时才访问
-            if (sma_ && sma_->len() > 0) {
+            if (sma_) {
                 double sma_val = sma_->get(0);
                 oss << ", Sma, " << std::setprecision(6) << sma_val;
                 
                 // Debug: 当SMA首次产生有效值时输出
                 static bool first_valid_sma = true;
                 if (first_valid_sma && !std::isnan(sma_val)) {
-                    std::cout << "*** SMA first valid value at len=" << len() << ", sma=" << sma_val << std::endl;
+                    std::cout << "*** SMA first valid value, sma=" << sma_val << std::endl;
                     first_valid_sma = false;
                 }
             } else {
@@ -273,7 +273,7 @@ public:
 
             oss.str("");
             oss << "Close " << std::fixed << std::setprecision(2) << data(0)->close(0);
-            if (sma_ && sma_->len() > 0) {
+            if (sma_) {
                 oss << " - Sma " << std::setprecision(2) << sma_->get(0);
             } else {
                 oss << " - Sma NaN";
@@ -283,31 +283,31 @@ public:
 
         // 如果有活跃订单，不允许新订单
         if (order_id_) {
-            bool is_completed = order_id_->isCompleted();
-            bool is_cancelled = order_id_->isCancelled();
-            bool is_rejected = order_id_->isRejected();
+            bool is_completed = (order_id_->status == OrderStatus::Completed);
+            bool is_cancelled = (order_id_->status == OrderStatus::Canceled);
+            bool is_rejected = (order_id_->status == OrderStatus::Rejected);
             if (!is_completed && !is_cancelled && !is_rejected) {
                 return;
             }
         }
 
         // 获取当前仓位
-        double position_size = getbacktrader::Position()->getSize();
+        double position_size = getposition();
         
         
         // Debug: 检查CrossOver状态
-        if (cross_ && cross_->len() > 0) {
+        if (cross_) {
             double cross_val = cross_->get(0);
             static bool first_valid_cross = true;
             if (first_valid_cross && !std::isnan(cross_val)) {
-                std::cout << "*** CrossOver first valid value at len=" << len() << ", cross=" << cross_val << std::endl;
+                std::cout << "*** CrossOver first valid value, cross=" << cross_val << std::endl;
                 first_valid_cross = false;
             }
         }
 
         if (position_size == 0.0) {
             // 没有仓位时，检查买入信号（只有当CrossOver有数据时）
-            if (cross_ && cross_->len() > 0 && cross_->get(0) > 0.0) {
+            if (cross_ && cross_->get(0) > 0.0) {
                 if (print_ops_) {
                     std::ostringstream oss;
                     oss << "BUY CREATE , " << std::fixed << std::setprecision(2) 
@@ -324,7 +324,7 @@ public:
             }
         } else {
             // 有仓位时，检查卖出信号（只有当CrossOver有数据时）
-            if (cross_ && cross_->len() > 0 && cross_->get(0) < 0.0) {
+            if (cross_ && cross_->get(0) < 0.0) {
                 if (print_ops_) {
                     std::ostringstream oss;
                     oss << "SELL CREATE , " << std::fixed << std::setprecision(2) 
@@ -352,9 +352,9 @@ std::pair<std::shared_ptr<UnoptimizedRunStrategy>, std::unique_ptr<backtrader::C
     auto cerebro = std::make_unique<backtrader::Cerebro>();
     
     auto csv_data = getdata_feed(0);
-    std::cout << "Loaded CSV data: " << csv_data.size() << " bars" << std::endl;
-    if (!csv_data.empty()) {
-        std::cout << "First bar: " << csv_data[0].date << ", close: " << csv_data[0].close << std::endl;
+    std::cout << "Loaded CSV data feed" << std::endl;
+    if (csv_data) {
+        std::cout << "Data feed created successfully" << std::endl;
     }
     cerebro->adddata(csv_data);
 
@@ -389,8 +389,8 @@ TEST(OriginalTests, StrategyUnoptimized_StockMode) {
     auto strategy = runStrategyTest(true, false);   // 关闭debug输出
 
     // 验证最终资产值（股票模式）
-    double final_value = strategy->broker_ptr()->getValue();
-    double final_cash = strategy->broker_ptr()->getCash();
+    double final_value = strategy->broker_ptr()->getvalue();
+    double final_cash = strategy->broker_ptr()->getcash();
     
     std::ostringstream value_ss, cash_ss;
     value_ss << std::fixed << std::setprecision(2) << final_value;
@@ -438,8 +438,8 @@ TEST(OriginalTests, StrategyUnoptimized_FuturesMode) {
     auto strategy = runStrategyTest(false, false);   // 关闭debug输出
 
     // 验证最终资产值（期货模式）
-    double final_value = strategy->broker_ptr()->getValue();
-    double final_cash = strategy->broker_ptr()->getCash();
+    double final_value = strategy->broker_ptr()->getvalue();
+    double final_cash = strategy->broker_ptr()->getcash();
     
     std::ostringstream value_ss, cash_ss;
     value_ss << std::fixed << std::setprecision(2) << final_value;
@@ -509,7 +509,7 @@ TEST(OriginalTests, StrategyUnoptimized_IndicatorValues) {
     EXPECT_GT(strategy->sell_create_.size(), 0) << "Strategy should have created sell orders";
     
     // 验证最终状态合理
-    double final_value = strategy->broker_ptr()->getValue();
+    double final_value = strategy->broker_ptr()->getvalue();
     EXPECT_GT(final_value, 0.0) << "Final portfolio value should be positive";
 }
 
@@ -529,8 +529,8 @@ TEST(OriginalTests, StrategyUnoptimized_ModeComparison) {
         << "Both modes should have same sell executions";
 
     // 最终资产值应该不同（由于不同的手续费结构）
-    double stock_value = stock_strategy->broker_ptr()->getValue();
-    double futures_value = futures_strategy->broker_ptr()->getValue();
+    double stock_value = stock_strategy->broker_ptr()->getvalue();
+    double futures_value = futures_strategy->broker_ptr()->getvalue();
     
     EXPECT_NE(stock_value, futures_value) 
         << "Different modes should produce different final values";

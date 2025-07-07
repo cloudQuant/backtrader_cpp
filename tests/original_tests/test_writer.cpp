@@ -13,16 +13,19 @@
 #include "strategy.h"
 #include "cerebro.h"
 #include "indicators/sma.h"
+#include "writer.h"
 #include "writers/WriterStringIO.h"
-#include "writers/CSVWriter.h"
 #include <memory>
 #include <vector>
 #include <string>
 #include <sstream>
 #include <iostream>
+#include <regex>
+#include <algorithm>
 
 using namespace backtrader::indicators;
 using namespace backtrader::tests::original;
+using namespace backtrader;
 
 // 测试策略类
 class WriterTestStrategy : public backtrader::Strategy {
@@ -32,7 +35,8 @@ private:
 
 public:
     struct Params {
-        bool main = false;
+        bool main;
+        Params() : main(false) {}
     };
 
     explicit WriterTestStrategy(const Params& params = Params()) : main_(params.main) {}

@@ -14,7 +14,8 @@ namespace backtrader {
 class BrokerBase;
 class Observer;
 class Analyzer;
-class Writer;
+class WriterBase;
+using Writer = WriterBase;
 class Timer;
 
 class OptReturn {
@@ -129,6 +130,7 @@ public:
     // Getters
     std::vector<std::shared_ptr<DataSeries>> getdatafeeds() const { return datas_; }
     std::vector<std::shared_ptr<Strategy>> getstrategies() const { return strategies_; }
+    std::vector<std::shared_ptr<Writer>> getWriters() const { return writers_; }
     
 private:
     // Data storage
