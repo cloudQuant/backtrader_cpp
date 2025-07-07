@@ -34,6 +34,23 @@ PriceOscillator::PriceOscillator() : PriceOscBase() {
     setup_lines();
 }
 
+PriceOscillator::PriceOscillator(std::shared_ptr<LineRoot> data_source, int period1, int period2) : PriceOscBase() {
+    params.period1 = period1;
+    params.period2 = period2;
+    
+    setup_lines();
+    
+    _minperiod(std::max(period1, period2));
+    
+    // Add data source to datas for traditional indicator interface
+    if (data_source) {
+        auto data_series = std::dynamic_pointer_cast<LineSeries>(data_source);
+        if (data_series) {
+            datas.push_back(data_series);
+        }
+    }
+}
+
 void PriceOscillator::setup_lines() {
     if (lines->size() == 0) {
         lines->add_line(std::make_shared<LineBuffer>());
@@ -51,6 +68,25 @@ void PriceOscillator::calculate_oscillator() {
             po_line->set(0, current_price);  // Placeholder
         }
     }
+}
+
+double PriceOscillator::get(int ago) const {
+    if (!lines || lines->size() == 0) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    auto line = lines->getline(po);
+    if (!line) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    return (*line)[ago];
+}
+
+int PriceOscillator::getMinPeriod() const {
+    return std::max(params.period1, params.period2);
+}
+
+void PriceOscillator::calculate() {
+    next();
 }
 
 // PercentagePriceOscillator implementation
@@ -220,6 +256,12 @@ void PercentagePriceOscillator::calculate_oscillator() {
 // PercentagePriceOscillatorShort implementation
 PercentagePriceOscillatorShort::PercentagePriceOscillatorShort() 
     : PercentagePriceOscillator(false) {  // Use short MA as denominator
+}
+
+PercentagePriceOscillatorShort::PercentagePriceOscillatorShort(std::shared_ptr<LineRoot> data_source, int period1, int period2, int period_signal)
+    : PercentagePriceOscillator(data_source, period1, period2, period_signal) {
+    // Change to use short MA as denominator
+    use_long_denominator_ = false;
 }
 
 } // namespace backtrader

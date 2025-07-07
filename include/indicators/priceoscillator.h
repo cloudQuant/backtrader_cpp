@@ -35,7 +35,13 @@ public:
     };
     
     PriceOscillator();
+    PriceOscillator(std::shared_ptr<LineRoot> data_source, int period1 = 12, int period2 = 26);
     virtual ~PriceOscillator() = default;
+    
+    // Utility methods for test framework
+    double get(int ago = 0) const;
+    int getMinPeriod() const;
+    void calculate();
     
 protected:
     void setup_lines() override;
@@ -79,8 +85,10 @@ protected:
     void setup_lines() override;
     void calculate_oscillator() override;
     
-private:
+protected:
     bool use_long_denominator_;  // Use long MA as denominator if true, short MA if false
+    
+private:
     
     // EMA calculation variables
     double ema1_value_;
@@ -96,6 +104,7 @@ private:
 class PercentagePriceOscillatorShort : public PercentagePriceOscillator {
 public:
     PercentagePriceOscillatorShort();
+    PercentagePriceOscillatorShort(std::shared_ptr<LineRoot> data_source, int period1 = 12, int period2 = 26, int period_signal = 9);
     virtual ~PercentagePriceOscillatorShort() = default;
 };
 

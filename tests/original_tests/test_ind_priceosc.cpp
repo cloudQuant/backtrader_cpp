@@ -17,6 +17,8 @@
 #include <random>
 
 #include "indicators/priceosc.h"
+#include "indicators/sma.h"
+#include "indicators/macd.h"
 
 
 using namespace backtrader::tests::original;
