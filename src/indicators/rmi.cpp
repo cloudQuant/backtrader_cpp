@@ -1,5 +1,6 @@
 #include "indicators/rmi.h"
 #include <algorithm>
+#include <limits>
 
 namespace backtrader {
 
@@ -9,10 +10,33 @@ RelativeMomentumIndex::RelativeMomentumIndex() : Indicator() {
     _minperiod(params.period + params.lookback);
     
     // Create SMMA indicators for smoothing
-    up_smma_ = std::make_shared<SMMA>();
+    up_smma_ = std::make_shared<indicators::SMMA>();
     up_smma_->params.period = params.period;
     
-    down_smma_ = std::make_shared<SMMA>();
+    down_smma_ = std::make_shared<indicators::SMMA>();
+    down_smma_->params.period = params.period;
+}
+
+RelativeMomentumIndex::RelativeMomentumIndex(std::shared_ptr<LineRoot> data_source, int period, int lookback) : Indicator() {
+    params.period = period;
+    params.lookback = lookback;
+    
+    setup_lines();
+    _minperiod(params.period + params.lookback);
+    
+    // Add data source to datas for traditional indicator interface
+    if (data_source) {
+        auto data_series = std::dynamic_pointer_cast<LineSeries>(data_source);
+        if (data_series) {
+            datas.push_back(data_series);
+        }
+    }
+    
+    // Create SMMA indicators for smoothing
+    up_smma_ = std::make_shared<indicators::SMMA>();
+    up_smma_->params.period = params.period;
+    
+    down_smma_ = std::make_shared<indicators::SMMA>();
     down_smma_->params.period = params.period;
 }
 
@@ -163,6 +187,25 @@ void RelativeMomentumIndex::once(int start, int end) {
             rmi_line->set(i, 50.0);  // Default neutral value
         }
     }
+}
+
+double RelativeMomentumIndex::get(int ago) const {
+    if (!lines || lines->size() == 0) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    auto line = lines->getline(rmi);
+    if (!line) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    return (*line)[ago];
+}
+
+int RelativeMomentumIndex::getMinPeriod() const {
+    return params.period + params.lookback;
+}
+
+void RelativeMomentumIndex::calculate() {
+    next();
 }
 
 } // namespace backtrader

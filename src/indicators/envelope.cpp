@@ -596,5 +596,172 @@ void DoubleExponentialMovingAverageEnvelope::once(int start, int end) {
     }
 }
 
+// SmoothedMovingAverageEnvelope implementation
+SmoothedMovingAverageEnvelope::SmoothedMovingAverageEnvelope() 
+    : Indicator(), data_source_(nullptr), current_index_(0) {
+    setup_lines();
+    
+    // SMMA will be initialized in next() when data is available
+    smma_ = nullptr;
+    
+    _minperiod(params.period);
+}
+
+SmoothedMovingAverageEnvelope::SmoothedMovingAverageEnvelope(std::shared_ptr<LineSeries> data_source) 
+    : Indicator(), data_source_(data_source), current_index_(0) {
+    setup_lines();
+    
+    smma_ = std::make_shared<SMMA>(data_source, params.period);
+    
+    _minperiod(params.period);
+}
+
+SmoothedMovingAverageEnvelope::SmoothedMovingAverageEnvelope(std::shared_ptr<LineRoot> data_source, int period, double perc) 
+    : Indicator(), data_source_(nullptr), current_index_(0) {
+    params.period = period;
+    params.perc = perc;
+    setup_lines();
+    
+    smma_ = std::make_shared<SMMA>(data_source, period);
+    
+    _minperiod(params.period);
+}
+
+double SmoothedMovingAverageEnvelope::get(int ago) const {
+    if (!lines || lines->size() == 0) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    auto line = lines->getline(smma);
+    if (!line) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    return (*line)[ago];
+}
+
+int SmoothedMovingAverageEnvelope::getMinPeriod() const {
+    return params.period;
+}
+
+void SmoothedMovingAverageEnvelope::calculate() {
+    if (data_source_ && current_index_ < data_source_->size()) {
+        // Implementation for LineSeries-based calculation
+        smma_->calculate();
+        current_index_++;
+        
+        // Calculate envelope bands
+        auto smma_line = lines->getline(smma);
+        auto top_line = lines->getline(top);
+        auto bot_line = lines->getline(bot);
+        auto smma_indicator_line = smma_->lines->getline(0);
+        
+        if (smma_line && top_line && bot_line && smma_indicator_line) {
+            double smma_value = (*smma_indicator_line)[0];
+            double perc = params.perc / 100.0;
+            
+            smma_line->set(0, smma_value);
+            top_line->set(0, smma_value * (1.0 + perc));
+            bot_line->set(0, smma_value * (1.0 - perc));
+        }
+    } else {
+        // Use existing next() method for traditional calculation
+        next();
+    }
+}
+
+std::shared_ptr<LineBuffer> SmoothedMovingAverageEnvelope::getLine(int index) const {
+    if (!lines || index < 0 || index >= static_cast<int>(lines->size())) {
+        return nullptr;
+    }
+    return std::dynamic_pointer_cast<LineBuffer>(lines->getline(index));
+}
+
+void SmoothedMovingAverageEnvelope::setup_lines() {
+    if (lines->size() == 0) {
+            lines->add_line(std::make_shared<LineBuffer>());
+            lines->add_line(std::make_shared<LineBuffer>());
+            lines->add_line(std::make_shared<LineBuffer>());
+        }
+}
+
+void SmoothedMovingAverageEnvelope::prenext() {
+    // prenext() is protected, so we can't call it directly
+    Indicator::prenext();
+}
+
+void SmoothedMovingAverageEnvelope::next() {
+    if (datas.empty() || !datas[0]->lines) return;
+    
+    // Initialize SMMA if not already done
+    if (!smma_ && !datas.empty()) {
+        smma_ = std::make_shared<SMMA>(datas[0], params.period);
+    }
+    
+    // Connect data to SMMA if not already done
+    if (smma_ && smma_->datas.empty() && !datas.empty()) {
+        smma_->datas = datas;
+    }
+    
+    // Update SMMA using calculate method
+    if (smma_) {
+        smma_->calculate();
+    }
+    
+    auto smma_line = lines->getline(smma);
+    auto top_line = lines->getline(top);
+    auto bot_line = lines->getline(bot);
+    auto smma_indicator_line = smma_->lines->getline(0);
+    
+    if (smma_line && top_line && bot_line && smma_indicator_line) {
+        double smma_value = (*smma_indicator_line)[0];
+        double perc = params.perc / 100.0;
+        
+        smma_line->set(0, smma_value);
+        top_line->set(0, smma_value * (1.0 + perc));
+        bot_line->set(0, smma_value * (1.0 - perc));
+    }
+}
+
+void SmoothedMovingAverageEnvelope::once(int start, int end) {
+    if (datas.empty() || !datas[0]->lines) return;
+    
+    // Initialize SMMA if not already done
+    if (!smma_ && !datas.empty()) {
+        smma_ = std::make_shared<SMMA>(datas[0], params.period);
+    }
+    
+    // Connect data to SMMA if not already done
+    if (smma_ && smma_->datas.empty() && !datas.empty()) {
+        smma_->datas = datas;
+    }
+    
+    // Calculate SMMA for the range using calculate method
+    if (smma_) {
+        for (int i = start; i < end; ++i) {
+            smma_->calculate();
+        }
+    }
+    
+    auto smma_line = lines->getline(smma);
+    auto top_line = lines->getline(top);
+    auto bot_line = lines->getline(bot);
+    auto smma_indicator_line = smma_->lines->getline(0);
+    
+    if (!smma_line || !top_line || !bot_line || !smma_indicator_line) return;
+    
+    double perc = params.perc / 100.0;
+    
+    for (int i = start; i < end; ++i) {
+        if (i < static_cast<int>(smma_indicator_line->size())) {
+            double smma_value = (*smma_indicator_line)[i];
+            
+            smma_line->set(i, smma_value);
+            top_line->set(i, smma_value * (1.0 + perc));
+            bot_line->set(i, smma_value * (1.0 - perc));
+        }
+    }
+}
+
 } // namespace indicators
 } // namespace backtrader

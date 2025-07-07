@@ -228,5 +228,21 @@ void RSI::calculate() {
     }
 }
 
+double RSI::getOverboughtOversoldStatus() const {
+    double current_rsi = get(0);
+    
+    if (std::isnan(current_rsi)) {
+        return 0.0;  // Neutral if no valid RSI value
+    }
+    
+    if (current_rsi > 70.0) {
+        return 1.0;  // Overbought
+    } else if (current_rsi < 30.0) {
+        return -1.0; // Oversold
+    } else {
+        return 0.0;  // Neutral
+    }
+}
+
 } // namespace indicators
 } // namespace backtrader

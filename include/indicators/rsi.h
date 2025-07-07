@@ -29,6 +29,9 @@ public:
     int getMinPeriod() const { return _minperiod(); }
     void calculate() override;
     
+    // Overbought/Oversold status method
+    double getOverboughtOversoldStatus() const;
+    
 protected:
     std::vector<std::string> _get_line_names() const override;
     

@@ -19,7 +19,13 @@ public:
     };
     
     RelativeMomentumIndex();
+    RelativeMomentumIndex(std::shared_ptr<LineRoot> data_source, int period = 20, int lookback = 5);
     virtual ~RelativeMomentumIndex() = default;
+    
+    // Utility methods for test framework
+    double get(int ago = 0) const;
+    int getMinPeriod() const;
+    void calculate();
     
 protected:
     void next() override;

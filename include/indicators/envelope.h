@@ -5,6 +5,7 @@
 #include "sma.h"
 #include "ema.h"
 #include "dema.h"
+#include "smma.h"
 #include <memory>
 
 namespace backtrader {
@@ -218,10 +219,53 @@ private:
     size_t current_index_;
 };
 
+// SMMA Envelope
+class SmoothedMovingAverageEnvelope : public Indicator {
+public:
+    struct Params {
+        int period = 30;    // SMMA period
+        double perc = 2.5;  // Percentage for envelope bands
+    } params;
+    
+    // Line indices
+    enum LineIndex {
+        smma = 0,  // SMMA line
+        top = 1,   // Top envelope band
+        bot = 2    // Bottom envelope band
+    };
+    
+    SmoothedMovingAverageEnvelope();
+    SmoothedMovingAverageEnvelope(std::shared_ptr<LineSeries> data_source);
+    SmoothedMovingAverageEnvelope(std::shared_ptr<LineRoot> data_source, int period = 30, double perc = 2.5);
+    virtual ~SmoothedMovingAverageEnvelope() = default;
+    
+    // Utility methods
+    double get(int ago = 0) const;
+    int getMinPeriod() const;
+    void calculate() override;
+    
+    // Get specific line for multi-line access
+    std::shared_ptr<LineBuffer> getLine(int index) const;
+    
+protected:
+    void prenext() override;
+    void next() override;
+    void once(int start, int end) override;
+    
+private:
+    void setup_lines();
+    std::shared_ptr<indicators::SMMA> smma_;
+    
+    // LineSeries support
+    std::shared_ptr<LineSeries> data_source_;
+    size_t current_index_;
+};
+
 // Aliases
 using SMAEnvelope = SimpleMovingAverageEnvelope;
 using EMAEnvelope = ExponentialMovingAverageEnvelope;
 using DEMAEnvelope = DoubleExponentialMovingAverageEnvelope;
+using SMMAEnvelope = SmoothedMovingAverageEnvelope;
 
 } // namespace indicators
 } // namespace backtrader

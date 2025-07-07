@@ -17,6 +17,7 @@
 #include <random>
 
 #include "indicators/rmi.h"
+#include "indicators/rsi.h"
 
 
 using namespace backtrader::tests::original;

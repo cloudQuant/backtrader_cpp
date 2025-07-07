@@ -84,6 +84,7 @@ set(BACKTRADER_INDICATOR_SOURCES
     src/indicators/emaosc.cpp
     src/indicators/smaosc.cpp
     src/indicators/temaosc.cpp
+    src/indicators/rmi.cpp
     src/indicators/roc.cpp
     src/indicators/kamaenvelope.cpp
     src/indicators/kamaosc.cpp
