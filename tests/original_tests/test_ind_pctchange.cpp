@@ -15,6 +15,7 @@
 #include <random>
 
 #include "indicators/percentchange.h"
+#include "indicators/roc.h"
 
 
 using namespace backtrader::tests::original;

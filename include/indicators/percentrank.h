@@ -21,6 +21,7 @@ public:
     
     PercentRank();
     PercentRank(std::shared_ptr<LineSeries> data_source, int period = 50);
+    PercentRank(std::shared_ptr<LineRoot> data_source, int period = 50);
     virtual ~PercentRank() = default;
     
     // Utility methods

@@ -18,6 +18,22 @@ PercentRank::PercentRank(std::shared_ptr<LineSeries> data_source, int period)
     _minperiod(params.period);
 }
 
+PercentRank::PercentRank(std::shared_ptr<LineRoot> data_source, int period) 
+    : Indicator(), data_source_(nullptr), current_index_(0) {
+    params.period = period;
+    setup_lines();
+    _minperiod(params.period);
+    
+    // Convert LineRoot to LineSeries if possible, or add to datas
+    if (data_source) {
+        auto data_series = std::dynamic_pointer_cast<LineSeries>(data_source);
+        if (data_series) {
+            datas.push_back(data_series);
+            data_source_ = data_series;
+        }
+    }
+}
+
 double PercentRank::get(int ago) const {
     if (!lines || lines->size() == 0) {
         return std::numeric_limits<double>::quiet_NaN();

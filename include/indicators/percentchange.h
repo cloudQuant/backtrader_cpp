@@ -20,6 +20,7 @@ public:
     
     PercentChange();
     PercentChange(std::shared_ptr<LineSeries> data_source, int period = 30);
+    PercentChange(std::shared_ptr<LineRoot> data_source, int period = 30);
     virtual ~PercentChange() = default;
     
     // Utility methods
