@@ -37,6 +37,14 @@ SimpleMovingAverageOscillator::SimpleMovingAverageOscillator(std::shared_ptr<Lin
     setup_lines();
 }
 
+SimpleMovingAverageOscillator::SimpleMovingAverageOscillator(std::shared_ptr<LineRoot> data, int fast, int slow)
+    : Indicator(), data_source_(nullptr), current_index_(0),
+      sum_(0.0), first_run_(true) {
+    // Use the slower period as the oscillator period for compatibility
+    params.period = slow;
+    setup_lines();
+}
+
 void SimpleMovingAverageOscillator::setup_lines() {
     if (!lines) {
         lines = std::make_shared<backtrader::Lines>();

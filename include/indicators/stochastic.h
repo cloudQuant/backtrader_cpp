@@ -32,6 +32,10 @@ public:
     int getMinPeriod() const;
     void calculate() override;
     
+    // Line access methods for tests
+    double getPercentK(int ago = 0) const;
+    double getPercentD(int ago = 0) const;
+    
 protected:
     void prenext() override;
     void next() override;
@@ -74,6 +78,8 @@ public:
     Stochastic();
     Stochastic(std::shared_ptr<LineRoot> high, std::shared_ptr<LineRoot> low, std::shared_ptr<LineRoot> close);
     Stochastic(std::shared_ptr<LineRoot> high, std::shared_ptr<LineRoot> low, std::shared_ptr<LineRoot> close, 
+               int period, int period_dfast);
+    Stochastic(std::shared_ptr<LineRoot> high, std::shared_ptr<LineRoot> low, std::shared_ptr<LineRoot> close, 
                int period, int period_dfast, int period_dslow);
     virtual ~Stochastic() = default;
     
@@ -100,6 +106,9 @@ public:
     };
     
     StochasticFull();
+    StochasticFull(std::shared_ptr<LineRoot> high, std::shared_ptr<LineRoot> low, std::shared_ptr<LineRoot> close);
+    StochasticFull(std::shared_ptr<LineRoot> high, std::shared_ptr<LineRoot> low, std::shared_ptr<LineRoot> close, 
+                   int period, int period_dfast, int period_dslow);
     virtual ~StochasticFull() = default;
     
 protected:

@@ -150,6 +150,20 @@ SumN::SumN(std::shared_ptr<LineSeries> data_source, int period)
     : OperationN(), data_source_(data_source), current_index_(0) {
     params.period = period;
     setup_lines();
+    _minperiod(params.period);
+}
+
+SumN::SumN(std::shared_ptr<LineRoot> data, int period) 
+    : OperationN(), data_source_(nullptr), current_index_(0) {
+    params.period = period;
+    setup_lines();
+    _minperiod(params.period);
+    
+    // Convert LineRoot to LineSeries if possible
+    auto lineseries = std::dynamic_pointer_cast<LineSeries>(data);
+    if (lineseries) {
+        data_source_ = lineseries;
+    }
 }
 
 double SumN::get(int ago) const {

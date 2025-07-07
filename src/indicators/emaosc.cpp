@@ -57,6 +57,18 @@ ExponentialMovingAverageOscillator::ExponentialMovingAverageOscillator(std::shar
     alpha1_ = 1.0 - alpha_;
 }
 
+ExponentialMovingAverageOscillator::ExponentialMovingAverageOscillator(std::shared_ptr<LineRoot> data, int fast, int slow)
+    : Indicator(), data_source_(nullptr), current_index_(0),
+      ema_(0.0), first_run_(true) {
+    // Use the slower period as the oscillator period for compatibility
+    params.period = slow;
+    setup_lines();
+    
+    // Calculate smoothing factors
+    alpha_ = 2.0 / (params.period + 1.0);
+    alpha1_ = 1.0 - alpha_;
+}
+
 void ExponentialMovingAverageOscillator::setup_lines() {
     if (!lines) {
         lines = std::make_shared<backtrader::Lines>();

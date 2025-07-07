@@ -103,6 +103,7 @@ public:
     
     SumN();
     SumN(std::shared_ptr<LineSeries> data_source, int period = 14);
+    SumN(std::shared_ptr<LineRoot> data, int period = 14);
     virtual ~SumN() = default;
     
     // Utility methods

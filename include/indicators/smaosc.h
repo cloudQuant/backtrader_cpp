@@ -26,6 +26,8 @@ public:
     // Constructor for test framework compatibility
     SimpleMovingAverageOscillator(std::shared_ptr<LineRoot> data);
     SimpleMovingAverageOscillator(std::shared_ptr<LineRoot> data, int period);
+    // Two-period constructor for compatibility
+    SimpleMovingAverageOscillator(std::shared_ptr<LineRoot> data, int fast, int slow);
     virtual ~SimpleMovingAverageOscillator() = default;
     
     // Utility methods

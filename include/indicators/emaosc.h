@@ -25,6 +25,8 @@ public:
     // Constructor for test framework compatibility
     ExponentialMovingAverageOscillator(std::shared_ptr<LineRoot> data);
     ExponentialMovingAverageOscillator(std::shared_ptr<LineRoot> data, int period);
+    // Two-period constructor for compatibility
+    ExponentialMovingAverageOscillator(std::shared_ptr<LineRoot> data, int fast, int slow);
     virtual ~ExponentialMovingAverageOscillator() = default;
     
     // Utility methods

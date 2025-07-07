@@ -161,6 +161,35 @@ Stochastic::Stochastic(std::shared_ptr<LineRoot> high, std::shared_ptr<LineRoot>
 }
 
 Stochastic::Stochastic(std::shared_ptr<LineRoot> high, std::shared_ptr<LineRoot> low, std::shared_ptr<LineRoot> close, 
+                       int period, int period_dfast) : StochasticBase() {
+    params.period = period;
+    params.period_dfast = period_dfast;
+    params.period_dslow = 3; // Use default value for period_dslow
+    
+    setup_lines();
+    
+    // Create SMA for %D and %DSlow calculations
+    sma_fast_ = std::make_shared<indicators::SMA>(params.period_dfast);
+    sma_dslow_ = std::make_shared<indicators::SMA>(params.period_dslow);
+    
+    _minperiod(params.period + params.period_dfast + params.period_dslow - 2);
+    
+    // Add data sources
+    if (high) {
+        auto high_series = std::dynamic_pointer_cast<LineSeries>(high);
+        if (high_series) datas.push_back(high_series);
+    }
+    if (low) {
+        auto low_series = std::dynamic_pointer_cast<LineSeries>(low);
+        if (low_series) datas.push_back(low_series);
+    }
+    if (close) {
+        auto close_series = std::dynamic_pointer_cast<LineSeries>(close);
+        if (close_series) datas.push_back(close_series);
+    }
+}
+
+Stochastic::Stochastic(std::shared_ptr<LineRoot> high, std::shared_ptr<LineRoot> low, std::shared_ptr<LineRoot> close, 
                        int period, int period_dfast, int period_dslow) : StochasticBase() {
     params.period = period;
     params.period_dfast = period_dfast;
@@ -262,6 +291,65 @@ StochasticFull::StochasticFull() : StochasticBase() {
     _minperiod(params.period + params.period_dfast + params.period_dslow - 2);
 }
 
+StochasticFull::StochasticFull(std::shared_ptr<LineRoot> high, std::shared_ptr<LineRoot> low, std::shared_ptr<LineRoot> close) 
+    : StochasticBase() {
+    // Use default parameters
+    params.period = 14;
+    params.period_dfast = 3;
+    params.period_dslow = 3;
+    
+    setup_lines();
+    
+    // Create SMA for %D and %DSlow calculations
+    sma_fast_ = std::make_shared<indicators::SMA>(params.period_dfast);
+    sma_dslow_ = std::make_shared<indicators::SMA>(params.period_dslow);
+    
+    _minperiod(params.period + params.period_dfast + params.period_dslow - 2);
+    
+    // Add data sources
+    if (high) {
+        auto high_series = std::dynamic_pointer_cast<LineSeries>(high);
+        if (high_series) datas.push_back(high_series);
+    }
+    if (low) {
+        auto low_series = std::dynamic_pointer_cast<LineSeries>(low);
+        if (low_series) datas.push_back(low_series);
+    }
+    if (close) {
+        auto close_series = std::dynamic_pointer_cast<LineSeries>(close);
+        if (close_series) datas.push_back(close_series);
+    }
+}
+
+StochasticFull::StochasticFull(std::shared_ptr<LineRoot> high, std::shared_ptr<LineRoot> low, std::shared_ptr<LineRoot> close, 
+                               int period, int period_dfast, int period_dslow) : StochasticBase() {
+    params.period = period;
+    params.period_dfast = period_dfast;
+    params.period_dslow = period_dslow;
+    
+    setup_lines();
+    
+    // Create SMA for %D and %DSlow calculations
+    sma_fast_ = std::make_shared<indicators::SMA>(params.period_dfast);
+    sma_dslow_ = std::make_shared<indicators::SMA>(params.period_dslow);
+    
+    _minperiod(params.period + params.period_dfast + params.period_dslow - 2);
+    
+    // Add data sources
+    if (high) {
+        auto high_series = std::dynamic_pointer_cast<LineSeries>(high);
+        if (high_series) datas.push_back(high_series);
+    }
+    if (low) {
+        auto low_series = std::dynamic_pointer_cast<LineSeries>(low);
+        if (low_series) datas.push_back(low_series);
+    }
+    if (close) {
+        auto close_series = std::dynamic_pointer_cast<LineSeries>(close);
+        if (close_series) datas.push_back(close_series);
+    }
+}
+
 void StochasticFull::setup_lines() {
     if (lines->size() == 0) {
             lines->add_line(std::make_shared<LineBuffer>());
@@ -348,6 +436,32 @@ int StochasticBase::getMinPeriod() const {
 
 void StochasticBase::calculate() {
     next();
+}
+
+double StochasticBase::getPercentK(int ago) const {
+    if (!lines || lines->size() == 0) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    auto k_line = lines->getline(percK);
+    if (!k_line) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    return (*k_line)[ago];
+}
+
+double StochasticBase::getPercentD(int ago) const {
+    if (!lines || lines->size() == 0) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    auto d_line = lines->getline(percD);
+    if (!d_line) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    return (*d_line)[ago];
 }
 
 } // namespace backtrader
