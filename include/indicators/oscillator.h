@@ -17,6 +17,8 @@ public:
     Oscillator(std::shared_ptr<LineSeries> data_source);
     Oscillator(std::shared_ptr<LineSeries> data_source, int period);
     Oscillator(std::shared_ptr<LineSeries> data_source, std::shared_ptr<Indicator> base_indicator);
+    // Constructor for test framework compatibility
+    Oscillator(std::shared_ptr<LineRoot> data_source, std::shared_ptr<Indicator> base_indicator);
     virtual ~Oscillator() = default;
     
     // Utility methods

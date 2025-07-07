@@ -100,18 +100,35 @@ void Momentum::once(int start, int end) {
 // MomentumOscillator implementation
 MomentumOscillator::MomentumOscillator() : Indicator() {
     setup_lines();
-    _minperiod(params.period + 1);
+    _minperiod(params.period + params.smoothing - 1);
 }
 
 MomentumOscillator::MomentumOscillator(std::shared_ptr<LineRoot> data) : Indicator() {
     setup_lines();
-    _minperiod(params.period + 1);
+    _minperiod(params.period + params.smoothing - 1);
+    
+    // Add data source to datas for traditional indicator interface
+    if (data) {
+        auto data_series = std::dynamic_pointer_cast<LineSeries>(data);
+        if (data_series) {
+            datas.push_back(data_series);
+        }
+    }
 }
 
-MomentumOscillator::MomentumOscillator(std::shared_ptr<LineRoot> data, int period) : Indicator() {
+MomentumOscillator::MomentumOscillator(std::shared_ptr<LineRoot> data, int period, int smoothing) : Indicator() {
     params.period = period;
+    params.smoothing = smoothing;
     setup_lines();
-    _minperiod(params.period + 1);
+    _minperiod(params.period + params.smoothing - 1);
+    
+    // Add data source to datas for traditional indicator interface
+    if (data) {
+        auto data_series = std::dynamic_pointer_cast<LineSeries>(data);
+        if (data_series) {
+            datas.push_back(data_series);
+        }
+    }
 }
 
 double MomentumOscillator::get(int ago) const {
@@ -128,7 +145,7 @@ double MomentumOscillator::get(int ago) const {
 }
 
 int MomentumOscillator::getMinPeriod() const {
-    return params.period + 1;
+    return params.period + params.smoothing - 1;
 }
 
 void MomentumOscillator::calculate() {
@@ -151,16 +168,37 @@ void MomentumOscillator::next() {
     auto data_line = datas[0]->lines->getline(0);
     auto momosc_line = lines->getline(momosc);
     
-    if (data_line && momosc_line) {
-        double current_value = (*data_line)[0];
-        double period_ago_value = (*data_line)[-params.period];
-        
-        if (period_ago_value != 0.0) {
-            double momosc_value = 100.0 * (current_value / period_ago_value);
-            momosc_line->set(0, momosc_value);
-        } else {
-            momosc_line->set(0, 100.0); // Default to 100 when divisor is zero
+    if (!data_line || !momosc_line) return;
+    
+    // Ensure we have enough data for momentum calculation
+    if (data_line->size() < static_cast<size_t>(params.period + 1)) {
+        return;
+    }
+    
+    // Calculate momentum (current - period_ago)
+    double current_value = (*data_line)[0];
+    double period_ago_value = (*data_line)[-params.period];
+    double momentum_value = current_value - period_ago_value;
+    
+    // Store momentum values for SMA calculation
+    static std::vector<double> momentum_values;
+    momentum_values.push_back(momentum_value);
+    
+    // Keep only the last 'smoothing' values
+    if (momentum_values.size() > static_cast<size_t>(params.smoothing)) {
+        momentum_values.erase(momentum_values.begin());
+    }
+    
+    // Calculate SMA of momentum values
+    if (momentum_values.size() >= static_cast<size_t>(params.smoothing)) {
+        double sum = 0.0;
+        for (double val : momentum_values) {
+            sum += val;
         }
+        double sma_momentum = sum / params.smoothing;
+        
+        // Set the momentum oscillator value
+        momosc_line->set(0, sma_momentum);
     }
 }
 
@@ -172,15 +210,27 @@ void MomentumOscillator::once(int start, int end) {
     
     if (!data_line || !momosc_line) return;
     
+    // Calculate for the entire range
+    std::vector<double> momentum_values;
+    
     for (int i = start; i < end; ++i) {
-        double current_value = (*data_line)[i];
-        double period_ago_value = (*data_line)[i - params.period];
-        
-        if (period_ago_value != 0.0) {
-            double momosc_value = 100.0 * (current_value / period_ago_value);
-            momosc_line->set(i, momosc_value);
-        } else {
-            momosc_line->set(i, 100.0);
+        // Calculate momentum
+        if (i >= params.period) {
+            double current_value = (*data_line)[i];
+            double period_ago_value = (*data_line)[i - params.period];
+            double momentum_value = current_value - period_ago_value;
+            momentum_values.push_back(momentum_value);
+            
+            // Calculate SMA of momentum values
+            if (momentum_values.size() >= static_cast<size_t>(params.smoothing)) {
+                double sum = 0.0;
+                size_t start_idx = momentum_values.size() - params.smoothing;
+                for (size_t j = start_idx; j < momentum_values.size(); ++j) {
+                    sum += momentum_values[j];
+                }
+                double sma_momentum = sum / params.smoothing;
+                momosc_line->set(i, sma_momentum);
+            }
         }
     }
 }

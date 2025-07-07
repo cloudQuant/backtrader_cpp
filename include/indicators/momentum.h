@@ -48,7 +48,7 @@ class MomentumOscillator : public Indicator {
 public:
     struct Params {
         int period = 12;     // Period for momentum calculation
-        double band = 100.0; // Reference band level
+        int smoothing = 3;   // Period for SMA smoothing
     } params;
     
     // Lines
@@ -58,7 +58,7 @@ public:
     
     MomentumOscillator();
     MomentumOscillator(std::shared_ptr<LineRoot> data);
-    MomentumOscillator(std::shared_ptr<LineRoot> data, int period);
+    MomentumOscillator(std::shared_ptr<LineRoot> data, int period, int smoothing);
     virtual ~MomentumOscillator() = default;
     
     // Test framework compatibility methods

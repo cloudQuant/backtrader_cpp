@@ -30,6 +30,27 @@ Oscillator::Oscillator(std::shared_ptr<LineSeries> data_source, std::shared_ptr<
     _minperiod(1);
 }
 
+Oscillator::Oscillator(std::shared_ptr<LineRoot> data_source, std::shared_ptr<Indicator> base_indicator) 
+    : Indicator(), data_source_(nullptr), base_indicator_(base_indicator), current_index_(0) {
+    setup_lines();
+    
+    // Add data source to datas for traditional indicator interface
+    if (data_source) {
+        auto data_series = std::dynamic_pointer_cast<LineSeries>(data_source);
+        if (data_series) {
+            datas.push_back(data_series);
+            data_source_ = data_series;
+        }
+    }
+    
+    // Set minimum period based on base indicator
+    if (base_indicator_) {
+        _minperiod(base_indicator_->getMinPeriod());
+    } else {
+        _minperiod(1);
+    }
+}
+
 double Oscillator::get(int ago) const {
     if (!lines || lines->size() == 0) {
         return std::numeric_limits<double>::quiet_NaN();

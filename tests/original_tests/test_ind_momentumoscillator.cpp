@@ -17,6 +17,9 @@
 #include <random>
 
 #include "indicators/momentumoscillator.h"
+#include "indicators/momentum.h"
+#include "indicators/sma.h"
+#include "indicators/rsi.h"
 
 
 using namespace backtrader::tests::original;
@@ -156,7 +159,7 @@ TEST(OriginalTests, MomentumOscillator_CalculationLogic) {
     
     auto momosc = std::make_shared<MomentumOscillator>(price_line, 10, 3);
     auto momentum = std::make_shared<Momentum>(price_line, 10);
-    auto sma = std::make_shared<SMA>(momentum, 3);
+    auto sma = SMA::fromIndicator(momentum, 3);
     
     for (size_t i = 0; i < prices.size(); ++i) {
         momosc->calculate();
