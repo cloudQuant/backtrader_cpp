@@ -17,6 +17,9 @@
 #include <random>
 
 #include "indicators/pgo.h"
+#include "indicators/ema.h"
+#include "indicators/rsi.h"
+#include "indicators/atr.h"
 
 
 using namespace backtrader::tests::original;
@@ -150,7 +153,7 @@ TEST(OriginalTests, PGO_CalculationLogic) {
     
     auto pgo = std::make_shared<PGO>(price_line, 14);
     auto ema = std::make_shared<EMA>(price_line, 14);
-    auto atr = std::make_shared<ATR>(price_line, price_line, price_line, 14);  // 简化使用close作为high/low
+    auto atr = std::make_shared<ATR>(price_line);  // 使用close价格计算ATR，默认周期14
     
     for (size_t i = 0; i < prices.size(); ++i) {
         pgo->calculate();

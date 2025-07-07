@@ -17,6 +17,7 @@
 #include <random>
 
 #include "indicators/ppo.h"
+#include "indicators/macd.h"
 
 
 using namespace backtrader::tests::original;

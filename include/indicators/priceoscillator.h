@@ -24,10 +24,6 @@ protected:
     
     virtual void setup_lines() = 0;
     virtual void calculate_oscillator() = 0;
-    
-    // Sub-indicators
-    std::shared_ptr<indicators::EMA> ma1_;  // Short EMA
-    std::shared_ptr<indicators::EMA> ma2_;  // Long EMA
 };
 
 // Price Oscillator (Absolute)
@@ -61,7 +57,19 @@ public:
     };
     
     PercentagePriceOscillator(bool use_long_denominator = true);
+    PercentagePriceOscillator(std::shared_ptr<LineRoot> data_source, int period1 = 12, int period2 = 26, int period_signal = 9);
     virtual ~PercentagePriceOscillator() = default;
+    
+    // Utility methods for test framework
+    double get(int ago = 0) const;
+    int getMinPeriod() const;
+    void calculate();
+    
+    // Line access methods for tests
+    double getPPOLine(int ago = 0) const;
+    double getSignalLine(int ago = 0) const;
+    double getHistogramLine(int ago = 0) const;
+    double getHistogram(int ago = 0) const;  // Alias for getHistogramLine
     
 protected:
     void prenext() override;
@@ -73,7 +81,15 @@ protected:
     
 private:
     bool use_long_denominator_;  // Use long MA as denominator if true, short MA if false
-    std::shared_ptr<indicators::EMA> signal_ema_;  // Signal line EMA
+    
+    // EMA calculation variables
+    double ema1_value_;
+    double ema2_value_;
+    double signal_ema_value_;
+    bool first_calculation_;
+    double alpha1_;
+    double alpha2_;
+    double alpha_signal_;
 };
 
 // Percentage Price Oscillator Short (uses short MA as denominator)

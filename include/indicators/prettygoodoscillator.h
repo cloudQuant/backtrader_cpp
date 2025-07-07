@@ -19,7 +19,13 @@ public:
     };
     
     PrettyGoodOscillator();
+    PrettyGoodOscillator(std::shared_ptr<LineRoot> data_source, int period = 14);
     virtual ~PrettyGoodOscillator() = default;
+    
+    // Utility methods required by test framework
+    double get(int ago = 0) const;
+    int getMinPeriod() const;
+    void calculate() override;
     
 protected:
     void next() override;
