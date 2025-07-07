@@ -17,6 +17,9 @@
 #include <random>
 
 #include "indicators/temaosc.h"
+#include "indicators/tema.h"
+#include "indicators/emaosc.h"
+#include "indicators/smaosc.h"
 
 
 using namespace backtrader::tests::original;

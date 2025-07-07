@@ -32,6 +32,26 @@ Trix::Trix(std::shared_ptr<LineSeries> data_source, int period)
     _minperiod(3 * params.period + params._rocperiod - 2);
 }
 
+Trix::Trix(std::shared_ptr<LineRoot> data, int period) 
+    : Indicator(), data_source_(nullptr), current_index_(0) {
+    params.period = period;
+    setup_lines();
+    
+    // Convert LineRoot to LineSeries if possible
+    auto lineseries = std::dynamic_pointer_cast<LineSeries>(data);
+    if (lineseries) {
+        data_source_ = lineseries;
+    }
+    
+    // Create three EMA indicators for triple smoothing
+    ema1_ = std::make_shared<EMA>(params.period);
+    ema2_ = std::make_shared<EMA>(params.period);
+    ema3_ = std::make_shared<EMA>(params.period);
+    
+    // TRIX needs 3 * period + _rocperiod for full calculation
+    _minperiod(3 * params.period + params._rocperiod - 2);
+}
+
 double Trix::get(int ago) const {
     if (!lines || lines->size() == 0) {
         return std::numeric_limits<double>::quiet_NaN();

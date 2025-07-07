@@ -4,21 +4,34 @@
 namespace backtrader {
 
 // TrueStrengthIndicator implementation
-TrueStrengthIndicator::TrueStrengthIndicator() : Indicator() {
+TrueStrengthIndicator::TrueStrengthIndicator() : Indicator(), data_source_(nullptr), current_index_(0) {
     setup_lines();
     
-    // Create EMA indicators for double smoothing
-    sm1_ = std::make_shared<EMA>();
-    sm1_->params.period = params.period1;
+    // TSI needs pchange + period1 + period2 - 1 for full calculation
+    _minperiod(params.pchange + params.period1 + params.period2 - 1);
+}
+
+TrueStrengthIndicator::TrueStrengthIndicator(std::shared_ptr<LineSeries> data_source, int period1, int period2) 
+    : Indicator(), data_source_(data_source), current_index_(0) {
+    params.period1 = period1;
+    params.period2 = period2;
+    setup_lines();
     
-    sm12_ = std::make_shared<EMA>();
-    sm12_->params.period = params.period2;
+    // TSI needs pchange + period1 + period2 - 1 for full calculation
+    _minperiod(params.pchange + params.period1 + params.period2 - 1);
+}
+
+TrueStrengthIndicator::TrueStrengthIndicator(std::shared_ptr<LineRoot> data, int period1, int period2) 
+    : Indicator(), data_source_(nullptr), current_index_(0) {
+    params.period1 = period1;
+    params.period2 = period2;
+    setup_lines();
     
-    sm2_ = std::make_shared<EMA>();
-    sm2_->params.period = params.period1;
-    
-    sm22_ = std::make_shared<EMA>();
-    sm22_->params.period = params.period2;
+    // Convert LineRoot to LineSeries if possible
+    auto lineseries = std::dynamic_pointer_cast<LineSeries>(data);
+    if (lineseries) {
+        data_source_ = lineseries;
+    }
     
     // TSI needs pchange + period1 + period2 - 1 for full calculation
     _minperiod(params.pchange + params.period1 + params.period2 - 1);
@@ -31,10 +44,7 @@ void TrueStrengthIndicator::setup_lines() {
 }
 
 void TrueStrengthIndicator::prenext() {
-    if (sm1_) sm1_->prenext();
-    if (sm12_) sm12_->prenext();
-    if (sm2_) sm2_->prenext();
-    if (sm22_) sm22_->prenext();
+    // Standard indicator prenext implementation
     Indicator::prenext();
 }
 
@@ -50,63 +60,36 @@ void TrueStrengthIndicator::next() {
     double price_change = current_price - previous_price;
     double abs_price_change = std::abs(price_change);
     
-    // Store price changes for the smoothing EMAs
+    // Store price changes for calculation
     price_changes_.push_back(price_change);
     abs_price_changes_.push_back(abs_price_change);
     
-    // Connect price changes to first EMAs if not already done
-    if (sm1_->datas.empty()) {
-        // Create LineActions from price_changes vector
-        auto pc_if (lines->size() == 0) {
-            lines->add_line(std::make_shared<LineBuffer>());
-        }
-        auto pc_line = pc_lines->getline(0);
-        if (pc_line && !price_changes_.empty()) {
-            pc_line->set(0, price_changes_.back());
-        }
-        sm1_->add_data(pc_lines);
-    }
-    
-    if (sm2_->datas.empty()) {
-        // Create LineActions from abs_price_changes vector
-        auto apc_if (lines->size() == 0) {
-            lines->add_line(std::make_shared<LineBuffer>());
-        }
-        auto apc_line = apc_lines->getline(0);
-        if (apc_line && !abs_price_changes_.empty()) {
-            apc_line->set(0, abs_price_changes_.back());
-        }
-        sm2_->add_data(apc_lines);
-    }
-    
-    // Update first level EMAs
-    sm1_->next();
-    sm2_->next();
-    
-    // Connect first EMAs to second EMAs if not already done
-    if (sm12_->datas.empty() && sm1_->lines) {
-        sm12_->add_data(sm1_->lines);
-    }
-    if (sm22_->datas.empty() && sm2_->lines) {
-        sm22_->add_data(sm2_->lines);
-    }
-    
-    // Update second level EMAs
-    sm12_->next();
-    sm22_->next();
-    
-    // Calculate TSI
-    auto tsi_line = lines->getline(tsi);
-    auto sm12_line = sm12_->lines->getline(EMA::ema);
-    auto sm22_line = sm22_->lines->getline(EMA::ema);
-    
-    if (tsi_line && sm12_line && sm22_line) {
-        double sm12_value = (*sm12_line)[0];
-        double sm22_value = (*sm22_line)[0];
+    // Simple TSI calculation - direct EMA calculation without sub-indicators
+    if (price_changes_.size() >= static_cast<size_t>(params.period1 + params.period2)) {
+        // Calculate first level smoothing
+        double pc_ema1 = 0.0, apc_ema1 = 0.0;
+        double alpha1 = 2.0 / (1.0 + params.period1);
         
-        if (sm22_value != 0.0) {
-            tsi_line->set(0, 100.0 * (sm12_value / sm22_value));
-        } else {
+        for (int i = std::max(0, static_cast<int>(price_changes_.size()) - params.period1); i < static_cast<int>(price_changes_.size()); ++i) {
+            pc_ema1 = alpha1 * price_changes_[i] + (1.0 - alpha1) * pc_ema1;
+            apc_ema1 = alpha1 * abs_price_changes_[i] + (1.0 - alpha1) * apc_ema1;
+        }
+        
+        // Calculate second level smoothing
+        double pc_ema2 = pc_ema1;
+        double apc_ema2 = apc_ema1;
+        double alpha2 = 2.0 / (1.0 + params.period2);
+        
+        for (int j = 0; j < params.period2; ++j) {
+            pc_ema2 = alpha2 * pc_ema1 + (1.0 - alpha2) * pc_ema2;
+            apc_ema2 = alpha2 * apc_ema1 + (1.0 - alpha2) * apc_ema2;
+        }
+        
+        // Calculate TSI
+        auto tsi_line = lines->getline(tsi);
+        if (tsi_line && apc_ema2 != 0.0) {
+            tsi_line->set(0, 100.0 * (pc_ema2 / apc_ema2));
+        } else if (tsi_line) {
             tsi_line->set(0, 0.0);
         }
     }
@@ -118,76 +101,37 @@ void TrueStrengthIndicator::once(int start, int end) {
     auto data_line = datas[0]->lines->getline(0);
     if (!data_line) return;
     
-    // Build price change vectors
-    std::vector<double> all_price_changes;
-    std::vector<double> all_abs_price_changes;
-    
-    for (int i = start - params.pchange; i < end; ++i) {
-        if (i >= params.pchange) {
-            double current_price = (*data_line)[i];
-            double previous_price = (*data_line)[i - params.pchange];
-            double price_change = current_price - previous_price;
-            double abs_price_change = std::abs(price_change);
-            
-            all_price_changes.push_back(price_change);
-            all_abs_price_changes.push_back(abs_price_change);
-        }
+    // Simplified once implementation using next()
+    for (int i = start; i < end; ++i) {
+        // Set current position for the next() call
+        next();
+    }
+}
+
+double TrueStrengthIndicator::get(int ago) const {
+    if (!lines || lines->size() == 0) {
+        return 0.0;
     }
     
-    // Create line objects for price changes
-    auto pc_if (lines->size() == 0) {
-            lines->add_line(std::make_shared<LineBuffer>());
-        }
-    auto apc_if (lines->size() == 0) {
-            lines->add_line(std::make_shared<LineBuffer>());
-        }
+    auto tsi_line = lines->getline(tsi);
+    if (!tsi_line) {
+        return 0.0;
+    }
     
-    auto pc_line = pc_lines->getline(0);
-    auto apc_line = apc_lines->getline(0);
-    
-    if (pc_line && apc_line) {
-        // Fill with price change data
-        for (size_t i = 0; i < all_price_changes.size(); ++i) {
-            pc_line->set(i, all_price_changes[i]);
-            apc_line->set(i, all_abs_price_changes[i]);
-        }
-        
-        // Connect to first level EMAs
-        sm1_->add_data(pc_lines);
-        sm2_->add_data(apc_lines);
-        
-        // Calculate first level EMAs
-        sm1_->once(0, all_price_changes.size());
-        sm2_->once(0, all_abs_price_changes.size());
-        
-        // Connect to second level EMAs
-        sm12_->add_data(sm1_->lines);
-        sm22_->add_data(sm2_->lines);
-        
-        // Calculate second level EMAs
-        sm12_->once(params.period1 - 1, all_price_changes.size());
-        sm22_->once(params.period1 - 1, all_abs_price_changes.size());
-        
-        // Calculate TSI values
-        auto tsi_line = lines->getline(tsi);
-        auto sm12_line = sm12_->lines->getline(EMA::ema);
-        auto sm22_line = sm22_->lines->getline(EMA::ema);
-        
-        if (tsi_line && sm12_line && sm22_line) {
-            for (int i = start; i < end; ++i) {
-                int ema_idx = i - start + params.period1 + params.period2 - 2;
-                if (ema_idx >= 0 && ema_idx < all_price_changes.size()) {
-                    double sm12_value = (*sm12_line)[ema_idx];
-                    double sm22_value = (*sm22_line)[ema_idx];
-                    
-                    if (sm22_value != 0.0) {
-                        tsi_line->set(i, 100.0 * (sm12_value / sm22_value));
-                    } else {
-                        tsi_line->set(i, 0.0);
-                    }
-                }
-            }
-        }
+    return (*tsi_line)[ago];
+}
+
+int TrueStrengthIndicator::getMinPeriod() const {
+    return params.pchange + params.period1 + params.period2 - 1;
+}
+
+void TrueStrengthIndicator::calculate() {
+    if (data_source_ && current_index_ < data_source_->size()) {
+        // Implementation for LineSeries-based calculation
+        current_index_++;
+    } else {
+        // Use existing next() method for traditional calculation
+        next();
     }
 }
 

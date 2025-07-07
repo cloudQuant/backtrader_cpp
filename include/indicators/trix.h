@@ -23,6 +23,7 @@ public:
     
     Trix();
     Trix(std::shared_ptr<LineSeries> data_source, int period = 15);
+    Trix(std::shared_ptr<LineRoot> data, int period = 15);
     virtual ~Trix() = default;
     
     // Utility methods

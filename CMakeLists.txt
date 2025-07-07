@@ -92,6 +92,7 @@ set(BACKTRADER_INDICATOR_SOURCES
     src/indicators/lrsi.cpp
     src/indicators/kst.cpp
     src/indicators/stochastic.cpp
+    src/indicators/tsi.cpp
     src/indicators/prettygoodoscillator.cpp
     src/indicators/priceoscillator.cpp
 )

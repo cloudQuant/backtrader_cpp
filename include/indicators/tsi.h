@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../indicator.h"
+#include "../lineseries.h"
 #include "ema.h"
 #include <memory>
 
@@ -21,7 +22,14 @@ public:
     };
     
     TrueStrengthIndicator();
+    TrueStrengthIndicator(std::shared_ptr<LineSeries> data_source, int period1 = 25, int period2 = 13);
+    TrueStrengthIndicator(std::shared_ptr<LineRoot> data, int period1, int period2);
     virtual ~TrueStrengthIndicator() = default;
+    
+    // Utility methods
+    double get(int ago = 0) const;
+    int getMinPeriod() const;
+    void calculate() override;
     
 protected:
     void prenext() override;
@@ -31,15 +39,13 @@ protected:
 private:
     void setup_lines();
     
-    // Sub-indicators for double smoothing
-    std::shared_ptr<indicators::EMA> sm1_;   // First smoothing of price change
-    std::shared_ptr<indicators::EMA> sm12_;  // Second smoothing of price change
-    std::shared_ptr<indicators::EMA> sm2_;   // First smoothing of absolute price change
-    std::shared_ptr<indicators::EMA> sm22_;  // Second smoothing of absolute price change
-    
     // Storage for intermediate calculations
     std::vector<double> price_changes_;
     std::vector<double> abs_price_changes_;
+    
+    // LineSeries support
+    std::shared_ptr<LineSeries> data_source_;
+    size_t current_index_;
 };
 
 // Aliases
