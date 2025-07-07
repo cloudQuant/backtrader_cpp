@@ -33,3 +33,5 @@
 
 build/
 */build/
+*/build_tests/
+build_tests/

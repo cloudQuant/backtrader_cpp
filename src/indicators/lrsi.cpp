@@ -1,6 +1,7 @@
 #include "indicators/lrsi.h"
 
 namespace backtrader {
+namespace indicators {
 
 // LaguerreRSI implementation
 LaguerreRSI::LaguerreRSI() : Indicator(), l0_(0.0), l1_(0.0), l2_(0.0), l3_(0.0) {
@@ -8,11 +9,31 @@ LaguerreRSI::LaguerreRSI() : Indicator(), l0_(0.0), l1_(0.0), l2_(0.0), l3_(0.0)
     _minperiod(params.period);
 }
 
+LaguerreRSI::LaguerreRSI(std::shared_ptr<LineRoot> data) 
+    : Indicator(), l0_(0.0), l1_(0.0), l2_(0.0), l3_(0.0) {
+    setup_lines();
+    _minperiod(params.period);
+    
+    if (data) {
+        auto line_series = std::dynamic_pointer_cast<LineSeries>(data);
+        if (line_series) {
+            datas.push_back(line_series);
+        }
+    }
+}
+
 LaguerreRSI::LaguerreRSI(std::shared_ptr<LineRoot> data, double gamma) 
     : Indicator(), l0_(0.0), l1_(0.0), l2_(0.0), l3_(0.0) {
     params.gamma = gamma;
     setup_lines();
     _minperiod(params.period);
+    
+    if (data) {
+        auto line_series = std::dynamic_pointer_cast<LineSeries>(data);
+        if (line_series) {
+            datas.push_back(line_series);
+        }
+    }
 }
 
 void LaguerreRSI::setup_lines() {
@@ -222,4 +243,18 @@ void LaguerreRSI::calculate() {
     next();
 }
 
+double LaguerreFilter::get(int ago) const {
+    if (!lines || lines->size() == 0) {
+        return 0.0;
+    }
+    
+    auto lfilter_line = lines->getline(Lines::lfilter);
+    if (!lfilter_line || lfilter_line->size() == 0) {
+        return 0.0;
+    }
+    
+    return (*lfilter_line)[ago];
+}
+
+} // namespace indicators
 } // namespace backtrader

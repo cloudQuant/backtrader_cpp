@@ -3,6 +3,7 @@
 #include "../indicator.h"
 
 namespace backtrader {
+namespace indicators {
 
 // Laguerre RSI indicator  
 class LaguerreRSI : public Indicator {
@@ -18,7 +19,8 @@ public:
     };
     
     LaguerreRSI();
-    LaguerreRSI(std::shared_ptr<LineRoot> data, double gamma = 0.5);
+    LaguerreRSI(std::shared_ptr<LineRoot> data);
+    LaguerreRSI(std::shared_ptr<LineRoot> data, double gamma);
     virtual ~LaguerreRSI() = default;
     
     // Get method for accessing the indicator value
@@ -72,4 +74,5 @@ private:
 using LRSI = LaguerreRSI;
 using LAGF = LaguerreFilter;
 
+} // namespace indicators
 } // namespace backtrader

@@ -26,21 +26,13 @@ KnowSureThing::KnowSureThing() : Indicator() {
     roc4_->params.period = params.rp4;
     
     // Create SMAs for ROCs
-    rcma1_ = std::make_shared<indicators::SMA>();
-    rcma1_->params.period = params.rma1;
-    
-    rcma2_ = std::make_shared<indicators::SMA>();
-    rcma2_->params.period = params.rma2;
-    
-    rcma3_ = std::make_shared<indicators::SMA>();
-    rcma3_->params.period = params.rma3;
-    
-    rcma4_ = std::make_shared<indicators::SMA>();
-    rcma4_->params.period = params.rma4;
+    rcma1_ = std::make_shared<indicators::SMA>(params.rma1);
+    rcma2_ = std::make_shared<indicators::SMA>(params.rma2);
+    rcma3_ = std::make_shared<indicators::SMA>(params.rma3);
+    rcma4_ = std::make_shared<indicators::SMA>(params.rma4);
     
     // Create SMA for signal line
-    signal_sma_ = std::make_shared<indicators::SMA>();
-    signal_sma_->params.period = params.rsignal;
+    signal_sma_ = std::make_shared<indicators::SMA>(params.rsignal);
 }
 
 KnowSureThing::KnowSureThing(std::shared_ptr<LineRoot> data) : Indicator() {
@@ -65,21 +57,13 @@ KnowSureThing::KnowSureThing(std::shared_ptr<LineRoot> data) : Indicator() {
     roc4_->params.period = params.rp4;
     
     // Create SMAs for ROCs
-    rcma1_ = std::make_shared<indicators::SMA>();
-    rcma1_->params.period = params.rma1;
-    
-    rcma2_ = std::make_shared<indicators::SMA>();
-    rcma2_->params.period = params.rma2;
-    
-    rcma3_ = std::make_shared<indicators::SMA>();
-    rcma3_->params.period = params.rma3;
-    
-    rcma4_ = std::make_shared<indicators::SMA>();
-    rcma4_->params.period = params.rma4;
+    rcma1_ = std::make_shared<indicators::SMA>(params.rma1);
+    rcma2_ = std::make_shared<indicators::SMA>(params.rma2);
+    rcma3_ = std::make_shared<indicators::SMA>(params.rma3);
+    rcma4_ = std::make_shared<indicators::SMA>(params.rma4);
     
     // Create SMA for signal line
-    signal_sma_ = std::make_shared<indicators::SMA>();
-    signal_sma_->params.period = params.rsignal;
+    signal_sma_ = std::make_shared<indicators::SMA>(params.rsignal);
 }
 
 double KnowSureThing::get(int ago) const {
@@ -109,7 +93,7 @@ std::shared_ptr<LineBuffer> KnowSureThing::getLine(int index) const {
     if (!lines || static_cast<size_t>(index) >= lines->size()) {
         return nullptr;
     }
-    return lines->getline(index);
+    return std::dynamic_pointer_cast<LineBuffer>(lines->getline(index));
 }
 
 void KnowSureThing::setup_lines() {
@@ -133,11 +117,11 @@ void KnowSureThing::next() {
     roc3_->datas = datas;
     roc4_->datas = datas;
     
-    // Calculate ROCs
-    roc1_->next();
-    roc2_->next();
-    roc3_->next();
-    roc4_->next();
+    // Calculate ROCs using public calculate method
+    roc1_->calculate();
+    roc2_->calculate();
+    roc3_->calculate();
+    roc4_->calculate();
     
     // Get ROC values
     double roc1_val = 0.0, roc2_val = 0.0, roc3_val = 0.0, roc4_val = 0.0;
@@ -225,81 +209,9 @@ void KnowSureThing::next() {
 }
 
 void KnowSureThing::once(int start, int end) {
-    if (datas.empty() || !datas[0]->lines) return;
-    
-    auto kst_line = lines->getline(kst);
-    auto signal_line = lines->getline(signal);
-    
-    if (!kst_line || !signal_line) return;
-    
-    // Set data for all ROC indicators
-    roc1_->datas = datas;
-    roc2_->datas = datas;
-    roc3_->datas = datas;
-    roc4_->datas = datas;
-    
-    // Calculate all ROCs
-    roc1_->once(0, end);
-    roc2_->once(0, end);
-    roc3_->once(0, end);
-    roc4_->once(0, end);
-    
-    // Get ROC lines
-    auto roc1_line = roc1_->lines->getline(0);
-    auto roc2_line = roc2_->lines->getline(0);
-    auto roc3_line = roc3_->lines->getline(0);
-    auto roc4_line = roc4_->lines->getline(0);
-    
-    // Calculate KST for all bars
+    // For once method, use iterative next() calls instead of calling protected once methods
     for (int i = start; i < end; ++i) {
-        // Calculate SMAs of ROCs
-        double rcma1 = 0.0, rcma2 = 0.0, rcma3 = 0.0, rcma4 = 0.0;
-        
-        if (i >= params.rma1 - 1) {
-            double sum = 0.0;
-            for (int j = 0; j < params.rma1; ++j)
-                sum += (*roc1_line)[i - j];
-            rcma1 = sum / params.rma1;
-        }
-        
-        if (i >= params.rma2 - 1) {
-            double sum = 0.0;
-            for (int j = 0; j < params.rma2; ++j)
-                sum += (*roc2_line)[i - j];
-            rcma2 = sum / params.rma2;
-        }
-        
-        if (i >= params.rma3 - 1) {
-            double sum = 0.0;
-            for (int j = 0; j < params.rma3; ++j)
-                sum += (*roc3_line)[i - j];
-            rcma3 = sum / params.rma3;
-        }
-        
-        if (i >= params.rma4 - 1) {
-            double sum = 0.0;
-            for (int j = 0; j < params.rma4; ++j)
-                sum += (*roc4_line)[i - j];
-            rcma4 = sum / params.rma4;
-        }
-        
-        // Calculate KST
-        double kst = params.rfactors[0] * rcma1 + 
-                     params.rfactors[1] * rcma2 + 
-                     params.rfactors[2] * rcma3 + 
-                     params.rfactors[3] * rcma4;
-        
-        kst_line->set(i, kst);
-        
-        // Calculate signal line
-        if (i >= start + params.rsignal - 1) {
-            double sum = 0.0;
-            for (int j = 0; j < params.rsignal; ++j)
-                sum += (*kst_line)[i - j];
-            signal_line->set(i, sum / params.rsignal);
-        } else {
-            signal_line->set(i, kst);
-        }
+        next();
     }
 }
 

@@ -103,6 +103,38 @@ MomentumOscillator::MomentumOscillator() : Indicator() {
     _minperiod(params.period + 1);
 }
 
+MomentumOscillator::MomentumOscillator(std::shared_ptr<LineRoot> data) : Indicator() {
+    setup_lines();
+    _minperiod(params.period + 1);
+}
+
+MomentumOscillator::MomentumOscillator(std::shared_ptr<LineRoot> data, int period) : Indicator() {
+    params.period = period;
+    setup_lines();
+    _minperiod(params.period + 1);
+}
+
+double MomentumOscillator::get(int ago) const {
+    if (!lines || lines->size() == 0) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    auto line = lines->getline(momosc);
+    if (!line) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    return (*line)[ago];
+}
+
+int MomentumOscillator::getMinPeriod() const {
+    return params.period + 1;
+}
+
+void MomentumOscillator::calculate() {
+    next();
+}
+
 void MomentumOscillator::setup_lines() {
     if (lines->size() == 0) {
             lines->add_line(std::make_shared<LineBuffer>());

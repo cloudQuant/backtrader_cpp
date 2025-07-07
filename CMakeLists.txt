@@ -87,6 +87,8 @@ set(BACKTRADER_INDICATOR_SOURCES
     src/indicators/roc.cpp
     src/indicators/kamaenvelope.cpp
     src/indicators/kamaosc.cpp
+    src/indicators/lrsi.cpp
+    src/indicators/kst.cpp
 )
 
 # Skip complex components for now to get basic build working
