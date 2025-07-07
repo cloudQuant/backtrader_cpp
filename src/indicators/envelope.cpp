@@ -596,6 +596,129 @@ void DoubleExponentialMovingAverageEnvelope::once(int start, int end) {
     }
 }
 
+// TripleExponentialMovingAverageEnvelope implementation
+TripleExponentialMovingAverageEnvelope::TripleExponentialMovingAverageEnvelope() 
+    : Indicator(), data_source_(nullptr), current_index_(0) {
+    setup_lines();
+    
+    tema_ = std::make_shared<TripleExponentialMovingAverage>();
+    
+    _minperiod(3 * params.period - 2);
+}
+
+TripleExponentialMovingAverageEnvelope::TripleExponentialMovingAverageEnvelope(std::shared_ptr<LineSeries> data_source) 
+    : Indicator(), data_source_(data_source), current_index_(0) {
+    setup_lines();
+    
+    tema_ = std::make_shared<TripleExponentialMovingAverage>(data_source, params.period);
+    
+    _minperiod(3 * params.period - 2);
+}
+
+TripleExponentialMovingAverageEnvelope::TripleExponentialMovingAverageEnvelope(std::shared_ptr<LineRoot> data_source, int period, double perc) 
+    : Indicator(), data_source_(nullptr), current_index_(0) {
+    params.period = period;
+    params.perc = perc;
+    setup_lines();
+    
+    tema_ = std::make_shared<TripleExponentialMovingAverage>(data_source, period);
+    
+    _minperiod(3 * params.period - 2);
+}
+
+double TripleExponentialMovingAverageEnvelope::get(int ago) const {
+    if (!lines || lines->size() == 0) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    auto line = lines->getline(tema);
+    if (!line) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    
+    return (*line)[ago];
+}
+
+int TripleExponentialMovingAverageEnvelope::getMinPeriod() const {
+    return 3 * params.period - 2;
+}
+
+void TripleExponentialMovingAverageEnvelope::calculate() {
+    if (data_source_ && current_index_ < data_source_->size()) {
+        // Implementation for LineSeries-based calculation
+        current_index_++;
+    } else {
+        // Use existing next() method for traditional calculation
+        next();
+    }
+}
+
+std::shared_ptr<LineSingle> TripleExponentialMovingAverageEnvelope::getLine(int index) const {
+    if (!lines || index >= lines->size()) {
+        return nullptr;
+    }
+    return lines->getline(index);
+}
+
+void TripleExponentialMovingAverageEnvelope::setup_lines() {
+    if (lines->size() == 0) {
+        lines->add_line(std::make_shared<LineBuffer>());  // TEMA line
+        lines->add_line(std::make_shared<LineBuffer>());  // Top envelope
+        lines->add_line(std::make_shared<LineBuffer>());  // Bottom envelope
+    }
+}
+
+void TripleExponentialMovingAverageEnvelope::prenext() {
+    if (tema_) {
+        tema_->calculate();
+    }
+}
+
+void TripleExponentialMovingAverageEnvelope::next() {
+    if (!tema_ || !lines) return;
+    
+    // Get the TEMA value
+    double tema_value = tema_->get();
+    
+    // Calculate envelope percentage
+    double perc = params.perc / 100.0;
+    
+    // Set the lines
+    auto tema_line = lines->getline(tema);
+    auto top_line = lines->getline(top);
+    auto bot_line = lines->getline(bot);
+    
+    if (tema_line && top_line && bot_line) {
+        tema_line->set(0, tema_value);
+        top_line->set(0, tema_value * (1.0 + perc));
+        bot_line->set(0, tema_value * (1.0 - perc));
+    }
+}
+
+void TripleExponentialMovingAverageEnvelope::once(int start, int end) {
+    if (!tema_ || !lines) return;
+    
+    // Get the TEMA indicator line
+    auto tema_indicator_line = tema_->getLine(0);
+    if (!tema_indicator_line) return;
+    
+    auto tema_line = lines->getline(tema);
+    auto top_line = lines->getline(top);
+    auto bot_line = lines->getline(bot);
+    
+    if (tema_line && top_line && bot_line) {
+        double perc = params.perc / 100.0;
+        
+        for (int i = start; i < end; ++i) {
+            double tema_value = (*tema_indicator_line)[i];
+            
+            tema_line->set(i, tema_value);
+            top_line->set(i, tema_value * (1.0 + perc));
+            bot_line->set(i, tema_value * (1.0 - perc));
+        }
+    }
+}
+
 // SmoothedMovingAverageEnvelope implementation
 SmoothedMovingAverageEnvelope::SmoothedMovingAverageEnvelope() 
     : Indicator(), data_source_(nullptr), current_index_(0) {

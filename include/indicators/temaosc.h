@@ -25,6 +25,7 @@ public:
     TripleExponentialMovingAverageOscillator(std::shared_ptr<LineSeries> data_source, int period1, int period2);
     // Constructor for test framework compatibility
     TripleExponentialMovingAverageOscillator(std::shared_ptr<LineRoot> data);
+    TripleExponentialMovingAverageOscillator(std::shared_ptr<LineRoot> data, int period1, int period2);
     virtual ~TripleExponentialMovingAverageOscillator() = default;
     
     // Utility methods

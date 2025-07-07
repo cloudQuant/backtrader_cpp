@@ -15,6 +15,8 @@
 #include <random>
 
 #include "indicators/tema.h"
+#include "indicators/dema.h"
+#include "indicators/sma.h"
 
 
 using namespace backtrader::tests::original;

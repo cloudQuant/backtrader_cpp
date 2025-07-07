@@ -56,6 +56,34 @@ TripleExponentialMovingAverageOscillator::TripleExponentialMovingAverageOscillat
       first_run_(true) {
     setup_lines();
     
+    // Convert LineRoot to LineSeries if possible
+    auto lineseries = std::dynamic_pointer_cast<LineSeries>(data);
+    if (lineseries) {
+        data_source_ = lineseries;
+    }
+    
+    // Calculate smoothing factors
+    fast_alpha_ = 2.0 / (params.period1 + 1.0);
+    fast_alpha1_ = 1.0 - fast_alpha_;
+    slow_alpha_ = 2.0 / (params.period2 + 1.0);
+    slow_alpha1_ = 1.0 - slow_alpha_;
+}
+
+TripleExponentialMovingAverageOscillator::TripleExponentialMovingAverageOscillator(std::shared_ptr<LineRoot> data, int period1, int period2)
+    : Indicator(), data_source_(nullptr), current_index_(0),
+      fast_ema1_(0.0), fast_ema2_(0.0), fast_ema3_(0.0),
+      slow_ema1_(0.0), slow_ema2_(0.0), slow_ema3_(0.0),
+      first_run_(true) {
+    params.period1 = period1;
+    params.period2 = period2;
+    setup_lines();
+    
+    // Convert LineRoot to LineSeries if possible
+    auto lineseries = std::dynamic_pointer_cast<LineSeries>(data);
+    if (lineseries) {
+        data_source_ = lineseries;
+    }
+    
     // Calculate smoothing factors
     fast_alpha_ = 2.0 / (params.period1 + 1.0);
     fast_alpha1_ = 1.0 - fast_alpha_;
