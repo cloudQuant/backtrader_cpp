@@ -20,11 +20,13 @@ public:
     
     ZeroLagExponentialMovingAverage();
     ZeroLagExponentialMovingAverage(std::shared_ptr<LineSeries> data_source, int period = 30);
+    // Constructor for test framework compatibility
+    ZeroLagExponentialMovingAverage(std::shared_ptr<LineRoot> data, int period = 30);
     virtual ~ZeroLagExponentialMovingAverage() = default;
     
     // Utility methods
-    double get(int ago = 0) const;
-    int getMinPeriod() const;
+    double get(int ago = 0) const override;
+    int getMinPeriod() const override;
     void calculate() override;
     
 protected:

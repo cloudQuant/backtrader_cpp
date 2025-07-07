@@ -31,8 +31,8 @@ public:
     virtual ~MACD() = default;
     
     // Utility methods for tests
-    double get(int ago = 0) const;
-    int getMinPeriod() const;
+    double get(int ago = 0) const override;
+    int getMinPeriod() const override;
     void calculate() override;
     
     // Line access methods for compatibility
@@ -73,7 +73,7 @@ public:
     virtual ~MACDHisto() = default;
     
     // Get method for accessing the indicator value
-    double get(int ago = 0) const;
+    double get(int ago = 0) const override;
     
 protected:
     void prenext() override;

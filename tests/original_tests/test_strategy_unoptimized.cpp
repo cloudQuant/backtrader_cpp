@@ -14,8 +14,8 @@
 #include "cerebro.h"
 #include "indicators/sma.h"
 #include "indicators/crossover.h"
-#include "broker/Broker.h"
-#include "broker/Order.h"
+#include "broker.h"
+#include "order.h"
 #include <memory>
 #include <vector>
 #include <string>

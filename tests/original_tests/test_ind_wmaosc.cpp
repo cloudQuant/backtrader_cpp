@@ -17,6 +17,8 @@
 #include <random>
 
 #include "indicators/wmaosc.h"
+#include "indicators/emaosc.h"
+#include "indicators/smaosc.h"
 
 
 using namespace backtrader::tests::original;

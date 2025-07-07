@@ -20,7 +20,7 @@ using namespace backtrader;
 using namespace backtrader::indicators;
 
 // 基本仓位操作测试
-TEST(OriginalTests, backtrader::Position_BasicOperations) {
+TEST(OriginalTests, Position_BasicOperations) {
     double size = 10.0;
     double price = 10.0;
     

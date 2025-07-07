@@ -27,8 +27,8 @@ public:
     virtual ~WeightedMovingAverage() = default;
     
     // Utility methods for tests
-    double get(int ago = 0) const;
-    int getMinPeriod() const { return params.period; }
+    double get(int ago = 0) const override;
+    int getMinPeriod() const override { return params.period; }
     void calculate() override;
     
 protected:

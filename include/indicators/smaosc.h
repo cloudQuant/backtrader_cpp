@@ -31,8 +31,8 @@ public:
     virtual ~SimpleMovingAverageOscillator() = default;
     
     // Utility methods
-    double get(int ago = 0) const;
-    int getMinPeriod() const;
+    double get(int ago = 0) const override;
+    int getMinPeriod() const override;
     void calculate() override;
     
 protected:

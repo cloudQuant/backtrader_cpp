@@ -10,10 +10,10 @@
  */
 
 #include "test_common.h"
-#include "broker/Trade.h"
-#include "broker/Order.h"
-#include "broker/CommInfo.h"
-#include "data/backtrader::LineRoot.h"
+#include "trade.h"
+#include "order.h"
+#include "comminfo.h"
+#include "lineroot.h"
 #include <memory>
 #include <cassert>
 

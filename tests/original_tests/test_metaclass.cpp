@@ -9,9 +9,8 @@
  */
 
 #include "test_common.h"
-#include "base/MetaClass.h"
-#include "base/backtrader::LineRoot.h"
-#include "base/ParamsHolder.h"
+#include "metabase.h"
+#include "lineroot.h"
 #include "indicators/sma.h"
 #include <memory>
 #include <vector>

@@ -34,6 +34,19 @@ ZeroLagExponentialMovingAverage::ZeroLagExponentialMovingAverage(std::shared_ptr
     // ema_ = std::make_shared<EMA>();
 }
 
+// Constructor for test framework compatibility
+ZeroLagExponentialMovingAverage::ZeroLagExponentialMovingAverage(std::shared_ptr<LineRoot> data, int period) 
+    : Indicator(), data_source_(nullptr), current_index_(0) {
+    params.period = period;
+    setup_lines();
+    
+    // Calculate lag
+    lag_ = (params.period - 1) / 2;
+    
+    // Set minimum period needed
+    _minperiod(params.period + lag_);
+}
+
 double ZeroLagExponentialMovingAverage::get(int ago) const {
     if (!lines || lines->size() == 0) {
         return std::numeric_limits<double>::quiet_NaN();

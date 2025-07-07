@@ -30,8 +30,8 @@ public:
     virtual ~DoubleExponentialMovingAverage() = default;
     
     // Testing utility methods
-    double get(int ago = 0) const;
-    int getMinPeriod() const;
+    double get(int ago = 0) const override;
+    int getMinPeriod() const override;
     void calculate() override;
     
 protected:
@@ -70,8 +70,8 @@ public:
     virtual ~TripleExponentialMovingAverage() = default;
     
     // Utility methods
-    double get(int ago = 0) const;
-    int getMinPeriod() const;
+    double get(int ago = 0) const override;
+    int getMinPeriod() const override;
     
 protected:
     void prenext() override;

@@ -26,6 +26,17 @@ ZeroLagIndicator::ZeroLagIndicator(std::shared_ptr<LineSeries> data_source, int 
     alpha1_ = 1.0 - alpha_;
 }
 
+ZeroLagIndicator::ZeroLagIndicator(std::shared_ptr<LineRoot> data_source, int period) 
+    : Indicator(), data_source_(nullptr), current_index_(0), lineroot_source_(data_source) {
+    params.period = period;
+    setup_lines();
+    _minperiod(params.period);
+    
+    // Calculate alpha values
+    alpha_ = 2.0 / (params.period + 1.0);
+    alpha1_ = 1.0 - alpha_;
+}
+
 double ZeroLagIndicator::get(int ago) const {
     if (!lines || lines->size() == 0) {
         return std::numeric_limits<double>::quiet_NaN();
