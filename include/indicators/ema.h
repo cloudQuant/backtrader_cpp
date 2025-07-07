@@ -25,8 +25,8 @@ public:
     double alpha;
     
     // Utility methods for tests
-    double get(int ago = 0) const;
-    int getMinPeriod() const { return period; }
+    double get(int ago = 0) const override;
+    int getMinPeriod() const override { return period; }
     void calculate() override;
     
 protected:

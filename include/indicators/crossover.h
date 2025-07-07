@@ -16,7 +16,7 @@ public:
     virtual ~NonZeroDifference() = default;
     
     // Get method for accessing the indicator value
-    double get(int ago = 0) const;
+    double get(int ago = 0) const override;
     
     // Requires two data sources
     void add_data(std::shared_ptr<LineActions> data);
@@ -47,7 +47,7 @@ public:
     virtual ~CrossBase() = default;
     
     // Get method for accessing the indicator value
-    double get(int ago = 0) const;
+    double get(int ago = 0) const override;
     
     // Requires two data sources
     void add_data(std::shared_ptr<LineActions> data);
@@ -103,10 +103,10 @@ public:
     virtual ~CrossOver() = default;
     
     // Get method for accessing the indicator value
-    double get(int ago = 0) const;
+    double get(int ago = 0) const override;
     
     // Get minimum period required for the indicator
-    int getMinPeriod() const { return 2; }
+    int getMinPeriod() const override { return 2; }
     
     // Requires two data sources
     void add_data(std::shared_ptr<LineActions> data);

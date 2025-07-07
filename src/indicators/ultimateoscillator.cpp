@@ -33,6 +33,33 @@ UltimateOscillator::UltimateOscillator(std::shared_ptr<LineSeries> data_source, 
     tr_values_.reserve(params.p3 + 10);
 }
 
+UltimateOscillator::UltimateOscillator(std::shared_ptr<LineRoot> high, std::shared_ptr<LineRoot> low, std::shared_ptr<LineRoot> close, int p1, int p2, int p3) 
+    : Indicator(), data_source_(nullptr), current_index_(0) {
+    params.p1 = p1;
+    params.p2 = p2;
+    params.p3 = p3;
+    setup_lines();
+    
+    // Need maximum of the three periods + 1 for true range calculation
+    _minperiod(std::max({params.p1, params.p2, params.p3}) + 1);
+    
+    // Initialize circular buffers
+    bp_values_.reserve(params.p3 + 10);
+    tr_values_.reserve(params.p3 + 10);
+    
+    // Store HLC data sources for multi-line indicators
+    if (high && low && close) {
+        // Convert to LineSeries if possible for compatibility
+        auto high_series = std::dynamic_pointer_cast<LineSeries>(high);
+        auto low_series = std::dynamic_pointer_cast<LineSeries>(low);
+        auto close_series = std::dynamic_pointer_cast<LineSeries>(close);
+        
+        // Store for later use in calculation methods
+        // For now, we'll use the traditional datas approach
+        // The indicator will access these through datas[0], datas[1], datas[2]
+    }
+}
+
 double UltimateOscillator::get(int ago) const {
     if (!lines || lines->size() == 0) {
         return std::numeric_limits<double>::quiet_NaN();

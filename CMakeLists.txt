@@ -95,6 +95,10 @@ set(BACKTRADER_INDICATOR_SOURCES
     src/indicators/tsi.cpp
     src/indicators/prettygoodoscillator.cpp
     src/indicators/priceoscillator.cpp
+    src/indicators/vortex.cpp
+    src/indicators/williamsr.cpp
+    src/indicators/wmaosc.cpp
+    src/indicators/wmaenvelope.cpp
 )
 
 # Skip complex components for now to get basic build working

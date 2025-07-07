@@ -25,6 +25,7 @@ public:
     
     UltimateOscillator();
     UltimateOscillator(std::shared_ptr<LineSeries> data_source, int p1 = 7, int p2 = 14, int p3 = 28);
+    UltimateOscillator(std::shared_ptr<LineRoot> high, std::shared_ptr<LineRoot> low, std::shared_ptr<LineRoot> close, int p1 = 7, int p2 = 14, int p3 = 28);
     virtual ~UltimateOscillator() = default;
     
     // Utility methods

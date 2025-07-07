@@ -20,6 +20,7 @@
 
 #include "indicators/envelope.h"
 #include "indicators/wma.h"
+#include "indicators/wmaenvelope.h"
 
 
 using namespace backtrader::tests::original;

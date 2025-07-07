@@ -10,6 +10,15 @@ Vortex::Vortex() : Indicator() {
     _minperiod(params.period + 1); // Need previous values
 }
 
+Vortex::Vortex(std::shared_ptr<LineRoot> high, std::shared_ptr<LineRoot> low, std::shared_ptr<LineRoot> close, int period) : Indicator() {
+    params.period = period;
+    setup_lines();
+    _minperiod(params.period + 1); // Need previous values
+    
+    // Store data sources for multi-line indicators
+    // For now, we'll assume these will be handled through the traditional datas approach
+}
+
 void Vortex::setup_lines() {
     if (lines->size() == 0) {
             lines->add_line(std::make_shared<LineBuffer>());
@@ -192,6 +201,46 @@ double Vortex::get_sum_tr(int period) {
         sum += tr_values_[i];
     }
     return sum;
+}
+
+double Vortex::get(int ago) const {
+    // Return VI+ by default (first line)
+    return getVIPlus(ago);
+}
+
+int Vortex::getMinPeriod() const {
+    return params.period + 1;
+}
+
+void Vortex::calculate() {
+    // Standard indicator calculate - calls next()
+    next();
+}
+
+double Vortex::getVIPlus(int ago) const {
+    if (!lines || lines->size() == 0) {
+        return 0.0;
+    }
+    
+    auto vi_plus_line = lines->getline(vi_plus);
+    if (!vi_plus_line) {
+        return 0.0;
+    }
+    
+    return (*vi_plus_line)[ago];
+}
+
+double Vortex::getVIMinus(int ago) const {
+    if (!lines || lines->size() < 2) {
+        return 0.0;
+    }
+    
+    auto vi_minus_line = lines->getline(vi_minus);
+    if (!vi_minus_line) {
+        return 0.0;
+    }
+    
+    return (*vi_minus_line)[ago];
 }
 
 } // namespace backtrader

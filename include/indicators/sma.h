@@ -44,8 +44,8 @@ public:
     int period;
     
     // Utility methods for tests
-    double get(int ago = 0) const;
-    int getMinPeriod() const { return period; }
+    double get(int ago = 0) const override;
+    int getMinPeriod() const override { return period; }
     Params getParams() const { return Params(period); }
     void calculate() override;
     

@@ -19,10 +19,17 @@ public:
     };
     
     Vortex();
+    Vortex(std::shared_ptr<LineRoot> high, std::shared_ptr<LineRoot> low, std::shared_ptr<LineRoot> close, int period = 14);
     virtual ~Vortex() = default;
     
     // Get method for accessing the indicator value
     double get(int ago = 0) const;
+    int getMinPeriod() const;
+    void calculate() override;
+    
+    // Line access methods for tests
+    double getVIPlus(int ago = 0) const;
+    double getVIMinus(int ago = 0) const;
     
 protected:
     void prenext() override;
