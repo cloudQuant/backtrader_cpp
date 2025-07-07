@@ -3,6 +3,7 @@
 #include "../indicator.h"
 #include "../lineseries.h"
 #include "ema.h"
+#include "wma.h"
 #include <memory>
 
 namespace backtrader {
@@ -86,40 +87,7 @@ private:
     std::shared_ptr<indicators::EMA> ema3_;  // EMA of EMA2
 };
 
-// Weighted Moving Average (WMA)
-class WeightedMovingAverage : public Indicator {
-public:
-    struct Params {
-        int period = 30;  // Period for WMA calculation
-    } params;
-    
-    // Lines
-    enum Lines { 
-        wma = 0
-    };
-    
-    WeightedMovingAverage();
-    // Constructor for test framework compatibility
-    WeightedMovingAverage(std::shared_ptr<LineRoot> data);
-    WeightedMovingAverage(std::shared_ptr<LineRoot> data, int period);
-    virtual ~WeightedMovingAverage() = default;
-    
-    // Utility methods
-    double get(int ago = 0) const;
-    int getMinPeriod() const;
-    
-protected:
-    void prenext() override;
-    void next() override;
-    void once(int start, int end) override;
-    
-private:
-    void setup_lines();
-    
-    // WMA calculation coefficients
-    double coef_;
-    std::vector<double> weights_;
-};
+// WeightedMovingAverage is now included from wma.h
 
 // Aliases
 using DEMA = DoubleExponentialMovingAverage;
