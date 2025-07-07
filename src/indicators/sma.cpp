@@ -45,6 +45,19 @@ SMA::SMA(std::shared_ptr<LineRoot> data_source, int period)
     }
 }
 
+SMA::SMA(IndicatorSourceTag, std::shared_ptr<IndicatorBase> indicator_source, int period) 
+    : Indicator(), period(period), sum_(0.0), indicator_source_(indicator_source), current_index_(0) {
+    // Set minimum period (base period + source indicator's minimum period - 1)
+    int source_minperiod = indicator_source ? indicator_source->getMinPeriod() : 1;
+    _minperiod(source_minperiod + period - 1);
+    
+    // Initialize lines
+    if (lines->size() == 0) {
+        lines->add_line(std::make_shared<LineBuffer>());
+        lines->add_alias("sma", 0);
+    }
+}
+
 void SMA::next() {
     if (!data || data->lines->size() == 0) {
         return;
@@ -144,7 +157,25 @@ double SMA::get(int ago) const {
 }
 
 void SMA::calculate() {
-    if (data_source_) {
+    if (indicator_source_) {
+        // For indicator source, get the current value from the source indicator
+        double source_value = indicator_source_->get(0);
+        
+        if (!std::isnan(source_value)) {
+            values_.push_back(source_value);
+            sum_ += source_value;
+            
+            if (static_cast<int>(values_.size()) > period) {
+                sum_ -= values_.front();
+                values_.pop_front();
+            }
+            
+            if (static_cast<int>(values_.size()) == period) {
+                double sma_value = sum_ / period;
+                lines->getline(0)->set(0, sma_value);
+            }
+        }
+    } else if (data_source_) {
         // For data source constructor, calculate for entire dataset
         if (data_source_->lines && data_source_->lines->size() > 0) {
             auto data_line = data_source_->lines->getline(0);

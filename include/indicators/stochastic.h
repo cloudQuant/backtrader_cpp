@@ -72,6 +72,9 @@ public:
     } params;
     
     Stochastic();
+    Stochastic(std::shared_ptr<LineRoot> high, std::shared_ptr<LineRoot> low, std::shared_ptr<LineRoot> close);
+    Stochastic(std::shared_ptr<LineRoot> high, std::shared_ptr<LineRoot> low, std::shared_ptr<LineRoot> close, 
+               int period, int period_dfast, int period_dslow);
     virtual ~Stochastic() = default;
     
 protected:

@@ -3,6 +3,7 @@
 #include "../indicator.h"
 #include "../lineseries.h"
 #include <deque>
+#include <type_traits>
 
 namespace backtrader {
 namespace indicators {
@@ -20,6 +21,20 @@ public:
     // Constructor with data source and period (Python-style API)
     SMA(std::shared_ptr<LineSeries> data_source, int period = 30);
     SMA(std::shared_ptr<LineRoot> data_source, int period = 30);
+    
+    // Tag types for constructor disambiguation
+    struct IndicatorSourceTag {};
+    static constexpr IndicatorSourceTag from_indicator{};
+    
+    // Constructor with indicator as data source (for nested indicators)
+    SMA(IndicatorSourceTag, std::shared_ptr<IndicatorBase> indicator_source, int period);
+    
+    // Convenience factory method for creating SMA from another indicator
+    template<typename IndicatorType>
+    static std::shared_ptr<SMA> fromIndicator(std::shared_ptr<IndicatorType> indicator_source, int period) {
+        static_assert(std::is_base_of_v<IndicatorBase, IndicatorType>, "IndicatorType must inherit from IndicatorBase");
+        return std::make_shared<SMA>(from_indicator, std::static_pointer_cast<IndicatorBase>(indicator_source), period);
+    }
     virtual ~SMA() = default;
     
     void next() override;
@@ -45,6 +60,9 @@ private:
     
     // LineRoot support
     std::shared_ptr<LineRoot> lineroot_source_;
+    
+    // IndicatorBase support for nested indicators
+    std::shared_ptr<IndicatorBase> indicator_source_;
 };
 
 } // namespace indicators

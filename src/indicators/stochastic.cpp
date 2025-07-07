@@ -68,8 +68,7 @@ StochasticFast::StochasticFast() : StochasticBase() {
     setup_lines();
     
     // Create SMA for %D calculation
-    sma_fast_ = std::make_shared<SMA>();
-    sma_fast_->params.period = params.period_dfast;
+    sma_fast_ = std::make_shared<indicators::SMA>(params.period_dfast);
     
     _minperiod(params.period + params.period_dfast - 1);
 }
@@ -125,13 +124,69 @@ Stochastic::Stochastic() : StochasticBase() {
     setup_lines();
     
     // Create SMA for %D and %DSlow calculations
-    sma_fast_ = std::make_shared<SMA>();
-    sma_fast_->params.period = params.period_dfast;
-    
-    sma_dslow_ = std::make_shared<SMA>();
-    sma_dslow_->params.period = params.period_dslow;
+    sma_fast_ = std::make_shared<indicators::SMA>(params.period_dfast);
+    sma_dslow_ = std::make_shared<indicators::SMA>(params.period_dslow);
     
     _minperiod(params.period + params.period_dfast + params.period_dslow - 2);
+}
+
+Stochastic::Stochastic(std::shared_ptr<LineRoot> high, std::shared_ptr<LineRoot> low, std::shared_ptr<LineRoot> close) 
+    : StochasticBase() {
+    // Use default parameters
+    params.period = 14;
+    params.period_dfast = 3;
+    params.period_dslow = 3;
+    
+    setup_lines();
+    
+    // Create SMA for %D and %DSlow calculations
+    sma_fast_ = std::make_shared<indicators::SMA>(params.period_dfast);
+    sma_dslow_ = std::make_shared<indicators::SMA>(params.period_dslow);
+    
+    _minperiod(params.period + params.period_dfast + params.period_dslow - 2);
+    
+    // Add data sources
+    if (high) {
+        auto high_series = std::dynamic_pointer_cast<LineSeries>(high);
+        if (high_series) datas.push_back(high_series);
+    }
+    if (low) {
+        auto low_series = std::dynamic_pointer_cast<LineSeries>(low);
+        if (low_series) datas.push_back(low_series);
+    }
+    if (close) {
+        auto close_series = std::dynamic_pointer_cast<LineSeries>(close);
+        if (close_series) datas.push_back(close_series);
+    }
+}
+
+Stochastic::Stochastic(std::shared_ptr<LineRoot> high, std::shared_ptr<LineRoot> low, std::shared_ptr<LineRoot> close, 
+                       int period, int period_dfast, int period_dslow) : StochasticBase() {
+    params.period = period;
+    params.period_dfast = period_dfast;
+    params.period_dslow = period_dslow;
+    
+    setup_lines();
+    
+    // Create SMA for %D and %DSlow calculations
+    sma_fast_ = std::make_shared<indicators::SMA>(params.period_dfast);
+    sma_dslow_ = std::make_shared<indicators::SMA>(params.period_dslow);
+    
+    _minperiod(params.period + params.period_dfast + params.period_dslow - 2);
+    
+    // Add data sources
+    if (high) {
+        auto high_series = std::dynamic_pointer_cast<LineSeries>(high);
+        if (high_series) datas.push_back(high_series);
+    }
+    if (low) {
+        auto low_series = std::dynamic_pointer_cast<LineSeries>(low);
+        if (low_series) datas.push_back(low_series);
+    }
+    if (close) {
+        auto close_series = std::dynamic_pointer_cast<LineSeries>(close);
+        if (close_series) datas.push_back(close_series);
+    }
 }
 
 void Stochastic::setup_lines() {
@@ -201,11 +256,8 @@ StochasticFull::StochasticFull() : StochasticBase() {
     setup_lines();
     
     // Create SMA for %D and %DSlow calculations
-    sma_fast_ = std::make_shared<SMA>();
-    sma_fast_->params.period = params.period_dfast;
-    
-    sma_dslow_ = std::make_shared<SMA>();
-    sma_dslow_->params.period = params.period_dslow;
+    sma_fast_ = std::make_shared<indicators::SMA>(params.period_dfast);
+    sma_dslow_ = std::make_shared<indicators::SMA>(params.period_dslow);
     
     _minperiod(params.period + params.period_dfast + params.period_dslow - 2);
 }

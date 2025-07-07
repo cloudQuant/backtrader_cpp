@@ -89,6 +89,7 @@ set(BACKTRADER_INDICATOR_SOURCES
     src/indicators/kamaosc.cpp
     src/indicators/lrsi.cpp
     src/indicators/kst.cpp
+    src/indicators/stochastic.cpp
 )
 
 # Skip complex components for now to get basic build working

@@ -193,7 +193,7 @@ TEST(OriginalTests, MinPeriod_NestedIndicators) {
     auto base_sma = std::make_shared<SMA>(close_line, 20);
     
     // 创建基于SMA的另一个SMA（嵌套）
-    auto nested_sma = std::make_shared<SMA>(base_sma, 10);
+    auto nested_sma = SMA::fromIndicator(base_sma, 10);
     
     // 嵌套指标的最小周期应该是基础指标的最小周期 + 自身周期 - 1
     int expected_nested_minperiod = base_sma->getMinPeriod() + 10 - 1;
