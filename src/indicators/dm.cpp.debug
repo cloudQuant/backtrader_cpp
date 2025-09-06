@@ -1,0 +1,468 @@
+#include "indicators/dm.h"
+#include "linebuffer.h"
+#include <algorithm>
+#include <cmath>
+#include <limits>
+#include <iostream>
+#include <exception>
+
+namespace backtrader {
+namespace indicators {
+
+DirectionalMovement::DirectionalMovement() : Indicator() {
+    setup_lines();
+}
+
+DirectionalMovement::DirectionalMovement(std::shared_ptr<DataSeries> data_source)
+    : Indicator() {
+    std::cout << "[DM DEBUG] Constructor with data_source started" << std::endl;
+    
+    try {
+        setup_lines();
+        std::cout << "[DM DEBUG] setup_lines() completed" << std::endl;
+        
+        _minperiod(params.period * 3);
+        std::cout << "[DM DEBUG] minperiod set to: " << (params.period * 3) << std::endl;
+        
+        // Connect to data source
+        this->data = data_source;
+        this->datas.push_back(data_source);
+        std::cout << "[DM DEBUG] Data source connected" << std::endl;
+        
+        // Initialize internal indicators and buffers
+        std::cout << "[DM DEBUG] Creating ATR indicator..." << std::endl;
+        atr_ = std::make_shared<ATR>(data_source, params.period);
+        std::cout << "[DM DEBUG] ATR indicator created successfully" << std::endl;
+        
+        // Create temporary series for DM calculations
+        std::cout << "[DM DEBUG] Creating temporary series..." << std::endl;
+        plusDM_series_ = std::make_shared<LineSeries>();
+        plusDM_series_->lines->add_line(std::make_shared<LineBuffer>());
+        std::cout << "[DM DEBUG] plusDM_series created" << std::endl;
+        
+        minusDM_series_ = std::make_shared<LineSeries>();
+        minusDM_series_->lines->add_line(std::make_shared<LineBuffer>());
+        std::cout << "[DM DEBUG] minusDM_series created" << std::endl;
+        
+        dx_series_ = std::make_shared<LineSeries>();
+        dx_series_->lines->add_line(std::make_shared<LineBuffer>());
+        std::cout << "[DM DEBUG] dx_series created" << std::endl;
+        
+        // Create moving averages for DM values
+        std::cout << "[DM DEBUG] Creating SMMA indicators..." << std::endl;
+        plusDMav_ = std::make_shared<SMMA>(plusDM_series_, params.period);
+        std::cout << "[DM DEBUG] plusDMav SMMA created" << std::endl;
+        
+        minusDMav_ = std::make_shared<SMMA>(minusDM_series_, params.period);
+        std::cout << "[DM DEBUG] minusDMav SMMA created" << std::endl;
+        
+        adx_smma_ = std::make_shared<SMMA>(dx_series_, params.period);
+        std::cout << "[DM DEBUG] adx_smma SMMA created" << std::endl;
+        
+        std::cout << "[DM DEBUG] Constructor completed successfully" << std::endl;
+    } catch (const std::exception& e) {
+        std::cerr << "[DM ERROR] Exception in constructor: " << e.what() << std::endl;
+        throw;
+    }
+}
+
+DirectionalMovement::DirectionalMovement(std::shared_ptr<DataSeries> data_source, int period)
+    : Indicator() {
+    std::cout << "[DM DEBUG] Constructor with data_source and period(" << period << ") started" << std::endl;
+    
+    try {
+        params.period = period;
+        setup_lines();
+        std::cout << "[DM DEBUG] setup_lines() completed" << std::endl;
+        
+        _minperiod(params.period * 3);
+        std::cout << "[DM DEBUG] minperiod set to: " << (params.period * 3) << std::endl;
+        
+        // Connect to data source
+        this->data = data_source;
+        this->datas.push_back(data_source);
+        std::cout << "[DM DEBUG] Data source connected" << std::endl;
+        
+        // Initialize internal indicators and buffers
+        std::cout << "[DM DEBUG] Creating ATR indicator with period: " << params.period << std::endl;
+        atr_ = std::make_shared<ATR>(data_source, params.period);
+        std::cout << "[DM DEBUG] ATR indicator created successfully" << std::endl;
+        
+        // Create temporary series for DM calculations
+        std::cout << "[DM DEBUG] Creating temporary series..." << std::endl;
+        plusDM_series_ = std::make_shared<LineSeries>();
+        plusDM_series_->lines->add_line(std::make_shared<LineBuffer>());
+        std::cout << "[DM DEBUG] plusDM_series created" << std::endl;
+        
+        minusDM_series_ = std::make_shared<LineSeries>();
+        minusDM_series_->lines->add_line(std::make_shared<LineBuffer>());
+        std::cout << "[DM DEBUG] minusDM_series created" << std::endl;
+        
+        dx_series_ = std::make_shared<LineSeries>();
+        dx_series_->lines->add_line(std::make_shared<LineBuffer>());
+        std::cout << "[DM DEBUG] dx_series created" << std::endl;
+        
+        // Create moving averages for DM values
+        std::cout << "[DM DEBUG] Creating SMMA indicators with period: " << params.period << std::endl;
+        plusDMav_ = std::make_shared<SMMA>(plusDM_series_, params.period);
+        std::cout << "[DM DEBUG] plusDMav SMMA created" << std::endl;
+        
+        minusDMav_ = std::make_shared<SMMA>(minusDM_series_, params.period);
+        std::cout << "[DM DEBUG] minusDMav SMMA created" << std::endl;
+        
+        adx_smma_ = std::make_shared<SMMA>(dx_series_, params.period);
+        std::cout << "[DM DEBUG] adx_smma SMMA created" << std::endl;
+        
+        std::cout << "[DM DEBUG] Constructor completed successfully" << std::endl;
+    } catch (const std::exception& e) {
+        std::cerr << "[DM ERROR] Exception in constructor: " << e.what() << std::endl;
+        throw;
+    }
+}
+
+void DirectionalMovement::setup_lines() {
+    // Always ensure we have the right number of lines
+    if (!lines || lines->size() != 4) {
+        if (!lines) {
+            lines = std::make_shared<Lines>();
+        }
+        
+        // Clear existing lines if any
+        while (lines->size() > 0) {
+            // Note: Lines class doesn't have a clear method, so we need to work around this
+            break;
+        }
+        
+        // If lines already exist but wrong count, recreate
+        if (lines->size() != 4) {
+            lines = std::make_shared<Lines>();
+            // Create 4 lines: Plus DI, Minus DI, DX, ADX
+            for (int i = 0; i < 4; ++i) {
+                lines->add_line(std::make_shared<LineBuffer>());
+            }
+            // Add aliases
+            lines->add_alias("plusDI", plusDI);
+            lines->add_alias("minusDI", minusDI);
+            lines->add_alias("dx", dx);
+            lines->add_alias("adx", adx);
+        }
+    }
+}
+
+void DirectionalMovement::calculate() {
+    calculate_dm_values();
+}
+
+void DirectionalMovement::calculate_dm_values() {
+    std::cout << "[DM DEBUG] calculate_dm_values() started" << std::endl;
+    
+    try {
+        // Get data lines
+        if (!data || !data->lines || data->lines->size() < 5) {
+            std::cerr << "[DM ERROR] Invalid data source - data: " << (data ? "exists" : "null")
+                      << ", lines: " << (data && data->lines ? "exists" : "null")
+                      << ", size: " << (data && data->lines ? data->lines->size() : 0) << std::endl;
+            throw std::runtime_error("Invalid data source for DM calculation - need at least 5 lines");
+        }
+        std::cout << "[DM DEBUG] Data source valid, lines count: " << data->lines->size() << std::endl;
+        
+        // DataSeries actual line order from _get_line_names(): 
+        // datetime(0), open(1), high(2), low(3), close(4), volume(5), openinterest(6)
+        std::cout << "[DM DEBUG] Getting data lines..." << std::endl;
+        auto high_line = data->lines->getline(2);   // high
+        auto low_line = data->lines->getline(3);    // low
+        auto close_line = data->lines->getline(4);  // close
+        
+        if (!high_line || !low_line || !close_line) {
+            std::cerr << "[DM ERROR] Required data lines not available - high: " << (high_line ? "exists" : "null")
+                      << ", low: " << (low_line ? "exists" : "null")
+                      << ", close: " << (close_line ? "exists" : "null") << std::endl;
+            throw std::runtime_error("Required data lines not available");
+        }
+        std::cout << "[DM DEBUG] Data lines retrieved successfully" << std::endl;
+        
+        int data_size = static_cast<int>(high_line->size());
+        std::cout << "[DM DEBUG] Data size: " << data_size << std::endl;
+        if (data_size < 2) {
+            std::cout << "[DM DEBUG] Not enough data (size < 2), returning" << std::endl;
+            return;
+        }
+        
+        // Get output line buffers
+        std::cout << "[DM DEBUG] Getting output line buffers..." << std::endl;
+        auto plusDI_line = std::dynamic_pointer_cast<LineBuffer>(lines->getline(plusDI));
+        auto minusDI_line = std::dynamic_pointer_cast<LineBuffer>(lines->getline(minusDI));
+        auto dx_line = std::dynamic_pointer_cast<LineBuffer>(lines->getline(dx));
+        auto adx_line = std::dynamic_pointer_cast<LineBuffer>(lines->getline(adx));
+        
+        if (!plusDI_line || !minusDI_line || !dx_line || !adx_line) {
+            std::cerr << "[DM ERROR] Output line buffers not available - plusDI: " << (plusDI_line ? "exists" : "null")
+                      << ", minusDI: " << (minusDI_line ? "exists" : "null")
+                      << ", dx: " << (dx_line ? "exists" : "null")
+                      << ", adx: " << (adx_line ? "exists" : "null") << std::endl;
+            throw std::runtime_error("Output line buffers not available");
+        }
+        std::cout << "[DM DEBUG] Output line buffers retrieved successfully" << std::endl;
+        
+        // Get internal buffers
+        std::cout << "[DM DEBUG] Getting internal buffers..." << std::endl;
+        auto plusDM_buffer = std::dynamic_pointer_cast<LineBuffer>(plusDM_series_->lines->getline(0));
+        auto minusDM_buffer = std::dynamic_pointer_cast<LineBuffer>(minusDM_series_->lines->getline(0));
+        auto dx_buffer = std::dynamic_pointer_cast<LineBuffer>(dx_series_->lines->getline(0));
+        
+        if (!plusDM_buffer || !minusDM_buffer || !dx_buffer) {
+            std::cerr << "[DM ERROR] Internal buffers not available - plusDM: " << (plusDM_buffer ? "exists" : "null")
+                      << ", minusDM: " << (minusDM_buffer ? "exists" : "null")
+                      << ", dx: " << (dx_buffer ? "exists" : "null") << std::endl;
+            throw std::runtime_error("Internal buffers not available");
+        }
+        std::cout << "[DM DEBUG] Internal buffers retrieved successfully" << std::endl;
+        
+        // Reset all buffers
+        std::cout << "[DM DEBUG] Resetting all buffers..." << std::endl;
+        plusDM_buffer->reset();
+        minusDM_buffer->reset();
+        dx_buffer->reset();
+        plusDI_line->reset();
+        minusDI_line->reset();
+        dx_line->reset();
+        adx_line->reset();
+        std::cout << "[DM DEBUG] All buffers reset" << std::endl;
+    
+        // First value is NaN
+        std::cout << "[DM DEBUG] Appending first NaN values..." << std::endl;
+        plusDM_buffer->append(std::numeric_limits<double>::quiet_NaN());
+        minusDM_buffer->append(std::numeric_limits<double>::quiet_NaN());
+        
+        // Calculate DM values for each bar
+        std::cout << "[DM DEBUG] Calculating DM values for " << (data_size - 1) << " bars..." << std::endl;
+        for (int i = 1; i < data_size; ++i) {
+            // Get current and previous values (reverse chronological order)
+            int curr_idx = data_size - 1 - i;
+            int prev_idx = data_size - 1 - (i - 1);
+            
+            std::cout << "[DM DEBUG] Bar " << i << ": curr_idx=" << curr_idx << ", prev_idx=" << prev_idx << std::endl;
+            
+            double high, low, prev_high, prev_low;
+            try {
+                high = (*high_line)[curr_idx];
+                low = (*low_line)[curr_idx];
+                prev_high = (*high_line)[prev_idx];
+                prev_low = (*low_line)[prev_idx];
+                
+                std::cout << "[DM DEBUG] Values: high=" << high << ", low=" << low 
+                          << ", prev_high=" << prev_high << ", prev_low=" << prev_low << std::endl;
+            } catch (const std::exception& e) {
+                std::cerr << "[DM ERROR] Exception accessing line data at i=" << i 
+                          << ", curr_idx=" << curr_idx << ", prev_idx=" << prev_idx
+                          << ": " << e.what() << std::endl;
+                throw;
+            }
+        
+            // Calculate directional movements
+            double up_move = high - prev_high;
+            double down_move = prev_low - low;
+        
+        // Plus DM: up_move if up_move > down_move and up_move > 0, else 0
+        double plusDM = 0.0;
+        if (up_move > down_move && up_move > 0.0) {
+            plusDM = up_move;
+        }
+        
+        // Minus DM: down_move if down_move > up_move and down_move > 0, else 0
+        double minusDM = 0.0;
+        if (down_move > up_move && down_move > 0.0) {
+            minusDM = down_move;
+        }
+        
+        plusDM_buffer->append(plusDM);
+        minusDM_buffer->append(minusDM);
+    }
+    
+        // Calculate ATR
+        std::cout << "[DM DEBUG] Calculating ATR..." << std::endl;
+        try {
+            atr_->calculate();
+            std::cout << "[DM DEBUG] ATR calculation completed" << std::endl;
+        } catch (const std::exception& e) {
+            std::cerr << "[DM ERROR] Exception in ATR calculation: " << e.what() << std::endl;
+            throw;
+        }
+        
+        // Calculate smoothed DM averages
+        std::cout << "[DM DEBUG] Calculating SMMA for plusDMav..." << std::endl;
+        try {
+            plusDMav_->calculate();
+            std::cout << "[DM DEBUG] plusDMav calculation completed" << std::endl;
+        } catch (const std::exception& e) {
+            std::cerr << "[DM ERROR] Exception in plusDMav calculation: " << e.what() << std::endl;
+            throw;
+        }
+        
+        std::cout << "[DM DEBUG] Calculating SMMA for minusDMav..." << std::endl;
+        try {
+            minusDMav_->calculate();
+            std::cout << "[DM DEBUG] minusDMav calculation completed" << std::endl;
+        } catch (const std::exception& e) {
+            std::cerr << "[DM ERROR] Exception in minusDMav calculation: " << e.what() << std::endl;
+            throw;
+        }
+        
+        // Calculate DI values
+        std::cout << "[DM DEBUG] Getting ATR and SMMA lines..." << std::endl;
+        auto atr_line = atr_->lines->getline(0);
+        auto plusDMav_line = plusDMav_->lines->getline(0);
+        auto minusDMav_line = minusDMav_->lines->getline(0);
+        
+        if (!atr_line || !plusDMav_line || !minusDMav_line) {
+            std::cerr << "[DM ERROR] Failed to get indicator lines - atr: " << (atr_line ? "exists" : "null")
+                      << ", plusDMav: " << (plusDMav_line ? "exists" : "null")
+                      << ", minusDMav: " << (minusDMav_line ? "exists" : "null") << std::endl;
+            throw std::runtime_error("Failed to get indicator lines");
+        }
+        std::cout << "[DM DEBUG] ATR and SMMA lines retrieved, sizes - ATR: " << atr_line->size()
+                  << ", plusDMav: " << plusDMav_line->size()
+                  << ", minusDMav: " << minusDMav_line->size() << std::endl;
+    
+        std::cout << "[DM DEBUG] Calculating DI values for " << data_size << " bars..." << std::endl;
+        for (int i = 0; i < data_size; ++i) {
+            double atr_val, plusDMav_val, minusDMav_val;
+            try {
+                atr_val = (*atr_line)[i];
+                plusDMav_val = (*plusDMav_line)[i];
+                minusDMav_val = (*minusDMav_line)[i];
+                
+                if (i < 5) {  // Debug first few values
+                    std::cout << "[DM DEBUG] DI calc bar " << i << ": atr=" << atr_val 
+                              << ", plusDMav=" << plusDMav_val << ", minusDMav=" << minusDMav_val << std::endl;
+                }
+            } catch (const std::exception& e) {
+                std::cerr << "[DM ERROR] Exception accessing indicator values at index " << i 
+                          << ": " << e.what() << std::endl;
+                throw;
+            }
+        
+            if (std::isnan(atr_val) || atr_val == 0.0) {
+                plusDI_line->append(std::numeric_limits<double>::quiet_NaN());
+                minusDI_line->append(std::numeric_limits<double>::quiet_NaN());
+                dx_buffer->append(std::numeric_limits<double>::quiet_NaN());
+            } else {
+                // DI+ = 100 * smoothed(+DM) / ATR
+                double plus_di = 100.0 * plusDMav_val / atr_val;
+                plusDI_line->append(plus_di);
+                
+                // DI- = 100 * smoothed(-DM) / ATR
+                double minus_di = 100.0 * minusDMav_val / atr_val;
+                minusDI_line->append(minus_di);
+            
+            // DX = 100 * |DI+ - DI-| / (DI+ + DI-)
+            double di_sum = plus_di + minus_di;
+            if (di_sum == 0.0) {
+                dx_buffer->append(0.0);
+            } else {
+                double dx_val = 100.0 * std::abs(plus_di - minus_di) / di_sum;
+                dx_buffer->append(dx_val);
+            }
+        }
+    }
+    
+        // Copy DX values to output
+        std::cout << "[DM DEBUG] Copying DX values to output, dx_buffer size: " << dx_buffer->size() << std::endl;
+        for (int i = 0; i < data_size; ++i) {
+            try {
+                dx_line->append((*dx_buffer)[i]);
+            } catch (const std::exception& e) {
+                std::cerr << "[DM ERROR] Exception copying DX value at index " << i 
+                          << ", dx_buffer size: " << dx_buffer->size()
+                          << ": " << e.what() << std::endl;
+                throw;
+            }
+        }
+        std::cout << "[DM DEBUG] DX values copied successfully" << std::endl;
+    
+        // Calculate ADX (smoothed DX)
+        std::cout << "[DM DEBUG] Calculating ADX (SMMA of DX)..." << std::endl;
+        try {
+            adx_smma_->calculate();
+            std::cout << "[DM DEBUG] ADX calculation completed" << std::endl;
+        } catch (const std::exception& e) {
+            std::cerr << "[DM ERROR] Exception in ADX calculation: " << e.what() << std::endl;
+            throw;
+        }
+        
+        std::cout << "[DM DEBUG] Getting ADX SMMA line..." << std::endl;
+        auto adx_smma_line = adx_smma_->lines->getline(0);
+        if (!adx_smma_line) {
+            std::cerr << "[DM ERROR] Failed to get ADX SMMA line" << std::endl;
+            throw std::runtime_error("Failed to get ADX SMMA line");
+        }
+        std::cout << "[DM DEBUG] ADX SMMA line retrieved, size: " << adx_smma_line->size() << std::endl;
+    
+        // Copy ADX values to output
+        std::cout << "[DM DEBUG] Copying ADX values to output..." << std::endl;
+        for (int i = 0; i < data_size; ++i) {
+            try {
+                adx_line->append((*adx_smma_line)[i]);
+            } catch (const std::exception& e) {
+                std::cerr << "[DM ERROR] Exception copying ADX value at index " << i 
+                          << ": " << e.what() << std::endl;
+                throw;
+            }
+        }
+        
+        std::cout << "[DM DEBUG] calculate_dm_values() completed successfully" << std::endl;
+    } catch (const std::exception& e) {
+        std::cerr << "[DM ERROR] Exception in calculate_dm_values: " << e.what() << std::endl;
+        throw;
+    }
+}
+
+void DirectionalMovement::next() {
+    calculate();
+}
+
+void DirectionalMovement::once(int start, int end) {
+    calculate();
+}
+
+double DirectionalMovement::getDIPlus(int ago) const {
+    if (!lines || ago < 0) return 0.0;
+    auto line = lines->getline(plusDI);
+    if (!line) return 0.0;
+    return (*line)[ago];
+}
+
+double DirectionalMovement::getDIMinus(int ago) const {
+    if (!lines || ago < 0) return 0.0;
+    auto line = lines->getline(minusDI);
+    if (!line) return 0.0;
+    return (*line)[ago];
+}
+
+double DirectionalMovement::getDX(int ago) const {
+    if (!lines || ago < 0) return 0.0;
+    auto line = lines->getline(dx);
+    if (!line) return 0.0;
+    return (*line)[ago];
+}
+
+double DirectionalMovement::getADX(int ago) const {
+    if (!lines || ago < 0) return 0.0;
+    auto line = lines->getline(adx);
+    if (!line) return 0.0;
+    return (*line)[ago];
+}
+
+size_t DirectionalMovement::size() const {
+    if (!lines || lines->size() == 0) {
+        return 0;
+    }
+    auto line = lines->getline(plusDI);
+    if (!line) {
+        return 0;
+    }
+    return line->size();
+}
+
+} // namespace indicators
+} // namespace backtrader

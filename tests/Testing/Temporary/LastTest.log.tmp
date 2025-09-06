@@ -1,0 +1,409 @@
+Start testing: Aug 11 10:22 CST
+----------------------------------------------------------
+1/84 Testing: test_analyzer-sqn
+1/84 Test: test_analyzer-sqn
+Command: "/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_analyzer-sqn"
+Directory: /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests
+"test_analyzer-sqn" start time: Aug 11 10:22 CST
+Output:
+----------------------------------------------------------
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_analyzer-sqn: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.32' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_analyzer-sqn)
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_analyzer-sqn: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.31' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_analyzer-sqn)
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"test_analyzer-sqn" end time: Aug 11 10:22 CST
+"test_analyzer-sqn" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/84 Testing: test_analyzer-timereturn
+2/84 Test: test_analyzer-timereturn
+Command: "/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_analyzer-timereturn"
+Directory: /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests
+"test_analyzer-timereturn" start time: Aug 11 10:22 CST
+Output:
+----------------------------------------------------------
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_analyzer-timereturn: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.32' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_analyzer-timereturn)
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_analyzer-timereturn: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.31' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_analyzer-timereturn)
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"test_analyzer-timereturn" end time: Aug 11 10:22 CST
+"test_analyzer-timereturn" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/84 Testing: test_comminfo
+3/84 Test: test_comminfo
+Command: "/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_comminfo"
+Directory: /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests
+"test_comminfo" start time: Aug 11 10:22 CST
+Output:
+----------------------------------------------------------
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_comminfo: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.32' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_comminfo)
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"test_comminfo" end time: Aug 11 10:22 CST
+"test_comminfo" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/84 Testing: test_data_multiframe
+4/84 Test: test_data_multiframe
+Command: "/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_data_multiframe"
+Directory: /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests
+"test_data_multiframe" start time: Aug 11 10:22 CST
+Output:
+----------------------------------------------------------
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_data_multiframe: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.32' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_data_multiframe)
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_data_multiframe: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.31' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_data_multiframe)
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"test_data_multiframe" end time: Aug 11 10:22 CST
+"test_data_multiframe" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/84 Testing: test_data_replay
+5/84 Test: test_data_replay
+Command: "/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_data_replay"
+Directory: /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests
+"test_data_replay" start time: Aug 11 10:22 CST
+Output:
+----------------------------------------------------------
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_data_replay: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.32' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_data_replay)
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_data_replay: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.31' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_data_replay)
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"test_data_replay" end time: Aug 11 10:22 CST
+"test_data_replay" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/84 Testing: test_data_resample
+6/84 Test: test_data_resample
+Command: "/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_data_resample"
+Directory: /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests
+"test_data_resample" start time: Aug 11 10:22 CST
+Output:
+----------------------------------------------------------
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_data_resample: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.32' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_data_resample)
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_data_resample: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.31' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_data_resample)
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"test_data_resample" end time: Aug 11 10:22 CST
+"test_data_resample" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/84 Testing: test_fractal
+7/84 Test: test_fractal
+Command: "/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_fractal"
+Directory: /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests
+"test_fractal" start time: Aug 11 10:22 CST
+Output:
+----------------------------------------------------------
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_fractal: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.32' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_fractal)
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_fractal: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.31' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_fractal)
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"test_fractal" end time: Aug 11 10:22 CST
+"test_fractal" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/84 Testing: test_ind_accdecosc
+8/84 Test: test_ind_accdecosc
+Command: "/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_accdecosc"
+Directory: /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests
+"test_ind_accdecosc" start time: Aug 11 10:22 CST
+Output:
+----------------------------------------------------------
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_accdecosc: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.32' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_accdecosc)
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_accdecosc: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.31' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_accdecosc)
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"test_ind_accdecosc" end time: Aug 11 10:22 CST
+"test_ind_accdecosc" time elapsed: 00:00:00
+----------------------------------------------------------
+
+9/84 Testing: test_ind_aroonoscillator
+9/84 Test: test_ind_aroonoscillator
+Command: "/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_aroonoscillator"
+Directory: /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests
+"test_ind_aroonoscillator" start time: Aug 11 10:22 CST
+Output:
+----------------------------------------------------------
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_aroonoscillator: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.32' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_aroonoscillator)
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_aroonoscillator: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.31' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_aroonoscillator)
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"test_ind_aroonoscillator" end time: Aug 11 10:22 CST
+"test_ind_aroonoscillator" time elapsed: 00:00:00
+----------------------------------------------------------
+
+10/84 Testing: test_ind_aroonupdown
+10/84 Test: test_ind_aroonupdown
+Command: "/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_aroonupdown"
+Directory: /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests
+"test_ind_aroonupdown" start time: Aug 11 10:22 CST
+Output:
+----------------------------------------------------------
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_aroonupdown: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.32' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_aroonupdown)
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_aroonupdown: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.31' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_aroonupdown)
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"test_ind_aroonupdown" end time: Aug 11 10:22 CST
+"test_ind_aroonupdown" time elapsed: 00:00:00
+----------------------------------------------------------
+
+11/84 Testing: test_ind_atr
+11/84 Test: test_ind_atr
+Command: "/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_atr"
+Directory: /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests
+"test_ind_atr" start time: Aug 11 10:22 CST
+Output:
+----------------------------------------------------------
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_atr: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.32' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_atr)
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_atr: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.31' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_atr)
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"test_ind_atr" end time: Aug 11 10:22 CST
+"test_ind_atr" time elapsed: 00:00:00
+----------------------------------------------------------
+
+12/84 Testing: test_ind_awesomeoscillator
+12/84 Test: test_ind_awesomeoscillator
+Command: "/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_awesomeoscillator"
+Directory: /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests
+"test_ind_awesomeoscillator" start time: Aug 11 10:22 CST
+Output:
+----------------------------------------------------------
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_awesomeoscillator: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.32' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_awesomeoscillator)
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_awesomeoscillator: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.31' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_awesomeoscillator)
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"test_ind_awesomeoscillator" end time: Aug 11 10:22 CST
+"test_ind_awesomeoscillator" time elapsed: 00:00:00
+----------------------------------------------------------
+
+13/84 Testing: test_ind_bbands
+13/84 Test: test_ind_bbands
+Command: "/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_bbands"
+Directory: /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests
+"test_ind_bbands" start time: Aug 11 10:22 CST
+Output:
+----------------------------------------------------------
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_bbands: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.32' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_bbands)
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_bbands: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.31' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_bbands)
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"test_ind_bbands" end time: Aug 11 10:22 CST
+"test_ind_bbands" time elapsed: 00:00:00
+----------------------------------------------------------
+
+14/84 Testing: test_ind_cci
+14/84 Test: test_ind_cci
+Command: "/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_cci"
+Directory: /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests
+"test_ind_cci" start time: Aug 11 10:22 CST
+Output:
+----------------------------------------------------------
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_cci: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.32' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_cci)
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_cci: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.31' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_cci)
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"test_ind_cci" end time: Aug 11 10:22 CST
+"test_ind_cci" time elapsed: 00:00:00
+----------------------------------------------------------
+
+15/84 Testing: test_ind_dema
+15/84 Test: test_ind_dema
+Command: "/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_dema"
+Directory: /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests
+"test_ind_dema" start time: Aug 11 10:22 CST
+Output:
+----------------------------------------------------------
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_dema: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.32' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_dema)
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_dema: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.31' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_dema)
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"test_ind_dema" end time: Aug 11 10:22 CST
+"test_ind_dema" time elapsed: 00:00:00
+----------------------------------------------------------
+
+16/84 Testing: test_ind_demaenvelope
+16/84 Test: test_ind_demaenvelope
+Command: "/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_demaenvelope"
+Directory: /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests
+"test_ind_demaenvelope" start time: Aug 11 10:22 CST
+Output:
+----------------------------------------------------------
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_demaenvelope: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.32' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_demaenvelope)
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_demaenvelope: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.31' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_demaenvelope)
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"test_ind_demaenvelope" end time: Aug 11 10:22 CST
+"test_ind_demaenvelope" time elapsed: 00:00:00
+----------------------------------------------------------
+
+17/84 Testing: test_ind_demaosc
+17/84 Test: test_ind_demaosc
+Command: "/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_demaosc"
+Directory: /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests
+"test_ind_demaosc" start time: Aug 11 10:22 CST
+Output:
+----------------------------------------------------------
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_demaosc: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.32' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_demaosc)
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_demaosc: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.31' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_demaosc)
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"test_ind_demaosc" end time: Aug 11 10:22 CST
+"test_ind_demaosc" time elapsed: 00:00:00
+----------------------------------------------------------
+
+18/84 Testing: test_ind_dm
+18/84 Test: test_ind_dm
+Command: "/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_dm"
+Directory: /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests
+"test_ind_dm" start time: Aug 11 10:22 CST
+Output:
+----------------------------------------------------------
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_dm: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.32' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_dm)
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_dm: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.31' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_dm)
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"test_ind_dm" end time: Aug 11 10:22 CST
+"test_ind_dm" time elapsed: 00:00:00
+----------------------------------------------------------
+
+19/84 Testing: test_ind_dm_tolerance
+19/84 Test: test_ind_dm_tolerance
+Command: "/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_dm_tolerance"
+Directory: /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests
+"test_ind_dm_tolerance" start time: Aug 11 10:22 CST
+Output:
+----------------------------------------------------------
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_dm_tolerance: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.32' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_dm_tolerance)
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_dm_tolerance: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.31' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_dm_tolerance)
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"test_ind_dm_tolerance" end time: Aug 11 10:22 CST
+"test_ind_dm_tolerance" time elapsed: 00:00:00
+----------------------------------------------------------
+
+20/84 Testing: test_ind_dma
+20/84 Test: test_ind_dma
+Command: "/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_dma"
+Directory: /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests
+"test_ind_dma" start time: Aug 11 10:22 CST
+Output:
+----------------------------------------------------------
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_dma: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.32' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_dma)
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_dma: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.31' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_dma)
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"test_ind_dma" end time: Aug 11 10:22 CST
+"test_ind_dma" time elapsed: 00:00:00
+----------------------------------------------------------
+
+21/84 Testing: test_ind_downmove
+21/84 Test: test_ind_downmove
+Command: "/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_downmove"
+Directory: /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests
+"test_ind_downmove" start time: Aug 11 10:22 CST
+Output:
+----------------------------------------------------------
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_downmove: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.32' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_downmove)
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_downmove: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.31' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_downmove)
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"test_ind_downmove" end time: Aug 11 10:22 CST
+"test_ind_downmove" time elapsed: 00:00:00
+----------------------------------------------------------
+
+22/84 Testing: test_ind_dpo
+22/84 Test: test_ind_dpo
+Command: "/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_dpo"
+Directory: /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests
+"test_ind_dpo" start time: Aug 11 10:22 CST
+Output:
+----------------------------------------------------------
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_dpo: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.32' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_dpo)
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_dpo: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.31' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_dpo)
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"test_ind_dpo" end time: Aug 11 10:22 CST
+"test_ind_dpo" time elapsed: 00:00:00
+----------------------------------------------------------
+
+23/84 Testing: test_ind_dv2
+23/84 Test: test_ind_dv2
+Command: "/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_dv2"
+Directory: /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests
+"test_ind_dv2" start time: Aug 11 10:22 CST
+Output:
+----------------------------------------------------------
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_dv2: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.32' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_dv2)
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_dv2: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.31' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_dv2)
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"test_ind_dv2" end time: Aug 11 10:22 CST
+"test_ind_dv2" time elapsed: 00:00:00
+----------------------------------------------------------
+
+24/84 Testing: test_ind_ema
+24/84 Test: test_ind_ema
+Command: "/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_ema"
+Directory: /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests
+"test_ind_ema" start time: Aug 11 10:22 CST
+Output:
+----------------------------------------------------------
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_ema: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.32' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_ema)
+/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_ema: /home/yun/anaconda3/lib/libstdc++.so.6: version `GLIBCXX_3.4.31' not found (required by /home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/test_ind_ema)
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"test_ind_ema" end time: Aug 11 10:22 CST
+"test_ind_ema" time elapsed: 00:00:00
+----------------------------------------------------------
+

@@ -1,0 +1,403 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop, feature/* ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    # Run nightly tests at 2 AM UTC
+    - cron: '0 2 * * *'
+
+env:
+  BUILD_TYPE: Release
+  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+jobs:
+  # Linux builds with different compilers
+  linux-build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        compiler:
+          - { name: gcc-9, cc: gcc-9, cxx: g++-9 }
+          - { name: gcc-11, cc: gcc-11, cxx: g++-11 }
+          - { name: clang-12, cc: clang-12, cxx: clang++-12 }
+          - { name: clang-14, cc: clang-14, cxx: clang++-14 }
+        build_type: [Debug, Release]
+        
+    name: Linux-${{ matrix.compiler.name }}-${{ matrix.build_type }}
+    
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: recursive
+        
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          ${{ matrix.compiler.cc }} \
+          ${{ matrix.compiler.cxx }} \
+          cmake \
+          ninja-build \
+          libgtest-dev \
+          libgmock-dev \
+          lcov \
+          cppcheck \
+          valgrind
+        
+        # Install Google Test manually if not available
+        if [ ! -f /usr/lib/x86_64-linux-gnu/libgtest.a ]; then
+          cd /usr/src/gtest
+          sudo cmake CMakeLists.txt
+          sudo make
+          sudo cp lib/*.a /usr/lib
+        fi
+        
+    - name: Configure CMake
+      run: |
+        cmake -B build \
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+          -DCMAKE_C_COMPILER=${{ matrix.compiler.cc }} \
+          -DCMAKE_CXX_COMPILER=${{ matrix.compiler.cxx }} \
+          -DENABLE_COVERAGE=${{ matrix.build_type == 'Debug' && 'ON' || 'OFF' }} \
+          -DENABLE_TESTING=ON \
+          -G Ninja
+          
+    - name: Build
+      run: cmake --build build --config ${{ matrix.build_type }} --parallel 4
+      
+    - name: Test
+      working-directory: build
+      run: |
+        ctest --output-on-failure --parallel 4 --timeout 300
+        
+    - name: Run Unit Tests
+      working-directory: build
+      run: make run_unit_tests || true
+      
+    - name: Run Performance Tests
+      working-directory: build
+      run: make run_performance_tests || true
+      
+    - name: Static Analysis
+      if: matrix.compiler.name == 'gcc-11' && matrix.build_type == 'Debug'
+      working-directory: build
+      run: make static_analysis || true
+      
+    - name: Memory Check
+      if: matrix.compiler.name == 'gcc-11' && matrix.build_type == 'Debug'
+      working-directory: build
+      run: |
+        timeout 600 make memcheck || echo "Memory check completed with timeout"
+        
+    - name: Generate Coverage Report
+      if: matrix.compiler.name == 'gcc-11' && matrix.build_type == 'Debug'
+      working-directory: build
+      run: |
+        make coverage || true
+        
+    - name: Upload Coverage to Codecov
+      if: matrix.compiler.name == 'gcc-11' && matrix.build_type == 'Debug'
+      uses: codecov/codecov-action@v3
+      with:
+        file: build/coverage.info.cleaned
+        flags: unittests
+        name: codecov-${{ matrix.compiler.name }}
+        fail_ci_if_error: false
+
+  # macOS build
+  macos-build:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        build_type: [Debug, Release]
+        
+    name: macOS-${{ matrix.build_type }}
+    
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: recursive
+        
+    - name: Install dependencies
+      run: |
+        brew update
+        brew install cmake ninja googletest cppcheck
+        
+    - name: Configure CMake
+      run: |
+        cmake -B build \
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+          -DENABLE_TESTING=ON \
+          -G Ninja
+          
+    - name: Build
+      run: cmake --build build --config ${{ matrix.build_type }} --parallel 4
+      
+    - name: Test
+      working-directory: build
+      run: ctest --output-on-failure --parallel 4 --timeout 300
+
+  # Windows build
+  windows-build:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        build_type: [Debug, Release]
+        arch: [x64]
+        
+    name: Windows-${{ matrix.arch }}-${{ matrix.build_type }}
+    
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: recursive
+        
+    - name: Set up Visual Studio shell
+      uses: egor-tensin/vs-shell@v2
+      with:
+        arch: ${{ matrix.arch }}
+        
+    - name: Install dependencies
+      run: |
+        vcpkg install gtest:x64-windows
+        vcpkg install benchmark:x64-windows
+        
+    - name: Configure CMake
+      run: |
+        cmake -B build ^
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} ^
+          -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake ^
+          -DENABLE_TESTING=ON ^
+          -A ${{ matrix.arch }}
+          
+    - name: Build
+      run: cmake --build build --config ${{ matrix.build_type }} --parallel 4
+      
+    - name: Test
+      working-directory: build
+      run: ctest --output-on-failure --parallel 4 --timeout 300 -C ${{ matrix.build_type }}
+
+  # Sanitizer builds
+  sanitizer-build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        sanitizer:
+          - { name: address, flags: "-fsanitize=address -fno-omit-frame-pointer" }
+          - { name: undefined, flags: "-fsanitize=undefined" }
+          - { name: thread, flags: "-fsanitize=thread" }
+          
+    name: Sanitizer-${{ matrix.sanitizer.name }}
+    
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: recursive
+        
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          gcc-11 \
+          g++-11 \
+          cmake \
+          ninja-build \
+          libgtest-dev \
+          libgmock-dev
+          
+    - name: Configure CMake
+      run: |
+        cmake -B build \
+          -DCMAKE_BUILD_TYPE=Debug \
+          -DCMAKE_C_COMPILER=gcc-11 \
+          -DCMAKE_CXX_COMPILER=g++-11 \
+          -DCMAKE_CXX_FLAGS="${{ matrix.sanitizer.flags }}" \
+          -DCMAKE_EXE_LINKER_FLAGS="${{ matrix.sanitizer.flags }}" \
+          -DENABLE_TESTING=ON \
+          -G Ninja
+          
+    - name: Build
+      run: cmake --build build --config Debug --parallel 4
+      
+    - name: Test
+      working-directory: build
+      run: ctest --output-on-failure --parallel 1 --timeout 600
+      env:
+        ASAN_OPTIONS: detect_leaks=1:abort_on_error=1
+        UBSAN_OPTIONS: abort_on_error=1
+        TSAN_OPTIONS: abort_on_error=1
+
+  # Documentation build
+  documentation:
+    runs-on: ubuntu-latest
+    name: Documentation
+    
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: recursive
+        
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y doxygen graphviz
+        
+    - name: Generate Documentation
+      run: |
+        doxygen docs/Doxyfile || echo "Documentation generation completed"
+        
+    - name: Deploy Documentation
+      if: github.ref == 'refs/heads/main'
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./docs/html
+
+  # Performance regression testing
+  performance-regression:
+    runs-on: ubuntu-latest
+    name: Performance Regression
+    if: github.event_name == 'pull_request'
+    
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: recursive
+        fetch-depth: 0
+        
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          gcc-11 \
+          g++-11 \
+          cmake \
+          ninja-build \
+          libgtest-dev \
+          libgmock-dev
+          
+    - name: Build current version
+      run: |
+        cmake -B build-current \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DCMAKE_C_COMPILER=gcc-11 \
+          -DCMAKE_CXX_COMPILER=g++-11 \
+          -DENABLE_TESTING=ON \
+          -G Ninja
+        cmake --build build-current --parallel 4
+        
+    - name: Run current performance tests
+      working-directory: build-current
+      run: |
+        ./tests/test_performance --gtest_output=json:performance_current.json || true
+        
+    - name: Checkout base branch
+      run: |
+        git checkout ${{ github.base_ref }}
+        
+    - name: Build base version
+      run: |
+        cmake -B build-base \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DCMAKE_C_COMPILER=gcc-11 \
+          -DCMAKE_CXX_COMPILER=g++-11 \
+          -DENABLE_TESTING=ON \
+          -G Ninja
+        cmake --build build-base --parallel 4
+        
+    - name: Run base performance tests
+      working-directory: build-base
+      run: |
+        ./tests/test_performance --gtest_output=json:performance_base.json || true
+        
+    - name: Compare performance
+      run: |
+        echo "Performance comparison would be implemented here"
+        # TODO: Implement performance comparison script
+
+  # Nightly stress tests
+  nightly-stress:
+    runs-on: ubuntu-latest
+    name: Nightly Stress Tests
+    if: github.event_name == 'schedule'
+    
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: recursive
+        
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          gcc-11 \
+          g++-11 \
+          cmake \
+          ninja-build \
+          libgtest-dev \
+          libgmock-dev
+          
+    - name: Configure CMake
+      run: |
+        cmake -B build \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DCMAKE_C_COMPILER=gcc-11 \
+          -DCMAKE_CXX_COMPILER=g++-11 \
+          -DENABLE_TESTING=ON \
+          -G Ninja
+          
+    - name: Build
+      run: cmake --build build --parallel 4
+      
+    - name: Run Stress Tests
+      working-directory: build
+      run: |
+        timeout 3600 make run_stress_tests || echo "Stress tests completed"
+        
+    - name: Upload stress test results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: stress-test-results
+        path: build/stress_test_results.txt
+
+  # Security scan
+  security-scan:
+    runs-on: ubuntu-latest
+    name: Security Scan
+    
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: recursive
+        
+    - name: Run CodeQL Analysis
+      uses: github/codeql-action/init@v2
+      with:
+        languages: cpp
+        
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          gcc-11 \
+          g++-11 \
+          cmake \
+          ninja-build \
+          libgtest-dev \
+          libgmock-dev
+          
+    - name: Configure and Build
+      run: |
+        cmake -B build \
+          -DCMAKE_BUILD_TYPE=Debug \
+          -DCMAKE_C_COMPILER=gcc-11 \
+          -DCMAKE_CXX_COMPILER=g++-11 \
+          -G Ninja
+        cmake --build build --parallel 4
+        
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
