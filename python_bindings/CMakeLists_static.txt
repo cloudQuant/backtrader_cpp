@@ -1,0 +1,35 @@
+cmake_minimum_required(VERSION 3.16)
+project(backtrader_cpp_static VERSION 0.2.0)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Find required packages
+find_package(pybind11 REQUIRED HINTS ${PYBIND11_ROOT})
+
+# Create Python module with static linking
+pybind11_add_module(backtrader_cpp ../src/main_minimal.cpp)
+
+# Static linking flags to avoid runtime library issues
+target_compile_definitions(backtrader_cpp PRIVATE 
+    VERSION_INFO="${PROJECT_VERSION}"
+)
+
+# Set properties for better compatibility
+set_target_properties(backtrader_cpp PROPERTIES
+    CXX_VISIBILITY_PRESET "hidden"
+    VISIBILITY_INLINES_HIDDEN YES
+    LINK_FLAGS "-static-libgcc -static-libstdc++"
+)
+
+# Optimization flags
+target_compile_options(backtrader_cpp PRIVATE
+    $<$<CONFIG:Release>:-O3 -march=native -DNDEBUG>
+    $<$<CONFIG:Debug>:-g -O0 -DDEBUG>
+)
+
+message(STATUS "=== Backtrader C++ Static Bindings ===")
+message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
+message(STATUS "C++ Standard: ${CMAKE_CXX_STANDARD}")
+message(STATUS "Static linking: Enabled")
+message(STATUS "======================================")

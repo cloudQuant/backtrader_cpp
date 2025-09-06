@@ -1,0 +1,27 @@
+cmake_minimum_required(VERSION 3.16)
+project(backtrader_cpp_minimal VERSION 0.1.0)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Find required packages
+find_package(pybind11 REQUIRED HINTS ${PYBIND11_ROOT})
+
+# Create Python module - minimal version without external dependencies
+pybind11_add_module(backtrader_cpp src/main_minimal.cpp)
+
+# Compiler-specific options
+target_compile_definitions(backtrader_cpp PRIVATE 
+    VERSION_INFO="${PROJECT_VERSION}"
+)
+
+# Set properties
+set_target_properties(backtrader_cpp PROPERTIES
+    CXX_VISIBILITY_PRESET "hidden"
+    VISIBILITY_INLINES_HIDDEN YES
+)
+
+message(STATUS "=== Backtrader C++ Minimal Bindings ===")
+message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
+message(STATUS "C++ Standard: ${CMAKE_CXX_STANDARD}")
+message(STATUS "======================================")
