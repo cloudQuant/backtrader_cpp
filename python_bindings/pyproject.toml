@@ -10,7 +10,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "backtrader-cpp"
-dynamic = ["version"]
+version = "0.3.0"
 description = "High-performance C++ backend for Backtrader quantitative trading framework"
 readme = "README.md"
 license = {text = "GPL-3.0"}
@@ -87,8 +87,6 @@ Repository = "https://github.com/yunzed/backtrader_cpp.git"
 "Bug Tracker" = "https://github.com/yunzed/backtrader_cpp/issues"
 Changelog = "https://github.com/yunzed/backtrader_cpp/blob/main/CHANGELOG.md"
 
-[tool.setuptools.dynamic]
-version = {attr = "backtrader_cpp._version.__version__"}
 
 [tool.black]
 line-length = 88

@@ -13,16 +13,17 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/../src
 )
 
-# Create Python module - extended version with more indicators
-pybind11_add_module(backtrader_cpp src/main_extended_simple.cpp)
+# Create Python module - fully backtrader-compatible
+pybind11_add_module(backtrader_cpp src/backtrader_cpp_bindings.cpp)
 
 # Create fixed indicators module for corrected implementations
 pybind11_add_module(fixed_indicators src/fixed_indicators.cpp)
 
-# Link with backtrader core library
-target_link_libraries(backtrader_cpp PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/../build/libbacktrader_core.a
-)
+# For now, we'll build without linking to the core library
+# TODO: Link with backtrader core library once it's built
+# target_link_libraries(backtrader_cpp PRIVATE
+#     ${CMAKE_CURRENT_SOURCE_DIR}/../build/libbacktrader_core.a
+# )
 
 # Configure fixed indicators module with same settings
 target_compile_definitions(fixed_indicators PRIVATE 
