@@ -1,3 +1,64 @@
+Metadata-Version: 2.4
+Name: backtrader-cpp
+Version: 0.3.0
+Summary: High-performance C++ backend for Backtrader quantitative trading framework
+Home-page: https://github.com/yunzed/backtrader_cpp
+Author: Backtrader C++ Team
+Author-email: Backtrader C++ Team <team@backtrader-cpp.org>
+Maintainer-email: Backtrader C++ Team <team@backtrader-cpp.org>
+License: GPL-3.0
+Project-URL: Homepage, https://github.com/yunzed/backtrader_cpp
+Project-URL: Documentation, https://backtrader-cpp.readthedocs.io/
+Project-URL: Repository, https://github.com/yunzed/backtrader_cpp.git
+Project-URL: Bug Tracker, https://github.com/yunzed/backtrader_cpp/issues
+Project-URL: Changelog, https://github.com/yunzed/backtrader_cpp/blob/main/CHANGELOG.md
+Keywords: trading,backtesting,finance,algorithmic trading,quantitative finance,technical analysis
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Financial and Insurance Industry
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: C++
+Classifier: Topic :: Office/Business :: Financial :: Investment
+Classifier: Topic :: Scientific/Engineering :: Mathematics
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: numpy>=1.20.0
+Requires-Dist: pandas>=1.3.0
+Requires-Dist: matplotlib>=3.3.0
+Provides-Extra: dev
+Requires-Dist: pytest>=6.0; extra == "dev"
+Requires-Dist: pytest-benchmark>=3.4.0; extra == "dev"
+Requires-Dist: black>=21.0; extra == "dev"
+Requires-Dist: flake8>=3.8; extra == "dev"
+Requires-Dist: mypy>=0.800; extra == "dev"
+Requires-Dist: sphinx>=4.0; extra == "dev"
+Requires-Dist: sphinx-rtd-theme>=0.5; extra == "dev"
+Requires-Dist: pre-commit>=2.15.0; extra == "dev"
+Provides-Extra: test
+Requires-Dist: pytest>=6.0; extra == "test"
+Requires-Dist: pytest-benchmark>=3.4.0; extra == "test"
+Requires-Dist: pytest-cov>=2.10; extra == "test"
+Requires-Dist: pytest-xdist>=2.4.0; extra == "test"
+Provides-Extra: docs
+Requires-Dist: sphinx>=4.0; extra == "docs"
+Requires-Dist: sphinx-rtd-theme>=0.5; extra == "docs"
+Requires-Dist: myst-parser>=0.15; extra == "docs"
+Requires-Dist: sphinx-autodoc-typehints>=1.12; extra == "docs"
+Provides-Extra: performance
+Requires-Dist: numba>=0.56.0; extra == "performance"
+Requires-Dist: scipy>=1.7.0; extra == "performance"
+Dynamic: author
+Dynamic: home-page
+Dynamic: requires-python
+
 # Backtrader C++ Python Bindings / Backtrader C++ Python绑定
 
 > [English](#english) | [中文](#中文)

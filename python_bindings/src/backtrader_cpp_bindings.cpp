@@ -254,6 +254,179 @@ public:
 // =============================================================================
 
 /**
+ * @brief FlushFile - File wrapper that flushes after each write
+ */
+class PyFlushFile {
+private:
+    py::object file_obj_;
+
+public:
+    PyFlushFile(py::object f) : file_obj_(f) {}
+
+    void write(const std::string& x) {
+        file_obj_.attr("write")(x);
+        file_obj_.attr("flush")();
+    }
+
+    void flush() {
+        file_obj_.attr("flush")();
+    }
+
+    py::object getattr(const std::string& name) {
+        return file_obj_.attr(name.c_str());
+    }
+};
+
+/**
+ * @brief AutoOrderedDict - Dictionary that maintains insertion order
+ */
+class PyAutoOrderedDict {
+private:
+    std::vector<std::string> order_;
+    std::unordered_map<std::string, py::object> dict_;
+
+public:
+    PyAutoOrderedDict() = default;
+
+    void setitem(const std::string& key, py::object value) {
+        if (dict_.find(key) == dict_.end()) {
+            order_.push_back(key);
+        }
+        dict_[key] = value;
+    }
+
+    py::object getitem(const std::string& key) {
+        auto it = dict_.find(key);
+        if (it != dict_.end()) {
+            return it->second;
+        }
+        throw py::key_error(key);
+    }
+
+    void delitem(const std::string& key) {
+        auto it = dict_.find(key);
+        if (it != dict_.end()) {
+            dict_.erase(it);
+            order_.erase(std::remove(order_.begin(), order_.end(), key), order_.end());
+        } else {
+            throw py::key_error(key);
+        }
+    }
+
+    bool contains(const std::string& key) {
+        return dict_.find(key) != dict_.end();
+    }
+
+    size_t len() const {
+        return dict_.size();
+    }
+
+    py::list keys() const {
+        py::list result;
+        for (const auto& key : order_) {
+            result.append(key);
+        }
+        return result;
+    }
+
+    py::list values() const {
+        py::list result;
+        for (const auto& key : order_) {
+            result.append(dict_.at(key));
+        }
+        return result;
+    }
+
+    py::list items() const {
+        py::list result;
+        for (const auto& key : order_) {
+            result.append(py::make_tuple(key, dict_.at(key)));
+        }
+        return result;
+    }
+
+    void clear() {
+        order_.clear();
+        dict_.clear();
+    }
+};
+
+/**
+ * @brief ParamsBase - Parameter management base class
+ */
+class PyParamsBase {
+private:
+    std::unordered_map<std::string, py::object> params_;
+
+public:
+    PyParamsBase() = default;
+
+    py::object getattr(const std::string& name) {
+        if (name == "p") {
+            return py::cast(this);
+        }
+        auto it = params_.find(name);
+        if (it != params_.end()) {
+            return it->second;
+        }
+        return py::none();
+    }
+
+    void setattr(const std::string& name, py::object value) {
+        if (name != "p") {  // Don't allow setting p property
+            params_[name] = value;
+        }
+    }
+};
+
+/**
+ * @brief LineSeries - Basic line series implementation
+ */
+class PyLineSeries {
+private:
+    std::vector<double> data_;
+
+public:
+    PyLineSeries() = default;
+
+    double getitem(py::object key) {
+        if (py::isinstance<py::int_>(key)) {
+            int idx = key.cast<int>();
+            if (idx < 0) {
+                idx += data_.size();
+            }
+            if (idx >= 0 && static_cast<size_t>(idx) < data_.size()) {
+                return data_[idx];
+            }
+        }
+        return 0.0;
+    }
+
+    void setitem(py::object key, double value) {
+        if (py::isinstance<py::int_>(key)) {
+            int idx = key.cast<int>();
+            if (idx < 0) {
+                idx += data_.size();
+            }
+            if (idx >= 0) {
+                if (static_cast<size_t>(idx) >= data_.size()) {
+                    data_.resize(idx + 1, 0.0);
+                }
+                data_[idx] = value;
+            }
+        }
+    }
+
+    size_t len() const {
+        return data_.size();
+    }
+
+    void append(double value) {
+        data_.push_back(value);
+    }
+};
+
+/**
  * @brief Order - Trading order representation
  */
 class PyOrder {
@@ -5036,14 +5209,13 @@ public:
 /**
  * @brief Base Data Feed class
  */
-class PyDataFeed {
+class PyDataFeed : public PyDataSeries {
 protected:
-    std::string name_;
     std::vector<std::map<std::string, double>> data_;
     size_t current_index_;
 
 public:
-    PyDataFeed(const std::string& name) : name_(name), current_index_(0) {}
+    PyDataFeed(const std::string& name) : PyDataSeries(name), current_index_(0) {}
     virtual ~PyDataFeed() = default;
 
     virtual bool load_data() = 0;
@@ -5055,9 +5227,16 @@ public:
         return {};
     }
 
-    std::string name() const { return name_; }
+    // Use inherited name method from PyDataSeries
     size_t size() const { return data_.size(); }
     void reset() { current_index_ = 0; }
+
+    // Convert feed data to DataSeries format
+    void convert_to_dataseries() {
+        // Clear existing data
+        // This would populate the PyDataSeries vectors from the feed data
+        // Implementation depends on the specific data format
+    }
 };
 
 /**
@@ -5759,7 +5938,9 @@ PYBIND11_MODULE(backtrader_cpp, m) {
         .def_property_readonly("openinterest", static_cast<double (PyDataSeries::*)() const>(&PyDataSeries::openinterest), "Current openinterest")
         .def("load_from_csv", &PyDataSeries::load_from_csv, py::arg("csv_data"), "Load data from CSV")
         .def("clear", &PyDataSeries::clear, "Clear all data")
-        .def("__repr__", &PyDataSeries::repr);
+        .def("__repr__", &PyDataSeries::repr)
+        // Backtrader compatibility aliases
+        .def_property_readonly("len", &PyDataSeries::size, "Get data length (backtrader alias)");
 
     // =============================================================================
     // TRADING SYSTEM
@@ -7270,16 +7451,14 @@ PYBIND11_MODULE(backtrader_cpp, m) {
     py::module_ feeds = m.def_submodule("feeds", "Data feeds and data sources");
 
     // Base Data Feed
-    py::class_<PyDataFeed, std::shared_ptr<PyDataFeed>>(feeds, "DataFeed")
+    py::class_<PyDataFeed, PyDataSeries, std::shared_ptr<PyDataFeed>>(feeds, "DataFeed")
         .def("load_data", &PyDataFeed::load_data, "Load data from source")
         .def("has_next", &PyDataFeed::has_next, "Check if more data available")
         .def("next", &PyDataFeed::next, "Get next data point")
-        .def("name", &PyDataFeed::name, "Get feed name")
-        .def("size", &PyDataFeed::size, "Get data size")
         .def("reset", &PyDataFeed::reset, "Reset data pointer");
 
     // CSV Data Feed
-    py::class_<PyCSVDataFeed, std::shared_ptr<PyCSVDataFeed>>(feeds, "CSVDataFeed")
+    py::class_<PyCSVDataFeed, PyDataFeed, std::shared_ptr<PyCSVDataFeed>>(feeds, "CSVDataFeed")
         .def(py::init<const std::string&>(), py::arg("filename"), "Create CSV data feed")
         .def(py::init<const std::string&, const std::map<std::string, std::string>&>(),
              py::arg("filename"), py::arg("column_mapping"), "Create CSV data feed with column mapping")
@@ -7440,22 +7619,81 @@ PYBIND11_MODULE(backtrader_cpp, m) {
         return date;
     }, py::arg("date"), "Convert date to timestamp");
 
+    // Add missing backtrader APIs
+    m.def("get_version", []() {
+        return "0.4.0";
+    }, "Get backtrader-cpp version");
+
+    // TimeFrame constants (backtrader compatibility)
+    py::module_ timeframe_mod = m.def_submodule("TimeFrame");
+    timeframe_mod.attr("Ticks") = 0;
+    timeframe_mod.attr("MicroSeconds") = 1;
+    timeframe_mod.attr("Seconds") = 2;
+    timeframe_mod.attr("Minutes") = 3;
+    timeframe_mod.attr("Days") = 4;
+    timeframe_mod.attr("Weeks") = 5;
+    timeframe_mod.attr("Months") = 6;
+    timeframe_mod.attr("Years") = 7;
+    timeframe_mod.attr("NoTimeFrame") = 8;
+
+    // Position size constants (removed duplicate submodule)
+
+    // Order types (removed duplicate submodule)
+
     // Simple Pandas data feed (placeholder)
+
+    // =============================================================================
+    // UTILS MODULE - Add backtrader.utils compatibility
+    // =============================================================================
+
+    py::module_ utils = m.def_submodule("utils", "Backtrader utilities");
+
+    // flushfile class
+    py::class_<PyFlushFile>(utils, "flushfile")
+        .def(py::init<py::object>(), py::arg("f"), "Create flushfile wrapper")
+        .def("write", &PyFlushFile::write, py::arg("x"), "Write and flush")
+        .def("flush", &PyFlushFile::flush, "Flush buffer")
+        .def("__getattr__", &PyFlushFile::getattr, py::arg("name"), "Get attribute");
+
+    // AutoOrderedDict class
+    py::class_<PyAutoOrderedDict>(utils, "AutoOrderedDict")
+        .def(py::init<>(), "Create AutoOrderedDict")
+        .def("__setitem__", &PyAutoOrderedDict::setitem, py::arg("key"), py::arg("value"))
+        .def("__getitem__", &PyAutoOrderedDict::getitem, py::arg("key"))
+        .def("__delitem__", &PyAutoOrderedDict::delitem, py::arg("key"))
+        .def("__contains__", &PyAutoOrderedDict::contains, py::arg("key"))
+        .def("__len__", &PyAutoOrderedDict::len)
+        .def("keys", &PyAutoOrderedDict::keys)
+        .def("values", &PyAutoOrderedDict::values)
+        .def("items", &PyAutoOrderedDict::items)
+        .def("clear", &PyAutoOrderedDict::clear);
+
+    // =============================================================================
+    // METABASE MODULE - Add backtrader.metabase compatibility
+    // =============================================================================
+
+    py::module_ metabase = m.def_submodule("metabase", "Backtrader metabase");
+
+    // ParamsBase class
+    py::class_<PyParamsBase>(metabase, "ParamsBase")
+        .def(py::init<>(), "Create ParamsBase")
+        .def("__getattr__", &PyParamsBase::getattr, py::arg("name"))
+        .def("__setattr__", &PyParamsBase::setattr, py::arg("name"), py::arg("value"))
+        .def_property_readonly("p", [](PyParamsBase& self) { return &self; });
+
+    // LineSeries class
+    py::class_<PyLineSeries>(metabase, "LineSeries")
+        .def(py::init<>(), "Create LineSeries")
+        .def("__getitem__", &PyLineSeries::getitem, py::arg("key"))
+        .def("__setitem__", &PyLineSeries::setitem, py::arg("key"), py::arg("value"))
+        .def("__len__", &PyLineSeries::len)
+        .def("append", &PyLineSeries::append, py::arg("value"));
 
     // =============================================================================
     // MISSING APIS - Add missing backtrader APIs for better compatibility
     // =============================================================================
 
-    // TimeFrame enum
-    py::enum_<PyTimeFrame>(m, "TimeFrame")
-        .value("Seconds", PyTimeFrame::Seconds)
-        .value("Minutes", PyTimeFrame::Minutes)
-        .value("Hours", PyTimeFrame::Hours)
-        .value("Days", PyTimeFrame::Days)
-        .value("Weeks", PyTimeFrame::Weeks)
-        .value("Months", PyTimeFrame::Months)
-        .value("Years", PyTimeFrame::Years)
-        .export_values();
+    // TimeFrame enum (removed duplicate definition)
 
     // Order Type enum
     py::enum_<PyOrder::OrderType>(m, "OrderType")

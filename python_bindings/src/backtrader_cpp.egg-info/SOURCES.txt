@@ -1,0 +1,10 @@
+README.md
+pyproject.toml
+setup.py
+src/_version.py
+src/backtrader_cpp.egg-info/PKG-INFO
+src/backtrader_cpp.egg-info/SOURCES.txt
+src/backtrader_cpp.egg-info/dependency_links.txt
+src/backtrader_cpp.egg-info/not-zip-safe
+src/backtrader_cpp.egg-info/requires.txt
+src/backtrader_cpp.egg-info/top_level.txt

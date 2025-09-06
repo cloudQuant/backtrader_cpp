@@ -1,0 +1,2 @@
+_version
+backtrader_cpp
