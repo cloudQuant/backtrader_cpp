@@ -202,7 +202,8 @@ def run_backtrader_compatible_test(n_rows=50):
         final_value = broker.get_value()
         final_cash = broker.get_cash()
 
-        print("\n💰 Final Results:")        print(f"Final Portfolio Value: ${final_value:.2f}")
+        print("\n💰 Final Results:")
+        print(f"Final Portfolio Value: ${final_value:.2f}")
         print(f"Remaining Cash: ${final_cash:.2f}")
 
         print("\n" + "=" * 70)
