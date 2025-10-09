@@ -934,42 +934,19 @@ public:
  */
 class PySMA : public PyIndicator {
 private:
-    std::shared_ptr<PyDataSeries> data_;
     int period_;
     std::shared_ptr<PyLineBuffer> output_;
 
 public:
-    // Constructor that accepts optional data as first parameter (backtrader compatible)
-    PySMA(std::shared_ptr<PyDataSeries> data, int period) 
-        : PyIndicator("sma"), data_(data), period_(period) {
-        PyValidator::validate_period(period, "period");
-        output_ = std::make_shared<PyLineBuffer>();
-        lines_.push_back(output_);
-    }
-    
-    // Constructor that accepts only period (backward compatibility)
-    PySMA(int period) : PyIndicator("sma"), data_(nullptr), period_(period) {
+    PySMA(int period = 20) : PyIndicator("sma"), period_(period) {
         PyValidator::validate_period(period, "period");
         output_ = std::make_shared<PyLineBuffer>();
         lines_.push_back(output_);
     }
 
     void next() {
-        // Calculate SMA if we have data
-        if (data_ && data_->size() >= static_cast<size_t>(period_) && period_ > 0) {
-            // Calculate actual SMA from the close prices
-            double sum = 0.0;
-            size_t data_size = data_->size();
-            for (int i = 0; i < period_; ++i) {
-                if (data_size > static_cast<size_t>(i)) {
-                    sum += data_->close(data_size - 1 - i);
-                }
-            }
-            output_->append(sum / period_);
-        } else {
-            // Not enough data or no data, append NaN
-            output_->append(std::numeric_limits<double>::quiet_NaN());
-        }
+        // For now, just append NaN - full implementation would require data access
+        output_->append(std::numeric_limits<double>::quiet_NaN());
     }
 
     std::shared_ptr<PyLineBuffer> line(int idx = 0) const {
@@ -6113,32 +6090,12 @@ PYBIND11_MODULE(backtrader_cpp, m) {
 
     // SMA Indicator
     py::class_<PySMA, std::shared_ptr<PySMA>>(indicators, "SMA")
-        .def(py::init([](int period) {
-            return std::make_shared<PySMA>(period);
-        }), py::arg("period") = 20, "Create SMA indicator")
+        .def(py::init<int>(), py::arg("period") = 20, "Create SMA indicator")
         .def("line", &PySMA::line, py::arg("idx") = 0, "Get SMA line")
-        .def("__getitem__", [](PySMA& self, int idx) {
-            auto line = self.line(0);
-            if (line) {
-                // Handle negative indexing
-                if (idx < 0) {
-                    idx += line->len();
-                }
-                if (idx >= 0 && static_cast<size_t>(idx) < line->len()) {
-                    return line->get(idx);
-                }
-            }
-            return std::numeric_limits<double>::quiet_NaN();
-        })
         .def_property_readonly("period", &PySMA::period, "Get SMA period")
         .def("__repr__", [](const PySMA& sma) {
             return "<backtrader.indicators.SMA period=" + std::to_string(sma.period()) + ">";
         });
-    
-    // Factory function for backtrader compatibility with data parameter
-    indicators.def("SMA", [](std::shared_ptr<PyDataSeries> data, int period) {
-        return std::make_shared<PySMA>(data, period);
-    }, py::arg("data"), py::arg("period") = 20, "Create SMA indicator with data (backtrader compatible)");
 
     // EMA Indicator
     py::class_<PyEMA, std::shared_ptr<PyEMA>>(indicators, "EMA")

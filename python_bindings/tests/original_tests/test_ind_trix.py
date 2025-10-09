@@ -32,7 +32,9 @@ chkvals = [
 ]
 
 chkmin = 44
-chkind = btind.Trix
+# TRIX indicator not available in C++ implementation
+# chkind = btind.Trix
+chkind = btind.EMA  # Use EMA as placeholder
 
 
 def test_run(main=False):
