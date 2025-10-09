@@ -27,7 +27,7 @@ void DrawDown::next() {
     double current_value = 0.0;
     
     if (broker_) {
-        current_value = broker_->get_value();
+        current_value = broker_->getvalue();
     } else {
         // Fallback: use close price if no broker
         if (data_ && !data_->lines.empty() && !data_->lines[4].empty()) {
@@ -188,7 +188,7 @@ double DrawDown::get_recovery_factor() const {
     // Recovery factor = Total return / Max drawdown
     if (broker_) {
         double initial_value = broker_->get_cash(); // Simplified
-        double current_value = broker_->get_value();
+        double current_value = broker_->getvalue();
         double total_return = (current_value - initial_value) / initial_value;
         
         return total_return / max_dd_;

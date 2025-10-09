@@ -33,7 +33,7 @@ void Benchmark::next() {
     }
     
     // Get current strategy value
-    double current_value = broker_->get_value();
+    double current_value = broker_->getvalue();
     
     // Get benchmark data
     double benchmark_price = 0.0;

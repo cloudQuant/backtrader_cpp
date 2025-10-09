@@ -22,7 +22,7 @@ void AnnualReturn::stop() {
     double value_start = 0.0;
     double value_end = 0.0;
     
-    if (!strategy || !strategy->get_broker()) {
+    if (!strategy || !strategy->broker) {
         return;
     }
     
@@ -84,13 +84,13 @@ AnalysisResult AnnualReturn::get_analysis() const {
 }
 
 double AnnualReturn::get_broker_value(int index) const {
-    if (!strategy || !strategy->get_broker()) {
+    if (!strategy || !strategy->broker) {
         return 0.0;
     }
     
     // This would need to be implemented based on broker interface
     // For now, return a placeholder
-    return strategy->get_broker()->get_value();
+    return strategy->broker->getvalue();
 }
 
 std::chrono::system_clock::time_point AnnualReturn::get_datetime(int index) const {
@@ -141,7 +141,7 @@ AnalysisResult MyAnnualReturn::get_analysis() const {
 std::vector<MyAnnualReturn::DateValuePair> MyAnnualReturn::get_data_series() const {
     std::vector<DateValuePair> result;
     
-    if (!strategy || !strategy->get_broker() || datas.empty() || !datas[0]) {
+    if (!strategy || !strategy->broker || datas.empty() || !datas[0]) {
         return result;
     }
     
@@ -153,7 +153,7 @@ std::vector<MyAnnualReturn::DateValuePair> MyAnnualReturn::get_data_series() con
         
         // Get datetime and value (these would need proper implementation)
         pair.datetime = std::chrono::system_clock::now(); // Placeholder
-        pair.value = strategy->get_broker()->get_value();  // Placeholder
+        pair.value = strategy->broker->getvalue();  // Placeholder
         pair.year = get_year(pair.datetime);
         
         // Calculate previous value (shift(1) equivalent)

@@ -42,7 +42,7 @@ void PeriodStats::next() {
     }
     
     // Get current portfolio value and time
-    double current_value = broker_->get_value();
+    double current_value = broker_->getvalue();
     double current_time = 0.0;
     
     if (!data_->lines.empty() && !data_->lines[0].empty()) {
@@ -117,7 +117,7 @@ void PeriodStats::finalize_current_period() {
         return;
     }
     
-    double current_value = broker_->get_value();
+    double current_value = broker_->getvalue();
     double current_time = period_start_time_ + (bars_in_period_ * 86400); // Estimate
     
     double period_return = 0.0;

@@ -36,7 +36,7 @@ void Value::start() {
     
     // Auto-detect fund mode if needed
     if (params.auto_fund && strategy_) {
-        fundmode_ = strategy_->broker->get_fundmode();
+        fundmode_ = strategy_->broker->getfundmode();
     } else {
         fundmode_ = params.fund;
     }
@@ -51,9 +51,9 @@ void Value::next() {
     
     double value;
     if (!fundmode_) {
-        value = strategy_->broker->get_value();
+        value = strategy_->broker->getvalue();
     } else {
-        value = strategy_->broker->get_fundvalue();
+        value = strategy_->broker->getfundvalue();
     }
     
     value_line_.push_back(value);
@@ -78,7 +78,7 @@ void Broker::start() {
     
     // Auto-detect fund mode if needed
     if (params.auto_fund && strategy_) {
-        fundmode_ = strategy_->broker->get_fundmode();
+        fundmode_ = strategy_->broker->getfundmode();
     } else {
         fundmode_ = params.fund;
     }
@@ -94,14 +94,14 @@ void Broker::next() {
     
     if (!fundmode_) {
         // Normal mode - track both cash and total value
-        double value = strategy_->broker->get_value();
+        double value = strategy_->broker->getvalue();
         double cash = strategy_->broker->get_cash();
         
         value_line_.push_back(value);
         cash_line_.push_back(cash);
     } else {
         // Fund mode - only track fund value
-        double fund_value = strategy_->broker->get_fundvalue();
+        double fund_value = strategy_->broker->getfundvalue();
         value_line_.push_back(fund_value);
         
         // Cash line not used in fund mode, but maintain same size
@@ -135,7 +135,7 @@ void FundValue::next() {
     }
     
     // Get current fund value from broker
-    double fund_value = strategy_->broker->get_fundvalue();
+    double fund_value = strategy_->broker->getfundvalue();
     fundval_line_.push_back(fund_value);
 }
 

@@ -106,8 +106,8 @@ BTRun::RunResult BTRun::execute_single_run(const StrategyConfig& config) {
             auto strategy = strategies[0];
             
             // Collect results
-            result.final_value = cerebro->get_broker()->get_value();
-            result.total_return = calculate_total_return(cerebro->get_broker());
+            result.final_value = cerebro->broker->getvalue();
+            result.total_return = calculate_total_return(cerebro->broker);
             
             // Collect analyzer results
             result.analyzer_results = collect_analyzer_results(strategy);
@@ -161,7 +161,7 @@ std::shared_ptr<Cerebro> BTRun::create_cerebro_instance(const StrategyConfig& co
 
 double BTRun::calculate_total_return(std::shared_ptr<Broker> broker) {
     double initial_value = p.cash > 0 ? p.cash : 100000.0; // Default
-    double final_value = broker->get_value();
+    double final_value = broker->getvalue();
     
     return (final_value - initial_value) / initial_value;
 }

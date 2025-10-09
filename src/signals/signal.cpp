@@ -44,8 +44,8 @@ bool CrossoverSignal::check() {
     }
     
     // Get current values
-    double fast_current = fast_line_->get_value();
-    double slow_current = slow_line_->get_value();
+    double fast_current = fast_line_->getvalue();
+    double slow_current = slow_line_->getvalue();
     
     // Get previous values (simplified - in real implementation would access historical data)
     double fast_prev = fast_line_->get_previous_value();
@@ -88,7 +88,7 @@ bool ThresholdSignal::check() {
         return false;
     }
     
-    double current_value = indicator_->get_value();
+    double current_value = indicator_->getvalue();
     bool currently_triggered = false;
     
     switch (threshold_type_) {

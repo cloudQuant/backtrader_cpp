@@ -32,7 +32,7 @@ void Leverage::next() {
     }
     
     // Get current portfolio value and positions
-    double portfolio_value = broker_->get_value();
+    double portfolio_value = broker_->getvalue();
     double cash = broker_->get_cash();
     
     // Calculate total position value
@@ -67,7 +67,7 @@ void Leverage::notify_trade(const Trade& trade) {
         return;
     }
     
-    double portfolio_value = broker_->get_value();
+    double portfolio_value = broker_->getvalue();
     double position_value = std::abs(trade.value);
     
     TradeLeverage tl;

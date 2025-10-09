@@ -32,7 +32,7 @@ void TimeReturn::next() {
     }
     
     // Get current portfolio value
-    double current_value = broker_->get_value();
+    double current_value = broker_->getvalue();
     
     // Get current datetime
     double current_time = 0.0;

@@ -16,7 +16,7 @@ void Calmar::start() {
     
     // Auto-detect fund mode if needed
     if (params.auto_fund && strategy_) {
-        fundmode_ = strategy_->broker->get_fundmode();
+        fundmode_ = strategy_->broker->getfundmode();
     } else {
         fundmode_ = params.fund;
     }
@@ -48,8 +48,8 @@ void Calmar::start() {
     // Add initial portfolio value
     if (strategy_) {
         double initial_value = fundmode_ ? 
-            strategy_->broker->get_fundvalue() : 
-            strategy_->broker->get_value();
+            strategy_->broker->getfundvalue() : 
+            strategy_->broker->getvalue();
         values_.push_back(initial_value);
     }
 }
@@ -79,8 +79,8 @@ void Calmar::on_dt_over() {
     // Add current portfolio value to rolling window
     if (strategy_) {
         double current_value = fundmode_ ? 
-            strategy_->broker->get_fundvalue() : 
-            strategy_->broker->get_value();
+            strategy_->broker->getfundvalue() : 
+            strategy_->broker->getvalue();
         values_.push_back(current_value);
     }
     

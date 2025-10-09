@@ -25,7 +25,7 @@ void Returns::next() {
     double current_value = 0.0;
     
     if (strategy_) {
-        current_value = strategy_->broker->get_value();
+        current_value = strategy_->broker->getvalue();
     }
     
     if (first_value_) {

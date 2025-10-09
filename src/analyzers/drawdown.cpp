@@ -16,8 +16,8 @@ void DrawDown::start() {
     Analyzer::start();
     
     // Auto-detect fund mode if needed
-    if (p.auto_fund && strategy && strategy->get_broker()) {
-        _fundmode = strategy->get_broker()->get_fundmode();
+    if (p.auto_fund && strategy && strategy->broker) {
+        _fundmode = strategy->broker->getfundmode();
     } else {
         _fundmode = p.fund;
     }
@@ -101,8 +101,8 @@ void TimeDrawDown::start() {
     TimeFrameAnalyzerBase::start();
     
     // Auto-detect fund mode if needed
-    if (p.auto_fund && strategy && strategy->get_broker()) {
-        _fundmode = strategy->get_broker()->get_fundmode();
+    if (p.auto_fund && strategy && strategy->broker) {
+        _fundmode = strategy->broker->getfundmode();
     } else {
         _fundmode = p.fund;
     }
@@ -154,14 +154,14 @@ AnalysisResult TimeDrawDown::get_analysis() const {
 }
 
 double TimeDrawDown::get_current_value() const {
-    if (!strategy || !strategy->get_broker()) {
+    if (!strategy || !strategy->broker) {
         return 0.0;
     }
     
     if (!_fundmode) {
-        return strategy->get_broker()->get_value();
+        return strategy->broker->getvalue();
     } else {
-        return strategy->get_broker()->get_fundvalue();
+        return strategy->broker->getfundvalue();
     }
 }
 

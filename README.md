@@ -57,20 +57,45 @@ LineRoot (抽象基类)
 
 ### 构建命令
 
+**⚠️ 重要：tests目录不是独立项目，必须先编译核心库！**
+
 ```bash
-# 标准构建
-mkdir build && cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=ON
-make -j$(nproc)
-
-# 测试特定构建
-mkdir build_tests && cd build_tests
-cmake ../tests -DCMAKE_BUILD_TYPE=Debug
-make -j$(nproc)
-
-# 运行测试
-cd /home/yun/Documents/refactor_backtrader/backtrader_cpp
+# 方法1: 使用自动化脚本 (推荐)
 ./run_tests.sh
+
+# 方法2: 手动分步编译
+# 步骤1: 编译核心库 (必须先执行)
+cmake . -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTS=OFF
+cmake --build . --config Debug --parallel 8
+# 生成 libbacktrader_core.a (约72MB)
+
+# 步骤2: 编译测试 (依赖核心库)
+cd tests
+cmake -B build -DCMAKE_BUILD_TYPE=Debug
+cmake --build build --parallel 8
+
+# 步骤3: 运行测试 (需要设置库路径)
+cd build
+export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+./test_ind_sma
+```
+
+### 编译依赖关系说明
+
+```
+backtrader_cpp/
+├── CMakeLists.txt              # 主项目配置
+├── libbacktrader_core.a        # 核心库 (编译产物)
+└── tests/
+    ├── CMakeLists.txt          # 测试配置 (依赖核心库)
+    └── build/
+        └── test_*              # 测试可执行文件
+```
+
+**关键点**：
+- tests/CMakeLists.txt 会查找 `../libbacktrader_core.a`
+- 如果核心库不存在，tests编译会失败
+- 必须按顺序：核心库 → 测试
 ```
 
 ## 📊 测试框架
@@ -240,30 +265,37 @@ cd backtrader_cpp
 ### 步骤3: 构建核心库
 
 ```bash
-# 创建构建目录
-mkdir build && cd build
+# 配置CMake (在项目根目录)
+cmake . -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTS=OFF
 
-# 配置CMake
-cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=ON
-
-# 编译
-make -j$(nproc)
+# 编译核心库
+cmake --build . --config Debug --parallel 8
 
 # 验证构建
-ls -la libbacktrader_core.a  # 核心静态库
+ls -lh libbacktrader_core.a  # 应该约72MB
 ```
 
 ### 步骤4: 运行测试验证
 
 ```bash
-# 返回项目根目录
-cd ..
-
-# 运行完整测试套件
+# 方法1: 使用自动化脚本 (推荐)
 ./run_tests.sh
 
-# 查看详细测试报告
-cat build_tests/test_report.txt
+# 方法2: 手动编译和运行测试
+cd tests
+cmake -B build -DCMAKE_BUILD_TYPE=Debug
+cmake --build build --parallel 8
+
+# 运行单个测试 (需要设置库路径)
+cd build
+export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+./test_ind_sma
+
+# 运行所有测试
+for test in test_*; do
+    echo "Running $test..."
+    ./$test
+done
 ```
 
 ### 步骤5: 构建自己的策略
@@ -305,7 +337,30 @@ cmake .. -DCMAKE_BUILD_TYPE=Debug \
 
 ### 编译错误解决
 
-1. **"undefined reference to size()" 错误**
+1. **❌ "找不到 libbacktrader_core.a" 或 tests编译失败**
+
+**问题原因**：tests目录依赖主项目的核心库，必须先编译核心库。
+
+**解决方法**：
+```bash
+# 正确的编译顺序
+# 1. 先编译核心库
+cd /path/to/backtrader_cpp
+cmake . -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTS=OFF
+cmake --build . --parallel 8
+
+# 2. 再编译tests
+cd tests
+cmake -B build
+cmake --build build --parallel 8
+```
+
+**为什么直接在tests目录编译会失败？**
+- tests/CMakeLists.txt 需要 `../libbacktrader_core.a`
+- 如果核心库不存在，CMake配置会失败
+- 使用 `./run_tests.sh` 可以自动处理这个依赖
+
+2. **❌ "undefined reference to size()" 错误**
 ```cpp
 // 在指标头文件中添加
 size_t size() const override;
@@ -318,16 +373,25 @@ size_t MyIndicator::size() const {
 }
 ```
 
-2. **"No matching constructor" 错误**
+3. **❌ "No matching constructor" 错误**
 ```cpp
 // 添加DataSeries构造函数
 MyIndicator(std::shared_ptr<DataSeries> data_source, int period);
 ```
 
-3. **NaN计算结果**
+4. **❌ NaN计算结果**
 ```cpp
 // 检查数据线索引 (OHLCV: 0=Open, 1=High, 2=Low, 3=Close, 4=Volume)
 auto close_line = datas[0]->lines->getline(3);  // 收盘价
+```
+
+5. **❌ 运行测试时 "error while loading shared libraries"**
+```bash
+# 设置库路径
+export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+
+# 或在每次运行时指定
+LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH ./test_ind_sma
 ```
 
 ### 性能优化建议
@@ -357,14 +421,29 @@ auto cached_line = data_line_;  // 避免重复解引用
 ### 运行特定测试
 
 ```bash
+# 方法1: 使用完整的测试脚本 (推荐)
+./run_tests.sh
+
+# 方法2: 手动运行特定测试
+cd tests/build
+
+# 设置库路径
+export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+
 # 运行单个指标测试
-./build_tests/test_ind_sma
+./test_ind_sma
 
 # 运行策略测试
-./build_tests/test_strategy_optimized
+./test_strategy_optimized
 
 # 运行性能基准测试
-./build_tests/test_fractal --benchmark
+./test_fractal
+
+# 批量运行所有测试
+for test in test_*; do
+    echo "=== Running $test ==="
+    ./$test || echo "FAILED: $test"
+done
 ```
 
 ### 测试数据说明

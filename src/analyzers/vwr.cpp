@@ -34,7 +34,7 @@ void VWR::next() {
     }
     
     // Get current portfolio value
-    double current_value = broker_->get_value();
+    double current_value = broker_->getvalue();
     
     // Initialize on first call
     if (!value_initialized_) {

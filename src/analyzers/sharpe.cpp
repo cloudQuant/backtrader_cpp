@@ -22,7 +22,7 @@ void SharpeRatio::start() {
     
     // Auto-detect fund mode if needed
     if (params.auto_fund && strategy_) {
-        params.fund = strategy_->broker->get_fundmode();
+        params.fund = strategy_->broker->getfundmode();
     }
     
     // Initialize child analyzers based on parameters

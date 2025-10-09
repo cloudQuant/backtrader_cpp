@@ -32,7 +32,7 @@ void TimeReturn::start() {
     
     // Auto-detect fund mode if needed
     if (params.auto_fund && strategy) {
-        // fundmode_ = strategy->broker->get_fundmode(); // TODO: implement when broker methods are available
+        // fundmode_ = strategy->broker->getfundmode(); // TODO: implement when broker methods are available
         fundmode_ = params.fund; // For now, use the default
     } else {
         fundmode_ = params.fund;
