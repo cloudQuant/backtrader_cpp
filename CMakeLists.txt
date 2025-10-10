@@ -5,11 +5,22 @@ project(BacktraderCpp)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Compiler options
-if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -O2 -Wno-overloaded-virtual -Wno-unused-parameter -Wno-unused-variable -Wno-unused-but-set-variable -Wno-sign-compare -Wno-reorder")
+# Compiler options - 跨平台兼容
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -O2 -Wno-overloaded-virtual -Wno-unused-parameter -Wno-unused-variable -Wno-sign-compare -Wno-reorder")
+    
+    # GCC特定的警告抑制
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-but-set-variable")
+    endif()
+    
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -O0 -DDEBUG")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -DNDEBUG")
+    
+    # Mac特定的编译选项
+    if(APPLE)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
+    endif()
 endif()
 
 # Include directories
@@ -154,9 +165,13 @@ install(DIRECTORY include/
 
 # Print configuration
 message(STATUS "=== Backtrader C++ Configuration ===")
+message(STATUS "Platform: ${CMAKE_SYSTEM_NAME} ${CMAKE_SYSTEM_VERSION}")
+message(STATUS "Processor: ${CMAKE_SYSTEM_PROCESSOR}")
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 message(STATUS "C++ Standard: ${CMAKE_CXX_STANDARD}")
 message(STATUS "Compiler: ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
+message(STATUS "Compiler path: ${CMAKE_CXX_COMPILER}")
+message(STATUS "C++ Flags: ${CMAKE_CXX_FLAGS}")
 message(STATUS "Source files: ${CMAKE_SOURCE_DIR}/src")
 message(STATUS "Include files: ${CMAKE_SOURCE_DIR}/include")
 message(STATUS "======================================")

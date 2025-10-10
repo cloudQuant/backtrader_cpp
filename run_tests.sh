@@ -226,15 +226,20 @@ collect_cmake_test_results() {
     local failed_count=0
     
     # 检查实际的编译输出目录 - 同时检查三个可能的位置
-    # Mac上使用 -perm +111 代替 -executable (BSD find不支持-executable)
+    # 跨平台兼容：Mac使用 -perm +111，Linux使用 -executable
     local actual_test_dir=""
-    if [ -d "$test_build_dir" ] && [ "$(find "$test_build_dir" -maxdepth 1 -name "test_*" -type f -perm +111 2>/dev/null | wc -l)" -gt 0 ]; then
+    local find_exec_flag="-executable"
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        find_exec_flag="-perm +111"
+    fi
+    
+    if [ -d "$test_build_dir" ] && [ "$(find "$test_build_dir" -maxdepth 1 -name "test_*" -type f $find_exec_flag 2>/dev/null | wc -l)" -gt 0 ]; then
         actual_test_dir="$test_build_dir"
         print_info "在 $test_build_dir 目录中找到编译的测试文件"
-    elif [ -d "$TEST_DIR/build" ] && [ "$(find "$TEST_DIR/build" -maxdepth 1 -name "test_*" -type f -perm +111 2>/dev/null | wc -l)" -gt 0 ]; then
+    elif [ -d "$TEST_DIR/build" ] && [ "$(find "$TEST_DIR/build" -maxdepth 1 -name "test_*" -type f $find_exec_flag 2>/dev/null | wc -l)" -gt 0 ]; then
         actual_test_dir="$TEST_DIR/build"
         print_info "在 $TEST_DIR/build 目录中找到编译的测试文件"
-    elif [ -d "$TEST_DIR" ] && [ "$(find "$TEST_DIR" -maxdepth 1 -name "test_*" -type f -perm +111 2>/dev/null | wc -l)" -gt 0 ]; then
+    elif [ -d "$TEST_DIR" ] && [ "$(find "$TEST_DIR" -maxdepth 1 -name "test_*" -type f $find_exec_flag 2>/dev/null | wc -l)" -gt 0 ]; then
         actual_test_dir="$TEST_DIR"
         print_info "在 $TEST_DIR 目录中找到编译的测试文件"
     else
@@ -250,10 +255,10 @@ collect_cmake_test_results() {
             continue
         fi
         
-        # 检查可执行文件是否存在 - 使用find来查找（Mac兼容）
+        # 检查可执行文件是否存在 - 跨平台兼容
         local found=false
         if [ -n "$actual_test_dir" ]; then
-            if find "$actual_test_dir" -maxdepth 1 -name "$filename" -type f -perm +111 2>/dev/null | grep -q .; then
+            if find "$actual_test_dir" -maxdepth 1 -name "$filename" -type f $find_exec_flag 2>/dev/null | grep -q .; then
                 found=true
             fi
         fi
@@ -392,9 +397,18 @@ run_with_timeout() {
     (
         # Linux使用LD_LIBRARY_PATH，Mac使用DYLD_LIBRARY_PATH
         if [[ "$OSTYPE" == "darwin"* ]]; then
-            export DYLD_LIBRARY_PATH=/Users/yunjinqi/opt/anaconda3/lib:/opt/homebrew/lib:/usr/local/lib:$DYLD_LIBRARY_PATH
+            # Mac: 检测并添加常用库路径
+            local lib_paths=""
+            [ -d "$HOME/opt/anaconda3/lib" ] && lib_paths="$HOME/opt/anaconda3/lib"
+            [ -d "/opt/homebrew/lib" ] && lib_paths="${lib_paths:+$lib_paths:}/opt/homebrew/lib"
+            [ -d "/usr/local/lib" ] && lib_paths="${lib_paths:+$lib_paths:}/usr/local/lib"
+            export DYLD_LIBRARY_PATH="${lib_paths}:$DYLD_LIBRARY_PATH"
         else
-            export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+            # Linux: 检测并添加常用库路径
+            local lib_paths="/usr/lib/x86_64-linux-gnu"
+            [ -d "/usr/lib" ] && lib_paths="${lib_paths}:/usr/lib"
+            [ -d "/usr/local/lib" ] && lib_paths="${lib_paths}:/usr/local/lib"
+            export LD_LIBRARY_PATH="${lib_paths}:$LD_LIBRARY_PATH"
         fi
         eval "$cmd" > "$temp_output" 2>&1
         echo $? > "$temp_status"
@@ -733,18 +747,24 @@ run_single_test() {
 run_with_gtest() {
     print_info "直接运行Google Test测试..."
     
-    # 检查实际的测试目录（Mac兼容：使用-perm +111代替-executable）
+    # 跨平台兼容：Mac使用 -perm +111，Linux使用 -executable
+    local find_exec_flag="-executable"
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        find_exec_flag="-perm +111"
+    fi
+    
+    # 检查实际的测试目录
     local test_run_dir=""
-    if [ -d "$TEST_DIR/build" ] && [ "$(find "$TEST_DIR/build" -maxdepth 1 -name "test_*" -type f -perm +111 2>/dev/null | wc -l)" -gt 0 ]; then
+    if [ -d "$TEST_DIR/build" ] && [ "$(find "$TEST_DIR/build" -maxdepth 1 -name "test_*" -type f $find_exec_flag 2>/dev/null | wc -l)" -gt 0 ]; then
         test_run_dir="$TEST_DIR/build"
         print_info "使用 tests/build 目录运行测试"
-    elif [ -d "$TEST_DIR" ] && [ "$(find "$TEST_DIR" -maxdepth 1 -name "test_*" -type f -perm +111 2>/dev/null | wc -l)" -gt 0 ]; then
+    elif [ -d "$TEST_DIR" ] && [ "$(find "$TEST_DIR" -maxdepth 1 -name "test_*" -type f $find_exec_flag 2>/dev/null | wc -l)" -gt 0 ]; then
         test_run_dir="$TEST_DIR"
         print_info "使用 tests 目录运行测试"
-    elif [ -d "$BUILD_DIR/tests" ] && [ "$(find "$BUILD_DIR/tests" -maxdepth 1 -name "test_*" -type f -perm +111 2>/dev/null | wc -l)" -gt 0 ]; then
+    elif [ -d "$BUILD_DIR/tests" ] && [ "$(find "$BUILD_DIR/tests" -maxdepth 1 -name "test_*" -type f $find_exec_flag 2>/dev/null | wc -l)" -gt 0 ]; then
         test_run_dir="$BUILD_DIR/tests"
         print_info "使用 build_tests/tests 目录运行测试"
-    elif [ -d "$BUILD_DIR" ] && [ "$(find "$BUILD_DIR" -maxdepth 1 -name "test_*" -type f -perm +111 2>/dev/null | wc -l)" -gt 0 ]; then
+    elif [ -d "$BUILD_DIR" ] && [ "$(find "$BUILD_DIR" -maxdepth 1 -name "test_*" -type f $find_exec_flag 2>/dev/null | wc -l)" -gt 0 ]; then
         test_run_dir="$BUILD_DIR"
         print_info "使用 build_tests 目录运行测试"
     else  
@@ -827,8 +847,21 @@ run_single_gtest() {
     local xml_output="$BUILD_DIR/test_${exe}.xml"
     local run_cmd
     if [[ "$OSTYPE" == "darwin"* ]]; then
-        # Mac: 使用DYLD_LIBRARY_PATH，添加Anaconda和Homebrew的库路径
-        local lib_paths="/Users/yunjinqi/opt/anaconda3/lib:/opt/homebrew/lib:/usr/local/lib"
+        # Mac: 使用DYLD_LIBRARY_PATH，检测常用库路径
+        local lib_paths=""
+        # 检测Anaconda路径
+        if [ -d "$HOME/opt/anaconda3/lib" ]; then
+            lib_paths="$HOME/opt/anaconda3/lib"
+        fi
+        # 检测Homebrew路径
+        if [ -d "/opt/homebrew/lib" ]; then
+            lib_paths="${lib_paths:+$lib_paths:}/opt/homebrew/lib"
+        fi
+        if [ -d "/usr/local/lib" ]; then
+            lib_paths="${lib_paths:+$lib_paths:}/usr/local/lib"
+        fi
+        
+        # Mac可能需要gtimeout（从coreutils）
         if command -v gtimeout &> /dev/null; then
             run_cmd="DYLD_LIBRARY_PATH=${lib_paths}:\$DYLD_LIBRARY_PATH gtimeout 30 ./$exe --gtest_output=xml:$xml_output"
         else
@@ -837,7 +870,15 @@ run_single_gtest() {
         fi
     else
         # Linux: 使用LD_LIBRARY_PATH和timeout
-        run_cmd="LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:\$LD_LIBRARY_PATH timeout 30 ./$exe --gtest_output=xml:$xml_output"
+        local lib_paths="/usr/lib/x86_64-linux-gnu"
+        # 检测其他可能的库路径
+        if [ -d "/usr/lib" ]; then
+            lib_paths="${lib_paths}:/usr/lib"
+        fi
+        if [ -d "/usr/local/lib" ]; then
+            lib_paths="${lib_paths}:/usr/local/lib"
+        fi
+        run_cmd="LD_LIBRARY_PATH=${lib_paths}:\$LD_LIBRARY_PATH timeout 30 ./$exe --gtest_output=xml:$xml_output"
     fi
     
     if test_output=$(eval "$run_cmd" 2>&1); then
