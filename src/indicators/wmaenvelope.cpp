@@ -9,7 +9,7 @@
 namespace backtrader {
 namespace indicators {
 
-WMAEnvelope::WMAEnvelope() : Indicator(), current_index_(0) {
+WMAEnvelope::WMAEnvelope() : Indicator() {
     // Setup lines
     if (!lines) {
         lines = std::make_shared<backtrader::Lines>();
@@ -27,7 +27,7 @@ WMAEnvelope::WMAEnvelope() : Indicator(), current_index_(0) {
 
 WMAEnvelope::WMAEnvelope(std::shared_ptr<LineIterator> data_line, 
                          int period, double perc) 
-    : Indicator(), current_index_(0) {
+    : Indicator() {
     params.period = period;
     params.perc = perc;
     
@@ -64,7 +64,7 @@ WMAEnvelope::WMAEnvelope(std::shared_ptr<LineIterator> data_line,
 
 WMAEnvelope::WMAEnvelope(std::shared_ptr<LineSeries> data_source, 
                          int period, double perc) 
-    : Indicator(), current_index_(0) {
+    : Indicator() {
     params.period = period;
     params.perc = perc;
     
@@ -89,7 +89,7 @@ WMAEnvelope::WMAEnvelope(std::shared_ptr<LineSeries> data_source,
 
 WMAEnvelope::WMAEnvelope(std::shared_ptr<DataSeries> data_source, 
                          int period, double perc) 
-    : Indicator(), current_index_(0) {
+    : Indicator() {
     params.period = period;
     params.perc = perc;
     

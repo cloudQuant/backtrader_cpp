@@ -36,8 +36,8 @@ public:
     virtual ~KAMAEnvelope() = default;
     
     // Utility methods for test framework compatibility
-    double get(int ago = 0) const;
-    int getMinPeriod() const;
+    double get(int ago = 0) const override;
+    int getMinPeriod() const override;
     size_t size() const override;
     void calculate() override;
     

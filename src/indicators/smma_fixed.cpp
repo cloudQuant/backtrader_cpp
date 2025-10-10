@@ -7,7 +7,7 @@ namespace indicators {
 
 // SmoothedMovingAverage implementation
 SmoothedMovingAverage::SmoothedMovingAverage() 
-    : Indicator(), prev_smma_(0.0), initialized_(false), data_source_(nullptr), current_index_(0) {
+    : Indicator(), prev_smma_(0.0), initialized_(false), data_source_(nullptr) {
     setup_lines();
     
     // Calculate smoothing factors
@@ -18,7 +18,7 @@ SmoothedMovingAverage::SmoothedMovingAverage()
 }
 
 SmoothedMovingAverage::SmoothedMovingAverage(std::shared_ptr<LineSeries> data_source, int period) 
-    : Indicator(), prev_smma_(0.0), initialized_(false), data_source_(data_source), current_index_(0) {
+    : Indicator(), prev_smma_(0.0), initialized_(false), data_source_(data_source) {
     params.period = period;
     setup_lines();
     
@@ -30,7 +30,7 @@ SmoothedMovingAverage::SmoothedMovingAverage(std::shared_ptr<LineSeries> data_so
 }
 
 SmoothedMovingAverage::SmoothedMovingAverage(std::shared_ptr<DataSeries> data_source, int period) 
-    : Indicator(), prev_smma_(0.0), initialized_(false), data_source_(nullptr), current_index_(0) {
+    : Indicator(), prev_smma_(0.0), initialized_(false), data_source_(nullptr) {
     params.period = period;
     setup_lines();
     

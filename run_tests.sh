@@ -805,7 +805,7 @@ run_with_gtest() {
     local count=0
     for exe in "${test_executables[@]}"; do
         count=$((count + 1))
-        print_info "运行测试进度: $count/${#test_executables[@]} - $exe"
+        # 运行测试进度: $count/${#test_executables[@]} - $exe
         
         run_single_gtest "$exe"
     done
@@ -993,7 +993,7 @@ parse_gtest_xml() {
         return 1
     fi
     
-    print_info "解析测试XML: $test_name"
+    # 解析测试XML: $test_name
     
     # 解析测试套件级别信息
     local total_tests=$(grep -o 'tests="[0-9]*"' "$xml_file" | head -1 | sed 's/tests="//' | sed 's/"//')
@@ -1073,7 +1073,7 @@ parse_gtest_xml() {
     # 更新统计
     TEST_CASE_STATS+=("$test_name:tests=$total_tests,failures=$failures,errors=$errors,time=$time")
     
-    print_info "解析完成: $test_name - 总计 $total_tests 个测试用例"
+    # 解析完成: $test_name - 总计 $total_tests 个测试用例
 }
 
 compile_all_tests_parallel() {
@@ -1207,9 +1207,6 @@ run_all_tests() {
         # 只运行成功编译的测试
         if [[ " ${COMPILED_SUCCESS[@]} " =~ " $filename " ]]; then
             count=$((count + 1))
-            if [ "$verbose_mode" = true ]; then
-                print_info "运行进度: $count/${#COMPILED_SUCCESS[@]}"
-            fi
             run_single_test "$test_file" "$timeout_seconds" "$verbose_mode" || true  # 继续运行其他测试
         fi
     done

@@ -227,20 +227,20 @@ double TrueRange::get(int ago) const {
 }
 
 // AverageTrueRange implementation
-AverageTrueRange::AverageTrueRange() : Indicator(), prev_atr_(0.0), first_calculation_(true), data_source_(nullptr), current_index_(0) {
+AverageTrueRange::AverageTrueRange() : Indicator(), prev_atr_(0.0), first_calculation_(true), data_source_(nullptr) {
     setup_lines();
     _minperiod(params.period + 1); // Need period + 1 for smoothed average
 }
 
 AverageTrueRange::AverageTrueRange(std::shared_ptr<LineSeries> data_source, int period) 
-    : Indicator(), prev_atr_(0.0), first_calculation_(true), data_source_(data_source), current_index_(0) {
+    : Indicator(), prev_atr_(0.0), first_calculation_(true), data_source_(data_source) {
     params.period = period;
     setup_lines();
     _minperiod(params.period + 1); // Need period + 1 for smoothed average
 }
 
 AverageTrueRange::AverageTrueRange(std::shared_ptr<DataSeries> data_source, int period) 
-    : Indicator(), prev_atr_(0.0), first_calculation_(true), data_source_(data_source), current_index_(0) {
+    : Indicator(), prev_atr_(0.0), first_calculation_(true), data_source_(data_source) {
     params.period = period;
     setup_lines();
     _minperiod(params.period + 1); // Need period + 1 for smoothed average

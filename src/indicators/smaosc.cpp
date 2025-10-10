@@ -8,7 +8,7 @@ namespace backtrader {
 namespace indicators {
 
 SimpleMovingAverageOscillator::SimpleMovingAverageOscillator() 
-    : Indicator(), data_source_(nullptr), current_index_(0),
+    : Indicator(), data_source_(nullptr),
       sum_(0.0), first_run_(true) {
     printf("SMAOsc default constructor: params.period = %d\n", params.period);
     setup_lines();
@@ -16,7 +16,7 @@ SimpleMovingAverageOscillator::SimpleMovingAverageOscillator()
 }
 
 SimpleMovingAverageOscillator::SimpleMovingAverageOscillator(std::shared_ptr<LineSeries> data_source)
-    : Indicator(), data_source_(data_source), current_index_(0),
+    : Indicator(), data_source_(data_source),
       sum_(0.0), first_run_(true) {
     printf("SMAOsc LineSeries constructor: params.period = %d\n", params.period);
     setup_lines();
@@ -29,7 +29,7 @@ SimpleMovingAverageOscillator::SimpleMovingAverageOscillator(std::shared_ptr<Lin
 }
 
 SimpleMovingAverageOscillator::SimpleMovingAverageOscillator(std::shared_ptr<LineSeries> data_source, int period)
-    : Indicator(), data_source_(data_source), current_index_(0),
+    : Indicator(), data_source_(data_source),
       sum_(0.0), first_run_(true) {
     params.period = period;
     setup_lines();
@@ -42,7 +42,7 @@ SimpleMovingAverageOscillator::SimpleMovingAverageOscillator(std::shared_ptr<Lin
 }
 
 SimpleMovingAverageOscillator::SimpleMovingAverageOscillator(std::shared_ptr<DataSeries> data_source)
-    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)), current_index_(0),
+    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)),
       sum_(0.0), first_run_(true) {
     printf("SMAOsc DataSeries constructor: params.period = %d\n", params.period);
     setup_lines();
@@ -54,7 +54,7 @@ SimpleMovingAverageOscillator::SimpleMovingAverageOscillator(std::shared_ptr<Dat
 }
 
 SimpleMovingAverageOscillator::SimpleMovingAverageOscillator(std::shared_ptr<DataSeries> data_source, int period)
-    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)), current_index_(0),
+    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)),
       sum_(0.0), first_run_(true) {
     params.period = period;
     printf("SMAOsc DataSeries constructor (with period): params.period = %d\n", params.period);
@@ -194,9 +194,8 @@ void SimpleMovingAverageOscillator::once(int start, int end) {
     price_buffer_.clear();
     sum_ = 0.0;
     first_run_ = true;
-    
+
     for (int i = start; i < end; ++i) {
-        current_index_ = i;
         calculate();
     }
 }

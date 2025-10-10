@@ -8,7 +8,7 @@ namespace backtrader {
 namespace indicators {
 
 // CommodityChannelIndex implementation
-CommodityChannelIndex::CommodityChannelIndex() : Indicator(), data_source_(nullptr), current_index_(0) {
+CommodityChannelIndex::CommodityChannelIndex() : Indicator(), data_source_(nullptr) {
     setup_lines();
     
     // Create SMA for typical price
@@ -18,7 +18,7 @@ CommodityChannelIndex::CommodityChannelIndex() : Indicator(), data_source_(nullp
 }
 
 CommodityChannelIndex::CommodityChannelIndex(std::shared_ptr<LineSeries> data_source)
-    : Indicator(), data_source_(data_source), current_index_(0) {
+    : Indicator(), data_source_(data_source) {
     setup_lines();
     
     // Create SMA for typical price
@@ -32,7 +32,7 @@ CommodityChannelIndex::CommodityChannelIndex(std::shared_ptr<LineSeries> data_so
 }
 
 CommodityChannelIndex::CommodityChannelIndex(std::shared_ptr<LineSeries> data_source, int period, double factor) 
-    : Indicator(), data_source_(data_source), current_index_(0) {
+    : Indicator(), data_source_(data_source) {
     params.period = period;
     params.factor = factor;
     

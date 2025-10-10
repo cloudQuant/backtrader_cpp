@@ -12,13 +12,13 @@ namespace backtrader {
 namespace indicators {
 
 // Oscillator implementation
-Oscillator::Oscillator() : Indicator(), data_source_(nullptr), base_indicator_(nullptr), sma_indicator_(nullptr), current_index_(0), period_(30) {
+Oscillator::Oscillator() : Indicator(), data_source_(nullptr), base_indicator_(nullptr), sma_indicator_(nullptr), period_(30) {
     setup_lines();
     _minperiod(30);
 }
 
 Oscillator::Oscillator(std::shared_ptr<LineSeries> data_source) 
-    : Indicator(), data_source_(data_source), base_indicator_(nullptr), sma_indicator_(nullptr), current_index_(0), period_(30) {
+    : Indicator(), data_source_(data_source), base_indicator_(nullptr), sma_indicator_(nullptr), period_(30) {
     setup_lines();
     _minperiod(30);
     
@@ -30,7 +30,7 @@ Oscillator::Oscillator(std::shared_ptr<LineSeries> data_source)
 }
 
 Oscillator::Oscillator(std::shared_ptr<LineSeries> data_source, int period) 
-    : Indicator(), data_source_(data_source), base_indicator_(nullptr), sma_indicator_(nullptr), current_index_(0), period_(period) {
+    : Indicator(), data_source_(data_source), base_indicator_(nullptr), sma_indicator_(nullptr), period_(period) {
     setup_lines();
     _minperiod(period);
     
@@ -42,7 +42,7 @@ Oscillator::Oscillator(std::shared_ptr<LineSeries> data_source, int period)
 }
 
 Oscillator::Oscillator(std::shared_ptr<LineSeries> data_source, std::shared_ptr<Indicator> base_indicator) 
-    : Indicator(), data_source_(data_source), base_indicator_(base_indicator), sma_indicator_(nullptr), current_index_(0), period_(1) {
+    : Indicator(), data_source_(data_source), base_indicator_(base_indicator), sma_indicator_(nullptr), period_(1) {
     setup_lines();
     
     // Set minperiod from base indicator
@@ -67,7 +67,7 @@ Oscillator::Oscillator(std::shared_ptr<LineSeries> data_source, std::shared_ptr<
 }
 
 Oscillator::Oscillator(std::shared_ptr<DataSeries> data_source, int period) 
-    : Indicator(), data_source_(nullptr), base_indicator_(nullptr), sma_indicator_(nullptr), current_index_(0), period_(period) {
+    : Indicator(), data_source_(nullptr), base_indicator_(nullptr), sma_indicator_(nullptr), period_(period) {
     setup_lines();
     _minperiod(period);
     
@@ -143,9 +143,6 @@ void Oscillator::calculate() {
                 once(0, data_buffer->array().size());
             }
         }
-    } else if (data_source_ && current_index_ < data_source_->size()) {
-        // Implementation for LineSeries-based calculation
-        current_index_++;
     } else {
         // Use existing next() method for traditional calculation
         next();

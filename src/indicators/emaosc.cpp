@@ -9,7 +9,7 @@ namespace backtrader {
 namespace indicators {
 
 ExponentialMovingAverageOscillator::ExponentialMovingAverageOscillator() 
-    : Indicator(), data_source_(nullptr), current_index_(0),
+    : Indicator(), data_source_(nullptr),
       ema_(0.0), first_run_(true) {
     setup_lines();
     
@@ -19,7 +19,7 @@ ExponentialMovingAverageOscillator::ExponentialMovingAverageOscillator()
 }
 
 ExponentialMovingAverageOscillator::ExponentialMovingAverageOscillator(std::shared_ptr<LineSeries> data_source)
-    : Indicator(), data_source_(data_source), current_index_(0),
+    : Indicator(), data_source_(data_source),
       ema_(0.0), first_run_(true) {
     setup_lines();
     
@@ -33,7 +33,7 @@ ExponentialMovingAverageOscillator::ExponentialMovingAverageOscillator(std::shar
 }
 
 ExponentialMovingAverageOscillator::ExponentialMovingAverageOscillator(std::shared_ptr<LineSeries> data_source, int period)
-    : Indicator(), data_source_(data_source), current_index_(0),
+    : Indicator(), data_source_(data_source),
       ema_(0.0), first_run_(true) {
     params.period = period;
     setup_lines();
@@ -48,7 +48,7 @@ ExponentialMovingAverageOscillator::ExponentialMovingAverageOscillator(std::shar
 }
 
 ExponentialMovingAverageOscillator::ExponentialMovingAverageOscillator(std::shared_ptr<DataSeries> data_source)
-    : Indicator(), data_source_(nullptr), current_index_(0),
+    : Indicator(), data_source_(nullptr),
       ema_(0.0), first_run_(true) {
     printf("DEBUG: EMAOsc DataSeries constructor: params.period = %d\n", params.period);
     fflush(stdout);
@@ -64,7 +64,7 @@ ExponentialMovingAverageOscillator::ExponentialMovingAverageOscillator(std::shar
 }
 
 ExponentialMovingAverageOscillator::ExponentialMovingAverageOscillator(std::shared_ptr<DataSeries> data_source, int period)
-    : Indicator(), data_source_(nullptr), current_index_(0),
+    : Indicator(), data_source_(nullptr),
       ema_(0.0), first_run_(true) {
     params.period = period;
     setup_lines();

@@ -25,8 +25,8 @@ public:
     virtual ~Oscillator() = default;
     
     // Utility methods
-    double get(int ago = 0) const;
-    int getMinPeriod() const;
+    double get(int ago = 0) const override;
+    int getMinPeriod() const override;
     void calculate() override;
     size_t size() const override;
     
@@ -41,7 +41,6 @@ private:
     std::shared_ptr<LineSeries> data_source_;
     std::shared_ptr<Indicator> base_indicator_;
     std::shared_ptr<SMA> sma_indicator_;  // For single data source mode
-    size_t current_index_;
     int period_;
 };
 

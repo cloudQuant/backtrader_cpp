@@ -8,32 +8,30 @@
 namespace backtrader {
 namespace indicators {
 
-DoubleExponentialMovingAverageOscillator::DoubleExponentialMovingAverageOscillator() 
-    : Indicator(), data_source_(nullptr), current_index_(0),
-      ema1_(0.0), ema2_(0.0), first_run_(true) {
+DoubleExponentialMovingAverageOscillator::DoubleExponentialMovingAverageOscillator()
+    : Indicator(), data_source_(nullptr) {
     // Note: params.period is initialized in the header to 30
     setup_lines();
-    
+
     // Calculate smoothing factors
     alpha_ = 2.0 / (params.period + 1.0);
     alpha1_ = 1.0 - alpha_;
-    
+
     // Set minperiod
     _minperiod(getMinPeriod());
 }
 
 DoubleExponentialMovingAverageOscillator::DoubleExponentialMovingAverageOscillator(std::shared_ptr<LineSeries> data_source)
-    : Indicator(), data_source_(data_source), current_index_(0),
-      ema1_(0.0), ema2_(0.0), first_run_(true) {
+    : Indicator(), data_source_(data_source) {
     setup_lines();
-    
+
     // Calculate smoothing factors
     alpha_ = 2.0 / (params.period + 1.0);
     alpha1_ = 1.0 - alpha_;
-    
+
     // Set minperiod
     _minperiod(getMinPeriod());
-    
+
     if (data_source) {
         this->data = data_source;
         this->datas.push_back(data_source);
@@ -41,15 +39,14 @@ DoubleExponentialMovingAverageOscillator::DoubleExponentialMovingAverageOscillat
 }
 
 DoubleExponentialMovingAverageOscillator::DoubleExponentialMovingAverageOscillator(std::shared_ptr<LineSeries> data_source, int period)
-    : Indicator(), data_source_(data_source), current_index_(0),
-      ema1_(0.0), ema2_(0.0), first_run_(true) {
+    : Indicator(), data_source_(data_source) {
     params.period = period;
     setup_lines();
-    
+
     // Calculate smoothing factors
     alpha_ = 2.0 / (params.period + 1.0);
     alpha1_ = 1.0 - alpha_;
-    
+
     // Set minperiod
     _minperiod(getMinPeriod());
     
@@ -60,17 +57,16 @@ DoubleExponentialMovingAverageOscillator::DoubleExponentialMovingAverageOscillat
 }
 
 DoubleExponentialMovingAverageOscillator::DoubleExponentialMovingAverageOscillator(std::shared_ptr<DataSeries> data_source)
-    : Indicator(), data_source_(nullptr), current_index_(0),
-      ema1_(0.0), ema2_(0.0), first_run_(true) {
+    : Indicator(), data_source_(nullptr) {
     setup_lines();
-    
+
     // Calculate smoothing factors
     alpha_ = 2.0 / (params.period + 1.0);
     alpha1_ = 1.0 - alpha_;
-    
+
     // Set minperiod
     _minperiod(getMinPeriod());
-    
+
     auto lineseries = std::dynamic_pointer_cast<LineSeries>(data_source);
     if (lineseries) {
         this->data = lineseries;
@@ -80,18 +76,17 @@ DoubleExponentialMovingAverageOscillator::DoubleExponentialMovingAverageOscillat
 }
 
 DoubleExponentialMovingAverageOscillator::DoubleExponentialMovingAverageOscillator(std::shared_ptr<DataSeries> data_source, int period)
-    : Indicator(), data_source_(nullptr), current_index_(0),
-      ema1_(0.0), ema2_(0.0), first_run_(true) {
+    : Indicator(), data_source_(nullptr) {
     params.period = period;
     setup_lines();
-    
+
     // Calculate smoothing factors
     alpha_ = 2.0 / (params.period + 1.0);
     alpha1_ = 1.0 - alpha_;
-    
+
     // Set minperiod
     _minperiod(getMinPeriod());
-    
+
     auto lineseries = std::dynamic_pointer_cast<LineSeries>(data_source);
     if (lineseries) {
         this->data = lineseries;

@@ -44,24 +44,24 @@ public:
     virtual ~WMAEnvelope() = default;
     
     // Get method for accessing the indicator value (defaults to mid line)
-    double get(int ago = 0) const;
-    
+    double get(int ago = 0) const override;
+
     // Get specific line values
     double getMid(int ago = 0) const;
     double getUpper(int ago = 0) const;
     double getLower(int ago = 0) const;
-    
+
     // Get line by index (for test compatibility)
-    std::shared_ptr<LineSingle> getLine(size_t idx) const;
-    
+    std::shared_ptr<LineSingle> getLine(size_t idx) const override;
+
     // Get minimum period required
     int getMinPeriod() const override { return params.period; }
-    
+
     // Size method
     size_t size() const override;
-    
+
     // Calculate method for manual testing
-    void calculate();
+    void calculate() override;
     
 protected:
     void next() override;
@@ -69,7 +69,6 @@ protected:
     
 private:
     std::shared_ptr<WMA> wma_;
-    int current_index_;
 };
 
 } // namespace indicators

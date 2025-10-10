@@ -6,20 +6,20 @@ namespace backtrader {
 namespace indicators {
 
 // PercentChange implementation
-PercentChange::PercentChange() : Indicator(), data_source_(nullptr), current_index_(0) {
+PercentChange::PercentChange() : Indicator(), data_source_(nullptr) {
     setup_lines();
     _minperiod(params.period + 1); // Need period + 1 for comparison
 }
 
 PercentChange::PercentChange(std::shared_ptr<LineSeries> data_source, int period) 
-    : Indicator(), data_source_(data_source), current_index_(0) {
+    : Indicator(), data_source_(data_source) {
     params.period = period;
     setup_lines();
     _minperiod(params.period + 1);
 }
 
 PercentChange::PercentChange(std::shared_ptr<DataSeries> data_source, int period) 
-    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)), current_index_(0) {
+    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)) {
     params.period = period;
     setup_lines();
     _minperiod(params.period + 1);

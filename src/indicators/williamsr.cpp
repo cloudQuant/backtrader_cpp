@@ -7,7 +7,7 @@
 namespace backtrader {
 namespace indicators {
 
-WilliamsR::WilliamsR(int period) : Indicator(), using_line_roots_(false) {
+WilliamsR::WilliamsR(int period) : Indicator() {
     params.period = period;
     
     // Set minimum period
@@ -21,7 +21,7 @@ WilliamsR::WilliamsR(int period) : Indicator(), using_line_roots_(false) {
 }
 
 WilliamsR::WilliamsR(std::shared_ptr<LineSeries> data_source, int period) 
-    : Indicator(), data_source_(data_source), using_line_roots_(false) {
+    : Indicator(), data_source_(data_source) {
     params.period = period;
     
     // Set minimum period
@@ -39,7 +39,7 @@ WilliamsR::WilliamsR(std::shared_ptr<LineSeries> data_source, int period)
 }
 
 WilliamsR::WilliamsR(std::shared_ptr<DataSeries> data_source, int period) 
-    : Indicator(), using_line_roots_(false) {
+    : Indicator() {
     params.period = period;
     
     // Set minimum period

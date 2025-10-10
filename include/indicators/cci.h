@@ -32,12 +32,12 @@ public:
     virtual ~CommodityChannelIndex() = default;
     
     // Utility methods for tests
-    double get(int ago = 0) const;
+    double get(int ago = 0) const override;
     int getMinPeriod() const override;
     void calculate() override;
-    
+
     // Size method
-    size_t size() const;
+    size_t size() const override;
     
 protected:
     void prenext() override;
@@ -57,7 +57,6 @@ private:
     // Circular buffers for typical price values
     std::vector<double> tp_values_;
     std::shared_ptr<LineSeries> data_source_;
-    size_t current_index_;
 };
 
 // Aliases

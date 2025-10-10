@@ -9,7 +9,7 @@ namespace backtrader {
 namespace indicators {
 
 // DoubleExponentialMovingAverage implementation
-DoubleExponentialMovingAverage::DoubleExponentialMovingAverage() : Indicator(), data_source_(nullptr), current_index_(0), ema1_(nullptr), ema2_(nullptr) {
+DoubleExponentialMovingAverage::DoubleExponentialMovingAverage() : Indicator(), data_source_(nullptr), ema1_(nullptr), ema2_(nullptr) {
     setup_lines();
     
     // DEMA needs 2 * period - 1 for full calculation
@@ -17,7 +17,7 @@ DoubleExponentialMovingAverage::DoubleExponentialMovingAverage() : Indicator(), 
 }
 
 DoubleExponentialMovingAverage::DoubleExponentialMovingAverage(std::shared_ptr<LineSeries> data_source) 
-    : Indicator(), data_source_(data_source), current_index_(0), ema1_(nullptr), ema2_(nullptr) {
+    : Indicator(), data_source_(data_source), ema1_(nullptr), ema2_(nullptr) {
     setup_lines();
     
     // DEMA needs 2 * period - 1 for full calculation
@@ -32,7 +32,7 @@ DoubleExponentialMovingAverage::DoubleExponentialMovingAverage(std::shared_ptr<L
 }
 
 DoubleExponentialMovingAverage::DoubleExponentialMovingAverage(std::shared_ptr<LineSeries> data_source, int period) 
-    : Indicator(), data_source_(data_source), current_index_(0), ema1_(nullptr), ema2_(nullptr) {
+    : Indicator(), data_source_(data_source), ema1_(nullptr), ema2_(nullptr) {
     params.period = period;
     setup_lines();
     
@@ -48,7 +48,7 @@ DoubleExponentialMovingAverage::DoubleExponentialMovingAverage(std::shared_ptr<L
 }
 
 DoubleExponentialMovingAverage::DoubleExponentialMovingAverage(std::shared_ptr<DataSeries> data_source)
-    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)), current_index_(0), ema1_(nullptr), ema2_(nullptr) {
+    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)), ema1_(nullptr), ema2_(nullptr) {
     setup_lines();
     
     // DEMA needs 2 * period - 1 for full calculation
@@ -63,7 +63,7 @@ DoubleExponentialMovingAverage::DoubleExponentialMovingAverage(std::shared_ptr<D
 }
 
 DoubleExponentialMovingAverage::DoubleExponentialMovingAverage(std::shared_ptr<DataSeries> data_source, int period)
-    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)), current_index_(0), ema1_(nullptr), ema2_(nullptr) {
+    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)), ema1_(nullptr), ema2_(nullptr) {
     params.period = period;
     setup_lines();
     
@@ -252,12 +252,10 @@ void DoubleExponentialMovingAverage::once(int start, int end) {
     }
     
     // Third pass: Calculate DEMA = 2 * EMA1 - EMA2
-    int valid_dema_count = 0;
     for (size_t i = 0; i < data_size; ++i) {
         if (!std::isnan(ema1_values[i]) && !std::isnan(ema2_values[i])) {
             double dema_val = 2.0 * ema1_values[i] - ema2_values[i];
             dema_line->append(dema_val);
-            valid_dema_count++;
         } else {
             dema_line->append(std::numeric_limits<double>::quiet_NaN());
         }
@@ -269,7 +267,7 @@ void DoubleExponentialMovingAverage::once(int start, int end) {
 }
 
 // TripleExponentialMovingAverage implementation
-TripleExponentialMovingAverage::TripleExponentialMovingAverage() : Indicator(), data_source_(nullptr), current_index_(0) {
+TripleExponentialMovingAverage::TripleExponentialMovingAverage() : Indicator(), data_source_(nullptr) {
     setup_lines();
     
     // TEMA needs cascaded EMA minperiod calculation: EMA1(30) -> EMA2(59) -> EMA3(88)
@@ -280,7 +278,7 @@ TripleExponentialMovingAverage::TripleExponentialMovingAverage() : Indicator(), 
     _minperiod(ema3_minperiod);
 }
 
-TripleExponentialMovingAverage::TripleExponentialMovingAverage(std::shared_ptr<LineSeries> data_source) : Indicator(), data_source_(data_source), current_index_(0) {
+TripleExponentialMovingAverage::TripleExponentialMovingAverage(std::shared_ptr<LineSeries> data_source) : Indicator(), data_source_(data_source) {
     setup_lines();
     
     // TEMA needs cascaded EMA minperiod calculation: EMA1(30) -> EMA2(59) -> EMA3(88)
@@ -295,7 +293,7 @@ TripleExponentialMovingAverage::TripleExponentialMovingAverage(std::shared_ptr<L
     this->datas.push_back(data_source);
 }
 
-TripleExponentialMovingAverage::TripleExponentialMovingAverage(std::shared_ptr<LineSeries> data_source, int period) : Indicator(), data_source_(data_source), current_index_(0) {
+TripleExponentialMovingAverage::TripleExponentialMovingAverage(std::shared_ptr<LineSeries> data_source, int period) : Indicator(), data_source_(data_source) {
     params.period = period;
     setup_lines();
     
@@ -311,7 +309,7 @@ TripleExponentialMovingAverage::TripleExponentialMovingAverage(std::shared_ptr<L
     this->datas.push_back(data_source);
 }
 
-TripleExponentialMovingAverage::TripleExponentialMovingAverage(std::shared_ptr<DataSeries> data_source) : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)), current_index_(0) {
+TripleExponentialMovingAverage::TripleExponentialMovingAverage(std::shared_ptr<DataSeries> data_source) : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)) {
     setup_lines();
     
     // TEMA needs cascaded EMA minperiod calculation: EMA1(30) -> EMA2(59) -> EMA3(88)
@@ -326,7 +324,7 @@ TripleExponentialMovingAverage::TripleExponentialMovingAverage(std::shared_ptr<D
     this->datas.push_back(data_source);
 }
 
-TripleExponentialMovingAverage::TripleExponentialMovingAverage(std::shared_ptr<DataSeries> data_source, int period) : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)), current_index_(0) {
+TripleExponentialMovingAverage::TripleExponentialMovingAverage(std::shared_ptr<DataSeries> data_source, int period) : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)) {
     params.period = period;
     setup_lines();
     

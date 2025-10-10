@@ -6,7 +6,7 @@ namespace backtrader {
 namespace indicators {
 
 // Simplified Trix implementation
-Trix::Trix() : Indicator(), data_source_(nullptr), current_index_(0) {
+Trix::Trix() : Indicator(), data_source_(nullptr) {
     setup_lines();
     
     // Create three EMA indicators for triple smoothing
@@ -19,7 +19,7 @@ Trix::Trix() : Indicator(), data_source_(nullptr), current_index_(0) {
 }
 
 Trix::Trix(std::shared_ptr<LineSeries> data_source, int period) 
-    : Indicator(), data_source_(data_source), current_index_(0) {
+    : Indicator(), data_source_(data_source) {
     params.period = period;
     setup_lines();
     

@@ -9,7 +9,7 @@ namespace backtrader {
 namespace indicators {
 
 // MACD implementation
-MACD::MACD() : Indicator(), data_source_(nullptr), current_index_(0), 
+MACD::MACD() : Indicator(), data_source_(nullptr), 
     first_ema12_(true), first_ema26_(true), first_signal_(true),
     ema12_value_(0.0), ema26_value_(0.0), signal_value_(0.0), data_count_(0) {
     setup_lines();
@@ -24,7 +24,7 @@ MACD::MACD() : Indicator(), data_source_(nullptr), current_index_(0),
 }
 
 MACD::MACD(std::shared_ptr<LineSeries> data_source, int fast_period, int slow_period, int signal_period) 
-    : Indicator(), data_source_(data_source), current_index_(0),
+    : Indicator(), data_source_(data_source),
     first_ema12_(true), first_ema26_(true), first_signal_(true),
     ema12_value_(0.0), ema26_value_(0.0), signal_value_(0.0), data_count_(0) {
     params.period_me1 = fast_period;
@@ -50,7 +50,7 @@ MACD::MACD(std::shared_ptr<LineSeries> data_source, int fast_period, int slow_pe
 }
 
 MACD::MACD(std::shared_ptr<DataSeries> data_source, int fast_period, int slow_period, int signal_period) 
-    : Indicator(), data_source_(nullptr), current_index_(0),
+    : Indicator(), data_source_(nullptr),
     first_ema12_(true), first_ema26_(true), first_signal_(true),
     ema12_value_(0.0), ema26_value_(0.0), signal_value_(0.0), data_count_(0) {
     params.period_me1 = fast_period;
@@ -159,11 +159,7 @@ void MACD::prenext() {
         ema26_value_ = alpha_me2_ * current_close + (1.0 - alpha_me2_) * ema26_value_;
     }
     
-    // Calculate MACD value (but we'll still store NaN until minimum period)
-    double macd_value = std::numeric_limits<double>::quiet_NaN();
-    if (!std::isnan(ema12_value_) && !std::isnan(ema26_value_)) {
-        macd_value = ema12_value_ - ema26_value_;
-    }
+    // MACD values will be calculated later in next() method
     
     // Store NaN values in result lines during prenext to keep buffers in sync
     auto macd_line = std::dynamic_pointer_cast<LineBuffer>(lines->getline(macd));

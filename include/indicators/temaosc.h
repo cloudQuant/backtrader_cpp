@@ -43,7 +43,6 @@ private:
     
     // LineSeries support
     std::shared_ptr<LineSeries> data_source_;
-    size_t current_index_;
     
     // TEMA indicator for calculation
     std::shared_ptr<class TripleExponentialMovingAverage> tema_;

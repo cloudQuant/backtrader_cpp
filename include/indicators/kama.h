@@ -31,7 +31,7 @@ public:
     
     // Utility methods for test framework compatibility
     double get(int ago = 0) const override;
-    int getMinPeriod() const;
+    int getMinPeriod() const override;
     void calculate() final;
     
     // Size method
@@ -66,7 +66,6 @@ private:
     
     // LineSeries support
     std::shared_ptr<LineSeries> data_source_;
-    size_t current_index_;
 };
 
 // Aliases

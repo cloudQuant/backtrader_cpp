@@ -8,7 +8,7 @@ namespace backtrader {
 namespace indicators {
 
 // ZeroLagIndicator implementation
-ZeroLagIndicator::ZeroLagIndicator() : Indicator(), data_source_(nullptr), current_index_(0), ema_initialized_(false) {
+ZeroLagIndicator::ZeroLagIndicator() : Indicator(), data_source_(nullptr), ema_initialized_(false) {
     setup_lines();
     _minperiod(params.period);
     
@@ -19,7 +19,7 @@ ZeroLagIndicator::ZeroLagIndicator() : Indicator(), data_source_(nullptr), curre
 }
 
 ZeroLagIndicator::ZeroLagIndicator(std::shared_ptr<LineSeries> data_source, int period) 
-    : Indicator(), data_source_(data_source), current_index_(0), ema_initialized_(false) {
+    : Indicator(), data_source_(data_source), ema_initialized_(false) {
     params.period = period;
     setup_lines();
     _minperiod(params.period);
@@ -37,7 +37,7 @@ ZeroLagIndicator::ZeroLagIndicator(std::shared_ptr<LineSeries> data_source, int 
 }
 
 ZeroLagIndicator::ZeroLagIndicator(std::shared_ptr<DataSeries> data_source, int period) 
-    : Indicator(), data_source_(nullptr), current_index_(0), ema_initialized_(false) {
+    : Indicator(), data_source_(nullptr), ema_initialized_(false) {
     params.period = period;
     setup_lines();
     _minperiod(params.period);

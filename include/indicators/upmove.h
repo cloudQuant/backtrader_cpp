@@ -23,8 +23,8 @@ public:
     virtual ~UpMove() = default;
     
     // Utility methods
-    double get(int ago = 0) const;
-    int getMinPeriod() const;
+    double get(int ago = 0) const override;
+    int getMinPeriod() const override;
     void calculate() override;
     size_t size() const override;
     
@@ -37,7 +37,6 @@ private:
     
     // LineSeries support
     std::shared_ptr<LineSeries> data_source_;
-    size_t current_index_;
 
 };
 
@@ -58,8 +57,8 @@ public:
     virtual ~DownMove() = default;
     
     // Utility methods
-    double get(int ago = 0) const;
-    int getMinPeriod() const;
+    double get(int ago = 0) const override;
+    int getMinPeriod() const override;
     void calculate() override;
     size_t size() const override;
     
@@ -72,7 +71,6 @@ private:
     
     // LineSeries support
     std::shared_ptr<LineSeries> data_source_;
-    size_t current_index_;
 };
 
 } // namespace indicators

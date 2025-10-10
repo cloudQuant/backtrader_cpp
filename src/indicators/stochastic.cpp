@@ -14,8 +14,6 @@ StochasticBase::StochasticBase() : Indicator() {
 
 void StochasticBase::prenext() {
     // Before minimum period: ensure result lines contain NaN
-    static int prenext_count = 0;
-    prenext_count++;
     if (lines->size() >= 1) {
         auto k_line = std::dynamic_pointer_cast<LineBuffer>(lines->getline(percK));
         if (k_line) {
@@ -35,8 +33,6 @@ void StochasticBase::prenext() {
 
 void StochasticBase::next() {
     // Call the derived class calculate_lines implementation
-    static int next_count = 0;
-    next_count++;
     calculate_lines();
 }
 
@@ -98,9 +94,6 @@ void StochasticBase::once(int start, int end) {
 }
 
 double StochasticBase::get_highest(int period, int offset) {
-    static int debug_call = 0;
-    debug_call++;
-    
     if (datas.empty() || !datas[0]->lines) return std::numeric_limits<double>::quiet_NaN();
     
     // Check if we have separate line series for each component
@@ -413,10 +406,6 @@ void Stochastic::setup_lines() {
 }
 
 void Stochastic::calculate_lines() {
-    // Debug output
-    static int debug_call_count = 0;
-    debug_call_count++;
-    
     // Check if this is being called from calculate() in streaming mode
     // If so, we need to handle it differently
     
@@ -1046,9 +1035,6 @@ void Stochastic::next() {
 }
 
 void Stochastic::calculate() {
-    // Debug to see if this is being called
-    static int calc_count = 0;
-    calc_count++;
     // Debug output disabled
     // std::cout << "Stochastic::calculate() called, count=" << calc_count 
     //           << ", datas.size()=" << datas.size() << std::endl;

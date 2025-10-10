@@ -9,7 +9,7 @@ namespace backtrader {
 namespace indicators {
 
 TripleExponentialMovingAverageOscillator::TripleExponentialMovingAverageOscillator() 
-    : Indicator(), data_source_(nullptr), current_index_(0) {
+    : Indicator(), data_source_(nullptr) {
     setup_lines();
     
     // Set minperiod: for TEMA with period p, it's (p-1)*3+1
@@ -17,7 +17,7 @@ TripleExponentialMovingAverageOscillator::TripleExponentialMovingAverageOscillat
 }
 
 TripleExponentialMovingAverageOscillator::TripleExponentialMovingAverageOscillator(std::shared_ptr<LineSeries> data_source)
-    : Indicator(), data_source_(data_source), current_index_(0) {
+    : Indicator(), data_source_(data_source) {
     setup_lines();
     
     // Set minperiod
@@ -33,7 +33,7 @@ TripleExponentialMovingAverageOscillator::TripleExponentialMovingAverageOscillat
 }
 
 TripleExponentialMovingAverageOscillator::TripleExponentialMovingAverageOscillator(std::shared_ptr<LineSeries> data_source, int period)
-    : Indicator(), data_source_(data_source), current_index_(0) {
+    : Indicator(), data_source_(data_source) {
     params.period = period;
     setup_lines();
     
@@ -50,7 +50,7 @@ TripleExponentialMovingAverageOscillator::TripleExponentialMovingAverageOscillat
 }
 
 TripleExponentialMovingAverageOscillator::TripleExponentialMovingAverageOscillator(std::shared_ptr<DataSeries> data_source)
-    : Indicator(), data_source_(nullptr), current_index_(0) {
+    : Indicator(), data_source_(nullptr) {
     setup_lines();
     
     // Set minperiod
@@ -68,7 +68,7 @@ TripleExponentialMovingAverageOscillator::TripleExponentialMovingAverageOscillat
 }
 
 TripleExponentialMovingAverageOscillator::TripleExponentialMovingAverageOscillator(std::shared_ptr<DataSeries> data_source, int period)
-    : Indicator(), data_source_(nullptr), current_index_(0) {
+    : Indicator(), data_source_(nullptr) {
     params.period = period;
     setup_lines();
     

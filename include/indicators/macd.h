@@ -57,7 +57,6 @@ private:
     std::shared_ptr<Indicator> me2_;  // Slow EMA
     std::shared_ptr<Indicator> signal_ema_;  // Signal line EMA
     std::shared_ptr<LineSeries> data_source_;
-    size_t current_index_;
     
     // State for streaming calculation
     bool first_ema12_ = true;

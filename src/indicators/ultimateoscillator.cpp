@@ -10,7 +10,7 @@ namespace backtrader {
 namespace indicators {
 
 // UltimateOscillator implementation
-UltimateOscillator::UltimateOscillator() : Indicator(), data_source_(nullptr), current_index_(0) {
+UltimateOscillator::UltimateOscillator() : Indicator(), data_source_(nullptr) {
     setup_lines();
     
     // Need maximum of the three periods + 1 for true range calculation
@@ -22,7 +22,7 @@ UltimateOscillator::UltimateOscillator() : Indicator(), data_source_(nullptr), c
 }
 
 UltimateOscillator::UltimateOscillator(std::shared_ptr<LineSeries> data_source, int p1, int p2, int p3) 
-    : Indicator(), data_source_(data_source), current_index_(0) {
+    : Indicator(), data_source_(data_source) {
     params.p1 = p1;
     params.p2 = p2;
     params.p3 = p3;
@@ -38,7 +38,7 @@ UltimateOscillator::UltimateOscillator(std::shared_ptr<LineSeries> data_source, 
 
 // DataSeries constructors for disambiguation
 UltimateOscillator::UltimateOscillator(std::shared_ptr<DataSeries> data_source) 
-    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)), current_index_(0) {
+    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)) {
     setup_lines();
     
     // Need maximum of the three periods + 1 for true range calculation
@@ -53,7 +53,7 @@ UltimateOscillator::UltimateOscillator(std::shared_ptr<DataSeries> data_source)
 }
 
 UltimateOscillator::UltimateOscillator(std::shared_ptr<DataSeries> data_source, int p1, int p2, int p3) 
-    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)), current_index_(0) {
+    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)) {
     params.p1 = p1;
     params.p2 = p2;
     params.p3 = p3;

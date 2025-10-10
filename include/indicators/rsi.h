@@ -25,9 +25,9 @@ public:
     int period;
     
     // Utility methods for tests
-    double get(int ago = 0) const;
+    double get(int ago = 0) const override;
     size_t size() const override;
-    int getMinPeriod() const { return _minperiod(); }
+    int getMinPeriod() const override { return _minperiod(); }
     void calculate() override;
     
     // Overbought/Oversold status method
@@ -44,7 +44,6 @@ private:
     double prev_value_;
     bool first_calculation_;
     std::shared_ptr<LineSeries> data_source_;
-    size_t current_index_;
 };
 
 } // namespace indicators

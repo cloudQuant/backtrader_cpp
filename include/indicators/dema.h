@@ -49,7 +49,6 @@ private:
     
     // LineSeries support
     std::shared_ptr<LineSeries> data_source_;
-    size_t current_index_;
     
     // Sub-indicators for DEMA calculation
     std::shared_ptr<EMA> ema1_;
@@ -91,7 +90,6 @@ private:
     
     // LineSeries support
     std::shared_ptr<LineSeries> data_source_;
-    size_t current_index_;
 };
 
 // WeightedMovingAverage is now included from wma.h

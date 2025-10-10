@@ -7,7 +7,7 @@ namespace backtrader {
 namespace indicators {
 
 // SmoothedMovingAverageOscillator implementation
-SmoothedMovingAverageOscillator::SmoothedMovingAverageOscillator() : Indicator(), data_source_(nullptr), current_index_(0) {
+SmoothedMovingAverageOscillator::SmoothedMovingAverageOscillator() : Indicator(), data_source_(nullptr) {
     setup_lines();
     _minperiod(params.period);
     
@@ -16,7 +16,7 @@ SmoothedMovingAverageOscillator::SmoothedMovingAverageOscillator() : Indicator()
 }
 
 SmoothedMovingAverageOscillator::SmoothedMovingAverageOscillator(std::shared_ptr<LineSeries> data_source) 
-    : Indicator(), data_source_(data_source), current_index_(0) {
+    : Indicator(), data_source_(data_source) {
     setup_lines();
     _minperiod(params.period);
     
@@ -29,7 +29,7 @@ SmoothedMovingAverageOscillator::SmoothedMovingAverageOscillator(std::shared_ptr
 }
 
 SmoothedMovingAverageOscillator::SmoothedMovingAverageOscillator(std::shared_ptr<LineSeries> data_source, int period) 
-    : Indicator(), data_source_(data_source), current_index_(0) {
+    : Indicator(), data_source_(data_source) {
     params.period = period;
     setup_lines();
     _minperiod(params.period);
@@ -43,7 +43,7 @@ SmoothedMovingAverageOscillator::SmoothedMovingAverageOscillator(std::shared_ptr
 }
 
 SmoothedMovingAverageOscillator::SmoothedMovingAverageOscillator(std::shared_ptr<DataSeries> data_source) 
-    : Indicator(), data_source_(nullptr), current_index_(0) {
+    : Indicator(), data_source_(nullptr) {
     setup_lines();
     _minperiod(params.period);
     
@@ -60,7 +60,7 @@ SmoothedMovingAverageOscillator::SmoothedMovingAverageOscillator(std::shared_ptr
 }
 
 SmoothedMovingAverageOscillator::SmoothedMovingAverageOscillator(std::shared_ptr<DataSeries> data_source, int period) 
-    : Indicator(), data_source_(nullptr), current_index_(0) {
+    : Indicator(), data_source_(nullptr) {
     params.period = period;
     setup_lines();
     _minperiod(params.period);

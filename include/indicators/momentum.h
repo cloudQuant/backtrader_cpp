@@ -29,8 +29,8 @@ public:
     virtual ~Momentum() = default;
     
     // Utility methods
-    double get(int ago = 0) const;
-    int getMinPeriod() const;
+    double get(int ago = 0) const override;
+    int getMinPeriod() const override;
     void calculate() override;
     size_t size() const override;
     
@@ -44,7 +44,6 @@ private:
     
     // LineSeries support
     std::shared_ptr<LineSeries> data_source_;
-    size_t current_index_;
 };
 
 // Momentum Oscillator Indicator
@@ -66,8 +65,8 @@ public:
     virtual ~MomentumOscillator() = default;
     
     // Test framework compatibility methods
-    double get(int ago = 0) const;
-    int getMinPeriod() const;
+    double get(int ago = 0) const override;
+    int getMinPeriod() const override;
     size_t size() const override;
     void calculate() override;
     
@@ -97,8 +96,8 @@ public:
     virtual ~RateOfChange100() = default;
     
     // Utility methods for test framework compatibility
-    double get(int ago = 0) const;
-    int getMinPeriod() const;
+    double get(int ago = 0) const override;
+    int getMinPeriod() const override;
     void calculate() override;
     
 protected:

@@ -10,7 +10,7 @@ namespace backtrader {
 namespace indicators {
 
 Lowest::Lowest() 
-    : OperationN(), data_source_(nullptr), current_index_(0) {
+    : OperationN(), data_source_(nullptr) {
     // Ensure lines are set up
     if (lines->size() == 0) {
         setup_lines();
@@ -21,7 +21,7 @@ Lowest::Lowest()
 }
 
 Lowest::Lowest(std::shared_ptr<LineSeries> data_source, int period)
-    : OperationN(), data_source_(data_source), current_index_(0) {
+    : OperationN(), data_source_(data_source) {
     params.period = period;
     setup_lines();
     _minperiod(params.period);
@@ -37,7 +37,7 @@ Lowest::Lowest(std::shared_ptr<LineSeries> data_source, int period)
 
 // DataSeries constructors for disambiguation
 Lowest::Lowest(std::shared_ptr<DataSeries> data_source) 
-    : OperationN(), data_source_(nullptr), current_index_(0) {
+    : OperationN(), data_source_(nullptr) {
     setup_lines();
     if (lines->size() > 0) {
         lines->add_alias("lowest", 0);
@@ -49,7 +49,7 @@ Lowest::Lowest(std::shared_ptr<DataSeries> data_source)
 }
 
 Lowest::Lowest(std::shared_ptr<DataSeries> data_source, int period) 
-    : OperationN(), data_source_(nullptr), current_index_(0) {
+    : OperationN(), data_source_(nullptr) {
     params.period = period;
     setup_lines();
     _minperiod(params.period);

@@ -30,7 +30,7 @@ static double calculateWMA(const std::vector<double>& data, int start, int end) 
 }
 
 // HullMovingAverage implementation
-HullMovingAverage::HullMovingAverage() : Indicator(), data_source_(nullptr), current_index_(0) {
+HullMovingAverage::HullMovingAverage() : Indicator(), data_source_(nullptr) {
     setup_lines();
     
     // HMA minimum period calculation:
@@ -40,7 +40,7 @@ HullMovingAverage::HullMovingAverage() : Indicator(), data_source_(nullptr), cur
 }
 
 HullMovingAverage::HullMovingAverage(std::shared_ptr<LineSeries> data_source, int period) 
-    : Indicator(), data_source_(data_source), current_index_(0) {
+    : Indicator(), data_source_(data_source) {
     params.period = period;
     setup_lines();
     
@@ -58,7 +58,7 @@ HullMovingAverage::HullMovingAverage(std::shared_ptr<LineSeries> data_source, in
 
 // DataSeries constructors for disambiguation
 HullMovingAverage::HullMovingAverage(std::shared_ptr<DataSeries> data_source) 
-    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)), current_index_(0) {
+    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)) {
     setup_lines();
     
     int sqrt_period = static_cast<int>(std::sqrt(params.period));
@@ -74,7 +74,7 @@ HullMovingAverage::HullMovingAverage(std::shared_ptr<DataSeries> data_source)
 }
 
 HullMovingAverage::HullMovingAverage(std::shared_ptr<DataSeries> data_source, int period) 
-    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)), current_index_(0) {
+    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)) {
     params.period = period;
     setup_lines();
     

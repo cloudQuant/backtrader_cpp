@@ -130,7 +130,6 @@ private:
     double prev_atr_;
     bool first_calculation_;
     std::shared_ptr<LineSeries> data_source_;
-    size_t current_index_;
 };
 
 // Aliases

@@ -9,7 +9,7 @@ namespace indicators {
 
 // ZeroLagExponentialMovingAverage implementation
 ZeroLagExponentialMovingAverage::ZeroLagExponentialMovingAverage() 
-    : Indicator(), data_source_(nullptr), current_index_(0) {
+    : Indicator(), data_source_(nullptr) {
     setup_lines();
     
     // Calculate lag
@@ -20,7 +20,7 @@ ZeroLagExponentialMovingAverage::ZeroLagExponentialMovingAverage()
 }
 
 ZeroLagExponentialMovingAverage::ZeroLagExponentialMovingAverage(std::shared_ptr<LineSeries> data_source, int period) 
-    : Indicator(), data_source_(data_source), current_index_(0) {
+    : Indicator(), data_source_(data_source) {
     params.period = period;
     setup_lines();
     
@@ -36,7 +36,7 @@ ZeroLagExponentialMovingAverage::ZeroLagExponentialMovingAverage(std::shared_ptr
 }
 
 ZeroLagExponentialMovingAverage::ZeroLagExponentialMovingAverage(std::shared_ptr<DataSeries> data_source, int period) 
-    : Indicator(), current_index_(0) {
+    : Indicator() {
     params.period = period;
     setup_lines();
     

@@ -8,13 +8,13 @@ namespace backtrader {
 namespace indicators {
 
 // UpMove implementation
-UpMove::UpMove() : Indicator(), data_source_(nullptr), current_index_(0) {
+UpMove::UpMove() : Indicator(), data_source_(nullptr) {
     setup_lines();
     _minperiod(2);
 }
 
 UpMove::UpMove(std::shared_ptr<LineSeries> data_source) 
-    : Indicator(), data_source_(data_source), current_index_(0) {
+    : Indicator(), data_source_(data_source) {
     setup_lines();
     _minperiod(2);
     
@@ -31,7 +31,7 @@ UpMove::UpMove(std::shared_ptr<LineSeries> data_source)
 }
 
 UpMove::UpMove(std::shared_ptr<DataSeries> data_source) 
-    : Indicator(), data_source_(std::dynamic_pointer_cast<LineSeries>(data_source)), current_index_(0) {
+    : Indicator(), data_source_(std::dynamic_pointer_cast<LineSeries>(data_source)) {
     setup_lines();
     _minperiod(2);
     auto lineseries = std::dynamic_pointer_cast<LineSeries>(data_source);
@@ -42,7 +42,7 @@ UpMove::UpMove(std::shared_ptr<DataSeries> data_source)
 }
 
 UpMove::UpMove(std::shared_ptr<DataSeries> data_source, int period) 
-    : Indicator(), data_source_(std::dynamic_pointer_cast<LineSeries>(data_source)), current_index_(0) {
+    : Indicator(), data_source_(std::dynamic_pointer_cast<LineSeries>(data_source)) {
     setup_lines();
     _minperiod(2);
     auto lineseries = std::dynamic_pointer_cast<LineSeries>(data_source);
@@ -205,14 +205,14 @@ void UpMove::once(int start, int end) {
 
 // DownMove implementation
 
-DownMove::DownMove() : Indicator(), data_source_(nullptr), current_index_(0) {
+DownMove::DownMove() : Indicator(), data_source_(nullptr) {
     std::cout << "DownMove default constructor called" << std::endl;
     setup_lines();
     _minperiod(2);
 }
 
 DownMove::DownMove(std::shared_ptr<LineSeries> data_source) 
-    : Indicator(), data_source_(data_source), current_index_(0) {
+    : Indicator(), data_source_(data_source) {
     std::cout << "DownMove(LineSeries) constructor called" << std::endl;
     setup_lines();
     _minperiod(2);
@@ -228,7 +228,7 @@ DownMove::DownMove(std::shared_ptr<LineSeries> data_source)
 }
 
 DownMove::DownMove(std::shared_ptr<DataSeries> data_source) 
-    : Indicator(), data_source_(std::dynamic_pointer_cast<LineSeries>(data_source)), current_index_(0) {
+    : Indicator(), data_source_(std::dynamic_pointer_cast<LineSeries>(data_source)) {
     setup_lines();
     _minperiod(2);
     auto lineseries = std::dynamic_pointer_cast<LineSeries>(data_source);
@@ -239,7 +239,7 @@ DownMove::DownMove(std::shared_ptr<DataSeries> data_source)
 }
 
 DownMove::DownMove(std::shared_ptr<DataSeries> data_source, int period) 
-    : Indicator(), data_source_(std::dynamic_pointer_cast<LineSeries>(data_source)), current_index_(0) {
+    : Indicator(), data_source_(std::dynamic_pointer_cast<LineSeries>(data_source)) {
     setup_lines();
     _minperiod(2);
     auto lineseries = std::dynamic_pointer_cast<LineSeries>(data_source);

@@ -8,7 +8,7 @@ namespace backtrader {
 namespace indicators {
 
 // BollingerBands implementation
-BollingerBands::BollingerBands() : Indicator(), data_source_(nullptr), current_index_(0), values_() {
+BollingerBands::BollingerBands() : Indicator(), data_source_(nullptr), values_() {
     setup_lines();
     
     // Set minimum period
@@ -16,7 +16,7 @@ BollingerBands::BollingerBands() : Indicator(), data_source_(nullptr), current_i
 }
 
 BollingerBands::BollingerBands(std::shared_ptr<LineSeries> data_source, int period, double devfactor) 
-    : Indicator(), data_source_(data_source), current_index_(0), values_() {
+    : Indicator(), data_source_(data_source), values_() {
     params.period = period;
     params.devfactor = devfactor;
     
@@ -31,7 +31,7 @@ BollingerBands::BollingerBands(std::shared_ptr<LineSeries> data_source, int peri
 }
 
 BollingerBands::BollingerBands(std::shared_ptr<DataSeries> data_source, int period, double devfactor) 
-    : Indicator(), data_source_(data_source), current_index_(0), values_() {
+    : Indicator(), data_source_(data_source), values_() {
     params.period = period;
     params.devfactor = devfactor;
     

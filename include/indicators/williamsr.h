@@ -50,7 +50,6 @@ protected:
 private:
     std::shared_ptr<LineSeries> data_source_;
 
-    bool using_line_roots_;
     
     // Helper methods
     double get_highest(int period, int start_ago = 0);

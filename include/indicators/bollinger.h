@@ -32,8 +32,8 @@ public:
     virtual ~BollingerBands() = default;
     
     // Utility methods for tests
-    double get(int ago = 0) const;
-    int getMinPeriod() const { return params.period; }
+    double get(int ago = 0) const override;
+    int getMinPeriod() const override { return params.period; }
     void calculate() override;
     
     // Additional utility methods
@@ -58,7 +58,6 @@ private:
     double calculate_sma(int period, int current_index) const;
     double calculate_stddev(int period, int current_index, double mean) const;
     std::shared_ptr<LineSeries> data_source_;
-    size_t current_index_;
     std::deque<double> values_;  // Rolling window of values for incremental calculation
 };
 

@@ -27,12 +27,12 @@ public:
     virtual ~AwesomeOscillator() = default;
     
     // Utility methods
-    double get(int ago = 0) const;
-    int getMinPeriod() const;
+    double get(int ago = 0) const override;
+    int getMinPeriod() const override;
     size_t size() const override;
-    
+
     // Calculate method for test framework
-    void calculate();
+    void calculate() override;
     
 protected:
     void prenext() override;

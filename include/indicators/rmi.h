@@ -27,10 +27,10 @@ public:
     virtual ~RelativeMomentumIndex() = default;
     
     // Utility methods for test framework
-    double get(int ago = 0) const;
-    size_t size() const;
-    int getMinPeriod() const;
-    void calculate();
+    double get(int ago = 0) const override;
+    size_t size() const override;
+    int getMinPeriod() const override;
+    void calculate() override;
     
 protected:
     void next() override;

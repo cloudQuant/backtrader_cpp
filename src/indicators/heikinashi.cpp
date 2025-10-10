@@ -254,7 +254,6 @@ void HeikinAshi::once(int start, int end) {
     
     double prev_ha_open = std::numeric_limits<double>::quiet_NaN();
     double prev_ha_close = std::numeric_limits<double>::quiet_NaN();
-    bool first_valid_bar = true;
     
     // Process data from start to end
     // Note: The test data has 256 elements (0-255), where element 0 is NaN
@@ -301,7 +300,6 @@ void HeikinAshi::once(int start, int end) {
             // Set up the seed for next calculation but output NaN (minperiod not met)
             prev_ha_open = (open_val + close_val) / 2.0;
             prev_ha_close = (open_val + high_val + low_val + close_val) / 4.0;
-            first_valid_bar = false;
             
             // Output NaN since minperiod (2) is not met
             ha_open_buffer->append(std::numeric_limits<double>::quiet_NaN());

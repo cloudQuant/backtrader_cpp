@@ -7,7 +7,7 @@ namespace backtrader {
 namespace indicators {
 
 // Trix implementation following Python version
-Trix::Trix() : Indicator(), data_source_(nullptr), current_index_(0) {
+Trix::Trix() : Indicator(), data_source_(nullptr) {
     setup_lines();
     
     // TRIX needs 3 * period + _rocperiod for full calculation
@@ -15,7 +15,7 @@ Trix::Trix() : Indicator(), data_source_(nullptr), current_index_(0) {
 }
 
 Trix::Trix(std::shared_ptr<LineSeries> data_source, int period) 
-    : Indicator(), data_source_(data_source), current_index_(0) {
+    : Indicator(), data_source_(data_source) {
     params.period = period;
     setup_lines();
     
@@ -37,7 +37,7 @@ Trix::Trix(std::shared_ptr<LineSeries> data_source, int period)
 }
 
 Trix::Trix(std::shared_ptr<DataSeries> data_source, int period) 
-    : Indicator(), data_source_(nullptr), current_index_(0) {
+    : Indicator(), data_source_(nullptr) {
     params.period = period;
     setup_lines();
     
@@ -128,8 +128,7 @@ void Trix::prenext() {
 
 void Trix::next() {
     // Not used in favor of once() for efficiency
-    once(current_index_, current_index_ + 1);
-    current_index_++;
+    // Implementation moved to calculate() method
 }
 
 void Trix::once(int start, int end) {

@@ -28,8 +28,8 @@ public:
     virtual ~DoubleExponentialMovingAverageOscillator() = default;
     
     // Utility methods
-    double get(int ago = 0) const;
-    int getMinPeriod() const;
+    double get(int ago = 0) const override;
+    int getMinPeriod() const override;
     size_t size() const override;
     void calculate() override;
     
@@ -42,15 +42,12 @@ private:
     
     // LineSeries support
     std::shared_ptr<LineSeries> data_source_;
-    size_t current_index_;
     
     // DEMA calculation values
-    double ema1_, ema2_;  // First and second EMA values for DEMA
     
     // Smoothing factors
     double alpha_, alpha1_;
     
-    bool first_run_;
 };
 
 // Aliases

@@ -45,7 +45,6 @@ private:
     
     // LineSeries support
     std::shared_ptr<LineSeries> data_source_;
-    size_t current_index_;
     
     // Price buffer for SMA calculation
     std::deque<double> price_buffer_;

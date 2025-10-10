@@ -31,9 +31,9 @@ public:
     virtual ~StochasticBase() = default;
     
     // Utility methods for test framework compatibility
-    double get(int ago = 0) const;
+    double get(int ago = 0) const override;
     double get_d(int ago = 0) const;
-    int getMinPeriod() const;
+    int getMinPeriod() const override;
     virtual void calculate() override;
     size_t size() const override;
     

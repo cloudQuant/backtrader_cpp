@@ -44,10 +44,10 @@ public:
     virtual ~PriceOscillator() = default;
     
     // Utility methods for test framework
-    double get(int ago = 0) const;
-    int getMinPeriod() const;
-    void calculate();
-    size_t size() const;
+    double get(int ago = 0) const override;
+    int getMinPeriod() const override;
+    void calculate() override;
+    size_t size() const override;
     
 protected:
     void setup_lines() override;
@@ -84,9 +84,9 @@ public:
     virtual ~PercentagePriceOscillator() = default;
     
     // Utility methods for test framework
-    double get(int ago = 0) const;
-    int getMinPeriod() const;
-    void calculate();
+    double get(int ago = 0) const override;
+    int getMinPeriod() const override;
+    void calculate() override;
     
     // Line access methods for tests
     double getPPOLine(int ago = 0) const;

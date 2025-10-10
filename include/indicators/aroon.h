@@ -59,10 +59,10 @@ public:
     virtual ~AroonUp() = default;
     
     // Get method for accessing the indicator value
-    double get(int ago = 0) const;
-    
+    double get(int ago = 0) const override;
+
     // Get minimum period
-    int getMinPeriod() const;
+    int getMinPeriod() const override;
     
 protected:
     void setup_lines() override;
@@ -81,10 +81,10 @@ public:
     virtual ~AroonDown() = default;
     
     // Get method for accessing the indicator value
-    double get(int ago = 0) const;
-    
+    double get(int ago = 0) const override;
+
     // Get minimum period
-    int getMinPeriod() const;
+    int getMinPeriod() const override;
     
 protected:
     void setup_lines() override;
@@ -107,17 +107,17 @@ public:
     virtual ~AroonUpDown() = default;
     
     // Get method for accessing the indicator value
-    double get(int ago = 0) const;
+    double get(int ago = 0) const override;
     
     // Get AroonUp and AroonDown values
     double getAroonUp(int ago = 0) const;
     double getAroonDown(int ago = 0) const;
     
     // Get minimum period
-    int getMinPeriod() const;
+    int getMinPeriod() const override;
     
     // Size method
-    size_t size() const;
+    size_t size() const override;
     
     // Calculate method (override for test framework compatibility)
     void calculate() override;
@@ -154,10 +154,10 @@ public:
     virtual ~AroonOscillator() = default;
     
     // Get method for accessing the indicator value
-    double get(int ago = 0) const;
-    
+    double get(int ago = 0) const override;
+
     // Get minimum period
-    int getMinPeriod() const;
+    int getMinPeriod() const override;
     
     // Size method
     size_t size() const override;
@@ -185,10 +185,10 @@ public:
     virtual ~AroonUpDownOscillator() = default;
     
     // Get method for accessing the indicator value
-    double get(int ago = 0) const;
-    
+    double get(int ago = 0) const override;
+
     // Get minimum period
-    int getMinPeriod() const;
+    int getMinPeriod() const override;
     
 protected:
     void setup_lines() override;

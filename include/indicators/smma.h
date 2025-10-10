@@ -52,7 +52,6 @@ private:
     
     // LineSeries support
     std::shared_ptr<LineSeries> data_source_;
-    size_t current_index_;
 };
 
 // Aliases

@@ -6,7 +6,7 @@ namespace backtrader {
 namespace indicators {
 
 // DV2 implementation
-DV2::DV2() : Indicator(), data_source_(nullptr), current_index_(0) {
+DV2::DV2() : Indicator(), data_source_(nullptr) {
     setup_lines();
     _minperiod(params.period + params.maperiod - 1);
     
@@ -17,7 +17,7 @@ DV2::DV2() : Indicator(), data_source_(nullptr), current_index_(0) {
 }
 
 DV2::DV2(std::shared_ptr<DataSeries> data_source, int period) 
-    : Indicator(), current_index_(0) {
+    : Indicator() {
     params.period = period;
     setup_lines();
     _minperiod(params.period + params.maperiod - 1);

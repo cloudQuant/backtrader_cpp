@@ -13,7 +13,7 @@ namespace backtrader {
 
 // AdaptiveMovingAverage implementation
 AdaptiveMovingAverage::AdaptiveMovingAverage() 
-    : Indicator(), data_source_(nullptr), current_index_(0), prev_kama_(0.0), initialized_(false) {
+    : Indicator(), data_source_(nullptr), prev_kama_(0.0), initialized_(false) {
     setup_lines();
     
     // Create SMA for initial seed value
@@ -28,7 +28,7 @@ AdaptiveMovingAverage::AdaptiveMovingAverage()
 }
 
 AdaptiveMovingAverage::AdaptiveMovingAverage(std::shared_ptr<LineSeries> data_source)
-    : Indicator(), data_source_(data_source), current_index_(0), prev_kama_(0.0), initialized_(false) {
+    : Indicator(), data_source_(data_source), prev_kama_(0.0), initialized_(false) {
     setup_lines();
     
     // Create SMA for initial seed value
@@ -46,7 +46,7 @@ AdaptiveMovingAverage::AdaptiveMovingAverage(std::shared_ptr<LineSeries> data_so
 }
 
 AdaptiveMovingAverage::AdaptiveMovingAverage(std::shared_ptr<LineSeries> data_source, int period, int fast, int slow)
-    : Indicator(), data_source_(data_source), current_index_(0), prev_kama_(0.0), initialized_(false) {
+    : Indicator(), data_source_(data_source), prev_kama_(0.0), initialized_(false) {
     params.period = period;
     params.fast = fast;
     params.slow = slow;
@@ -68,7 +68,7 @@ AdaptiveMovingAverage::AdaptiveMovingAverage(std::shared_ptr<LineSeries> data_so
 }
 
 AdaptiveMovingAverage::AdaptiveMovingAverage(std::shared_ptr<DataSeries> data_source)
-    : Indicator(), data_source_(nullptr), current_index_(0), prev_kama_(0.0), initialized_(false) {
+    : Indicator(), data_source_(nullptr), prev_kama_(0.0), initialized_(false) {
     setup_lines();
     
     // Create SMA for initial seed value
@@ -86,7 +86,7 @@ AdaptiveMovingAverage::AdaptiveMovingAverage(std::shared_ptr<DataSeries> data_so
 }
 
 AdaptiveMovingAverage::AdaptiveMovingAverage(std::shared_ptr<DataSeries> data_source, int period, int fast, int slow)
-    : Indicator(), data_source_(nullptr), current_index_(0), prev_kama_(0.0), initialized_(false) {
+    : Indicator(), data_source_(nullptr), prev_kama_(0.0), initialized_(false) {
     params.period = period;
     params.fast = fast;
     params.slow = slow;
@@ -246,14 +246,14 @@ void AdaptiveMovingAverage::once(int start, int end) {
     std::vector<double> prices = close_buffer->array();
     // std::cout << "KAMA::once prices.size()=" << prices.size();
     
-    // Debug: find first non-NaN value
-    int first_non_nan = -1;
-    for (int i = 0; i < static_cast<int>(prices.size()); ++i) {
-        if (!std::isnan(prices[i])) {
-            first_non_nan = i;
-            break;
-        }
-    }
+    // Debug: find first non-NaN value (disabled)
+    // int first_non_nan = -1;
+    // for (int i = 0; i < static_cast<int>(prices.size()); ++i) {
+    //     if (!std::isnan(prices[i])) {
+    //         first_non_nan = i;
+    //         break;
+    //     }
+    // }
     // std::cout << ", first_non_nan_at=" << first_non_nan;
     
     if (!prices.empty()) {
@@ -512,20 +512,18 @@ void AdaptiveMovingAverage::calculate() {
     
     // KAMA seed calculated
     
-    int calculated_count = 0;
     for (int i = params.period; i < effective_size; ++i) {
         double current_price = prices[i + nan_count];
         double alpha = alphas[i];
-        
+
         if (!std::isnan(alpha)) {
             double kama_value = prev_kama * (1.0 - alpha) + current_price * alpha;
             kama_buffer->append(kama_value);
             prev_kama = kama_value;
-            
+
             // if (calculated_count < 3) {
             //     std::cout << "DEBUG KAMA[" << calculated_count << "]: prev=" << (calculated_count == 0 ? sma_seed : prev_kama) << ", current=" << current_price << ", alpha=" << alpha << ", KAMA=" << kama_value << std::endl;
             // }
-            calculated_count++;
         } else {
             kama_buffer->append(std::numeric_limits<double>::quiet_NaN());
         }

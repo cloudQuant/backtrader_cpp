@@ -7,14 +7,14 @@ namespace backtrader {
 namespace indicators {
 
 // PercentRank implementation
-PercentRank::PercentRank() : Indicator(), data_source_(nullptr), current_index_(0) {
+PercentRank::PercentRank() : Indicator(), data_source_(nullptr) {
     std::cerr << "PctRank-ctor-default" << std::endl;
     setup_lines();
     _minperiod(params.period);
 }
 
 PercentRank::PercentRank(std::shared_ptr<LineSeries> data_source, int period) 
-    : Indicator(), data_source_(data_source), current_index_(0) {
+    : Indicator(), data_source_(data_source) {
     params.period = period;
     setup_lines();
     _minperiod(params.period);
@@ -33,7 +33,7 @@ PercentRank::PercentRank(std::shared_ptr<LineSeries> data_source, int period)
 }
 
 PercentRank::PercentRank(std::shared_ptr<DataSeries> data_source, int period) 
-    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)), current_index_(0) {
+    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)) {
     std::cerr << "PctRank-ctor-DataSeries: p=" << period << std::endl;
     params.period = period;
     setup_lines();

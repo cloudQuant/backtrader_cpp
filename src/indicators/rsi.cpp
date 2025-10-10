@@ -9,7 +9,7 @@ namespace indicators {
 
 RSI::RSI(int period) : Indicator(), period(period), avg_gain_(0.0), avg_loss_(0.0), 
                        prev_value_(std::numeric_limits<double>::quiet_NaN()), 
-                       first_calculation_(true), data_source_(nullptr), current_index_(0) {
+                       first_calculation_(true), data_source_(nullptr) {
     // Set minimum period (need period + 1 for first RSI calculation)
     _minperiod(period + 1);
     
@@ -23,7 +23,7 @@ RSI::RSI(int period) : Indicator(), period(period), avg_gain_(0.0), avg_loss_(0.
 RSI::RSI(std::shared_ptr<LineSeries> data_source, int period) 
     : Indicator(), period(period), avg_gain_(0.0), avg_loss_(0.0), 
       prev_value_(std::numeric_limits<double>::quiet_NaN()), 
-      first_calculation_(true), data_source_(data_source), current_index_(0) {
+      first_calculation_(true), data_source_(data_source) {
     // Set minimum period (need period + 1 for first RSI calculation)
     _minperiod(period + 1);
     
@@ -40,7 +40,7 @@ RSI::RSI(std::shared_ptr<LineSeries> data_source, int period)
 RSI::RSI(std::shared_ptr<DataSeries> data_source, int period) 
     : Indicator(), period(period), avg_gain_(0.0), avg_loss_(0.0), 
       prev_value_(std::numeric_limits<double>::quiet_NaN()), 
-      first_calculation_(true), data_source_(data_source), current_index_(0) {
+      first_calculation_(true), data_source_(data_source) {
     // Set minimum period (need period + 1 for first RSI calculation)
     _minperiod(period + 1);
     

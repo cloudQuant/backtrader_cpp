@@ -9,7 +9,7 @@ namespace backtrader {
 namespace indicators {
 
 // DetrendedPriceOscillator implementation
-DetrendedPriceOscillator::DetrendedPriceOscillator() : Indicator(), data_source_(nullptr), current_index_(0) {
+DetrendedPriceOscillator::DetrendedPriceOscillator() : Indicator(), data_source_(nullptr) {
     setup_lines();
     // DPO needs period + (period // 2) - 1
     // For period=20: minperiod = 20 + 10 - 1 = 29
@@ -17,7 +17,7 @@ DetrendedPriceOscillator::DetrendedPriceOscillator() : Indicator(), data_source_
 }
 
 DetrendedPriceOscillator::DetrendedPriceOscillator(std::shared_ptr<LineSeries> data_source, int period) 
-    : Indicator(), data_source_(data_source), current_index_(0) {
+    : Indicator(), data_source_(data_source) {
     params.period = period;
     setup_lines();
     // DPO needs period + (period // 2) - 1
@@ -33,7 +33,7 @@ DetrendedPriceOscillator::DetrendedPriceOscillator(std::shared_ptr<LineSeries> d
 }
 
 DetrendedPriceOscillator::DetrendedPriceOscillator(std::shared_ptr<DataSeries> data_source) 
-    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)), current_index_(0) {
+    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)) {
     setup_lines();
     // DPO needs period + (period // 2) - 1
     _minperiod(params.period + (params.period / 2) - 1);
@@ -47,7 +47,7 @@ DetrendedPriceOscillator::DetrendedPriceOscillator(std::shared_ptr<DataSeries> d
 }
 
 DetrendedPriceOscillator::DetrendedPriceOscillator(std::shared_ptr<DataSeries> data_source, int period) 
-    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)), current_index_(0) {
+    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)) {
     params.period = period;
     setup_lines();
     // DPO needs period + (period // 2) - 1
