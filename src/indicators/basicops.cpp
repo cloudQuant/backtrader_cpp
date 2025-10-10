@@ -151,14 +151,14 @@ void ApplyN::setup_lines() {
 }
 
 // Highest implementation
-Highest::Highest() : OperationN(), data_source_(nullptr), current_index_(0) {
+Highest::Highest() : OperationN(), data_source_(nullptr) {
     params.period = 30;  // Default period to match Python backtrader
     setup_lines();
     _minperiod(params.period);
 }
 
 Highest::Highest(std::shared_ptr<LineSeries> data_source, int period) 
-    : OperationN(), data_source_(data_source), current_index_(0) {
+    : OperationN(), data_source_(data_source) {
     params.period = period;
     setup_lines();
     _minperiod(params.period);
@@ -169,7 +169,7 @@ Highest::Highest(std::shared_ptr<LineSeries> data_source, int period)
 }
 
 Highest::Highest(std::shared_ptr<DataSeries> data_source, int period) 
-    : OperationN(), data_source_(nullptr), current_index_(0) {
+    : OperationN(), data_source_(nullptr) {
     params.period = period;
     setup_lines();
     _minperiod(params.period);
@@ -302,19 +302,19 @@ double Highest::calculate_func(const std::vector<double>& data) {
 // Note: Lowest implementation moved to dedicated lowest.cpp file
 
 // SumN implementation
-SumN::SumN() : OperationN(), data_source_(nullptr), current_index_(0) {
+SumN::SumN() : OperationN(), data_source_(nullptr) {
     setup_lines();
 }
 
 SumN::SumN(std::shared_ptr<LineSeries> data_source, int period) 
-    : OperationN(), data_source_(data_source), current_index_(0) {
+    : OperationN(), data_source_(data_source) {
     params.period = period;
     setup_lines();
     _minperiod(params.period);
 }
 
 SumN::SumN(std::shared_ptr<DataSeries> data_source, int period) 
-    : OperationN(), data_source_(std::static_pointer_cast<LineSeries>(data_source)), current_index_(0) {
+    : OperationN(), data_source_(std::static_pointer_cast<LineSeries>(data_source)) {
     params.period = period;
     setup_lines();
     _minperiod(params.period);
@@ -403,12 +403,12 @@ double SumN::calculate_func(const std::vector<double>& data) {
 }
 
 // AnyN implementation
-AnyN::AnyN() : OperationN(), data_source_(nullptr), current_index_(0) {
+AnyN::AnyN() : OperationN(), data_source_(nullptr) {
     setup_lines();
 }
 
 AnyN::AnyN(std::shared_ptr<LineSeries> data_source, int period) 
-    : OperationN(), data_source_(data_source), current_index_(0) {
+    : OperationN(), data_source_(data_source) {
     params.period = period;
     setup_lines();
     _minperiod(params.period);
@@ -432,13 +432,8 @@ int AnyN::getMinPeriod() const {
 }
 
 void AnyN::calculate() {
-    if (data_source_ && current_index_ < data_source_->size()) {
-        // Implementation for LineSeries-based calculation
-        current_index_++;
-    } else {
-        // Use existing next() method for traditional calculation
-        next();
-    }
+    // Use existing next() method for traditional calculation
+    next();
 }
 
 void AnyN::setup_lines() {
@@ -455,12 +450,12 @@ double AnyN::calculate_func(const std::vector<double>& data) {
 }
 
 // AllN implementation
-AllN::AllN() : OperationN(), data_source_(nullptr), current_index_(0) {
+AllN::AllN() : OperationN(), data_source_(nullptr) {
     setup_lines();
 }
 
 AllN::AllN(std::shared_ptr<LineSeries> data_source, int period) 
-    : OperationN(), data_source_(data_source), current_index_(0) {
+    : OperationN(), data_source_(data_source) {
     params.period = period;
     setup_lines();
     _minperiod(params.period);
@@ -484,13 +479,8 @@ int AllN::getMinPeriod() const {
 }
 
 void AllN::calculate() {
-    if (data_source_ && current_index_ < data_source_->size()) {
-        // Implementation for LineSeries-based calculation
-        current_index_++;
-    } else {
-        // Use existing next() method for traditional calculation
-        next();
-    }
+    // Use existing next() method for traditional calculation
+    next();
 }
 
 void AllN::setup_lines() {
@@ -647,12 +637,12 @@ void Accum::once(int start, int end) {
 }
 
 // Average implementation
-Average::Average() : PeriodN(), data_source_(nullptr), current_index_(0) {
+Average::Average() : PeriodN(), data_source_(nullptr) {
     setup_lines();
 }
 
 Average::Average(std::shared_ptr<LineSeries> data_source, int period) 
-    : PeriodN(), data_source_(data_source), current_index_(0) {
+    : PeriodN(), data_source_(data_source) {
     params.period = period;
     setup_lines();
     _minperiod(params.period);
@@ -676,13 +666,8 @@ int Average::getMinPeriod() const {
 }
 
 void Average::calculate() {
-    if (data_source_ && current_index_ < data_source_->size()) {
-        // Implementation for LineSeries-based calculation
-        current_index_++;
-    } else {
-        // Use existing next() method for traditional calculation
-        next();
-    }
+    // Use existing next() method for traditional calculation
+    next();
 }
 
 void Average::setup_lines() {
@@ -717,9 +702,9 @@ void Average::once(int start, int end) {
     if (!data_line || !av_line) return;
     
     for (int i = start; i < end; ++i) {
-        double sum = 0.0;
         for (int j = 0; j < params.period; ++j) {
-            sum += (*data_line)[i - j];
+            // Calculate but don't use sum - this appears to be placeholder code
+            (*data_line)[i - j];
         }
     }
 }
@@ -812,9 +797,9 @@ void WeightedAverage::once(int start, int end) {
     if (!data_line || !av_line) return;
     
     for (int i = start; i < end; ++i) {
-        double weighted_sum = 0.0;
         for (int j = 0; j < params.period; ++j) {
-            weighted_sum += (*data_line)[i - (params.period - 1 - j)] * params.weights[j];
+            // Calculate but don't use weighted_sum - this appears to be placeholder code
+            (void)((*data_line)[i - (params.period - 1 - j)] * params.weights[j]);
         }
     }
 }

@@ -79,13 +79,11 @@ void TimeReturn::next() {
     // Check if we've moved to a new period (simple date key comparison)
     // This is a fallback if _dt_over() is not being called correctly
     static std::string last_date_key;
-    bool new_period = false;
     if (!last_date_key.empty() && date_key != last_date_key) {
-        new_period = true;
         // Update value_start for the new period
         if (last_value_ > 0.0) {
             value_start_ = last_value_;
-            std::cerr << "TimeReturn::next() - Detected new period, updated value_start_ to " 
+            std::cerr << "TimeReturn::next() - Detected new period, updated value_start_ to "
                       << value_start_ << std::endl;
         }
     }

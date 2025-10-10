@@ -38,8 +38,7 @@ private:
     bool first_value_;
     double ema_value_;
     std::shared_ptr<LineSeries> data_source_;
-    size_t current_index_;
-    
+
 };
 
 } // namespace indicators

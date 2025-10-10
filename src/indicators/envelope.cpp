@@ -8,13 +8,13 @@ namespace backtrader {
 namespace indicators {
 
 // Envelope implementation
-Envelope::Envelope() : Indicator(), data_source_(nullptr), current_index_(0) {
+Envelope::Envelope() : Indicator(), data_source_(nullptr) {
     setup_lines();
     _minperiod(30);  // Default to 30 like Python SMA envelope
 }
 
 Envelope::Envelope(std::shared_ptr<LineSeries> data) 
-    : Indicator(), data_source_(data), current_index_(0) {
+    : Indicator(), data_source_(data) {
     // Use default params (period=30, perc=2.5)
     setup_lines();
     _minperiod(params.period);
@@ -25,7 +25,7 @@ Envelope::Envelope(std::shared_ptr<LineSeries> data)
 }
 
 Envelope::Envelope(std::shared_ptr<LineSeries> data, double perc) 
-    : Indicator(), data_source_(data), current_index_(0) {
+    : Indicator(), data_source_(data) {
     params.perc = perc;
     setup_lines();
     _minperiod(params.period);
@@ -36,7 +36,7 @@ Envelope::Envelope(std::shared_ptr<LineSeries> data, double perc)
 }
 
 Envelope::Envelope(std::shared_ptr<LineSeries> data, int period, double perc) 
-    : Indicator(), data_source_(data), current_index_(0) {
+    : Indicator(), data_source_(data) {
     params.perc = perc;
     params.period = period;  // Store the period
     setup_lines();
@@ -48,7 +48,7 @@ Envelope::Envelope(std::shared_ptr<LineSeries> data, int period, double perc)
 }
 
 Envelope::Envelope(std::shared_ptr<DataSeries> data) 
-    : Indicator(), data_source_(nullptr), current_index_(0) {
+    : Indicator(), data_source_(nullptr) {
     // Use default params (period=30, perc=2.5)
     setup_lines();
     _minperiod(params.period);
@@ -59,7 +59,7 @@ Envelope::Envelope(std::shared_ptr<DataSeries> data)
 }
 
 Envelope::Envelope(std::shared_ptr<DataSeries> data, int period, double perc) 
-    : Indicator(), data_source_(nullptr), current_index_(0) {
+    : Indicator(), data_source_(nullptr) {
     params.perc = perc;
     params.period = period;  // Store the period
     setup_lines();
@@ -351,7 +351,7 @@ void Envelope::once(int start, int end) {
 
 // SimpleMovingAverageEnvelope implementation
 SimpleMovingAverageEnvelope::SimpleMovingAverageEnvelope() 
-    : Indicator(), data_source_(nullptr), current_index_(0) {
+    : Indicator(), data_source_(nullptr) {
     setup_lines();
     
     sma_ = std::make_shared<SMA>(params.period);
@@ -360,7 +360,7 @@ SimpleMovingAverageEnvelope::SimpleMovingAverageEnvelope()
 }
 
 SimpleMovingAverageEnvelope::SimpleMovingAverageEnvelope(std::shared_ptr<LineSeries> data_source) 
-    : Indicator(), data_source_(data_source), current_index_(0) {
+    : Indicator(), data_source_(data_source) {
     setup_lines();
     
     sma_ = std::make_shared<SMA>(data_source, params.period);
@@ -369,7 +369,7 @@ SimpleMovingAverageEnvelope::SimpleMovingAverageEnvelope(std::shared_ptr<LineSer
 }
 
 SimpleMovingAverageEnvelope::SimpleMovingAverageEnvelope(std::shared_ptr<LineSeries> data_source, int period, double perc) 
-    : Indicator(), data_source_(data_source), current_index_(0) {
+    : Indicator(), data_source_(data_source) {
     std::cout << "*** CONSTRUCTOR: SimpleMovingAverageEnvelope period=" << period << " perc=" << perc << " ***" << std::endl;
     params.period = period;
     params.perc = perc;
@@ -385,7 +385,7 @@ SimpleMovingAverageEnvelope::SimpleMovingAverageEnvelope(std::shared_ptr<LineSer
 }
 
 SimpleMovingAverageEnvelope::SimpleMovingAverageEnvelope(std::shared_ptr<LineBuffer> data_source, int period, double perc) 
-    : Indicator(), data_source_(nullptr), current_index_(0) {
+    : Indicator(), data_source_(nullptr) {
     params.period = period;
     params.perc = perc;
     setup_lines();
@@ -402,7 +402,7 @@ SimpleMovingAverageEnvelope::SimpleMovingAverageEnvelope(std::shared_ptr<LineBuf
 }
 
 SimpleMovingAverageEnvelope::SimpleMovingAverageEnvelope(std::shared_ptr<DataSeries> data_source, int period, double perc) 
-    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)), current_index_(0) {
+    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)) {
     params.period = period;
     params.perc = perc;
     setup_lines();
@@ -622,7 +622,7 @@ void SimpleMovingAverageEnvelope::once(int start, int end) {
 
 // ExponentialMovingAverageEnvelope implementation
 ExponentialMovingAverageEnvelope::ExponentialMovingAverageEnvelope() 
-    : Indicator(), data_source_(nullptr), current_index_(0) {
+    : Indicator(), data_source_(nullptr) {
     setup_lines();
     
     ema_ = std::make_shared<EMA>(params.period);
@@ -631,7 +631,7 @@ ExponentialMovingAverageEnvelope::ExponentialMovingAverageEnvelope()
 }
 
 ExponentialMovingAverageEnvelope::ExponentialMovingAverageEnvelope(std::shared_ptr<LineSeries> data_source) 
-    : Indicator(), data_source_(data_source), current_index_(0) {
+    : Indicator(), data_source_(data_source) {
     setup_lines();
     
     ema_ = std::make_shared<EMA>(data_source, params.period);
@@ -640,7 +640,7 @@ ExponentialMovingAverageEnvelope::ExponentialMovingAverageEnvelope(std::shared_p
 }
 
 ExponentialMovingAverageEnvelope::ExponentialMovingAverageEnvelope(std::shared_ptr<LineSeries> data_source, int period, double perc) 
-    : Indicator(), data_source_(data_source), current_index_(0) {
+    : Indicator(), data_source_(data_source) {
     params.period = period;
     params.perc = perc;
     setup_lines();
@@ -651,7 +651,7 @@ ExponentialMovingAverageEnvelope::ExponentialMovingAverageEnvelope(std::shared_p
 }
 
 ExponentialMovingAverageEnvelope::ExponentialMovingAverageEnvelope(std::shared_ptr<DataSeries> data_source) 
-    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)), current_index_(0) {
+    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)) {
     setup_lines();
     
     ema_ = std::make_shared<EMA>(data_source, params.period);
@@ -662,7 +662,7 @@ ExponentialMovingAverageEnvelope::ExponentialMovingAverageEnvelope(std::shared_p
 }
 
 ExponentialMovingAverageEnvelope::ExponentialMovingAverageEnvelope(std::shared_ptr<DataSeries> data_source, int period, double perc) 
-    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)), current_index_(0) {
+    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)) {
     params.period = period;
     params.perc = perc;
     setup_lines();
@@ -839,7 +839,7 @@ void ExponentialMovingAverageEnvelope::once(int start, int end) {
 
 // DoubleExponentialMovingAverageEnvelope implementation
 DoubleExponentialMovingAverageEnvelope::DoubleExponentialMovingAverageEnvelope() 
-    : Indicator(), data_source_(nullptr), current_index_(0) {
+    : Indicator(), data_source_(nullptr) {
     setup_lines();
     
     dema_ = std::make_shared<DoubleExponentialMovingAverage>();
@@ -848,7 +848,7 @@ DoubleExponentialMovingAverageEnvelope::DoubleExponentialMovingAverageEnvelope()
 }
 
 DoubleExponentialMovingAverageEnvelope::DoubleExponentialMovingAverageEnvelope(std::shared_ptr<LineSeries> data_source) 
-    : Indicator(), data_source_(data_source), current_index_(0) {
+    : Indicator(), data_source_(data_source) {
     setup_lines();
     
     dema_ = std::make_shared<DoubleExponentialMovingAverage>(data_source, params.period);
@@ -857,7 +857,7 @@ DoubleExponentialMovingAverageEnvelope::DoubleExponentialMovingAverageEnvelope(s
 }
 
 DoubleExponentialMovingAverageEnvelope::DoubleExponentialMovingAverageEnvelope(std::shared_ptr<LineSeries> data_source, int period, double perc)
-    : Indicator(), data_source_(data_source), current_index_(0) {
+    : Indicator(), data_source_(data_source) {
     params.period = period;
     params.perc = perc;
     setup_lines();
@@ -868,7 +868,7 @@ DoubleExponentialMovingAverageEnvelope::DoubleExponentialMovingAverageEnvelope(s
 }
 
 DoubleExponentialMovingAverageEnvelope::DoubleExponentialMovingAverageEnvelope(std::shared_ptr<DataSeries> data_source)
-    : Indicator(), data_source_(data_source), current_index_(0) {
+    : Indicator(), data_source_(data_source) {
     setup_lines();
     
     dema_ = std::make_shared<DoubleExponentialMovingAverage>(data_source, params.period);
@@ -879,7 +879,7 @@ DoubleExponentialMovingAverageEnvelope::DoubleExponentialMovingAverageEnvelope(s
 }
 
 DoubleExponentialMovingAverageEnvelope::DoubleExponentialMovingAverageEnvelope(std::shared_ptr<DataSeries> data_source, int period, double perc)
-    : Indicator(), data_source_(data_source), current_index_(0) {
+    : Indicator(), data_source_(data_source) {
     params.period = period;
     params.perc = perc;
     setup_lines();
@@ -989,9 +989,9 @@ std::shared_ptr<LineBuffer> DoubleExponentialMovingAverageEnvelope::getLine(int 
         void set(int index, double value) override { wrapped_buffer_->set(index, value); }
         double operator[](int index) const override { return get(index); }
         size_t size() const override { return wrapped_buffer_->size(); }
-        const std::vector<double>& array() const { return wrapped_buffer_->array(); }
+        std::vector<double> array() const { return wrapped_buffer_->array(); }
         void append(double value) { wrapped_buffer_->append(value); }
-        void reset() { wrapped_buffer_->reset(); }
+        void reset() override { wrapped_buffer_->reset(); }
         int get_idx() const { return wrapped_buffer_->get_idx(); }
         void set_idx(int idx, bool force = false) { wrapped_buffer_->set_idx(idx, force); }
     };
@@ -1093,7 +1093,7 @@ void DoubleExponentialMovingAverageEnvelope::once(int start, int end) {
 
 // TripleExponentialMovingAverageEnvelope implementation
 TripleExponentialMovingAverageEnvelope::TripleExponentialMovingAverageEnvelope() 
-    : Indicator(), data_source_(nullptr), current_index_(0) {
+    : Indicator(), data_source_(nullptr) {
     setup_lines();
     
     tema_ = std::make_shared<TripleExponentialMovingAverage>();
@@ -1102,7 +1102,7 @@ TripleExponentialMovingAverageEnvelope::TripleExponentialMovingAverageEnvelope()
 }
 
 TripleExponentialMovingAverageEnvelope::TripleExponentialMovingAverageEnvelope(std::shared_ptr<LineSeries> data_source) 
-    : Indicator(), data_source_(data_source), current_index_(0) {
+    : Indicator(), data_source_(data_source) {
     setup_lines();
     
     tema_ = std::make_shared<TripleExponentialMovingAverage>(data_source, params.period);
@@ -1115,7 +1115,7 @@ TripleExponentialMovingAverageEnvelope::TripleExponentialMovingAverageEnvelope(s
 }
 
 TripleExponentialMovingAverageEnvelope::TripleExponentialMovingAverageEnvelope(std::shared_ptr<LineSeries> data_source, int period, double perc) 
-    : Indicator(), data_source_(data_source), current_index_(0) {
+    : Indicator(), data_source_(data_source) {
     params.period = period;
     params.perc = perc;
     setup_lines();
@@ -1130,7 +1130,7 @@ TripleExponentialMovingAverageEnvelope::TripleExponentialMovingAverageEnvelope(s
 }
 
 TripleExponentialMovingAverageEnvelope::TripleExponentialMovingAverageEnvelope(std::shared_ptr<DataSeries> data_source) 
-    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)), current_index_(0) {
+    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)) {
     setup_lines();
     
     tema_ = std::make_shared<TripleExponentialMovingAverage>(data_source, params.period);
@@ -1146,7 +1146,7 @@ TripleExponentialMovingAverageEnvelope::TripleExponentialMovingAverageEnvelope(s
 }
 
 TripleExponentialMovingAverageEnvelope::TripleExponentialMovingAverageEnvelope(std::shared_ptr<DataSeries> data_source, int period, double perc) 
-    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)), current_index_(0) {
+    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)) {
     params.period = period;
     params.perc = perc;
     setup_lines();
@@ -1356,7 +1356,7 @@ void TripleExponentialMovingAverageEnvelope::once(int start, int end) {
 
 // SmoothedMovingAverageEnvelope implementation
 SmoothedMovingAverageEnvelope::SmoothedMovingAverageEnvelope() 
-    : Indicator(), data_source_(nullptr), current_index_(0) {
+    : Indicator(), data_source_(nullptr) {
     setup_lines();
     
     // Create SMMA with default constructor, data will be connected later
@@ -1367,7 +1367,7 @@ SmoothedMovingAverageEnvelope::SmoothedMovingAverageEnvelope()
 }
 
 SmoothedMovingAverageEnvelope::SmoothedMovingAverageEnvelope(std::shared_ptr<LineSeries> data_source) 
-    : Indicator(), data_source_(data_source), current_index_(0) {
+    : Indicator(), data_source_(data_source) {
     setup_lines();
     
     smma_ = std::make_shared<SMMA>(data_source, params.period);
@@ -1380,7 +1380,7 @@ SmoothedMovingAverageEnvelope::SmoothedMovingAverageEnvelope(std::shared_ptr<Lin
 }
 
 SmoothedMovingAverageEnvelope::SmoothedMovingAverageEnvelope(std::shared_ptr<LineSeries> data_source, int period, double perc) 
-    : Indicator(), data_source_(data_source), current_index_(0) {
+    : Indicator(), data_source_(data_source) {
     params.period = period;
     params.perc = perc;
     setup_lines();
@@ -1395,7 +1395,7 @@ SmoothedMovingAverageEnvelope::SmoothedMovingAverageEnvelope(std::shared_ptr<Lin
 }
 
 SmoothedMovingAverageEnvelope::SmoothedMovingAverageEnvelope(std::shared_ptr<DataSeries> data_source, int period, double perc) 
-    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)), current_index_(0) {
+    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)) {
     params.period = period;
     params.perc = perc;
     setup_lines();

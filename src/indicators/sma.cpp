@@ -5,7 +5,7 @@
 namespace backtrader {
 namespace indicators {
 
-SMA::SMA(int period) : Indicator(), period(period), sum_(0.0), current_index_(0) {
+SMA::SMA(int period) : Indicator(), period(period), sum_(0.0) {
     // Ensure period is at least 1
     if (period < 1) {
         this->period = 1;
@@ -24,8 +24,8 @@ SMA::SMA(int period) : Indicator(), period(period), sum_(0.0), current_index_(0)
     // IndicatorBase::size() uses lines_[0]->size()
 }
 
-SMA::SMA(std::shared_ptr<LineSeries> data_source, int period) 
-    : Indicator(), period(period), sum_(0.0), data_source_(data_source), current_index_(0) {
+SMA::SMA(std::shared_ptr<LineSeries> data_source, int period)
+    : Indicator(), period(period), sum_(0.0), data_source_(data_source) {
     // Ensure period is at least 1
     if (period < 1) {
         this->period = 1;
@@ -59,8 +59,8 @@ SMA::SMA(std::shared_ptr<LineSeries> data_source, int period)
     _clock = data_source_;  // Set clock to data source
 }
 
-SMA::SMA(std::shared_ptr<DataSeries> data_source) 
-    : Indicator(), period(30), sum_(0.0), current_index_(0) {
+SMA::SMA(std::shared_ptr<DataSeries> data_source)
+    : Indicator(), period(30), sum_(0.0) {
     // Set minimum period
     _minperiod(period);
     
@@ -82,8 +82,8 @@ SMA::SMA(std::shared_ptr<DataSeries> data_source)
     // IndicatorBase::size() uses lines_[0]->size()
 }
 
-SMA::SMA(std::shared_ptr<DataSeries> data_source, int period) 
-    : Indicator(), period(period), sum_(0.0), current_index_(0) {
+SMA::SMA(std::shared_ptr<DataSeries> data_source, int period)
+    : Indicator(), period(period), sum_(0.0) {
     // Set minimum period
     _minperiod(period);
     
@@ -105,8 +105,8 @@ SMA::SMA(std::shared_ptr<DataSeries> data_source, int period)
     // IndicatorBase::size() uses lines_[0]->size()
 }
 
-SMA::SMA(IndicatorSourceTag, std::shared_ptr<IndicatorBase> indicator_source, int period) 
-    : Indicator(), period(period), sum_(0.0), indicator_source_(indicator_source), current_index_(0) {
+SMA::SMA(IndicatorSourceTag, std::shared_ptr<IndicatorBase> indicator_source, int period)
+    : Indicator(), period(period), sum_(0.0), indicator_source_(indicator_source) {
     // Set minimum period (base period + source indicator's minimum period - 1)
     // Note: Add 1 to account for the initial NaN in the array
     int source_minperiod = indicator_source ? indicator_source->getMinPeriod() : 1;

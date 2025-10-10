@@ -71,7 +71,6 @@ private:
     std::shared_ptr<LineSeries> data1_;
     std::shared_ptr<NonZeroDifference> nzd_;
     int bar_count_ = 0;
-    double last_signal_ = 0.0;  // Track last signal to prevent duplicates
 };
 
 // Cross Up Indicator - detects upward crossovers
@@ -191,7 +190,6 @@ private:
     std::shared_ptr<LineSeries> data1_;
     std::shared_ptr<CrossUp> upcross_;
     std::shared_ptr<CrossDown> downcross_;
-    int crossover_bar_count_ = 0;
 };
 
 // Alias

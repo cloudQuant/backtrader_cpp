@@ -6,7 +6,7 @@
 namespace backtrader {
 namespace indicators {
 
-EMA::EMA(int period) : Indicator(), period(period), first_value_(true), ema_value_(0.0), data_source_(nullptr), current_index_(0) {
+EMA::EMA(int period) : Indicator(), period(period), first_value_(true), ema_value_(0.0), data_source_(nullptr) {
     // Calculate alpha (smoothing factor) - same as Python implementation
     alpha = 2.0 / (1.0 + period);
     
@@ -20,7 +20,7 @@ EMA::EMA(int period) : Indicator(), period(period), first_value_(true), ema_valu
     }
 }
 
-EMA::EMA(std::shared_ptr<LineSeries> data_source, int period) : Indicator(), period(period), first_value_(true), ema_value_(0.0), data_source_(data_source), current_index_(0) {
+EMA::EMA(std::shared_ptr<LineSeries> data_source, int period) : Indicator(), period(period), first_value_(true), ema_value_(0.0), data_source_(data_source) {
     // Calculate alpha (smoothing factor) - same as Python implementation
     alpha = 2.0 / (1.0 + period);
     
@@ -37,7 +37,7 @@ EMA::EMA(std::shared_ptr<LineSeries> data_source, int period) : Indicator(), per
     data = data_source_;
 }
 
-EMA::EMA(std::shared_ptr<DataSeries> data_source) : Indicator(), period(30), first_value_(true), ema_value_(0.0), data_source_(data_source), current_index_(0) {
+EMA::EMA(std::shared_ptr<DataSeries> data_source) : Indicator(), period(30), first_value_(true), ema_value_(0.0), data_source_(data_source) {
     // Calculate alpha (smoothing factor) - same as Python implementation
     alpha = 2.0 / (1.0 + period);
     
@@ -55,7 +55,7 @@ EMA::EMA(std::shared_ptr<DataSeries> data_source) : Indicator(), period(30), fir
     this->datas.push_back(data_source);
 }
 
-EMA::EMA(std::shared_ptr<DataSeries> data_source, int period) : Indicator(), period(period), first_value_(true), ema_value_(0.0), data_source_(data_source), current_index_(0) {
+EMA::EMA(std::shared_ptr<DataSeries> data_source, int period) : Indicator(), period(period), first_value_(true), ema_value_(0.0), data_source_(data_source) {
     // Calculate alpha (smoothing factor) - same as Python implementation
     alpha = 2.0 / (1.0 + period);
     

@@ -71,7 +71,6 @@ private:
     std::deque<double> values_;
     double sum_;
     std::shared_ptr<LineSeries> data_source_;
-    size_t current_index_;
 
     // IndicatorBase support for nested indicators
     std::shared_ptr<IndicatorBase> indicator_source_;

@@ -41,7 +41,7 @@ public:
     double getDIMinus(int ago = 0) const;
     double getADX(int ago = 0) const;
     double getADXR(int ago = 0) const;
-    int getMinPeriod() const;
+    int getMinPeriod() const override;
     
 protected:
     void next() override;

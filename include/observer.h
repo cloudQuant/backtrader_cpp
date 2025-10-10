@@ -44,7 +44,7 @@ public:
     } plotinfo;
     
     // Lifecycle methods
-    virtual void _start();
+    virtual void _start() override;
     virtual void start();
     virtual void stop() {}
     

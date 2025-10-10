@@ -200,16 +200,13 @@ void DirectionalMovement::calculate() {
         if (i == params.period - 1) {
             // Initial SMMA: simple average of first period values
             double plus_sum = 0.0, minus_sum = 0.0;
-            int plus_count = 0, minus_count = 0;
             
             for (size_t j = 0; j < params.period; ++j) {
                 if (!std::isnan(plus_dm_values[j])) {
                     plus_sum += plus_dm_values[j];
-                    plus_count++;
                 }
                 if (!std::isnan(minus_dm_values[j])) {
                     minus_sum += minus_dm_values[j];
-                    minus_count++;
                 }
             }
             

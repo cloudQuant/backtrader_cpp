@@ -183,8 +183,7 @@ private:
     std::shared_ptr<LineActions> rhs_;
     OpType op_;
     double scalar_;
-    bool use_scalar_;
-    
+
     double compute(double a, double b) const;
     double compute_unary(double a) const;
 };

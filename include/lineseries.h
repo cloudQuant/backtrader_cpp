@@ -129,7 +129,7 @@ public:
     virtual double openinterest(int ago = 0) const { return 0.0; }
     
     // Forward method to advance the lines
-    virtual void forward(size_t size = 1) {
+    virtual void forward(size_t size = 1) override {
         if (lines) {
             lines->forward(size);
         }

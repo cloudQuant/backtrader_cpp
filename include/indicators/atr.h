@@ -19,7 +19,7 @@ public:
     virtual ~TrueHigh() = default;
     
     // Get method for accessing the indicator value
-    double get(int ago = 0) const;
+    double get(int ago = 0) const override;
     
 protected:
     void prenext() override;
@@ -42,7 +42,7 @@ public:
     virtual ~TrueLow() = default;
     
     // Get method for accessing the indicator value
-    double get(int ago = 0) const;
+    double get(int ago = 0) const override;
     
 protected:
     void prenext() override;
@@ -65,7 +65,7 @@ public:
     virtual ~TrueRange() = default;
     
     // Get method for accessing the indicator value
-    double get(int ago = 0) const;
+    double get(int ago = 0) const override;
     
 protected:
     void prenext() override;
@@ -98,8 +98,8 @@ public:
     virtual ~AverageTrueRange() = default;
     
     // Utility methods for tests
-    double get(int ago = 0) const;
-    int getMinPeriod() const { return params.period + 1; }
+    double get(int ago = 0) const override;
+    int getMinPeriod() const override { return params.period + 1; }
     void calculate() override;
     
     // Override size() to return the correct size

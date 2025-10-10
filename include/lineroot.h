@@ -100,16 +100,16 @@ public:
     virtual double get(int index) const { return (*this)[index]; }
     
     // Forward/backward operations
-    virtual void forward(size_t size = 1) = 0;
-    virtual void backward(size_t size = 1) = 0;
-    virtual void rewind(size_t size = 1) = 0;
-    virtual void extend(size_t size = 1) = 0;
+    virtual void forward(size_t size = 1) override = 0;
+    virtual void backward(size_t size = 1) override = 0;
+    virtual void rewind(size_t size = 1) override = 0;
+    virtual void extend(size_t size = 1) override = 0;
     virtual void reset() override = 0;
-    
+
     // Buffer operations
     virtual void home() = 0;
     virtual size_t buflen() const = 0;
-    virtual void advance(size_t size = 1) = 0;
+    virtual void advance(size_t size = 1) override = 0;
     
     // Binding operations
     virtual void addbinding(std::shared_ptr<LineSingle> binding) = 0;
@@ -140,14 +140,14 @@ public:
     virtual void set(int index, double value);
     
     // Buffer operations
-    virtual void forward(size_t size = 1);
-    virtual void backward(size_t size = 1);
-    virtual void rewind(size_t size = 1);
-    virtual void extend(size_t size = 1);
+    virtual void forward(size_t size = 1) override;
+    virtual void backward(size_t size = 1) override;
+    virtual void rewind(size_t size = 1) override;
+    virtual void extend(size_t size = 1) override;
     void reset() override;
     virtual void home();
     virtual size_t buflen() const;
-    virtual void advance(size_t size = 1);
+    virtual void advance(size_t size = 1) override;
     
     // Binding operations
     virtual void addbinding(std::shared_ptr<LineSingle> binding);

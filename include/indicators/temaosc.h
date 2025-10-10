@@ -29,8 +29,8 @@ public:
     virtual ~TripleExponentialMovingAverageOscillator() = default;
     
     // Utility methods
-    double get(int ago = 0) const;
-    int getMinPeriod() const;
+    double get(int ago = 0) const override;
+    int getMinPeriod() const override;
     void calculate() override;
     size_t size() const override;
     

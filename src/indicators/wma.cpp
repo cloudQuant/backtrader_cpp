@@ -6,7 +6,7 @@ namespace backtrader {
 namespace indicators {
 
 // WeightedMovingAverage implementation
-WeightedMovingAverage::WeightedMovingAverage() : Indicator(), data_source_(nullptr), current_index_(0) {
+WeightedMovingAverage::WeightedMovingAverage() : Indicator(), data_source_(nullptr) {
     setup_lines();
     _minperiod(params.period);
     
@@ -21,7 +21,7 @@ WeightedMovingAverage::WeightedMovingAverage() : Indicator(), data_source_(nullp
 }
 
 WeightedMovingAverage::WeightedMovingAverage(std::shared_ptr<LineSeries> data_source, int period) 
-    : Indicator(), data_source_(data_source), current_index_(0) {
+    : Indicator(), data_source_(data_source) {
     params.period = period;
     setup_lines();
     _minperiod(params.period);
@@ -41,7 +41,7 @@ WeightedMovingAverage::WeightedMovingAverage(std::shared_ptr<LineSeries> data_so
 }
 
 WeightedMovingAverage::WeightedMovingAverage(std::shared_ptr<DataSeries> data_source, int period) 
-    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)), current_index_(0) {
+    : Indicator(), data_source_(std::static_pointer_cast<LineSeries>(data_source)) {
     params.period = period;
     setup_lines();
     _minperiod(params.period);

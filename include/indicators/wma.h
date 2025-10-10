@@ -30,7 +30,7 @@ public:
     double get(int ago = 0) const override;
     int getMinPeriod() const override { return params.period; }
     void calculate() override;
-    size_t size() const;
+    size_t size() const override;
     
 protected:
     void next() override;
@@ -43,7 +43,6 @@ private:
     std::vector<double> weights_;
     double coef_;
     std::shared_ptr<LineSeries> data_source_;
-    size_t current_index_;
 };
 
 // Aliases

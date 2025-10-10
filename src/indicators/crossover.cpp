@@ -254,20 +254,18 @@ void NonZeroDifference::once(int start, int end) {
     }
     
     double prev = 0.0;
-    int valid_count = 0;
-    
+
     for (int i = start; i < end; ++i) {
         double val0 = getDefaultValue(data0_, i);
         double val1 = getDefaultValue(data1_, i);
-        
+
         // Skip if either value is NaN
         if (std::isnan(val0) || std::isnan(val1)) {
             nzd_line->set(i, std::numeric_limits<double>::quiet_NaN());
             continue;
         }
-        
+
         double diff = val0 - val1;
-        valid_count++;
         
         // Python behavior: if diff is exactly zero, use the last non-zero difference
         if (diff != 0.0) {
@@ -603,12 +601,8 @@ void CrossBase::once(int start, int end) {
         // Use NZD buffer directly for previous value
         auto nzd_buffer = std::dynamic_pointer_cast<LineBuffer>(nzd_line);
         double prev_nzd = 0.0;
-        double curr_nzd = 0.0;
         if (nzd_buffer && i > 0) {
             const auto& nzd_array = nzd_buffer->array();
-            if (i < static_cast<int>(nzd_array.size())) {
-                curr_nzd = nzd_array[i];
-            }
             if (i - 1 >= 0 && i - 1 < static_cast<int>(nzd_array.size())) {
                 prev_nzd = nzd_array[i - 1];
                 // Skip if previous NZD is NaN

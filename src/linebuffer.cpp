@@ -357,11 +357,11 @@ bool LineDelay::empty() const {
 
 // LinesOperation implementation
 LinesOperation::LinesOperation(std::shared_ptr<LineActions> lhs, std::shared_ptr<LineActions> rhs, OpType op)
-    : LineActions(), lhs_(lhs), rhs_(rhs), op_(op), scalar_(0.0), use_scalar_(false) {
+    : LineActions(), lhs_(lhs), rhs_(rhs), op_(op), scalar_(0.0) {
 }
 
 LinesOperation::LinesOperation(std::shared_ptr<LineActions> operand, OpType op)
-    : LineActions(), lhs_(operand), rhs_(nullptr), op_(op), scalar_(0.0), use_scalar_(false) {
+    : LineActions(), lhs_(operand), rhs_(nullptr), op_(op), scalar_(0.0) {
 }
 
 double LinesOperation::operator[](int index) const {

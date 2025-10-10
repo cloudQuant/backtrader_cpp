@@ -29,7 +29,7 @@ public:
     
     // Utility methods
     double get(int ago = 0) const override;
-    int getMinPeriod() const;
+    int getMinPeriod() const override;
     void calculate() override;
     size_t size() const override;
     
