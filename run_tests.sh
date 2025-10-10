@@ -1073,7 +1073,7 @@ parse_gtest_xml() {
     # 更新统计
     TEST_CASE_STATS+=("$test_name:tests=$total_tests,failures=$failures,errors=$errors,time=$time")
     
-    # 解析完成: $test_name - 总计 $total_tests 个测试用例
+    print_info "解析完成: $test_name - 总计 $total_tests 个测试用例"
 }
 
 compile_all_tests_parallel() {
