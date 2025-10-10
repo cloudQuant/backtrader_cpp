@@ -124,6 +124,11 @@ build_with_cmake() {
     # 首先在主目录构建核心库
     cd "$SCRIPT_DIR"
     
+    # 清除可能存在的旧的CMake缓存文件（避免跨平台路径冲突）
+    print_info "清除旧的CMake缓存文件..."
+    rm -f CMakeCache.txt cmake_install.cmake Makefile
+    rm -rf CMakeFiles
+    
     # 配置项目 (带超时)
     local cmake_config_output
     # 首先构建所有backtrader_cpp源文件
@@ -152,6 +157,12 @@ build_with_cmake() {
         rm -rf "$test_build_dir"
     fi
     mkdir -p "$test_build_dir"
+    
+    # 同时清除tests目录中的CMake缓存文件
+    cd "$TEST_DIR"
+    print_info "清除tests目录的CMake缓存文件..."
+    rm -f cmake_install.cmake CTestTestfile.cmake Makefile
+    
     cd "$test_build_dir"
     
     print_info "配置测试文件（8核并行编译）..."
@@ -215,14 +226,15 @@ collect_cmake_test_results() {
     local failed_count=0
     
     # 检查实际的编译输出目录 - 同时检查三个可能的位置
+    # Mac上使用 -perm +111 代替 -executable (BSD find不支持-executable)
     local actual_test_dir=""
-    if [ -d "$test_build_dir" ] && [ "$(find "$test_build_dir" -name "test_*" -type f -executable 2>/dev/null | wc -l)" -gt 0 ]; then
+    if [ -d "$test_build_dir" ] && [ "$(find "$test_build_dir" -maxdepth 1 -name "test_*" -type f -perm +111 2>/dev/null | wc -l)" -gt 0 ]; then
         actual_test_dir="$test_build_dir"
         print_info "在 $test_build_dir 目录中找到编译的测试文件"
-    elif [ -d "$TEST_DIR/build" ] && [ "$(find "$TEST_DIR/build" -name "test_*" -type f -executable 2>/dev/null | wc -l)" -gt 0 ]; then
+    elif [ -d "$TEST_DIR/build" ] && [ "$(find "$TEST_DIR/build" -maxdepth 1 -name "test_*" -type f -perm +111 2>/dev/null | wc -l)" -gt 0 ]; then
         actual_test_dir="$TEST_DIR/build"
         print_info "在 $TEST_DIR/build 目录中找到编译的测试文件"
-    elif [ -d "$TEST_DIR" ] && [ "$(find "$TEST_DIR" -name "test_*" -type f -executable 2>/dev/null | wc -l)" -gt 0 ]; then
+    elif [ -d "$TEST_DIR" ] && [ "$(find "$TEST_DIR" -maxdepth 1 -name "test_*" -type f -perm +111 2>/dev/null | wc -l)" -gt 0 ]; then
         actual_test_dir="$TEST_DIR"
         print_info "在 $TEST_DIR 目录中找到编译的测试文件"
     else
@@ -238,10 +250,10 @@ collect_cmake_test_results() {
             continue
         fi
         
-        # 检查可执行文件是否存在 - 使用find来查找
+        # 检查可执行文件是否存在 - 使用find来查找（Mac兼容）
         local found=false
         if [ -n "$actual_test_dir" ]; then
-            if find "$actual_test_dir" -name "$filename" -type f -executable 2>/dev/null | grep -q .; then
+            if find "$actual_test_dir" -maxdepth 1 -name "$filename" -type f -perm +111 2>/dev/null | grep -q .; then
                 found=true
             fi
         fi
@@ -376,9 +388,14 @@ run_with_timeout() {
     local temp_output=$(mktemp)
     local temp_status=$(mktemp)
     
-    # 在后台运行命令，设置正确的库路径
+    # 在后台运行命令，设置正确的库路径（兼容Linux和Mac）
     (
-        export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+        # Linux使用LD_LIBRARY_PATH，Mac使用DYLD_LIBRARY_PATH
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+            export DYLD_LIBRARY_PATH=/Users/yunjinqi/opt/anaconda3/lib:/opt/homebrew/lib:/usr/local/lib:$DYLD_LIBRARY_PATH
+        else
+            export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+        fi
         eval "$cmd" > "$temp_output" 2>&1
         echo $? > "$temp_status"
     ) &
@@ -716,18 +733,18 @@ run_single_test() {
 run_with_gtest() {
     print_info "直接运行Google Test测试..."
     
-    # 检查实际的测试目录
+    # 检查实际的测试目录（Mac兼容：使用-perm +111代替-executable）
     local test_run_dir=""
-    if [ -d "$TEST_DIR/build" ] && [ "$(find "$TEST_DIR/build" -name "test_*" -type f -executable 2>/dev/null | wc -l)" -gt 0 ]; then
+    if [ -d "$TEST_DIR/build" ] && [ "$(find "$TEST_DIR/build" -maxdepth 1 -name "test_*" -type f -perm +111 2>/dev/null | wc -l)" -gt 0 ]; then
         test_run_dir="$TEST_DIR/build"
         print_info "使用 tests/build 目录运行测试"
-    elif [ -d "$TEST_DIR" ] && [ "$(find "$TEST_DIR" -name "test_*" -type f -executable 2>/dev/null | wc -l)" -gt 0 ]; then
+    elif [ -d "$TEST_DIR" ] && [ "$(find "$TEST_DIR" -maxdepth 1 -name "test_*" -type f -perm +111 2>/dev/null | wc -l)" -gt 0 ]; then
         test_run_dir="$TEST_DIR"
         print_info "使用 tests 目录运行测试"
-    elif [ -d "$BUILD_DIR/tests" ] && [ "$(find "$BUILD_DIR/tests" -name "test_*" -type f -executable 2>/dev/null | wc -l)" -gt 0 ]; then
+    elif [ -d "$BUILD_DIR/tests" ] && [ "$(find "$BUILD_DIR/tests" -maxdepth 1 -name "test_*" -type f -perm +111 2>/dev/null | wc -l)" -gt 0 ]; then
         test_run_dir="$BUILD_DIR/tests"
         print_info "使用 build_tests/tests 目录运行测试"
-    elif [ -d "$BUILD_DIR" ] && [ "$(find "$BUILD_DIR" -name "test_*" -type f -executable 2>/dev/null | wc -l)" -gt 0 ]; then
+    elif [ -d "$BUILD_DIR" ] && [ "$(find "$BUILD_DIR" -maxdepth 1 -name "test_*" -type f -perm +111 2>/dev/null | wc -l)" -gt 0 ]; then
         test_run_dir="$BUILD_DIR"
         print_info "使用 build_tests 目录运行测试"
     else  
@@ -806,15 +823,36 @@ run_single_gtest() {
     local test_output
     local exit_code=0
     
-    if test_output=$(LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH timeout 30 "./$exe" 2>&1); then
+    # Mac和Linux兼容的运行方式
+    local xml_output="$BUILD_DIR/test_${exe}.xml"
+    local run_cmd
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        # Mac: 使用DYLD_LIBRARY_PATH，添加Anaconda和Homebrew的库路径
+        local lib_paths="/Users/yunjinqi/opt/anaconda3/lib:/opt/homebrew/lib:/usr/local/lib"
+        if command -v gtimeout &> /dev/null; then
+            run_cmd="DYLD_LIBRARY_PATH=${lib_paths}:\$DYLD_LIBRARY_PATH gtimeout 30 ./$exe --gtest_output=xml:$xml_output"
+        else
+            # Mac没有timeout命令，直接运行
+            run_cmd="DYLD_LIBRARY_PATH=${lib_paths}:\$DYLD_LIBRARY_PATH ./$exe --gtest_output=xml:$xml_output"
+        fi
+    else
+        # Linux: 使用LD_LIBRARY_PATH和timeout
+        run_cmd="LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:\$LD_LIBRARY_PATH timeout 30 ./$exe --gtest_output=xml:$xml_output"
+    fi
+    
+    if test_output=$(eval "$run_cmd" 2>&1); then
         local end_time=$(date +%s.%N)
         local duration=$(echo "$end_time - $start_time" | bc -l 2>/dev/null || echo "0")
         
         TEST_SUCCESS+=("$exe")
         TEST_DURATIONS+=("$exe:$duration")
         
-        # 解析Google Test输出获取测试用例统计
-        parse_gtest_output "$test_output" "$exe" "PASSED"
+        # 优先解析XML，回退到标准输出
+        if [ -f "$xml_output" ]; then
+            parse_gtest_xml "$xml_output" "$exe"
+        else
+            parse_gtest_output "$test_output" "$exe" "PASSED"
+        fi
     else
         exit_code=$?
         local end_time=$(date +%s.%N)
@@ -844,8 +882,12 @@ run_single_gtest() {
         
         TEST_ERRORS+=("$exe: $error_type")
         
-        # 解析Google Test输出获取测试用例统计
-        parse_gtest_output "$test_output" "$exe" "FAILED"
+        # 优先解析XML，回退到标准输出
+        if [ -f "$xml_output" ]; then
+            parse_gtest_xml "$xml_output" "$exe"
+        else
+            parse_gtest_output "$test_output" "$exe" "FAILED"
+        fi
     fi
 }
 
@@ -1248,18 +1290,43 @@ generate_report() {
     
     if [ ${#TEST_CASES_PASSED[@]} -gt 0 ]; then
         echo
-        echo "通过的测试用例:"
-        for case_detail in "${TEST_CASES_DETAILS[@]}"; do
-            local case_name="${case_detail%%:*}"
-            local remainder="${case_detail#*:}"
-            local status="${remainder%%:*}"
-            remainder="${remainder#*:}"
-            local time="${remainder%%:*}"
-            
-            if [ "$status" = "PASSED" ]; then
-                printf "  ✓ %-50s %8ss\n" "$case_name" "$time"
-            fi
-        done
+        # 如果通过的测试用例太多，只显示前10个和后10个
+        if [ ${#TEST_CASES_PASSED[@]} -gt 50 ]; then
+            echo "通过的测试用例: ${#TEST_CASES_PASSED[@]} 个 (显示前10个和后10个):"
+            local count=0
+            local shown=0
+            for case_detail in "${TEST_CASES_DETAILS[@]}"; do
+                local case_name="${case_detail%%:*}"
+                local remainder="${case_detail#*:}"
+                local status="${remainder%%:*}"
+                remainder="${remainder#*:}"
+                local time="${remainder%%:*}"
+                
+                if [ "$status" = "PASSED" ]; then
+                    count=$((count + 1))
+                    if [ $count -le 10 ] || [ $count -gt $((${#TEST_CASES_PASSED[@]} - 10)) ]; then
+                        printf "  ✓ %-80s %8ss\n" "$case_name" "$time"
+                        shown=$((shown + 1))
+                    elif [ $shown -eq 10 ]; then
+                        echo "  ... (省略 $((${#TEST_CASES_PASSED[@]} - 20)) 个通过的测试用例) ..."
+                        shown=$((shown + 1))
+                    fi
+                fi
+            done
+        else
+            echo "通过的测试用例:"
+            for case_detail in "${TEST_CASES_DETAILS[@]}"; do
+                local case_name="${case_detail%%:*}"
+                local remainder="${case_detail#*:}"
+                local status="${remainder%%:*}"
+                remainder="${remainder#*:}"
+                local time="${remainder%%:*}"
+                
+                if [ "$status" = "PASSED" ]; then
+                    printf "  ✓ %-80s %8ss\n" "$case_name" "$time"
+                fi
+            done
+        fi
     fi
     
     if [ ${#TEST_CASES_FAILED[@]} -gt 0 ]; then
@@ -1334,27 +1401,27 @@ generate_report() {
     local total_tested=$((${#TEST_SUCCESS[@]} + ${#TEST_FAILED[@]}))
     
     if [ $total_compiled -gt 0 ]; then
-        local compile_rate=$(echo "scale=1; ${#COMPILED_SUCCESS[@]} * 100 / $total_compiled" | bc -l 2>/dev/null || echo "0")
+        local compile_rate=$(printf "%.1f" $(echo "scale=2; ${#COMPILED_SUCCESS[@]} * 100 / $total_compiled" | bc -l 2>/dev/null || echo "0"))
         echo "  编译成功率: ${compile_rate}%"
     fi
     
     if [ $total_tested -gt 0 ]; then
-        local test_pass_rate=$(echo "scale=1; ${#TEST_SUCCESS[@]} * 100 / $total_tested" | bc -l 2>/dev/null || echo "0")
+        local test_pass_rate=$(printf "%.1f" $(echo "scale=2; ${#TEST_SUCCESS[@]} * 100 / $total_tested" | bc -l 2>/dev/null || echo "0"))
         echo "  测试文件通过率: ${test_pass_rate}%"
     fi
     
     # 计算测试用例级别成功率
     if [ $total_cases -gt 0 ]; then
-        local case_pass_rate=$(echo "scale=1; ${#TEST_CASES_PASSED[@]} * 100 / $total_cases" | bc -l 2>/dev/null || echo "0")
+        local case_pass_rate=$(printf "%.1f" $(echo "scale=2; ${#TEST_CASES_PASSED[@]} * 100 / $total_cases" | bc -l 2>/dev/null || echo "0"))
         echo "  测试用例通过率: ${case_pass_rate}%"
         
         if [ ${#TEST_CASES_FAILED[@]} -gt 0 ]; then
-            local case_fail_rate=$(echo "scale=1; ${#TEST_CASES_FAILED[@]} * 100 / $total_cases" | bc -l 2>/dev/null || echo "0")
+            local case_fail_rate=$(printf "%.1f" $(echo "scale=2; ${#TEST_CASES_FAILED[@]} * 100 / $total_cases" | bc -l 2>/dev/null || echo "0"))
             echo "  测试用例失败率: ${case_fail_rate}%"
         fi
         
         if [ ${#TEST_CASES_SKIPPED[@]} -gt 0 ]; then
-            local case_skip_rate=$(echo "scale=1; ${#TEST_CASES_SKIPPED[@]} * 100 / $total_cases" | bc -l 2>/dev/null || echo "0")
+            local case_skip_rate=$(printf "%.1f" $(echo "scale=2; ${#TEST_CASES_SKIPPED[@]} * 100 / $total_cases" | bc -l 2>/dev/null || echo "0"))
             echo "  测试用例跳过率: ${case_skip_rate}%"
         fi
     fi

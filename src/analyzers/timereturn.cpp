@@ -27,7 +27,10 @@ TimeReturn::TimeReturn(const std::string& name, TimeFrame timeframe) : TimeFrame
 }
 
 void TimeReturn::start() {
-    // std::cerr << "TimeReturn::start() - entry, strategy=" << strategy.get() << std::endl;
+    std::cerr << "TimeReturn::start() - entry" << std::endl;
+    std::cerr << "  this->timeframe = " << static_cast<int>(this->timeframe) << std::endl;
+    std::cerr << "  p.timeframe = " << static_cast<int>(p.timeframe) << std::endl;
+    std::cerr << "  params.timeframe = " << params.timeframe << std::endl;
     TimeFrameAnalyzerBase::start();
     
     // Auto-detect fund mode if needed
@@ -38,8 +41,7 @@ void TimeReturn::start() {
         fundmode_ = params.fund;
     }
     
-    // Initialize values
-    value_start_ = 0.0;
+    // Clear previous returns
     returns_.clear();
     
     // Set initial portfolio value from broker (matches Python lines 106-111)
@@ -48,16 +50,19 @@ void TimeReturn::start() {
             // Keep the initial portfolio value if not tracking data
             last_value_ = strategy->broker->getvalue();
             current_value_ = last_value_;
-            // Don't set value_start here - it will be set in on_dt_over
+            // Set value_start to initial broker value (critical for first period calculation)
+            value_start_ = last_value_;
         } else {
             // TODO: implement fundvalue when available
             last_value_ = strategy->broker->getvalue();  
             current_value_ = last_value_;
-            // Don't set value_start here - it will be set in on_dt_over
+            // Set value_start to initial broker value
+            value_start_ = last_value_;
         }
     } else {
         last_value_ = 0.0;
         current_value_ = 0.0;
+        value_start_ = 0.0;
     }
     std::cerr << "TimeReturn::start() - completed, initial value=" << current_value_ 
               << ", value_start=" << value_start_ << ", last_value=" << last_value_ << std::endl;
@@ -68,14 +73,32 @@ void TimeReturn::next() {
     
     next_call_count_++;
     
+    // Get current date key
+    std::string date_key = get_current_date_key();
+    
+    // Check if we've moved to a new period (simple date key comparison)
+    // This is a fallback if _dt_over() is not being called correctly
+    static std::string last_date_key;
+    bool new_period = false;
+    if (!last_date_key.empty() && date_key != last_date_key) {
+        new_period = true;
+        // Update value_start for the new period
+        if (last_value_ > 0.0) {
+            value_start_ = last_value_;
+            std::cerr << "TimeReturn::next() - Detected new period, updated value_start_ to " 
+                      << value_start_ << std::endl;
+        }
+    }
+    last_date_key = date_key;
+    
     // Calculate return for current period
     // This matches Python: self.rets[self.dtkey] = (self._value / self._value_start) - 1.0
-    std::string date_key = get_current_date_key();
     std::cerr << "TimeReturn::next() - value_start_=" << value_start_ 
               << ", current_value_=" << current_value_ 
               << ", date_key=" << date_key << std::endl;
     if (value_start_ > 0.0 && current_value_ > 0.0) {
         double return_value = (current_value_ / value_start_) - 1.0;
+        // Store or update the return for this period
         returns_[date_key] = return_value;
         std::cerr << "TimeReturn::next() - Added return " << return_value 
                   << " for date " << date_key 
@@ -109,16 +132,20 @@ void TimeReturn::on_dt_over() {
     on_dt_over_call_count_++;
     
     std::cerr << "TimeReturn::on_dt_over() called - last_value_=" << last_value_ 
-              << ", current_value_=" << current_value_ << std::endl;
+              << ", current_value_=" << current_value_ 
+              << ", old value_start_=" << value_start_ << std::endl;
     
     // Called when timeframe period ends - update value_start for next period
     // Python: if self._lastvalue is not None: self._value_start = self._lastvalue
-    // Only update if we have a valid last_value
+    // Update value_start to last_value for next period calculation
+    // This ensures returns are calculated relative to the previous period's ending value
     if (last_value_ > 0.0) {
         value_start_ = last_value_;
+        std::cerr << "TimeReturn::on_dt_over() - updated value_start_ to " << value_start_ << std::endl;
+    } else {
+        std::cerr << "TimeReturn::on_dt_over() - WARNING: last_value_ is " << last_value_ 
+                  << ", not updating value_start_" << std::endl;
     }
-    
-    std::cerr << "TimeReturn::on_dt_over() - set value_start_ to " << value_start_ << std::endl;
 }
 
 AnalysisResult TimeReturn::get_analysis() const {

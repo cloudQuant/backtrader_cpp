@@ -98,15 +98,24 @@ void AccelerationDecelerationOscillator::calculate() {
     
     if (!datas.empty() && datas[0]) {
         data_source = datas[0];
-        // std::cout << "Calculate: datas[0]->lines->size() = " << datas[0]->lines->size() << std::endl;
         
-        // Get data size from close line (index 3) or first available line
-        auto close_line = datas[0]->lines->getline(3);
+        // Get data size from close line (index 4 for DataSeries: DateTime=0, Open=1, High=2, Low=3, Close=4) or first available line
+        auto close_line = datas[0]->lines->getline(4);
+        if (!close_line) {
+            // Fallback to high line if close is not available  
+            close_line = datas[0]->lines->getline(2);
+        }
         if (!close_line) {
             close_line = datas[0]->lines->getline(0);
         }
         if (close_line) {
-            data_size = close_line->size();
+            // Use buflen() instead of size() for batch-loaded data
+            auto buffer = std::dynamic_pointer_cast<LineBuffer>(close_line);
+            if (buffer) {
+                data_size = buffer->buflen();
+            } else {
+                data_size = close_line->size();
+            }
         }
     } else if (high_data_ && low_data_) {
         // std::cout << "Calculate: Using high_data_ and low_data_" << std::endl;
@@ -144,12 +153,9 @@ void AccelerationDecelerationOscillator::next() {
 }
 
 void AccelerationDecelerationOscillator::once(int start, int end) {
-    // std::cerr << "AccDecOsc::once called with start=" << start << ", end=" << end << std::endl;
-    
     // Get the output line
     auto accde_line = std::dynamic_pointer_cast<LineBuffer>(lines->getline(accde));
     if (!accde_line) {
-        std::cerr << "AccDecOsc::once - Failed to get accde line" << std::endl;
         return;
     }
     
@@ -239,7 +245,6 @@ void AccelerationDecelerationOscillator::once(int start, int end) {
     
     const auto& ao_array = ao_buffer->array();
     if (ao_array.empty()) {
-        // std::cerr << "AccDecOsc::once - AO array is empty" << std::endl;
         return;
     }
     

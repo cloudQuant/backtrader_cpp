@@ -310,8 +310,8 @@ TEST_P(WilliamsRParameterizedTest, DifferentPeriods) {
 // );
 */
 
-// 超买超卖测试 - 暂时禁用，需要修复流式模式
-TEST(OriginalTests, DISABLED_WilliamsR_OverboughtOversold) {
+// 超买超卖测试 - 已修复流式模式
+TEST(OriginalTests, WilliamsR_OverboughtOversold) {
     // 使用SimpleTestDataSeries，它会正确设置数据
     auto csv_data = getdata(0);
     auto data_source = std::make_shared<SimpleTestDataSeries>(csv_data);

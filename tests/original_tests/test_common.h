@@ -143,9 +143,32 @@ public:
             "2006-week-001.txt"
         };
         
-        // Use absolute path to ensure we can find the file
-        std::string base_path = "/home/yun/Documents/refactor_backtrader/backtrader_cpp/tests/datas/";
-        std::string filepath = base_path + datafiles[index];
+        // 使用相对路径，兼容不同的运行目录
+        // 从tests/build目录运行时，数据文件在../datas/
+        // 从tests目录运行时，数据文件在./datas/
+        std::vector<std::string> possible_paths = {
+            "../datas/",           // 从tests/build运行
+            "./datas/",            // 从tests目录运行  
+            "../../tests/datas/",  // 从build_tests运行
+            "tests/datas/",        // 从项目根目录运行
+        };
+        
+        std::string filepath;
+        bool found = false;
+        for (const auto& base_path : possible_paths) {
+            std::string test_path = base_path + datafiles[index];
+            std::ifstream test_file(test_path);
+            if (test_file.good()) {
+                filepath = test_path;
+                found = true;
+                break;
+            }
+        }
+        
+        // 如果都找不到，使用默认路径（会失败，但有明确的错误信息）
+        if (!found) {
+            filepath = "../datas/" + datafiles[index];
+        }
         
         cache_[index] = CSVDataReader::loadCSV(filepath);
         return cache_[index];

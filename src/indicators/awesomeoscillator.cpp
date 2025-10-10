@@ -294,13 +294,13 @@ void AwesomeOscillator::calculate() {
     // If this is the first calculation or data size has changed significantly, recalculate all
     if (ao_line->size() == 0 || std::abs(static_cast<int>(ao_line->size()) - data_size) > 1) {
         // Debug: Check first few high/low values
-        std::cerr << "AO Calculate debug:" << std::endl;
-        std::cerr << "  raw_size=" << raw_size << ", data_size=" << data_size << ", start_idx=" << start_idx << std::endl;
-        std::cerr << "  AO line size before reset: " << ao_line->size() << std::endl;
+        //std::cerr << "AO Calculate debug:" << std::endl;
+        //std::cerr << "  raw_size=" << raw_size << ", data_size=" << data_size << ", start_idx=" << start_idx << std::endl;
+        //std::cerr << "  AO line size before reset: " << ao_line->size() << std::endl;
         
         // Clear and recalculate for entire dataset
         ao_line->reset();
-        std::cerr << "  AO line size after reset: " << ao_line->size() << std::endl;
+        //std::cerr << "  AO line size after reset: " << ao_line->size() << std::endl;
         
         // Calculate AO values in chronological order (oldest to newest)
         for (int i = 0; i < data_size; ++i) {

@@ -375,7 +375,7 @@ TEST(OriginalTests, DataReplay_TimeOrder) {
 }
 
 // 测试重放与原始数据的关系
-TEST(OriginalTests, DISABLED_DataReplay_CompareOriginal) {
+TEST(OriginalTests, DataReplay_CompareOriginal) {
     // 先获取原始数据的统计
     class OriginalDataStrategy : public backtrader::Strategy {
     public:
