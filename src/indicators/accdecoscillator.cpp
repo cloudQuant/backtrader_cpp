@@ -74,7 +74,9 @@ double AccelerationDecelerationOscillator::get(int ago) const {
         return std::numeric_limits<double>::quiet_NaN();
     }
     
-    return (*accde_line)[ago];
+    // Convert ago (positive) to negative index for LineBuffer
+    // ago=0 means current (index 0), ago=1 means previous (index -1), etc.
+    return (*accde_line)[-ago];
 }
 
 int AccelerationDecelerationOscillator::getMinPeriod() const {
