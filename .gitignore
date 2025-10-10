@@ -1,11 +1,32 @@
-# Prerequisites
-*.d
+# macOS
+.DS_Store
+
+# IDE and Editor configuration
+.idea/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.sw?
+
+# Build artifacts & directories
+build/
+build_tests/
+cmake-build-*/
+[Bb]uild*/
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
 
 # Compiled Object files
-*.slo
-*.lo
 *.o
 *.obj
+*.slo
+*.lo
 
 # Precompiled Headers
 *.gch
@@ -21,17 +42,17 @@
 *.smod
 
 # Compiled Static libraries
-*.lai
-*.la
+# Note: This will ignore all .a files. If libbacktrader_core.a is intentionally
+# versioned, consider making this rule more specific (e.g., 'build/*.a').
 *.a
 *.lib
+*.lai
+*.la
 
 # Executables
 *.exe
 *.out
 *.app
 
-build/
-*/build/
-*/build_tests/
-build_tests/
+# Other
+*.d
