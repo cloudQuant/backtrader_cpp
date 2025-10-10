@@ -1036,14 +1036,14 @@ parse_gtest_xml() {
         local full_case_name="${test_name}.${suite_name}.${case_name}"
         
         # 检查是否有失败或错误信息
-        local case_line_num=$(grep -n "<testcase.*name=\"$case_name\"" "$xml_file" | cut -d: -f1)
+        local case_line_num=$(grep -n "<testcase.*name=\"$case_name\"" "$xml_file" 2>/dev/null | cut -d: -f1)
         local has_failure=false
         local has_error=false
         local failure_message=""
         
         if [ -n "$case_line_num" ]; then
             # 查找这个测试用例的失败或错误信息
-            local case_content=$(awk -v start="$case_line_num" 'NR >= start && /<\/testcase>/ {print; exit} NR >= start' "$xml_file")
+            local case_content=$(awk -v start="$case_line_num" 'NR >= start && /<\/testcase>/ {print; exit} NR >= start' "$xml_file" 2>/dev/null)
             
             if echo "$case_content" | grep -q "<failure"; then
                 has_failure=true
