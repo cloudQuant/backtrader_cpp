@@ -1,5 +1,8 @@
 # Backtrader C++ - 高性能量化交易框架
 
+[![macOS Build](https://img.shields.io/badge/macOS-passing-success)](https://github.com/yunzed/backtrader_cpp)
+[![Ubuntu Build](https://img.shields.io/badge/Ubuntu-passing-success)](https://github.com/yunzed/backtrader_cpp)
+[![Version](https://img.shields.io/badge/version-1.9.76.123-blue)](https://github.com/yunzed/backtrader_cpp)
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/yunzed/backtrader_cpp)
 [![Test Coverage](https://img.shields.io/badge/tests-100%25%20passing-brightgreen)](./build_tests/test_report.txt)
 [![C++ Standard](https://img.shields.io/badge/C%2B%2B-20-blue)](https://en.cppreference.com/w/cpp/20)
@@ -7,9 +10,9 @@
 
 ## 🎉 项目状态 - 100% 测试通过！
 
-**最新测试结果 (2025-01-18):**
-- ✅ **编译成功率: 100.0%** (83/83 文件)
-- ✅ **测试文件通过率: 100.0%** (83/83 文件)  
+**最新测试结果 (2025-10-10):**
+- ✅ **编译成功率: 100.0%** (82/82 文件)
+- ✅ **测试文件通过率: 100.0%** (82/82 文件)
 - ✅ **测试用例通过率: 100.0%** (963/963 用例)
 
 这是Python Backtrader量化交易框架的高性能C++重写版本，现已实现**完全稳定**状态！
@@ -226,6 +229,9 @@ backtrader_cpp/
 │   ├── original_tests/     # 对应Python的C++测试
 │   └── datas/              # 测试数据文件
 ├── docs/                   # 详细文档
+│   ├── CROSS_PLATFORM.md            # 跨平台编译指南
+│   ├── QUICK_START_CROSS_PLATFORM.md # 跨平台快速开始
+│   ├── CHANGELOG_CROSS_PLATFORM.md  # 跨平台更新日志
 │   ├── IMPROVEMENT_ROADMAP.md      # 改进优化路线图
 │   ├── PYBIND11_INTEGRATION_PLAN.md # Python绑定实施计划
 │   ├── TECHNICAL_COMPARISON.md     # Python vs C++技术对比
@@ -234,11 +240,26 @@ backtrader_cpp/
 ├── build_tests/           # 测试构建产物
 ├── CMakeLists.txt         # 主构建配置
 ├── run_tests.sh          # 测试执行脚本
+├── scripts/              # 工具脚本
+│   ├── check_platform.sh      # 平台检测脚本
+│   └── test_cross_platform.sh # 跨平台测试脚本
 ├── BUILDING.md           # 详细构建指南
 └── README.md             # 项目说明
 ```
 
 ## 🔍 逐步构建指南
+
+### 快速环境检查
+
+项目提供了便捷的平台检测脚本：
+
+```bash
+# 自动检测平台和依赖
+./scripts/check_platform.sh
+
+# 跨平台功能快速测试
+./scripts/test_cross_platform.sh
+```
 
 ### 步骤1: 环境准备
 
@@ -468,6 +489,8 @@ done
 
 ### 核心文档
 - **[构建指南](BUILDING.md)** - 详细的step-by-step构建说明
+- **[跨平台指南](docs/CROSS_PLATFORM.md)** - Mac和Ubuntu编译指南
+- **[跨平台快速开始](docs/QUICK_START_CROSS_PLATFORM.md)** - 快速跨平台设置
 - **[改进路线图](docs/IMPROVEMENT_ROADMAP.md)** - 功能缺失分析和改进计划
 - **[Python绑定计划](docs/PYBIND11_INTEGRATION_PLAN.md)** - pybind11集成详细实施方案
 - **[技术对比分析](docs/TECHNICAL_COMPARISON.md)** - Python vs C++全面技术对比
