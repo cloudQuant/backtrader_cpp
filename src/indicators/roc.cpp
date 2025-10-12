@@ -169,7 +169,7 @@ void RateOfChange::next() {
     roc_line->append(roc_value);
 }
 
-void RateOfChange::once(int start, int end) {
+void RateOfChange::once(int /*start*/, int /*end*/) {
     // Handle both data and datas patterns
     std::shared_ptr<LineSeries> data_source = data;
     if (!data_source && !datas.empty()) {

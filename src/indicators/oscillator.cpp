@@ -745,7 +745,7 @@ void EMAOscillator::once(int start, int end) {
             }
             for (int j = 0; j < params.period; ++j) {
                 int idx = actual_start + j;
-                if (idx >= 0 && idx < data_array.size()) {
+                if (idx >= 0 && static_cast<size_t>(idx) < data_array.size()) {
                     double val = data_array[idx];
                     if (!std::isnan(val)) {
                         if (params.period == 5 && j < 5) {

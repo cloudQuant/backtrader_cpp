@@ -154,7 +154,7 @@ void AccelerationDecelerationOscillator::next() {
     calculate();
 }
 
-void AccelerationDecelerationOscillator::once(int start, int end) {
+void AccelerationDecelerationOscillator::once(int /*start*/, int /*end*/) {
     // Get the output line
     auto accde_line = std::dynamic_pointer_cast<LineBuffer>(lines->getline(accde));
     if (!accde_line) {

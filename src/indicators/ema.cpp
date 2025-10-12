@@ -98,7 +98,7 @@ void EMA::next() {
     lines->getline(0)->set(0, ema_value_);
 }
 
-void EMA::once(int start, int end) {
+void EMA::once(int /*start*/, int /*end*/) {
     // Get data line from appropriate source
     std::shared_ptr<LineSingle> data_line;
     if (data_source_ && data_source_->lines && data_source_->lines->size() > 0) {
@@ -352,7 +352,7 @@ double EMA::get(int ago) const {
             // For ago=-224 with buffer_size=255, we want to return value at index 29
             // We need to adjust the ago value to point to index 29
             int seed_index = 29;
-            int seed_ago = ago - (actual_index - seed_index);  // -224 - (31 - 29) = -226
+            [[maybe_unused]] int seed_ago = ago - (actual_index - seed_index);  // -224 - (31 - 29) = -226
             
             // But LineBuffer may have a different internal indexing
             // Let's directly access the array instead

@@ -780,7 +780,7 @@ void ExponentialMovingAverageEnvelope::next() {
     }
 }
 
-void ExponentialMovingAverageEnvelope::once(int start, int end) {
+void ExponentialMovingAverageEnvelope::once(int start, int /*end*/) {
     if (datas.empty() || !datas[0]->lines) return;
     
     // Connect data to EMA if not already done
@@ -1037,7 +1037,7 @@ void DoubleExponentialMovingAverageEnvelope::next() {
     }
 }
 
-void DoubleExponentialMovingAverageEnvelope::once(int start, int end) {
+void DoubleExponentialMovingAverageEnvelope::once(int /*start*/, int /*end*/) {
     if (datas.empty() || !datas[0]->lines) return;
     
     // Connect data to DEMA if not already done
@@ -1241,7 +1241,7 @@ void TripleExponentialMovingAverageEnvelope::calculate() {
 }
 
 std::shared_ptr<LineSingle> TripleExponentialMovingAverageEnvelope::getLine(int index) const {
-    if (!lines || index >= lines->size()) {
+    if (!lines || static_cast<size_t>(index) >= lines->size()) {
         return nullptr;
     }
     return lines->getline(index);

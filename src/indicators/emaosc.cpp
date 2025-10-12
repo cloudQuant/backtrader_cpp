@@ -140,7 +140,7 @@ void ExponentialMovingAverageOscillator::next() {
     calculate();
 }
 
-void ExponentialMovingAverageOscillator::once(int start, int end) {
+void ExponentialMovingAverageOscillator::once(int /*start*/, int /*end*/) {
     if (!datas.empty() && datas[0] && datas[0]->lines) {
         // Get data source - try both DataSeries and LineSeries  
         std::shared_ptr<LineSingle> data_line;

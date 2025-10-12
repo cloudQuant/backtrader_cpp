@@ -22,7 +22,7 @@ void PriceOscBase::next() {
     calculate_oscillator();
 }
 
-void PriceOscBase::once(int start, int end) {
+void PriceOscBase::once(int /*start*/, int /*end*/) {
     // Base implementation - derived classes should override
 }
 
@@ -122,7 +122,7 @@ int PriceOscillator::getMinPeriod() const {
     return std::max(params.period1, params.period2);
 }
 
-void PriceOscillator::once(int start, int end) {
+void PriceOscillator::once(int /*start*/, int /*end*/) {
     if (datas.empty() || !datas[0]->lines) return;
     
     // Get correct line index - for DataSeries, use close (index 4)
@@ -507,7 +507,7 @@ void PercentagePriceOscillator::next() {
     }
 }
 
-void PercentagePriceOscillator::once(int start, int end) {
+void PercentagePriceOscillator::once(int /*start*/, int /*end*/) {
     if (datas.empty() || !datas[0]->lines) return;
     
     // Get correct line index - for DataSeries, use close (index 4)

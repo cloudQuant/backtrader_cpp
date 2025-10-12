@@ -266,7 +266,7 @@ void MACD::next() {
             } else if (macd_count == static_cast<size_t>(params.period_signal) && first_signal_) {
                 // Calculate SMA seed for signal line using internally calculated MACD values
                 // This happens at data point period_me2 + period_signal - 1
-                double sma_sum = macd_value;  // Current MACD value
+                [[maybe_unused]] double sma_sum = macd_value;  // Current MACD value
                 // Need to track previous MACD values for SMA seed calculation
                 // For now, use the current value as an approximation
                 signal_value_ = macd_value;
@@ -352,7 +352,7 @@ void MACD::once(int start, int end) {
     size_t start_idx = (start == 0 && effective_size > 1 && std::isnan(close_array[0])) ? 1 : start;
     
     // If we're skipping the initial NaN, adjust the data size accordingly
-    size_t effective_data_size = (start_idx == 1) ? effective_size - 1 : effective_size;
+    [[maybe_unused]] size_t effective_data_size = (start_idx == 1) ? effective_size - 1 : effective_size;
     
     // Calculate EMAs for entire dataset
     // Use SMA as seed for first EMA values (standard approach)
@@ -448,7 +448,7 @@ void MACD::once(int start, int end) {
     size_t signal_start_idx = macd_start_idx + params.period_signal - 1;  // Index 33 for signal period 9
     
     // Fill buffers - account for initial buffer NaN from reset()
-    bool buffer_has_initial_nan = (macd_buffer->array().size() == 1);
+    [[maybe_unused]] bool buffer_has_initial_nan = (macd_buffer->array().size() == 1);
     
     for (size_t i = start_idx; i < effective_size; ++i) {
         // We already adjusted the loop start to skip initial NaN if necessary

@@ -87,9 +87,9 @@ public:
     
     // Data operations
     virtual bool haslivedata() const { return false; }
-    virtual void do_extend(bool value) {}
-    virtual bool do_backfill_at(std::chrono::system_clock::time_point datetime, int size) { return false; }
-    virtual bool do_backfill(int size) { return false; }
+    virtual void do_extend(bool /*value*/) {}
+    virtual bool do_backfill_at(std::chrono::system_clock::time_point /*datetime*/, int /*size*/) { return false; }
+    virtual bool do_backfill(int /*size*/) { return false; }
     
     // Filter operations
     void addfilter(std::function<bool(std::shared_ptr<AbstractDataBase>)> filter);
@@ -214,7 +214,7 @@ public:
     
 protected:
     bool _load() override;
-    virtual bool _loadline(const std::vector<std::string>& linetokens) { return false; }
+    virtual bool _loadline(const std::vector<std::string>& /*linetokens*/) { return false; }
     
     // CSV parsing
     std::vector<std::string> parse_csv_line(const std::string& line);

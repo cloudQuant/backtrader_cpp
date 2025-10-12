@@ -128,7 +128,7 @@ void ZeroLagExponentialMovingAverage::next() {
     size_t current_size = zlema_line->size();
     
     // Check if we have enough data
-    if (data_line->size() < lag_ + 1) {
+    if (data_line->size() < static_cast<size_t>(lag_ + 1)) {
         zlema_line->append(std::numeric_limits<double>::quiet_NaN());
         return;
     }
@@ -141,10 +141,10 @@ void ZeroLagExponentialMovingAverage::next() {
     // Calculate EMA of zero-lag data
     double alpha = 2.0 / (params.period + 1.0);
     
-    if (current_size < params.period) {
+    if (static_cast<int>(current_size) < params.period) {
         // Not enough data for EMA yet, just store the value
         zlema_line->append(zl_data);
-    } else if (current_size == params.period) {
+    } else if (static_cast<int>(current_size) == params.period) {
         // Calculate initial SMA as seed for EMA
         double sum = zl_data;  // Include current value
         for (int i = 1; i < params.period; ++i) {
@@ -163,7 +163,7 @@ void ZeroLagExponentialMovingAverage::next() {
     }
 }
 
-void ZeroLagExponentialMovingAverage::once(int start, int end) {
+void ZeroLagExponentialMovingAverage::once(int /*start*/, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
     // Get the appropriate data line

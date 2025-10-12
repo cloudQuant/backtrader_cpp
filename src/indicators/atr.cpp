@@ -325,7 +325,7 @@ void AverageTrueRange::next() {
     atr_line->set(0, atr_value);
 }
 
-void AverageTrueRange::once(int start, int end) {
+void AverageTrueRange::once(int /*start*/, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto high_line = datas[0]->lines->getline(2);  // high

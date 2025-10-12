@@ -88,15 +88,15 @@ public:
     bool _tradehistoryon = false;
     
     // Notification methods
-    virtual void notify_order(std::shared_ptr<Order> order) {}
-    virtual void notify_trade(std::shared_ptr<Trade> trade) {}
-    virtual void notify_cashvalue(double cash, double value) {}
-    virtual void notify_fund(double cash, double value, double fundvalue, double shares) {}
-    virtual void notify_store(int status, double data) {}
+    virtual void notify_order(std::shared_ptr<Order> /*order*/) {}
+    virtual void notify_trade(std::shared_ptr<Trade> /*trade*/) {}
+    virtual void notify_cashvalue(double /*cash*/, double /*value*/) {}
+    virtual void notify_fund(double /*cash*/, double /*value*/, double /*fundvalue*/, double /*shares*/) {}
+    virtual void notify_store(int /*status*/, double /*data*/) {}
     
     // Overloaded notification methods for const reference compatibility
-    virtual void notify_order(const Order& order) {}
-    virtual void notify_trade(const Trade& trade) {}
+    virtual void notify_order(const Order& /*order*/) {}
+    virtual void notify_trade(const Trade& /*trade*/) {}
     
     // Strategy lifecycle methods
     virtual void init() {}

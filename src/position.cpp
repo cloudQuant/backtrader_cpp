@@ -105,7 +105,7 @@ Position& Position::operator+=(const Position& other) {
     return *this;
 }
 
-void Position::_calculate_update_values(double new_size, double new_price) {
+void Position::_calculate_update_values(double new_size, double /*new_price*/) {
     // Calculate what was opened and closed in this update
     if (size > 0.0) {
         if (new_size > size) {

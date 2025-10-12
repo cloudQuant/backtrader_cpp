@@ -32,13 +32,13 @@ void Cerebro::adddata(std::shared_ptr<LineSeries> data, const std::string& name)
     std::cerr << "Cerebro::adddata - datas_ now has " << datas_.size() << " data feeds" << std::endl;
 }
 
-void Cerebro::resampledata(std::shared_ptr<DataSeries> data, int timeframe, int compression) {
+void Cerebro::resampledata(std::shared_ptr<DataSeries> data, int /*timeframe*/, int /*compression*/) {
     // This would implement data resampling
     // For now, just add the data as-is
     adddata(data);
 }
 
-void Cerebro::replaydata(std::shared_ptr<DataSeries> data, int timeframe, int compression) {
+void Cerebro::replaydata(std::shared_ptr<DataSeries> data, int /*timeframe*/, int /*compression*/) {
     // This would implement data replay
     // For now, just add the data as-is
     adddata(data);
@@ -52,13 +52,13 @@ std::shared_ptr<BrokerBase> Cerebro::getbroker() const {
     return broker_;
 }
 
-void Cerebro::setcash(double cash) {
+void Cerebro::setcash(double /*cash*/) {
     if (broker_) {
         // broker_->setcash(cash);
     }
 }
 
-void Cerebro::setcommission(double commission, double margin, double mult) {
+void Cerebro::setcommission(double /*commission*/, double /*margin*/, double /*mult*/) {
     if (broker_) {
         // broker_->setcommission(commission, margin, mult);
     }
@@ -80,7 +80,7 @@ void Cerebro::addtimer(std::shared_ptr<Timer> timer) {
     timers_.push_back(timer);
 }
 
-std::vector<std::shared_ptr<Strategy>> Cerebro::run(int maxcpus, bool preload, bool runonce) {
+std::vector<std::shared_ptr<Strategy>> Cerebro::run(int /*maxcpus*/, bool preload, bool runonce) {
     std::cerr << "Cerebro::run() - entry" << std::endl;
     // Clear previous runs
     strategies_.clear();
@@ -170,7 +170,7 @@ std::vector<std::shared_ptr<Strategy>> Cerebro::run(int maxcpus, bool preload, b
 }
 
 std::vector<OptReturn> Cerebro::optstrategy(
-    std::function<std::shared_ptr<Strategy>()> strategy_factory,
+    std::function<std::shared_ptr<Strategy>()> /*strategy_factory*/,
     const std::map<std::string, std::vector<double>>& param_ranges) {
     
     std::vector<OptReturn> results;
@@ -185,7 +185,7 @@ std::vector<OptReturn> Cerebro::optstrategy(
     return results;
 }
 
-void Cerebro::plot(const std::string& style) {
+void Cerebro::plot(const std::string& /*style*/) {
     std::cout << "Plotting not implemented yet" << std::endl;
 }
 
@@ -282,7 +282,7 @@ void Cerebro::_setup_writers() {
 void Cerebro::_preload_data() {
     // This would preload all data feeds
     // For now, assume data is already loaded
-    for (auto& data : datas_) {
+    for ([[maybe_unused]] auto& data : datas_) {
         // data->preload();
     }
 }
@@ -468,11 +468,11 @@ void Cerebro::_run_next_mode() {
 
 void Cerebro::_cleanup() {
     // Cleanup after run
-    for (auto& observer : observers_) {
+    for ([[maybe_unused]] auto& observer : observers_) {
         // observer->stop();
     }
     
-    for (auto& analyzer : analyzers_) {
+    for ([[maybe_unused]] auto& analyzer : analyzers_) {
         // analyzer->stop();
     }
 }
@@ -503,7 +503,7 @@ void Cerebro::_brokernotify() {
     }
 }
 
-OptReturn Cerebro::_single_run(const std::map<std::string, double>& params) {
+OptReturn Cerebro::_single_run(const std::map<std::string, double>& /*params*/) {
     // This would run a single optimization iteration
     // For now, return a dummy result
     OptReturn result;

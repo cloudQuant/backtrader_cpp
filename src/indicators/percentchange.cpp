@@ -86,7 +86,7 @@ void PercentChange::calculate() {
     
     // Get current positions
     int data_idx = linebuf->get_idx();
-    int pct_idx = pct_buffer->get_idx();
+    [[maybe_unused]] int pct_idx = pct_buffer->get_idx();
     
     // Get data size
     size_t data_size = linebuf->array().size();

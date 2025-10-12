@@ -110,7 +110,7 @@ void TimeReturn::next() {
     last_value_ = current_value_;
 }
 
-void TimeReturn::notify_fund(double cash, double value, double fundvalue, double shares) {
+void TimeReturn::notify_fund(double cash, double value, double fundvalue, double /*shares*/) {
     notify_fund_call_count_++;
     
     std::cerr << "TimeReturn::notify_fund() called - cash=" << cash 

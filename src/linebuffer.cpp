@@ -179,7 +179,7 @@ void LineBuffer::_makebinding(double value) {
     }
 }
 
-void LineBuffer::_checkbounds(int index) const {
+void LineBuffer::_checkbounds(int /*index*/) const {
     // Bounds checking is handled in operator[] implementation
     // This is a placeholder for additional validation if needed
 }
@@ -291,7 +291,7 @@ std::shared_ptr<LineActions> LineActions::abs_action() const {
     );
 }
 
-std::shared_ptr<LineActions> LineActions::pow_action(double exponent) const {
+std::shared_ptr<LineActions> LineActions::pow_action(double /*exponent*/) const {
     auto result = std::make_shared<LinesOperation>(
         std::const_pointer_cast<LineActions>(shared_from_this()),
         LinesOperation::Pow
@@ -316,7 +316,7 @@ std::shared_ptr<LineActions> LineActions::operator()(int period) const {
 LineNum::LineNum(double value) : LineActions(), value_(value) {
 }
 
-double LineNum::operator[](int index) const {
+double LineNum::operator[](int /*index*/) const {
     return value_;
 }
 
@@ -374,7 +374,7 @@ double LinesOperation::operator[](int index) const {
     }
 }
 
-void LinesOperation::set(int index, double value) {
+void LinesOperation::set(int /*index*/, double /*value*/) {
     // Operations are read-only
     throw std::runtime_error("Cannot set values on operation results");
 }

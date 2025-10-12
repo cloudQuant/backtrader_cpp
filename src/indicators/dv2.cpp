@@ -111,22 +111,22 @@ void DV2::next() {
     chl_values_.push_back(chl);
     
     // Calculate DVU (moving average of CHL)
-    if (chl_values_.size() >= params.maperiod) {
+    if (chl_values_.size() >= static_cast<size_t>(params.maperiod)) {
         // Calculate SMA of last maperiod CHL values
         double sum = 0.0;
         int start_idx = std::max(0, static_cast<int>(chl_values_.size()) - params.maperiod);
-        for (int i = start_idx; i < chl_values_.size(); ++i) {
+        for (int i = start_idx; static_cast<size_t>(i) < chl_values_.size(); ++i) {
             sum += chl_values_[i];
         }
         double dvu = sum / params.maperiod;
         dvu_values_.push_back(dvu);
         
         // Calculate percent rank of DVU if we have enough values
-        if (dvu_values_.size() >= params.period) {
+        if (dvu_values_.size() >= static_cast<size_t>(params.period)) {
             // Get the period data for percent rank calculation
             std::vector<double> period_data;
             int pr_start_idx = std::max(0, static_cast<int>(dvu_values_.size()) - params.period);
-            for (int i = pr_start_idx; i < dvu_values_.size(); ++i) {
+            for (int i = pr_start_idx; static_cast<size_t>(i) < dvu_values_.size(); ++i) {
                 period_data.push_back(dvu_values_[i]);
             }
             
@@ -149,10 +149,10 @@ void DV2::next() {
     }
     
     // Keep only necessary history
-    if (chl_values_.size() > params.maperiod + params.period) {
+    if (chl_values_.size() > static_cast<size_t>(params.maperiod + params.period)) {
         chl_values_.erase(chl_values_.begin());
     }
-    if (dvu_values_.size() > params.period) {
+    if (dvu_values_.size() > static_cast<size_t>(params.period)) {
         dvu_values_.erase(dvu_values_.begin());
     }
 }
@@ -171,7 +171,7 @@ void DV2::once(int start, int end) {
     // Reset the buffer for fresh calculation
     dv2_buffer->reset();
     
-    int data_size = end - start;  // Use the actual range, not end
+    [[maybe_unused]] int data_size = end - start;  // Use the actual range, not end
     
     // LineBuffer starts with a NaN value after reset(), so we need to track if we've set the first real value
     bool first_value_set = false;
@@ -195,7 +195,7 @@ void DV2::once(int start, int end) {
     
     // Calculate DVU values
     std::vector<double> all_dvu_values;
-    for (int i = params.maperiod - 1; i < all_chl_values.size(); ++i) {
+    for (int i = params.maperiod - 1; static_cast<size_t>(i) < all_chl_values.size(); ++i) {
         double sum = 0.0;
         for (int j = 0; j < params.maperiod; ++j) {
             sum += all_chl_values[i - j];

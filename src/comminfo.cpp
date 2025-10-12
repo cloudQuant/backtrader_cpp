@@ -27,7 +27,7 @@ double CommInfo::getcommissioninfo(double size, double price) const {
     return getcommission(size, price);
 }
 
-double CommInfo::getmargin(double price) const {
+double CommInfo::getmargin(double /*price*/) const {
     if (stocklike) {
         return 0.0; // No margin for stocks
     }
@@ -97,7 +97,7 @@ double CommInfo::cashadjust(double size, double price, double newprice) const {
     return profitandloss(size, price, newprice);
 }
 
-double CommInfo::get_credit_interest(double data, double pos, double dt) const {
+double CommInfo::get_credit_interest(double /*data*/, double /*pos*/, double /*dt*/) const {
     // Placeholder for interest calculation
     return 0.0;
 }
@@ -136,7 +136,7 @@ std::string CommInfo::to_string() const {
     return oss.str();
 }
 
-double CommInfo::_getcommission(double size, double price, bool pseudoexec) const {
+double CommInfo::_getcommission(double size, double price, bool /*pseudoexec*/) const {
     if (size == 0.0 || price <= 0.0) {
         return 0.0;
     }
@@ -197,7 +197,7 @@ double CommInfoFutures::getcommission(double size, double price) const {
     return _getcommission(size, price, false);
 }
 
-double CommInfoFutures::getmargin(double price) const {
+double CommInfoFutures::getmargin(double /*price*/) const {
     return margin * mult;
 }
 
@@ -215,7 +215,7 @@ double CommInfoForex::getcommission(double size, double price) const {
     return _getcommission(size, price, false);
 }
 
-double CommInfoForex::getmargin(double price) const {
+double CommInfoForex::getmargin(double /*price*/) const {
     if (leverage <= 0.0) {
         return margin * mult;
     }

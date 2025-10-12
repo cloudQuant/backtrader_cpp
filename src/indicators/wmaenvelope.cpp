@@ -214,7 +214,7 @@ void WMAEnvelope::next() {
     calculate();
 }
 
-void WMAEnvelope::once(int start, int end) {
+void WMAEnvelope::once(int /*start*/, int /*end*/) {
     // Create WMA if not already created (for default constructor case)
     if (!wma_ && !datas.empty() && datas[0]) {
         wma_ = std::make_shared<WMA>(datas[0], params.period);

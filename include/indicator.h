@@ -68,16 +68,24 @@ public:
     }
     
     // Get a specific line by index - override base class method
+    // Note: Envelope classes overload getLine with int parameter - this is intentional
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Woverloaded-virtual"
+#endif
     std::shared_ptr<LineSingle> getLine(size_t idx = 0) const override;
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic pop
+#endif
     
 protected:
     // Override these methods to implement the indicator logic
     virtual void prenext() override {}
     virtual void nextstart() override { next(); }
     virtual void next() override {}
-    virtual void preonce(int start, int end) override {}
+    virtual void preonce(int /*start*/, int /*end*/) override {}
     virtual void oncestart(int start, int end) override { once(start, end); }
-    virtual void once(int start, int end) override {}
+    virtual void once(int /*start*/, int /*end*/) override {}
 };
 
 // Base template for creating indicators with specific line configurations

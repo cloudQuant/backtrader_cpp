@@ -131,7 +131,7 @@ void RSI::next() {
     prev_value_ = current_value;
 }
 
-void RSI::once(int start, int end) {
+void RSI::once(int /*start*/, int /*end*/) {
     if (!data || data->lines->size() == 0) {
         return;
     }
@@ -157,7 +157,7 @@ void RSI::once(int start, int end) {
         start_idx = 1;
     }
     
-    if (prices.size() - start_idx <= period) {
+    if (prices.size() - start_idx <= static_cast<size_t>(period)) {
         return;
     }
     
@@ -190,7 +190,7 @@ void RSI::once(int start, int end) {
     
     // Calculate RSI for each valid position
     for (size_t i = 0; i < updays.size(); ++i) {
-        if (i < period - 1) {
+        if (i < static_cast<size_t>(period - 1)) {
             // Not enough data yet for RSI
             continue;
         }

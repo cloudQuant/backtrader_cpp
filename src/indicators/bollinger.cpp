@@ -64,7 +64,7 @@ void BollingerBands::setup_lines() {
     
 }
 
-double BollingerBands::calculate_sma(int period, int current_index) const {
+double BollingerBands::calculate_sma(int period, int /*current_index*/) const {
     if (datas.empty() || !datas[0]->lines) return 0.0;
     
     // Use close price (index 3) for OHLC data, or primary line (index 0) for simple data
@@ -99,7 +99,7 @@ double BollingerBands::calculate_sma(int period, int current_index) const {
     return sum / period;
 }
 
-double BollingerBands::calculate_stddev(int period, int current_index, double mean) const {
+double BollingerBands::calculate_stddev(int period, int /*current_index*/, double mean) const {
     if (datas.empty() || !datas[0]->lines) return 0.0;
     
     // Use close price (index 3) for OHLC data, or primary line (index 0) for simple data

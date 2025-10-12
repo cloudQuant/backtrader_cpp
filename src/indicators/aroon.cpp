@@ -46,7 +46,7 @@ int AroonBase::find_highest_index(int period) {
     if (datas.empty() || !datas[0]->lines) return 0;
     
     auto high_line = datas[0]->lines->getline(2); // High is line 2 in SimpleTestDataSeries
-    if (!high_line || high_line->size() < period) return 0;
+    if (!high_line || high_line->size() < static_cast<size_t>(period)) return 0;
     
     double highest = std::numeric_limits<double>::lowest();
     int highest_idx = 0;
@@ -66,7 +66,7 @@ int AroonBase::find_lowest_index(int period) {
     if (datas.empty() || !datas[0]->lines) return 0;
     
     auto low_line = datas[0]->lines->getline(3); // Low is line 3 in SimpleTestDataSeries
-    if (!low_line || low_line->size() < period) return 0;
+    if (!low_line || low_line->size() < static_cast<size_t>(period)) return 0;
     
     double lowest = std::numeric_limits<double>::max();
     int lowest_idx = 0;
@@ -141,7 +141,7 @@ void AroonBase::calculate_lines_at_position(int position) {
         up_value_ = 100.0 * (params.period - 1 - highest_idx) / (params.period - 1);
         if (lines && lines->size() > 0) {
             auto up_line = lines->getline(0);
-            if (up_line && position < up_line->size()) {
+            if (up_line && static_cast<size_t>(position) < up_line->size()) {
                 up_line->set(position, up_value_);
             }
         }
@@ -152,7 +152,7 @@ void AroonBase::calculate_lines_at_position(int position) {
         down_value_ = 100.0 * (params.period - 1 - lowest_idx) / (params.period - 1);
         if (lines && lines->size() > 1) {
             auto down_line = lines->getline(1);
-            if (down_line && position < down_line->size()) {
+            if (down_line && static_cast<size_t>(position) < down_line->size()) {
                 down_line->set(position, down_value_);
             }
         }
@@ -168,9 +168,9 @@ void AroonBase::set_nan_values_at_position(int position) {
         if (line) {
             // If line is a LineBuffer, we can append
             auto buffer = std::dynamic_pointer_cast<LineBuffer>(line);
-            if (buffer && buffer->size() == position) {
+            if (buffer && buffer->size() == static_cast<size_t>(position)) {
                 buffer->append(std::numeric_limits<double>::quiet_NaN());
-            } else if (position < line->size()) {
+            } else if (static_cast<size_t>(position) < line->size()) {
                 line->set(position, std::numeric_limits<double>::quiet_NaN());
             }
         }
@@ -837,7 +837,7 @@ void AroonOscillator::calculate() {
     calculate_lines();
 }
 
-void AroonOscillator::calculate_lines_at_position(int position) {
+void AroonOscillator::calculate_lines_at_position(int /*position*/) {
     // Simple position-based calculation for compatibility
     calculate_lines();
 }

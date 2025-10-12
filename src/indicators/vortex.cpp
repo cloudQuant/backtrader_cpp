@@ -87,7 +87,7 @@ void Vortex::next() {
     // Current values
     double high0 = (*high_line)[0];
     double low0 = (*low_line)[0];
-    double close0 = (*close_line)[0];
+    [[maybe_unused]] double close0 = (*close_line)[0];
     
     // Previous values
     double high1 = (*high_line)[-1];
@@ -112,7 +112,7 @@ void Vortex::next() {
     tr_values_.push_back(tr);
     
     // Keep only the period we need
-    if (vm_plus_values_.size() > params.period) {
+    if (vm_plus_values_.size() > static_cast<size_t>(params.period)) {
         vm_plus_values_.erase(vm_plus_values_.begin());
         vm_minus_values_.erase(vm_minus_values_.begin());
         tr_values_.erase(tr_values_.begin());
@@ -123,7 +123,7 @@ void Vortex::next() {
     auto vi_minus_line = std::dynamic_pointer_cast<LineBuffer>(lines->getline(vi_minus));
     
     if (vi_plus_line && vi_minus_line) {
-        if (vm_plus_values_.size() >= params.period) {
+        if (vm_plus_values_.size() >= static_cast<size_t>(params.period)) {
             double sum_vm_plus = get_sum_vm_plus(params.period);
             double sum_vm_minus = get_sum_vm_minus(params.period);
             double sum_tr = get_sum_tr(params.period);
@@ -161,7 +161,7 @@ void Vortex::once(int start, int end) {
         if (i > 0) { // Need previous values
             double high0 = (*high_line)[i];
             double low0 = (*low_line)[i];
-            double close0 = (*close_line)[i];
+            [[maybe_unused]] double close0 = (*close_line)[i];
             
             double high1 = (*high_line)[i - 1];
             double low1 = (*low_line)[i - 1];
@@ -200,7 +200,7 @@ void Vortex::once(int start, int end) {
             
             for (int j = 0; j < params.period; ++j) {
                 int data_idx = idx - j;
-                if (data_idx >= 0 && data_idx < all_vm_plus.size()) {
+                if (data_idx >= 0 && static_cast<size_t>(data_idx) < all_vm_plus.size()) {
                     sum_vm_plus += all_vm_plus[data_idx];
                     sum_vm_minus += all_vm_minus[data_idx];
                     sum_tr += all_tr[data_idx];
@@ -222,7 +222,7 @@ void Vortex::once(int start, int end) {
 }
 
 double Vortex::get_sum_vm_plus(int period) {
-    if (vm_plus_values_.size() < period) return 0.0;
+    if (vm_plus_values_.size() < static_cast<size_t>(period)) return 0.0;
     
     double sum = 0.0;
     int start_idx = std::max(0, static_cast<int>(vm_plus_values_.size()) - period);
@@ -233,7 +233,7 @@ double Vortex::get_sum_vm_plus(int period) {
 }
 
 double Vortex::get_sum_vm_minus(int period) {
-    if (vm_minus_values_.size() < period) return 0.0;
+    if (vm_minus_values_.size() < static_cast<size_t>(period)) return 0.0;
     
     double sum = 0.0;
     int start_idx = std::max(0, static_cast<int>(vm_minus_values_.size()) - period);
@@ -244,7 +244,7 @@ double Vortex::get_sum_vm_minus(int period) {
 }
 
 double Vortex::get_sum_tr(int period) {
-    if (tr_values_.size() < period) return 0.0;
+    if (tr_values_.size() < static_cast<size_t>(period)) return 0.0;
     
     double sum = 0.0;
     int start_idx = std::max(0, static_cast<int>(tr_values_.size()) - period);

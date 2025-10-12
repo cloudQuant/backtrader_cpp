@@ -8,18 +8,17 @@ namespace backtrader {
 namespace indicators {
 
 // ZeroLagIndicator implementation
-ZeroLagIndicator::ZeroLagIndicator() : Indicator(), data_source_(nullptr), ema_initialized_(false) {
+ZeroLagIndicator::ZeroLagIndicator() : Indicator(), ema_value_(0.0), ema_initialized_(false), data_source_(nullptr) {
     setup_lines();
     _minperiod(params.period);
     
     // Calculate alpha values
     alpha_ = 2.0 / (params.period + 1.0);
     alpha1_ = 1.0 - alpha_;
-    ema_value_ = 0.0;
 }
 
 ZeroLagIndicator::ZeroLagIndicator(std::shared_ptr<LineSeries> data_source, int period) 
-    : Indicator(), data_source_(data_source), ema_initialized_(false) {
+    : Indicator(), ema_value_(0.0), ema_initialized_(false), data_source_(data_source) {
     params.period = period;
     setup_lines();
     _minperiod(params.period);
@@ -27,7 +26,6 @@ ZeroLagIndicator::ZeroLagIndicator(std::shared_ptr<LineSeries> data_source, int 
     // Calculate alpha values
     alpha_ = 2.0 / (params.period + 1.0);
     alpha1_ = 1.0 - alpha_;
-    ema_value_ = 0.0;
     
     // Set up data connection - IMPORTANT!
     if (data_source) {
@@ -37,7 +35,7 @@ ZeroLagIndicator::ZeroLagIndicator(std::shared_ptr<LineSeries> data_source, int 
 }
 
 ZeroLagIndicator::ZeroLagIndicator(std::shared_ptr<DataSeries> data_source, int period) 
-    : Indicator(), data_source_(nullptr), ema_initialized_(false) {
+    : Indicator(), ema_value_(0.0), ema_initialized_(false), data_source_(nullptr) {
     params.period = period;
     setup_lines();
     _minperiod(params.period);
@@ -45,7 +43,6 @@ ZeroLagIndicator::ZeroLagIndicator(std::shared_ptr<DataSeries> data_source, int 
     // Calculate alpha values
     alpha_ = 2.0 / (params.period + 1.0);
     alpha1_ = 1.0 - alpha_;
-    ema_value_ = 0.0;
     
     // Set up data connection
     auto lineseries = std::dynamic_pointer_cast<LineSeries>(data_source);

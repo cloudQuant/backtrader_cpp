@@ -177,7 +177,7 @@ std::vector<std::string> OHLCDateTime::_get_line_names() const {
 }
 
 // SimpleFilterWrapper implementation
-SimpleFilterWrapper::SimpleFilterWrapper(std::shared_ptr<DataSeries> data, FilterFunc filter)
+SimpleFilterWrapper::SimpleFilterWrapper(std::shared_ptr<DataSeries> /*data*/, FilterFunc filter)
     : filter_(filter) {
 }
 

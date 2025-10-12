@@ -101,7 +101,8 @@ TEST(OriginalTests, Stochastic_Manual) {
         if (!k_buffer->array().empty()) {
             std::cout << "Last K value: " << k_buffer->array().back() << std::endl;
             std::cout << "First few K values: ";
-            for (size_t i = 0; i < std::min(5UL, k_buffer->array().size()); ++i) {
+            size_t k_limit = std::min(size_t(5), k_buffer->array().size());
+            for (size_t i = 0; i < k_limit; ++i) {
                 std::cout << k_buffer->array()[i] << " ";
             }
             std::cout << std::endl;
@@ -109,7 +110,8 @@ TEST(OriginalTests, Stochastic_Manual) {
         if (!d_buffer->array().empty()) {
             std::cout << "Last D value: " << d_buffer->array().back() << std::endl;
             std::cout << "First few D values: ";
-            for (size_t i = 0; i < std::min(5UL, d_buffer->array().size()); ++i) {
+            size_t d_limit = std::min(size_t(5), d_buffer->array().size());
+            for (size_t i = 0; i < d_limit; ++i) {
                 std::cout << d_buffer->array()[i] << " ";
             }
             std::cout << std::endl;

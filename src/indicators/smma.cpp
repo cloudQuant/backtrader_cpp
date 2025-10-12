@@ -219,7 +219,7 @@ void SmoothedMovingAverage::prenext() {
     seed_values_.push_back((*data_line)[0]);
     
     // Keep only the period we need
-    if (seed_values_.size() > params.period) {
+    if (seed_values_.size() > static_cast<size_t>(params.period)) {
         seed_values_.erase(seed_values_.begin());
     }
     
@@ -233,7 +233,7 @@ void SmoothedMovingAverage::nextstart() {
     if (!smma_line) return;
     
     // Calculate initial SMMA as simple average of first period values
-    if (seed_values_.size() >= params.period) {
+    if (seed_values_.size() >= static_cast<size_t>(params.period)) {
         double sum = std::accumulate(seed_values_.begin(), seed_values_.end(), 0.0);
         prev_smma_ = sum / params.period;
         smma_line->set(0, prev_smma_);
@@ -272,7 +272,7 @@ void SmoothedMovingAverage::next() {
     prev_smma_ = smma_value;
 }
 
-void SmoothedMovingAverage::once(int start, int end) {
+void SmoothedMovingAverage::once(int /*start*/, int /*end*/) {
     std::shared_ptr<LineSingle> data_line;
     
     // Get data line - check line count first

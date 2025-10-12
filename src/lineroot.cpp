@@ -1,5 +1,16 @@
 #include "lineroot.h"
+
+// Suppress overloaded-virtual warnings from linebuffer.h
+// LineActions intentionally overrides LineRoot operators with different return types
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Woverloaded-virtual"
+#endif
 #include "linebuffer.h"
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic pop
+#endif
+
 #include <algorithm>
 #include <cmath>
 #include <stdexcept>
@@ -12,7 +23,7 @@ LineRoot::LineRoot()
     : _owner(nullptr), _opstage(0), _ltype(IndType::IndType), minperiod_(1), id_(next_id_++) {
 }
 
-LineRoot::LineRoot(size_t size, const std::string& name) 
+LineRoot::LineRoot(size_t /*size*/, const std::string& /*name*/) 
     : _owner(nullptr), _opstage(0), _ltype(IndType::IndType), minperiod_(1), id_(next_id_++) {
     // Basic constructor for test compatibility
     // Note: This constructor creates a basic LineRoot but it's not fully functional
@@ -33,51 +44,51 @@ void LineRoot::incminperiod(size_t minperiod) {
 }
 
 // Arithmetic operations - placeholders for now
-LineRoot* LineRoot::operator+(const LineRoot& other) const {
+LineRoot* LineRoot::operator+(const LineRoot& /*other*/) const {
     throw std::runtime_error("Arithmetic operations not implemented in base class");
 }
 
-LineRoot* LineRoot::operator-(const LineRoot& other) const {
+LineRoot* LineRoot::operator-(const LineRoot& /*other*/) const {
     throw std::runtime_error("Arithmetic operations not implemented in base class");
 }
 
-LineRoot* LineRoot::operator*(const LineRoot& other) const {
+LineRoot* LineRoot::operator*(const LineRoot& /*other*/) const {
     throw std::runtime_error("Arithmetic operations not implemented in base class");
 }
 
-LineRoot* LineRoot::operator/(const LineRoot& other) const {
+LineRoot* LineRoot::operator/(const LineRoot& /*other*/) const {
     throw std::runtime_error("Arithmetic operations not implemented in base class");
 }
 
-LineRoot* LineRoot::operator<(const LineRoot& other) const {
+LineRoot* LineRoot::operator<(const LineRoot& /*other*/) const {
     throw std::runtime_error("Comparison operations not implemented in base class");
 }
 
-LineRoot* LineRoot::operator<=(const LineRoot& other) const {
+LineRoot* LineRoot::operator<=(const LineRoot& /*other*/) const {
     throw std::runtime_error("Comparison operations not implemented in base class");
 }
 
-LineRoot* LineRoot::operator>(const LineRoot& other) const {
+LineRoot* LineRoot::operator>(const LineRoot& /*other*/) const {
     throw std::runtime_error("Comparison operations not implemented in base class");
 }
 
-LineRoot* LineRoot::operator>=(const LineRoot& other) const {
+LineRoot* LineRoot::operator>=(const LineRoot& /*other*/) const {
     throw std::runtime_error("Comparison operations not implemented in base class");
 }
 
-LineRoot* LineRoot::operator==(const LineRoot& other) const {
+LineRoot* LineRoot::operator==(const LineRoot& /*other*/) const {
     throw std::runtime_error("Comparison operations not implemented in base class");
 }
 
-LineRoot* LineRoot::operator!=(const LineRoot& other) const {
+LineRoot* LineRoot::operator!=(const LineRoot& /*other*/) const {
     throw std::runtime_error("Comparison operations not implemented in base class");
 }
 
-LineRoot* LineRoot::operator&&(const LineRoot& other) const {
+LineRoot* LineRoot::operator&&(const LineRoot& /*other*/) const {
     throw std::runtime_error("Logical operations not implemented in base class");
 }
 
-LineRoot* LineRoot::operator||(const LineRoot& other) const {
+LineRoot* LineRoot::operator||(const LineRoot& /*other*/) const {
     throw std::runtime_error("Logical operations not implemented in base class");
 }
 
@@ -93,7 +104,7 @@ LineRoot* LineRoot::abs() const {
     throw std::runtime_error("Math functions not implemented in base class");
 }
 
-LineRoot* LineRoot::pow(double exponent) const {
+LineRoot* LineRoot::pow(double /*exponent*/) const {
     throw std::runtime_error("Math functions not implemented in base class");
 }
 

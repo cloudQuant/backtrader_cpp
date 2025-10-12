@@ -160,7 +160,7 @@ void Ichimoku::next() {
     }
 }
 
-void Ichimoku::once(int start, int end) {
+void Ichimoku::once(int /*start*/, int /*end*/) {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto tenkan_buffer = std::dynamic_pointer_cast<LineBuffer>(lines->getline(tenkan_sen));

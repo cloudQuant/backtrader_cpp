@@ -96,11 +96,17 @@ public:
     
     // Action operations
     virtual void next() {}
-    virtual void once(int start, int end) {}
-    virtual void preonce(int start, int end) {}
-    virtual void oncestart(int start, int end) {}
+    virtual void once(int /*start*/, int /*end*/) {}
+    virtual void preonce(int /*start*/, int /*end*/) {}
+    virtual void oncestart(int /*start*/, int /*end*/) {}
     
-    // Arithmetic operations
+    // Arithmetic operations (note: these intentionally hide base class versions)
+    // These return std::shared_ptr<LineActions> instead of LineRoot* to support method chaining
+    // This is intentional and differs from the base class signature
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Woverloaded-virtual"
+#endif
     std::shared_ptr<LineActions> operator+(const LineActions& other) const;
     std::shared_ptr<LineActions> operator-(const LineActions& other) const;
     std::shared_ptr<LineActions> operator*(const LineActions& other) const;
@@ -125,6 +131,9 @@ public:
     // Delay operations
     std::shared_ptr<LineActions> delay(int period) const;
     std::shared_ptr<LineActions> operator()(int period) const;
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic pop
+#endif
 };
 
 class LineNum : public LineActions {

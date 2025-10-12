@@ -6,7 +6,7 @@ namespace backtrader {
 
 // AutoInfoClass implementation
 std::shared_ptr<AutoInfoClass> AutoInfoClass::_derive(
-    const std::string& name,
+    const std::string& /*name*/,
     const std::map<std::string, std::string>& info,
     const std::vector<std::shared_ptr<AutoInfoClass>>& otherbases,
     bool recurse) const {

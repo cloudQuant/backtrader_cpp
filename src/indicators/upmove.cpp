@@ -41,7 +41,7 @@ UpMove::UpMove(std::shared_ptr<DataSeries> data_source)
     }
 }
 
-UpMove::UpMove(std::shared_ptr<DataSeries> data_source, int period) 
+UpMove::UpMove(std::shared_ptr<DataSeries> data_source, int /*period*/) 
     : Indicator(), data_source_(std::dynamic_pointer_cast<LineSeries>(data_source)) {
     setup_lines();
     _minperiod(2);
@@ -238,7 +238,7 @@ DownMove::DownMove(std::shared_ptr<DataSeries> data_source)
     }
 }
 
-DownMove::DownMove(std::shared_ptr<DataSeries> data_source, int period) 
+DownMove::DownMove(std::shared_ptr<DataSeries> data_source, int /*period*/) 
     : Indicator(), data_source_(std::dynamic_pointer_cast<LineSeries>(data_source)) {
     setup_lines();
     _minperiod(2);
@@ -269,7 +269,7 @@ double DownMove::get(int ago) const {
     // ago=127 -> index 129
     if (buffer && ago >= 0) {
         int index = buffer->size() - 1 - ago;
-        if (index >= 0 && index < buffer->size()) {
+        if (index >= 0 && static_cast<size_t>(index) < buffer->size()) {
             return buffer->array()[index];
         }
     }

@@ -712,7 +712,7 @@ CrossOver::CrossOver() : Indicator(), data0_(nullptr), data1_(nullptr), upcross_
     _ltype = LineRoot::IndType::IndType;  // Ensure CrossOver is marked as an indicator
 }
 
-CrossOver::CrossOver(std::shared_ptr<LineActions> data0, std::shared_ptr<LineActions> data1) : Indicator(), data0_(nullptr), data1_(nullptr), upcross_(nullptr), downcross_(nullptr) {
+CrossOver::CrossOver(std::shared_ptr<LineActions> /*data0*/, std::shared_ptr<LineActions> /*data1*/) : Indicator(), data0_(nullptr), data1_(nullptr), upcross_(nullptr), downcross_(nullptr) {
     setup_lines();
     _minperiod(2); // Needs previous value to detect crossover
     _ltype = LineRoot::IndType::IndType;  // Ensure CrossOver is marked as an indicator
@@ -777,7 +777,7 @@ void CrossOver::add_data(std::shared_ptr<LineSeries> data) {
         }
         
         int data_minperiod = std::max(data0_minperiod, data1_minperiod);
-        if (data_minperiod > minperiod_) {
+        if (static_cast<size_t>(data_minperiod) > minperiod_) {
             _minperiod(data_minperiod);
         }
         

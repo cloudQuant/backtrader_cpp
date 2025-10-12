@@ -151,7 +151,7 @@ void UltimateOscillator::setup_lines() {
     }
 }
 
-double UltimateOscillator::calculate_buying_pressure(double high, double low, double close, double prev_close) {
+double UltimateOscillator::calculate_buying_pressure(double /*high*/, double low, double close, double prev_close) {
     // Buying Pressure = Close - True Low
     double true_low = std::min(low, prev_close);
     return close - true_low;
@@ -266,7 +266,7 @@ void UltimateOscillator::next() {
     }
 }
 
-void UltimateOscillator::once(int start, int end) {
+void UltimateOscillator::once(int /*start*/, int /*end*/) {
     // Try to get data source from either datas[0] or data member
     std::shared_ptr<LineSeries> data_source;
     if (!datas.empty() && datas[0] && datas[0]->lines) {

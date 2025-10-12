@@ -36,6 +36,12 @@ public:
     int _opstage;
     IndType _ltype;
     
+    // Note: These operators are intentionally overridden in derived classes with different return types
+    // to support method chaining. The overloaded-virtual warnings are expected and can be ignored.
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Woverloaded-virtual"
+#endif
     // Arithmetic operations
     virtual LineRoot* operator+(const LineRoot& other) const;
     virtual LineRoot* operator-(const LineRoot& other) const;
@@ -61,18 +67,21 @@ public:
     // Math functions
     virtual LineRoot* abs() const;
     virtual LineRoot* pow(double exponent) const;
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic pop
+#endif
     
     // Basic data operations (for compatibility)
     virtual void calculate() {}
     virtual void reset() {}
     
     // Forward/backward operations (default implementations for compatibility)
-    virtual void forward(double value) {}
-    virtual void forward(size_t size = 1) {}
-    virtual void backward(size_t size = 1) {}
-    virtual void rewind(size_t size = 1) {}
-    virtual void extend(size_t size = 1) {}
-    virtual void advance(size_t size = 1) {}
+    virtual void forward(double /*value*/) {}
+    virtual void forward(size_t /*size*/ = 1) {}
+    virtual void backward(size_t /*size*/ = 1) {}
+    virtual void rewind(size_t /*size*/ = 1) {}
+    virtual void extend(size_t /*size*/ = 1) {}
+    virtual void advance(size_t /*size*/ = 1) {}
     
     // Aliasing support
     bool aliased = false;
@@ -142,7 +151,15 @@ public:
     // Buffer operations
     virtual void forward(size_t size = 1) override;
     virtual void backward(size_t size = 1) override;
+    // Note: LineIterator overloads rewind - this is intentional
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Woverloaded-virtual"
+#endif
     virtual void rewind(size_t size = 1) override;
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic pop
+#endif
     virtual void extend(size_t size = 1) override;
     void reset() override;
     virtual void home();
@@ -152,7 +169,15 @@ public:
     // Binding operations
     virtual void addbinding(std::shared_ptr<LineSingle> binding);
     virtual void oncebinding();
+    // Note: LineIterator overloads bind2line with different signature - this is intentional
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Woverloaded-virtual"
+#endif
     virtual void bind2line(std::shared_ptr<LineSingle> binding);
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic pop
+#endif
     
     // Period operations
     void updateminperiod(size_t minperiod) override;

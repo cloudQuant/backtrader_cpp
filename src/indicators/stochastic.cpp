@@ -70,7 +70,7 @@ void StochasticBase::calculate() {
         current_size = line_buffer->get_idx() + 1;
     }
     
-    if (current_size < minperiod_) {
+    if (static_cast<int>(current_size) < minperiod_) {
         static int prenext_debug_count = 0;
         prenext_debug_count++;
         if (prenext_debug_count <= 5 && current_size >= 14) {
@@ -89,7 +89,7 @@ void StochasticBase::calculate() {
     }
 }
 
-void StochasticBase::once(int start, int end) {
+void StochasticBase::once(int /*start*/, int /*end*/) {
     // Base class does nothing - derived classes should override
 }
 
@@ -297,12 +297,12 @@ void StochasticFast::calculate_lines() {
     
     // Store k value for SMA calculation
     k_values_.push_back(k_value);
-    if (k_values_.size() > params.period_dfast) {
+    if (k_values_.size() > static_cast<size_t>(params.period_dfast)) {
         k_values_.erase(k_values_.begin());
     }
     
     // Calculate %D as SMA of %K
-    if (k_values_.size() >= params.period_dfast) {
+    if (k_values_.size() >= static_cast<size_t>(params.period_dfast)) {
         double sum = 0.0;
         for (double val : k_values_) {
             sum += val;
@@ -465,7 +465,7 @@ void Stochastic::calculate_lines() {
         // Check minimum period requirement
         // For %K line: period + period_dfast - 1
         // For %D line: period + period_dfast + period_dslow - 2
-        int k_min_period = params.period + params.period_dfast - 1;
+        [[maybe_unused]] int k_min_period = params.period + params.period_dfast - 1;
         int d_min_period = params.period + params.period_dfast + params.period_dslow - 2;
         
         // In streaming mode, calc_count should represent how many real data points we have
@@ -554,7 +554,7 @@ void Stochastic::calculate_lines() {
         
         // Store raw k value
         k_values_.push_back(raw_k);
-        if (k_values_.size() > params.period_dfast) {
+        if (k_values_.size() > static_cast<size_t>(params.period_dfast)) {
             k_values_.erase(k_values_.begin());
         }
         
@@ -571,7 +571,7 @@ void Stochastic::calculate_lines() {
         // Which means we need at least (period + period_dfast - 1) data points total
         // But we should wait for the full minimum period before outputting any values
         int slow_k_minperiod = params.period + params.period_dfast - 1;
-        if (k_values_.size() >= params.period_dfast && calc_count >= slow_k_minperiod) {
+        if (k_values_.size() >= static_cast<size_t>(params.period_dfast) && calc_count >= slow_k_minperiod) {
             double sum = 0.0;
             for (double val : k_values_) {
                 sum += val;
@@ -614,14 +614,14 @@ void Stochastic::calculate_lines() {
         // Store slow k for %D calculation
         if (!std::isnan(slow_k)) {
             d_values_.push_back(slow_k);
-            if (d_values_.size() > params.period_dslow) {
+            if (d_values_.size() > static_cast<size_t>(params.period_dslow)) {
                 d_values_.erase(d_values_.begin());
             }
         }
         
         // Calculate %D - need enough slow K values 
         double d_value = std::numeric_limits<double>::quiet_NaN();
-        if (d_values_.size() >= params.period_dslow && calc_count >= d_min_period) {
+        if (d_values_.size() >= static_cast<size_t>(params.period_dslow) && calc_count >= d_min_period) {
             double sum = 0.0;
             for (double val : d_values_) {
                 sum += val;
@@ -968,13 +968,13 @@ void StochasticFull::calculate_lines() {
     
     // Store raw k value
     k_values_.push_back(raw_k);
-    if (k_values_.size() > params.period_dfast) {
+    if (k_values_.size() > static_cast<size_t>(params.period_dfast)) {
         k_values_.erase(k_values_.begin());
     }
     
     // Calculate slow %K (smoothed) - this is what we output as %K
     double slow_k = std::numeric_limits<double>::quiet_NaN();
-    if (k_values_.size() >= params.period_dfast && current_idx >= params.period + params.period_dfast - 2) {
+    if (k_values_.size() >= static_cast<size_t>(params.period_dfast) && current_idx >= params.period + params.period_dfast - 2) {
         double sum = 0.0;
         for (double val : k_values_) {
             sum += val;
@@ -987,14 +987,14 @@ void StochasticFull::calculate_lines() {
     // Store slow k for %D calculation
     if (!std::isnan(slow_k)) {
         d_values_.push_back(slow_k);
-        if (d_values_.size() > params.period_dslow) {
+        if (d_values_.size() > static_cast<size_t>(params.period_dslow)) {
             d_values_.erase(d_values_.begin());
         }
     }
     
     // Calculate %D - SMA of slow %K
     double d_value = std::numeric_limits<double>::quiet_NaN();
-    if (d_values_.size() >= params.period_dslow && current_idx >= params.period + params.period_dfast + params.period_dslow - 3) {
+    if (d_values_.size() >= static_cast<size_t>(params.period_dslow) && current_idx >= params.period + params.period_dfast + params.period_dslow - 3) {
         double sum = 0.0;
         for (double val : d_values_) {
             sum += val;
@@ -1085,7 +1085,7 @@ void Stochastic::calculate() {
         // Check if this looks like batch mode: 
         // - high_buffer has much more data than k_buffer (indicating pre-loaded data)
         // - AND k_buffer has very few values (indicating we haven't started calculating)
-        if (high_buffer->array().size() > params.period * 2 && k_buffer->array().size() <= 1) {
+        if (high_buffer->array().size() > static_cast<size_t>(params.period * 2) && k_buffer->array().size() <= 1) {
             // This is likely batch mode - all data loaded at once
             is_streaming_mode = false;
         }
@@ -1111,7 +1111,7 @@ void Stochastic::calculate() {
             
             // Adjust for initial NaN if present
             bool has_initial_nan = (input_data_size > 0 && std::isnan(arr[0]));
-            int actual_data_count = has_initial_nan ? input_data_size - 1 : input_data_size;
+            [[maybe_unused]] int actual_data_count = has_initial_nan ? input_data_size - 1 : input_data_size;
             
             // Debug disabled
             // if (input_data_size >= 15 && input_data_size <= 20) {
@@ -1136,7 +1136,7 @@ void Stochastic::calculate() {
         
         // Batch mode - check if already calculated
         // high_buffer already obtained above
-        if (!is_streaming_mode && high_buffer && high_buffer->array().size() > params.period) {
+        if (!is_streaming_mode && high_buffer && high_buffer->array().size() > static_cast<size_t>(params.period)) {
             // Debug
             int input_data_size = static_cast<int>(high_buffer->array().size());
             if (input_data_size >= 15 && input_data_size <= 20) {
@@ -1244,7 +1244,7 @@ void Stochastic::calculate_stochastic_values(const std::vector<double>& high_arr
     // period + period_dfast + period_dslow - 2
     // With defaults: 14 + 3 + 3 - 2 = 18
     // But Python seems to use 18 as the minperiod
-    int min_period = params.period + params.period_dfast + params.period_dslow - 2;
+    [[maybe_unused]] int min_period = params.period + params.period_dfast + params.period_dslow - 2;
     
     // Step 1: Calculate raw %K values for each data point
     std::vector<double> raw_k_values;
@@ -1361,7 +1361,7 @@ void Stochastic::calculate_stochastic_values(const std::vector<double>& high_arr
     }
 }
 
-void Stochastic::once(int start, int end) {
+void Stochastic::once(int /*start*/, int /*end*/) {
     // For test framework constructor with separate high/low/close data sources
     if (datas.size() >= 3) {
         // Multi-datasource mode (test framework)

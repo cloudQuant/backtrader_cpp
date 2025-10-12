@@ -120,13 +120,21 @@ public:
     bool csv = false;
     
     // OHLCV accessor methods (virtual, default NaN - override in DataSeries)
-    virtual double datetime(int ago = 0) const { return 0.0; }
-    virtual double open(int ago = 0) const { return std::numeric_limits<double>::quiet_NaN(); }
-    virtual double high(int ago = 0) const { return std::numeric_limits<double>::quiet_NaN(); }
-    virtual double low(int ago = 0) const { return std::numeric_limits<double>::quiet_NaN(); }
-    virtual double close(int ago = 0) const { return std::numeric_limits<double>::quiet_NaN(); }
-    virtual double volume(int ago = 0) const { return 0.0; }
-    virtual double openinterest(int ago = 0) const { return 0.0; }
+    // Note: close() is overloaded in Strategy class with different signature - this is intentional
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Woverloaded-virtual"
+#endif
+    virtual double datetime(int /*ago*/ = 0) const { return 0.0; }
+    virtual double open(int /*ago*/ = 0) const { return std::numeric_limits<double>::quiet_NaN(); }
+    virtual double high(int /*ago*/ = 0) const { return std::numeric_limits<double>::quiet_NaN(); }
+    virtual double low(int /*ago*/ = 0) const { return std::numeric_limits<double>::quiet_NaN(); }
+    virtual double close(int /*ago*/ = 0) const { return std::numeric_limits<double>::quiet_NaN(); }
+    virtual double volume(int /*ago*/ = 0) const { return 0.0; }
+    virtual double openinterest(int /*ago*/ = 0) const { return 0.0; }
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic pop
+#endif
     
     // Forward method to advance the lines
     virtual void forward(size_t size = 1) override {
@@ -156,7 +164,7 @@ public:
     
     // Minimal implementation
     void next() {}
-    void once(int start, int end) {}
+    void once(int /*start*/, int /*end*/) {}
 };
 
 // Template class for creating Lines with specific line names

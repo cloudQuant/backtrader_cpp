@@ -12,7 +12,7 @@ namespace indicators {
 
 // Helper function to calculate WMA (Weighted Moving Average)
 static double calculateWMA(const std::vector<double>& data, int start, int end) {
-    if (start < 0 || end > data.size() || start >= end) {
+    if (start < 0 || static_cast<size_t>(end) > data.size() || start >= end) {
         return std::numeric_limits<double>::quiet_NaN();
     }
     
@@ -175,15 +175,15 @@ void HullMovingAverage::next() {
     int sqrt_period = static_cast<int>(std::sqrt(params.period));
     int min_required = params.period + sqrt_period - 1;
     
-    if (prices_.size() >= min_required) {
+    if (prices_.size() >= static_cast<size_t>(min_required)) {
         // Calculate WMA(period)
         int start_idx = prices_.size() - params.period;
-        double wma_period = calculateWMA(prices_, start_idx, prices_.size());
+        [[maybe_unused]] double wma_period = calculateWMA(prices_, start_idx, prices_.size());
         
         // Calculate WMA(period/2)
         int half_period = params.period / 2;
         start_idx = prices_.size() - half_period;
-        double wma_half = calculateWMA(prices_, start_idx, prices_.size());
+        [[maybe_unused]] double wma_half = calculateWMA(prices_, start_idx, prices_.size());
         
         // Calculate 2*WMA(period/2) - WMA(period)
         std::vector<double> diff_values;
@@ -210,7 +210,7 @@ void HullMovingAverage::next() {
         }
         
         // Apply final WMA with sqrt(period)
-        if (diff_values.size() == sqrt_period) {
+        if (diff_values.size() == static_cast<size_t>(sqrt_period)) {
             double hma_value = calculateWMA(diff_values, 0, diff_values.size());
             hma_line->set(0, hma_value);
         } else {
@@ -221,7 +221,7 @@ void HullMovingAverage::next() {
     }
     
     // Keep buffer manageable
-    if (prices_.size() > min_required + 10) {
+    if (prices_.size() > static_cast<size_t>(min_required + 10)) {
         prices_.erase(prices_.begin());
     }
 }
@@ -291,12 +291,12 @@ void HullMovingAverage::once(int start, int end) {
         point_data.reserve(period);
         
         for (int j = i - period + 1; j <= i; ++j) {
-            if (j >= 0 && j < data_array.size()) {
+            if (j >= 0 && static_cast<size_t>(j) < data_array.size()) {
                 point_data.push_back(data_array[j]);
             }
         }
         
-        if (point_data.size() != period) {
+        if (point_data.size() != static_cast<size_t>(period)) {
             hma_line->append(std::numeric_limits<double>::quiet_NaN());
             continue;
         }
@@ -312,12 +312,12 @@ void HullMovingAverage::once(int start, int end) {
                 wma_data.reserve(period);
                 
                 for (int m = k - period + 1; m <= k; ++m) {
-                    if (m >= 0 && m < data_array.size()) {
+                    if (m >= 0 && static_cast<size_t>(m) < data_array.size()) {
                         wma_data.push_back(data_array[m]);
                     }
                 }
                 
-                if (wma_data.size() == period) {
+                if (wma_data.size() == static_cast<size_t>(period)) {
                     // Calculate WMA(period)
                     double wma_period = calculateWMA(wma_data, 0, period);
                     
@@ -331,7 +331,7 @@ void HullMovingAverage::once(int start, int end) {
         }
         
         // Calculate final HMA value
-        if (diff_series.size() == sqrt_period) {
+        if (diff_series.size() == static_cast<size_t>(sqrt_period)) {
             double hma_value = calculateWMA(diff_series, 0, sqrt_period);
             hma_line->append(hma_value);
         } else {

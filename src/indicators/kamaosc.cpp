@@ -15,7 +15,7 @@ KAMAOscillator::KAMAOscillator() : Indicator() {
     _minperiod(params.period1 + 1);  // KAMA minperiod is period + 1
 }
 
-KAMAOscillator::KAMAOscillator(std::shared_ptr<LineSeries> data, int period1, int period2, int fast, int slow) 
+KAMAOscillator::KAMAOscillator(std::shared_ptr<LineSeries> data, int period1, int /*period2*/, int fast, int slow) 
     : Indicator() {
     // In Python, KAMAOsc is data - KAMA(data) with KAMA using period1
     // period2, fast, slow are used for KAMA parameters, not dual KAMA
@@ -40,7 +40,7 @@ KAMAOscillator::KAMAOscillator(std::shared_ptr<LineSeries> data, int period1, in
     }
 }
 
-KAMAOscillator::KAMAOscillator(std::shared_ptr<DataSeries> data, int period1, int period2, int fast, int slow) 
+KAMAOscillator::KAMAOscillator(std::shared_ptr<DataSeries> data, int period1, int /*period2*/, int fast, int slow) 
     : Indicator() {
     // In Python, KAMAOsc is data - KAMA(data) with KAMA using period1
     // period2, fast, slow are used for KAMA parameters, not dual KAMA
@@ -199,7 +199,7 @@ void KAMAOscillator::next() {
     }
 }
 
-void KAMAOscillator::once(int start, int end) {
+void KAMAOscillator::once(int /*start*/, int /*end*/) {
     // KAMAOsc in Python is created as: data - KAMA(data)
     // It's not the difference between two KAMAs!
     
@@ -263,7 +263,7 @@ void KAMAOscillator::once(int start, int end) {
         // Follow EMAOsc pattern: iterate through data array directly
         const auto& data_array = data_buffer->array();
         int effective_size = static_cast<int>(data_array.size());
-        int min_period = params.period1;
+        [[maybe_unused]] int min_period = params.period1;
         
         // Get KAMA line directly for easier access
         auto kama_line = kama1_->lines->getline(0);

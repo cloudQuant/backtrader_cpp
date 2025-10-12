@@ -733,7 +733,7 @@ void SMA::calculate() {
     }
     
     // Get the actual data size (not the current position)
-    size_t data_buflen = linebuf->buflen();
+    [[maybe_unused]] size_t data_buflen = linebuf->buflen();
     // std::cerr << "SMA::calculate() NEW #" << calc_count << " - data_buflen=" << data_buflen 
     //           << ", minperiod_=" << minperiod_ << std::endl;
     

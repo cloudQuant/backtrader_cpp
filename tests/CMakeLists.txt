@@ -9,37 +9,24 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
-# 查找GoogleTest - 跨平台兼容
-find_package(GTest QUIET)
-if(NOT GTest_FOUND)
-    # 尝试使用pkg-config查找GTest (适用于Linux)
-    find_package(PkgConfig)
-    if(PkgConfig_FOUND)
-        pkg_check_modules(GTEST gtest)
-        pkg_check_modules(GTEST_MAIN gtest_main)
-    endif()
+# 使用 Git Submodule 管理 GoogleTest
+set(GOOGLETEST_DIR "${CMAKE_SOURCE_DIR}/../external/googletest")
+
+if(EXISTS "${GOOGLETEST_DIR}/CMakeLists.txt")
+    message(STATUS "使用已存在的 GoogleTest submodule: ${GOOGLETEST_DIR}")
     
-    # 如果还是找不到，尝试手动查找
-    if(NOT GTEST_FOUND)
-        find_path(GTEST_INCLUDE_DIR gtest/gtest.h
-            PATHS /usr/include /usr/local/include /opt/homebrew/include)
-        find_library(GTEST_LIBRARY gtest
-            PATHS /usr/lib /usr/local/lib /opt/homebrew/lib)
-        find_library(GTEST_MAIN_LIBRARY gtest_main
-            PATHS /usr/lib /usr/local/lib /opt/homebrew/lib)
-        
-        if(GTEST_INCLUDE_DIR AND GTEST_LIBRARY AND GTEST_MAIN_LIBRARY)
-            set(GTEST_FOUND TRUE)
-            set(GTEST_INCLUDE_DIRS ${GTEST_INCLUDE_DIR})
-            set(GTEST_LIBRARIES ${GTEST_LIBRARY})
-            set(GTEST_MAIN_LIBRARIES ${GTEST_MAIN_LIBRARY})
-            message(STATUS "Found GTest manually: ${GTEST_LIBRARIES}")
-        else()
-            message(FATAL_ERROR "Could not find GTest. Please install it using:\n"
-                               "  Ubuntu: sudo apt-get install libgtest-dev\n"
-                               "  Mac: brew install googletest")
-        endif()
-    endif()
+    # For Windows: Prevent overriding the parent project's compiler/linker settings
+    set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+    
+    # 直接添加 googletest 子目录
+    add_subdirectory(${GOOGLETEST_DIR} ${CMAKE_BINARY_DIR}/googletest EXCLUDE_FROM_ALL)
+    
+    message(STATUS "GoogleTest 已加载")
+else()
+    message(FATAL_ERROR "GoogleTest submodule 不存在。请运行以下命令初始化：\n"
+                       "  cd ${CMAKE_SOURCE_DIR}/..\n"
+                       "  git submodule update --init --recursive external/googletest\n"
+                       "或者使用脚本会自动初始化")
 endif()
 
 # 包含目录
@@ -47,7 +34,6 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/../include
     ${CMAKE_SOURCE_DIR}/../
     ${CMAKE_SOURCE_DIR}/original_tests
-    ${GTEST_INCLUDE_DIRS}
 )
 
 # 查找父目录的库
@@ -78,8 +64,8 @@ foreach(TEST_SOURCE ${TEST_SOURCES})
     # 链接库 - 跨平台兼容
     target_link_libraries(${TEST_NAME}
         ${BACKTRADER_CORE_LIB}
-        ${GTEST_LIBRARIES}
-        ${GTEST_MAIN_LIBRARIES}
+        GTest::gtest
+        GTest::gtest_main
         Threads::Threads
     )
     
@@ -105,9 +91,7 @@ message(STATUS "=== Backtrader C++ Tests Configuration ===")
 message(STATUS "Platform: ${CMAKE_SYSTEM_NAME}")
 message(STATUS "Compiler: ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
 message(STATUS "C++ Standard: ${CMAKE_CXX_STANDARD}")
-message(STATUS "GTest Include: ${GTEST_INCLUDE_DIRS}")
-message(STATUS "GTest Libraries: ${GTEST_LIBRARIES}")
 message(STATUS "Core Library: ${BACKTRADER_CORE_LIB}")
 message(STATUS "Test Sources: ${CMAKE_SOURCE_DIR}/original_tests")
-message(STATUS "Number of tests: ${CMAKE_MATCH_COUNT}")
+message(STATUS "GoogleTest: Downloaded as external package")
 message(STATUS "==========================================")

@@ -338,7 +338,7 @@ void BackBroker::set_filler(FillerFunc filler) {
     filler_ = filler;
 }
 
-double BackBroker::get_slippage(std::shared_ptr<Order> order, double price, bool is_buy) const {
+double BackBroker::get_slippage(std::shared_ptr<Order> /*order*/, double price, bool is_buy) const {
     double slippage = 0.0;
     
     if (params.slip_perc > 0.0) {
@@ -546,7 +546,7 @@ double BackBroker::_get_order_price(std::shared_ptr<Order> order, double ago) {
     return price;
 }
 
-bool BackBroker::_can_execute(std::shared_ptr<Order> order, double price, double ago) {
+bool BackBroker::_can_execute(std::shared_ptr<Order> order, double /*price*/, double ago) {
     if (!order->data || order->data->empty()) {
         return false;
     }

@@ -26,9 +26,9 @@ public:
     virtual void prenext() {}
     virtual void nextstart() { next(); }
     virtual void next() {}
-    virtual void preonce(int start, int end) {}
+    virtual void preonce(int /*start*/, int /*end*/) {}
     virtual void oncestart(int start, int end) { once(start, end); }
-    virtual void once(int start, int end) {}
+    virtual void once(int /*start*/, int /*end*/) {}
     
     // Internal execution
     virtual void _next();
@@ -69,18 +69,26 @@ public:
     void addindicator(std::shared_ptr<LineIterator> indicator);
     
     // Line binding
+    // Note: bind2line overload intentionally hides base class version (different signature)
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Woverloaded-virtual"
+#endif
     LineIterator& bindlines(const std::vector<int>& owner = {}, 
                            const std::vector<int>& own = {});
     LineIterator& bind2lines(const std::vector<int>& owner = {}, 
                             const std::vector<int>& own = {});
     LineIterator& bind2line(const std::vector<int>& owner = {}, 
                            const std::vector<int>& own = {});
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic pop
+#endif
     
     // Clock update
     void _clk_update() override;
     
     // Notification system
-    virtual void _addnotification(const std::string& type, const std::string& msg) {}
+    virtual void _addnotification(const std::string& /*type*/, const std::string& /*msg*/) {}
     virtual void _notify() override {}
     
     // Plotting

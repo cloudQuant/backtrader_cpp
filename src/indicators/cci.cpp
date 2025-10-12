@@ -69,12 +69,12 @@ void CommodityChannelIndex::next() {
     
     // Store typical price value
     tp_values_.push_back(tp);
-    if (tp_values_.size() > params.period) {
+    if (tp_values_.size() > static_cast<size_t>(params.period)) {
         tp_values_.erase(tp_values_.begin());
     }
     
     // Need full period for calculation
-    if (tp_values_.size() < params.period) {
+    if (tp_values_.size() < static_cast<size_t>(params.period)) {
         cci_line->set(0, 0.0);
         return;
     }
@@ -115,12 +115,12 @@ void CommodityChannelIndex::once(int start, int end) {
         int start_idx = i - start + params.period - 1;
         
         for (int j = 0; j < params.period; ++j) {
-            if (start_idx - j >= 0 && start_idx - j < all_tp_values.size()) {
+            if (start_idx - j >= 0 && static_cast<size_t>(start_idx - j) < all_tp_values.size()) {
                 current_tp_values.push_back(all_tp_values[start_idx - j]);
             }
         }
         
-        if (current_tp_values.size() < params.period) {
+        if (current_tp_values.size() < static_cast<size_t>(params.period)) {
             cci_line->set(i, 0.0);
             continue;
         }

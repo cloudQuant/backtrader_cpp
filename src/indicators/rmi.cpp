@@ -124,7 +124,7 @@ void RelativeMomentumIndex::next() {
     down_moves_.push_back(down_move);
     
     // Calculate SMMA of up and down moves
-    if (up_moves_.size() >= params.period) {
+    if (up_moves_.size() >= static_cast<size_t>(params.period)) {
         // Manual SMMA calculation using instance variables
         if (first_calc_) {
             // First SMMA is SMA of first 'period' values
@@ -168,7 +168,7 @@ void RelativeMomentumIndex::next() {
     }
     
     // Keep history manageable
-    if (up_moves_.size() > params.period * 2) {
+    if (up_moves_.size() > static_cast<size_t>(params.period * 2)) {
         up_moves_.erase(up_moves_.begin());
         down_moves_.erase(down_moves_.begin());
     }

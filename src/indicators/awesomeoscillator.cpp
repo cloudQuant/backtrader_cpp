@@ -110,12 +110,12 @@ void AwesomeOscillator::next() {
     median_prices_.push_back(median_price);
     
     // Keep only what we need for the longest SMA
-    if (median_prices_.size() > params.slow * 2) {
+    if (median_prices_.size() > static_cast<size_t>(params.slow * 2)) {
         median_prices_.erase(median_prices_.begin());
     }
     
     // Need enough data for both SMAs
-    if (median_prices_.size() < params.slow) {
+    if (median_prices_.size() < static_cast<size_t>(params.slow)) {
         ao_line->set(0, std::numeric_limits<double>::quiet_NaN());
         return;
     }
@@ -138,7 +138,7 @@ void AwesomeOscillator::next() {
     ao_line->set(0, sma_fast - sma_slow);
 }
 
-void AwesomeOscillator::once(int start, int end) {
+void AwesomeOscillator::once(int /*start*/, int /*end*/) {
     std::shared_ptr<LineSingle> high_line, low_line;
     
     // Use direct high/low data if available (LineSeries constructor)
@@ -173,7 +173,7 @@ void AwesomeOscillator::once(int start, int end) {
     // The test data has 255 real values plus 1 initial NaN = 256 total
     // But we need to include the NaN in our output to match Python's indexing
     int data_size = raw_size;  // Include the initial NaN for proper indexing
-    int start_idx = 0;  // Don't skip the initial NaN
+    [[maybe_unused]] int start_idx = 0;  // Don't skip the initial NaN
     
     // Clear the LineBuffer and prepare for new data
     ao_line->reset();
@@ -399,7 +399,7 @@ void AwesomeOscillator::calculate() {
         }
         
         // Update only the last value
-        if (ao_line->size() < data_size) {
+        if (ao_line->size() < static_cast<size_t>(data_size)) {
             ao_line->append(ao_value);
         } else {
             ao_line->set(0, ao_value);  // Update the most recent value

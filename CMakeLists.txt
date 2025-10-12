@@ -5,15 +5,15 @@ project(BacktraderCpp)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Build type option
+option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
+
 # Compiler options - 跨平台兼容
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -O2 -Wno-overloaded-virtual -Wno-unused-parameter -Wno-unused-variable -Wno-sign-compare -Wno-reorder")
+    # 启用所有警告，不抑制任何警告
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
     
-    # GCC特定的警告抑制
-    if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-but-set-variable")
-    endif()
-    
+    # Debug 和 Release 配置
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -O0 -DDEBUG")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -DNDEBUG")
     
@@ -21,6 +21,11 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang
     if(APPLE)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
     endif()
+elseif(MSVC)
+    # MSVC 编译器选项
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /Od /Zi /DDEBUG")
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /O2 /DNDEBUG")
 endif()
 
 # Include directories
@@ -123,11 +128,26 @@ set(BACKTRADER_INDICATOR_SOURCES
 # Skip complex components for now to get basic build working
 # These can be added back once core compilation issues are resolved
 
-# Create the core library with minimal components
-add_library(backtrader_core STATIC
+# Create the core library (static or shared based on BUILD_SHARED_LIBS)
+add_library(backtrader_core
     ${BACKTRADER_CORE_SOURCES}
     ${BACKTRADER_INDICATOR_SOURCES}
 )
+
+# Set library properties
+set_target_properties(backtrader_core PROPERTIES
+    VERSION 1.0.0
+    SOVERSION 1
+    OUTPUT_NAME "backtrader_core"
+)
+
+# Windows DLL export definitions
+if(WIN32 AND BUILD_SHARED_LIBS)
+    target_compile_definitions(backtrader_core
+        PRIVATE BACKTRADER_BUILDING_DLL
+        PUBLIC BACKTRADER_DLL
+    )
+endif()
 
 target_include_directories(backtrader_core
     PUBLIC
@@ -168,10 +188,16 @@ message(STATUS "=== Backtrader C++ Configuration ===")
 message(STATUS "Platform: ${CMAKE_SYSTEM_NAME} ${CMAKE_SYSTEM_VERSION}")
 message(STATUS "Processor: ${CMAKE_SYSTEM_PROCESSOR}")
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
+if(BUILD_SHARED_LIBS)
+    message(STATUS "Library type: SHARED (动态库)")
+else()
+    message(STATUS "Library type: STATIC (静态库)")
+endif()
 message(STATUS "C++ Standard: ${CMAKE_CXX_STANDARD}")
 message(STATUS "Compiler: ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
 message(STATUS "Compiler path: ${CMAKE_CXX_COMPILER}")
 message(STATUS "C++ Flags: ${CMAKE_CXX_FLAGS}")
+message(STATUS "Warning level: Full (all warnings enabled)")
 message(STATUS "Source files: ${CMAKE_SOURCE_DIR}/src")
 message(STATUS "Include files: ${CMAKE_SOURCE_DIR}/include")
 message(STATUS "======================================")

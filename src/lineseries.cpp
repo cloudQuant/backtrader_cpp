@@ -138,7 +138,7 @@ std::vector<std::string> Lines::get_aliases() const {
     return aliases_order_;  // Return in insertion order
 }
 
-std::shared_ptr<Lines> Lines::derive(const std::string& name, 
+std::shared_ptr<Lines> Lines::derive(const std::string& /*name*/, 
                                     const std::vector<std::string>& line_names,
                                     size_t extra_lines) {
     auto lines = std::make_shared<Lines>();

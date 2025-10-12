@@ -10,6 +10,13 @@
 #include "smma.h"
 #include <memory>
 
+// Suppress overloaded-virtual warnings for getLine methods
+// These envelope classes intentionally override getLine with int parameter instead of size_t
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Woverloaded-virtual"
+#endif
+
 namespace backtrader {
 namespace indicators {
 
@@ -329,3 +336,7 @@ using SMMAEnvelope = SmoothedMovingAverageEnvelope;
 
 } // namespace indicators
 } // namespace backtrader
+
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic pop
+#endif

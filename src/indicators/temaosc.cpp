@@ -140,7 +140,7 @@ size_t TripleExponentialMovingAverageOscillator::size() const {
     return temaosc_line ? temaosc_line->size() : 0;
 }
 
-void TripleExponentialMovingAverageOscillator::once(int start, int end) {
+void TripleExponentialMovingAverageOscillator::once(int /*start*/, int /*end*/) {
     if (!tema_ || datas.empty() || !datas[0]->lines) return;
     
     // Get the appropriate line based on the data type

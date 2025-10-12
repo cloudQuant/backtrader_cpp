@@ -271,7 +271,7 @@ void WilliamsR::calculate() {
     auto close_buffer = std::dynamic_pointer_cast<LineBuffer>(close_line);
     
     // Check current data size and buffer length
-    size_t current_len = close_line->size();
+    [[maybe_unused]] size_t current_len = close_line->size();
     size_t buffer_len = 0;
     if (close_buffer) {
         buffer_len = close_buffer->buflen();  // Get actual array size

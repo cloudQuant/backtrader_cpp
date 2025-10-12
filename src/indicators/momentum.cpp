@@ -223,7 +223,7 @@ void MomentumOscillator::next() {
     momosc_line->set(0, momosc_value);
 }
 
-void MomentumOscillator::once(int start, int end) {
+void MomentumOscillator::once(int /*start*/, int /*end*/) {
     if (datas.empty() || !datas[0]->lines) return;
     
     auto data_line = datas[0]->lines->getline(0);

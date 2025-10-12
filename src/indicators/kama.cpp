@@ -13,7 +13,7 @@ namespace backtrader {
 
 // AdaptiveMovingAverage implementation
 AdaptiveMovingAverage::AdaptiveMovingAverage() 
-    : Indicator(), data_source_(nullptr), prev_kama_(0.0), initialized_(false) {
+    : Indicator(), prev_kama_(0.0), initialized_(false), data_source_(nullptr) {
     setup_lines();
     
     // Create SMA for initial seed value
@@ -28,7 +28,7 @@ AdaptiveMovingAverage::AdaptiveMovingAverage()
 }
 
 AdaptiveMovingAverage::AdaptiveMovingAverage(std::shared_ptr<LineSeries> data_source)
-    : Indicator(), data_source_(data_source), prev_kama_(0.0), initialized_(false) {
+    : Indicator(), prev_kama_(0.0), initialized_(false), data_source_(data_source) {
     setup_lines();
     
     // Create SMA for initial seed value
@@ -46,7 +46,7 @@ AdaptiveMovingAverage::AdaptiveMovingAverage(std::shared_ptr<LineSeries> data_so
 }
 
 AdaptiveMovingAverage::AdaptiveMovingAverage(std::shared_ptr<LineSeries> data_source, int period, int fast, int slow)
-    : Indicator(), data_source_(data_source), prev_kama_(0.0), initialized_(false) {
+    : Indicator(), prev_kama_(0.0), initialized_(false), data_source_(data_source) {
     params.period = period;
     params.fast = fast;
     params.slow = slow;
@@ -68,7 +68,7 @@ AdaptiveMovingAverage::AdaptiveMovingAverage(std::shared_ptr<LineSeries> data_so
 }
 
 AdaptiveMovingAverage::AdaptiveMovingAverage(std::shared_ptr<DataSeries> data_source)
-    : Indicator(), data_source_(nullptr), prev_kama_(0.0), initialized_(false) {
+    : Indicator(), prev_kama_(0.0), initialized_(false), data_source_(nullptr) {
     setup_lines();
     
     // Create SMA for initial seed value
@@ -86,7 +86,7 @@ AdaptiveMovingAverage::AdaptiveMovingAverage(std::shared_ptr<DataSeries> data_so
 }
 
 AdaptiveMovingAverage::AdaptiveMovingAverage(std::shared_ptr<DataSeries> data_source, int period, int fast, int slow)
-    : Indicator(), data_source_(nullptr), prev_kama_(0.0), initialized_(false) {
+    : Indicator(), prev_kama_(0.0), initialized_(false), data_source_(nullptr) {
     params.period = period;
     params.fast = fast;
     params.slow = slow;
@@ -211,7 +211,7 @@ void AdaptiveMovingAverage::next() {
     prev_kama_ = kama_value;
 }
 
-void AdaptiveMovingAverage::once(int start, int end) {
+void AdaptiveMovingAverage::once(int start, int /*end*/) {
     // std::cout << "KAMA::once ENTRY: start=" << start << ", end=" << end << ", params.period=" << params.period << std::endl;
     
     if (datas.empty() || !datas[0]->lines) {
@@ -361,7 +361,7 @@ double AdaptiveMovingAverage::calculate_efficiency_ratio() {
         line_index = DataSeries::Close;  // Close price for DataSeries
     }
     auto close_line = datas[0]->lines->getline(line_index);
-    if (!close_line || close_line->size() <= params.period) return 0.0;
+    if (!close_line || close_line->size() <= static_cast<size_t>(params.period)) return 0.0;
     
     // Direction: absolute change over period
     double current_price = (*close_line)[0];

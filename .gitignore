@@ -56,3 +56,13 @@ Makefile
 
 # Other
 *.d
+
+# Build outputs
+Debug/
+x64/
+Release/
+*.pdb
+*.ilk
+*.obj
+*.exp
+*.lib

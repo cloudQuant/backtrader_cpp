@@ -141,7 +141,7 @@ std::shared_ptr<Order> Strategy::close(std::shared_ptr<DataSeries> data,
     }
 }
 
-std::shared_ptr<Order> Strategy::cancel(std::shared_ptr<Order> order) {
+std::shared_ptr<Order> Strategy::cancel(std::shared_ptr<Order> /*order*/) {
     // This would cancel an existing order
     // Would interact with broker to cancel the order
     return nullptr;
@@ -166,7 +166,7 @@ double Strategy::getposition(std::shared_ptr<DataSeries> data) const {
     return 0.0;
 }
 
-double Strategy::getpositionbyname(const std::string& name) const {
+double Strategy::getpositionbyname(const std::string& /*name*/) const {
     // This would return the current position size for the named data
     // Would find the data by name and return its position
     return 0.0;
@@ -413,9 +413,9 @@ void Strategy::_periodset() {
         _dminperiods[clk_ptr].push_back(ind_minperiod);
         
         // Check if this is an SMA or CrossOver
-        bool is_sma = (dynamic_cast<indicators::SMA*>(indicator.get()) != nullptr);
-        bool is_crossover = (dynamic_cast<CrossOver*>(indicator.get()) != nullptr);
-        
+        // bool is_sma = (dynamic_cast<indicators::SMA*>(indicator.get()) != nullptr);
+        // bool is_crossover = (dynamic_cast<CrossOver*>(indicator.get()) != nullptr);
+        // These variables are currently unused but may be needed for future debugging
         
     }
     

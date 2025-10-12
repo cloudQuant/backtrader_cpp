@@ -181,7 +181,7 @@ void DirectionalMovement::calculate() {
     
     
     // If we need more values to match ATR size, add NaN values
-    while (plus_dm_values.size() < atr_size) {
+    while (plus_dm_values.size() < static_cast<size_t>(atr_size)) {
         plus_dm_values.push_back(std::numeric_limits<double>::quiet_NaN());
         minus_dm_values.push_back(std::numeric_limits<double>::quiet_NaN());
     }
@@ -197,11 +197,11 @@ void DirectionalMovement::calculate() {
     // Calculate SMMA starting from when we have enough values
     // Note: In Python backtrader, SMMA starts at index period-1 (0-based)
     for (size_t i = params.period - 1; i < plus_dm_values.size(); ++i) {
-        if (i == params.period - 1) {
+        if (i == static_cast<size_t>(params.period - 1)) {
             // Initial SMMA: simple average of first period values
             double plus_sum = 0.0, minus_sum = 0.0;
             
-            for (size_t j = 0; j < params.period; ++j) {
+            for (size_t j = 0; j < static_cast<size_t>(params.period); ++j) {
                 if (!std::isnan(plus_dm_values[j])) {
                     plus_sum += plus_dm_values[j];
                 }
@@ -237,7 +237,7 @@ void DirectionalMovement::calculate() {
         double dx_val = std::numeric_limits<double>::quiet_NaN();
         
         // Check if we have corresponding SMMA and ATR values
-        if (i < plus_dm_avg_array.size() && i < minus_dm_avg_array.size() && i < atr_array.size()) {
+        if (static_cast<size_t>(i) < plus_dm_avg_array.size() && static_cast<size_t>(i) < minus_dm_avg_array.size() && static_cast<size_t>(i) < atr_array.size()) {
             double plus_dm_avg = plus_dm_avg_array[i];
             double minus_dm_avg = minus_dm_avg_array[i];
             double atr_val = atr_array[i];
@@ -304,7 +304,7 @@ void DirectionalMovement::calculate() {
     for (size_t i = 0; i < data_size; ++i) {
         double adxr_val = std::numeric_limits<double>::quiet_NaN();
         
-        if (i >= params.period && i < adx_values.size()) {
+        if (i >= static_cast<size_t>(params.period) && static_cast<size_t>(i) < adx_values.size()) {
             double current_adx = adx_values[i];
             double past_adx = adx_values[i - params.period];
             
@@ -328,7 +328,7 @@ void DirectionalMovement::next() {
     calculate();
 }
 
-void DirectionalMovement::once(int start, int end) {
+void DirectionalMovement::once(int /*start*/, int /*end*/) {
     calculate();
 }
 

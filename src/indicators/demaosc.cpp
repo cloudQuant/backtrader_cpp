@@ -146,7 +146,7 @@ void DoubleExponentialMovingAverageOscillator::next() {
     calculate();
 }
 
-void DoubleExponentialMovingAverageOscillator::once(int start, int end) {
+void DoubleExponentialMovingAverageOscillator::once(int /*start*/, int end) {
     if (datas.empty() || !datas[0]->lines) return;
     
     // Use getDataLine utility to get close price

@@ -1,4 +1,5 @@
 #include "indicators/kst.h"
+#include <algorithm>
 #include <limits>
 #include <iostream>
 
@@ -159,28 +160,28 @@ void KnowSureThing::next() {
     double roc3_val = std::numeric_limits<double>::quiet_NaN();
     double roc4_val = std::numeric_limits<double>::quiet_NaN();
     
-    if (close_line->size() > params.rp1) {
+    if (close_line->size() > static_cast<size_t>(params.rp1)) {
         double close_ago = (*close_line)[params.rp1];
         if (!std::isnan(close_ago) && close_ago != 0.0) {
             roc1_val = 100.0 * (close_price - close_ago) / close_ago;
         }
     }
     
-    if (close_line->size() > params.rp2) {
+    if (close_line->size() > static_cast<size_t>(params.rp2)) {
         double close_ago = (*close_line)[params.rp2];
         if (!std::isnan(close_ago) && close_ago != 0.0) {
             roc2_val = 100.0 * (close_price - close_ago) / close_ago;
         }
     }
     
-    if (close_line->size() > params.rp3) {
+    if (close_line->size() > static_cast<size_t>(params.rp3)) {
         double close_ago = (*close_line)[params.rp3];
         if (!std::isnan(close_ago) && close_ago != 0.0) {
             roc3_val = 100.0 * (close_price - close_ago) / close_ago;
         }
     }
     
-    if (close_line->size() > params.rp4) {
+    if (close_line->size() > static_cast<size_t>(params.rp4)) {
         double close_ago = (*close_line)[params.rp4];
         if (!std::isnan(close_ago) && close_ago != 0.0) {
             roc4_val = 100.0 * (close_price - close_ago) / close_ago;
@@ -194,10 +195,10 @@ void KnowSureThing::next() {
     roc4_values_.push_back(roc4_val);
     
     // Keep only necessary history
-    if (roc1_values_.size() > params.rma1) roc1_values_.pop_front();
-    if (roc2_values_.size() > params.rma2) roc2_values_.pop_front();
-    if (roc3_values_.size() > params.rma3) roc3_values_.pop_front();
-    if (roc4_values_.size() > params.rma4) roc4_values_.pop_front();
+    if (roc1_values_.size() > static_cast<size_t>(params.rma1)) roc1_values_.pop_front();
+    if (roc2_values_.size() > static_cast<size_t>(params.rma2)) roc2_values_.pop_front();
+    if (roc3_values_.size() > static_cast<size_t>(params.rma3)) roc3_values_.pop_front();
+    if (roc4_values_.size() > static_cast<size_t>(params.rma4)) roc4_values_.pop_front();
     
     // Calculate SMAs of ROCs
     double rcma1 = std::numeric_limits<double>::quiet_NaN();
@@ -205,7 +206,7 @@ void KnowSureThing::next() {
     double rcma3 = std::numeric_limits<double>::quiet_NaN();
     double rcma4 = std::numeric_limits<double>::quiet_NaN();
     
-    if (roc1_values_.size() >= params.rma1) {
+    if (roc1_values_.size() >= static_cast<size_t>(params.rma1)) {
         double sum = 0.0;
         int count = 0;
         for (const auto& val : roc1_values_) {
@@ -217,7 +218,7 @@ void KnowSureThing::next() {
         if (count > 0) rcma1 = sum / count;
     }
     
-    if (roc2_values_.size() >= params.rma2) {
+    if (roc2_values_.size() >= static_cast<size_t>(params.rma2)) {
         double sum = 0.0;
         int count = 0;
         for (const auto& val : roc2_values_) {
@@ -229,7 +230,7 @@ void KnowSureThing::next() {
         if (count > 0) rcma2 = sum / count;
     }
     
-    if (roc3_values_.size() >= params.rma3) {
+    if (roc3_values_.size() >= static_cast<size_t>(params.rma3)) {
         double sum = 0.0;
         int count = 0;
         for (const auto& val : roc3_values_) {
@@ -241,7 +242,7 @@ void KnowSureThing::next() {
         if (count > 0) rcma3 = sum / count;
     }
     
-    if (roc4_values_.size() >= params.rma4) {
+    if (roc4_values_.size() >= static_cast<size_t>(params.rma4)) {
         double sum = 0.0;
         int count = 0;
         for (const auto& val : roc4_values_) {
@@ -264,12 +265,12 @@ void KnowSureThing::next() {
         
         // Store KST value for signal calculation
         kst_values_.push_back(kst_val);
-        if (kst_values_.size() > params.rsignal) {
+        if (kst_values_.size() > static_cast<size_t>(params.rsignal)) {
             kst_values_.pop_front();
         }
         
         // Calculate signal line (SMA of KST)
-        if (kst_values_.size() >= params.rsignal) {
+        if (kst_values_.size() >= static_cast<size_t>(params.rsignal)) {
             double sum = 0.0;
             for (const auto& val : kst_values_) {
                 sum += val;
@@ -370,10 +371,10 @@ void KnowSureThing::once(int start, int end) {
         roc4_values_.push_back(roc4_val);
         
         // Keep only necessary history
-        if (roc1_values_.size() > params.rma1) roc1_values_.pop_front();
-        if (roc2_values_.size() > params.rma2) roc2_values_.pop_front();
-        if (roc3_values_.size() > params.rma3) roc3_values_.pop_front();
-        if (roc4_values_.size() > params.rma4) roc4_values_.pop_front();
+        if (roc1_values_.size() > static_cast<size_t>(params.rma1)) roc1_values_.pop_front();
+        if (roc2_values_.size() > static_cast<size_t>(params.rma2)) roc2_values_.pop_front();
+        if (roc3_values_.size() > static_cast<size_t>(params.rma3)) roc3_values_.pop_front();
+        if (roc4_values_.size() > static_cast<size_t>(params.rma4)) roc4_values_.pop_front();
         
         // Calculate SMAs of ROCs
         double rcma1 = std::numeric_limits<double>::quiet_NaN();
@@ -381,7 +382,7 @@ void KnowSureThing::once(int start, int end) {
         double rcma3 = std::numeric_limits<double>::quiet_NaN();
         double rcma4 = std::numeric_limits<double>::quiet_NaN();
         
-        if (roc1_values_.size() >= params.rma1) {
+        if (roc1_values_.size() >= static_cast<size_t>(params.rma1)) {
             double sum = 0.0;
             int count = 0;
             for (const auto& val : roc1_values_) {
@@ -393,7 +394,7 @@ void KnowSureThing::once(int start, int end) {
             if (count > 0) rcma1 = sum / count;
         }
         
-        if (roc2_values_.size() >= params.rma2) {
+        if (roc2_values_.size() >= static_cast<size_t>(params.rma2)) {
             double sum = 0.0;
             int count = 0;
             for (const auto& val : roc2_values_) {
@@ -405,7 +406,7 @@ void KnowSureThing::once(int start, int end) {
             if (count > 0) rcma2 = sum / count;
         }
         
-        if (roc3_values_.size() >= params.rma3) {
+        if (roc3_values_.size() >= static_cast<size_t>(params.rma3)) {
             double sum = 0.0;
             int count = 0;
             for (const auto& val : roc3_values_) {
@@ -417,7 +418,7 @@ void KnowSureThing::once(int start, int end) {
             if (count > 0) rcma3 = sum / count;
         }
         
-        if (roc4_values_.size() >= params.rma4) {
+        if (roc4_values_.size() >= static_cast<size_t>(params.rma4)) {
             double sum = 0.0;
             int count = 0;
             for (const auto& val : roc4_values_) {
@@ -440,12 +441,12 @@ void KnowSureThing::once(int start, int end) {
             
             // Store KST value for signal calculation
             kst_values_.push_back(kst_val);
-            if (kst_values_.size() > params.rsignal) {
+            if (kst_values_.size() > static_cast<size_t>(params.rsignal)) {
                 kst_values_.pop_front();
             }
             
             // Calculate signal line (SMA of KST)
-            if (kst_values_.size() >= params.rsignal) {
+            if (kst_values_.size() >= static_cast<size_t>(params.rsignal)) {
                 double sum = 0.0;
                 for (const auto& val : kst_values_) {
                     sum += val;

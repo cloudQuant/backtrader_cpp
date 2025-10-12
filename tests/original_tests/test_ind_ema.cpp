@@ -194,7 +194,9 @@ TEST(OriginalTests, EMA_Manual) {
         
         if (first_valid < ema_array.size()) {
             std::cout << "Values around first valid: ";
-            for (size_t j = std::max(0UL, first_valid-2); j < std::min(ema_array.size(), first_valid+5); ++j) {
+            size_t start_j = (first_valid >= 2) ? (first_valid - 2) : 0;
+            size_t end_j = std::min(ema_array.size(), first_valid + 5);
+            for (size_t j = start_j; j < end_j; ++j) {
                 std::cout << "[" << j << "]=" << std::fixed << std::setprecision(6) << ema_array[j] << " ";
             }
             std::cout << std::endl;

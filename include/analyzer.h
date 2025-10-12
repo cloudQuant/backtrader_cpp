@@ -109,10 +109,10 @@ public:
     virtual void _next();
     
     // Notification methods (matching Python interface)
-    virtual void notify_cashvalue(double cash, double value) {}
-    virtual void notify_fund(double cash, double value, double fundvalue, double shares) {}
-    virtual void notify_order(std::shared_ptr<Order> order) {}
-    virtual void notify_trade(std::shared_ptr<Trade> trade) {}
+    virtual void notify_cashvalue(double /*cash*/, double /*value*/) {}
+    virtual void notify_fund(double /*cash*/, double /*value*/, double /*fundvalue*/, double /*shares*/) {}
+    virtual void notify_order(std::shared_ptr<Order> /*order*/) {}
+    virtual void notify_trade(std::shared_ptr<Trade> /*trade*/) {}
     
     // Internal notification methods
     virtual void _notify_cashvalue(double cash, double value);

@@ -108,7 +108,7 @@ void HeikinAshi::calculate() {
     // Get the current index from the input data to ensure we match it
     auto open_buffer = std::dynamic_pointer_cast<LineBuffer>(open_line);
     if (open_buffer) {
-        int input_idx = open_buffer->get_idx();
+        [[maybe_unused]] int input_idx = open_buffer->get_idx();
         int input_size = open_line->size();
         // std::cerr << "HeikinAshi::calculate() - input_idx=" << input_idx 
         //           << ", input_size=" << input_size << std::endl;
@@ -331,7 +331,7 @@ void HeikinAshi::once(int start, int end) {
     
     // Set the buffer indices to the last valid position
     // The buffers now have the same number of elements as processed (minus skipped NaN)
-    int final_size = ha_open_buffer->array().size();
+    [[maybe_unused]] int final_size = ha_open_buffer->array().size();
     
     // Set the buffer indices to the last element in the buffer
     // After processing, buffers have (number_of_valid_elements + 1) elements due to initial NaN

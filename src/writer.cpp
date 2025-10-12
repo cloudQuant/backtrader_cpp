@@ -190,7 +190,7 @@ void WriterFile::collect_csv_headers() {
     headers_.push_back("Date");
     
     // Add data headers
-    for (const auto& data : datas_) {
+    for ([[maybe_unused]] const auto& data : datas_) {
         if (should_include_in_csv("data")) {
             headers_.push_back("Open");
             headers_.push_back("High");
@@ -201,7 +201,7 @@ void WriterFile::collect_csv_headers() {
     }
     
     // Add strategy indicators (like SMA)
-    for (const auto& strategy : strategies_) {
+    for ([[maybe_unused]] const auto& strategy : strategies_) {
         // For now, add a placeholder for SMA
         headers_.push_back("SMA");
     }
@@ -255,7 +255,7 @@ void WriterFile::collect_csv_values() {
     }
     
     // Add strategy indicator values (SMA placeholder)
-    for (const auto& strategy : strategies_) {
+    for ([[maybe_unused]] const auto& strategy : strategies_) {
         // For now, add a placeholder SMA value
         double sma_value = 100.0 + line_counter_ * 0.1;
         row.push_back(format_value(sma_value));

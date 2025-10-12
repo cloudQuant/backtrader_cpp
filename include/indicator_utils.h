@@ -63,7 +63,7 @@ inline std::shared_ptr<LineSingle> getDataLine(const std::shared_ptr<LineSeries>
         // DataSeries with OHLCV - use close price at index 4
         // Standard order: DateTime=0, Open=1, High=2, Low=3, Close=4, Volume=5, OpenInterest=6
         return data_source->lines->getline(4);
-    } else if (data_source->lines->size() > default_line) {
+    } else if (data_source->lines->size() > static_cast<size_t>(default_line)) {
         // LineSeries - use specified line (default 0)
         return data_source->lines->getline(default_line);
     }

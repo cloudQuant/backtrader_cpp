@@ -552,7 +552,7 @@ double FindLastIndex::calculate_func(const std::vector<double>& data) {
     double target = params.evalfunc(data);
     
     // Find first occurrence (forward)
-    for (int i = 0; i < data.size(); ++i) {
+    for (int i = 0; static_cast<size_t>(i) < data.size(); ++i) {
         if (data[i] == target) {
             return params.period - i - 1;  // Return backwards index
         }

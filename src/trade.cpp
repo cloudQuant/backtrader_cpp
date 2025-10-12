@@ -50,7 +50,7 @@ std::string TradeHistory::to_string() const {
 }
 
 // Trade implementation
-Trade::Trade() : ref(next_ref_++), just_opened_(false), status(TradeStatus::Created), historynotify(true) {
+Trade::Trade() : ref(next_ref_++), status(TradeStatus::Created), historynotify(true), just_opened_(false) {
 }
 
 Trade::Trade(std::shared_ptr<DataSeries> data_val) 

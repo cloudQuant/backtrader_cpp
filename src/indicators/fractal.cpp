@@ -240,7 +240,7 @@ void Fractal::next() {
     down_line->set(0, std::numeric_limits<double>::quiet_NaN());
     
     // Need at least period bars for fractal calculation
-    if (high_line->size() < params.period) return;
+    if (high_line->size() < static_cast<size_t>(params.period)) return;
     
     int middle = (params.period - 1) / 2;  // For period=5, middle=2
     
