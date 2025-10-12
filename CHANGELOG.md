@@ -5,8 +5,8 @@
 ### ✨ 新功能
 
 #### 1. 支持动态库和静态库构建
-- **静态库**: `libbacktrader_core.a` (~75 MB)
-- **动态库**: `libbacktrader_core.dll` (~38 MB) + `libbacktrader_core.dll.a` (~8 MB)
+- **静态库**: `libbacktrader.a` (~75 MB)
+- **动态库**: `libbacktrader.dll` (~38 MB) + `libbacktrader.dll.a` (~8 MB)
 - **灵活构建**: 可选择编译静态库、动态库或同时编译
 
 #### 2. 完整的警告系统
@@ -49,10 +49,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
 ```
 build/
 ├── static/
-│   └── libbacktrader_core.a
+│   └── libbacktrader.a
 ├── shared/
-│   ├── libbacktrader_core.dll
-│   └── libbacktrader_core.dll.a
+│   ├── libbacktrader.dll
+│   └── libbacktrader.dll.a
 └── build_*.log
 ```
 
@@ -111,7 +111,7 @@ build/
 F:\source_code\backtrader_cpp> build.bat
 [SUCCESS] 核心库构建完成
 [INFO] 构建产物:
-  √ 静态库: libbacktrader_core.a
+  √ 静态库: libbacktrader.a
 ```
 
 #### 编译动态库
@@ -119,8 +119,8 @@ F:\source_code\backtrader_cpp> build.bat
 F:\source_code\backtrader_cpp> build.bat --shared
 [SUCCESS] 核心库构建完成
 [INFO] 构建产物:
-  √ 动态库: libbacktrader_core.dll
-  √ 导入库: libbacktrader_core.dll.a
+  √ 动态库: libbacktrader.dll
+  √ 导入库: libbacktrader.dll.a
 ```
 
 #### 同时编译两种库
@@ -128,9 +128,9 @@ F:\source_code\backtrader_cpp> build.bat --shared
 F:\source_code\backtrader_cpp> build.bat --both
 [SUCCESS] 核心库构建完成
 [INFO] 构建产物:
-  √ 静态库: libbacktrader_core.a
-  √ 动态库: libbacktrader_core.dll
-  √ 导入库: libbacktrader_core.dll.a
+  √ 静态库: libbacktrader.a
+  √ 动态库: libbacktrader.dll
+  √ 导入库: libbacktrader.dll.a
 ```
 
 #### 查看编译警告

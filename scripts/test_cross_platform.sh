@@ -154,9 +154,9 @@ if cmake --build . --config Debug --parallel 1 --target backtrader_core > /tmp/c
     print_success "编译测试成功"
     
     # 检查库文件是否生成
-    if [ -f "libbacktrader_core.a" ]; then
-        FILESIZE=$(ls -lh libbacktrader_core.a | awk '{print $5}')
-        print_success "核心库已生成: libbacktrader_core.a ($FILESIZE)"
+    if [ -f "libbacktrader.a" ]; then
+        FILESIZE=$(ls -lh libbacktrader.a | awk '{print $5}')
+        print_success "核心库已生成: libbacktrader.a ($FILESIZE)"
     else
         print_error "核心库未生成"
         exit 1

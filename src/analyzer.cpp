@@ -482,7 +482,20 @@ TimeFrameAnalyzerBase::_get_subday_cmpkey(std::chrono::system_clock::time_point 
 
 std::tm TimeFrameAnalyzerBase::to_tm(std::chrono::system_clock::time_point tp) {
     auto time_t = std::chrono::system_clock::to_time_t(tp);
-    return *std::localtime(&time_t);
+    auto tm_ptr = std::localtime(&time_t);
+    if (!tm_ptr) {
+        // Return epoch time (1970-01-01) if localtime fails
+        std::tm epoch{};
+        epoch.tm_year = 70;  // 1970 - 1900
+        epoch.tm_mon = 0;    // January
+        epoch.tm_mday = 1;   // 1st
+        epoch.tm_hour = 0;
+        epoch.tm_min = 0;
+        epoch.tm_sec = 0;
+        epoch.tm_isdst = 0;
+        return epoch;
+    }
+    return *tm_ptr;
 }
 
 std::chrono::system_clock::time_point TimeFrameAnalyzerBase::from_tm(const std::tm& tm) {

@@ -15,7 +15,7 @@ REM ========== Global Variables ==========
 set "SCRIPT_DIR=%~dp0"
 set "PROJECT_ROOT=%SCRIPT_DIR%.."
 set "BUILD_DIR=%SCRIPT_DIR%build_tests"
-set "CORE_LIB=%PROJECT_ROOT%\libbacktrader_core.a"
+set "CORE_LIB=%PROJECT_ROOT%\libbacktrader.a"
 
 REM Result counters
 set "COMPILED_SUCCESS=0"
@@ -168,7 +168,7 @@ echo   - 日志位置: build_tests\test_run_*.log
 echo   - 测试报告: build_tests\test_report.txt
 echo.
 echo 前提条件:
-echo   - 核心库必须已编译 (libbacktrader_core.a)
+echo   - 核心库必须已编译 (libbacktrader.a)
 echo   - 如果核心库不存在，请先运行: ..\build.bat
 echo.
 echo 示例:
@@ -399,11 +399,11 @@ call :print_info "开始运行所有测试..."
 echo. >> "%LOG_FILE%"
 echo ========== Test Execution ========== >> "%LOG_FILE%"
 
-REM Clear test result files
-if exist "%TEMP_RESULTS%\test_success.txt" del /f /q "%TEMP_RESULTS%\test_success.txt"
-if exist "%TEMP_RESULTS%\test_failed.txt" del /f /q "%TEMP_RESULTS%\test_failed.txt"
-if exist "%TEMP_RESULTS%\test_timeout.txt" del /f /q "%TEMP_RESULTS%\test_timeout.txt"
-if exist "%TEMP_RESULTS%\test_crashed.txt" del /f /q "%TEMP_RESULTS%\test_crashed.txt"
+REM Clear test result files - force delete to ensure clean state
+del /f /q "%TEMP_RESULTS%\test_success.txt" 2>nul
+del /f /q "%TEMP_RESULTS%\test_failed.txt" 2>nul
+del /f /q "%TEMP_RESULTS%\test_timeout.txt" 2>nul
+del /f /q "%TEMP_RESULTS%\test_crashed.txt" 2>nul
 
 set "TEST_SUCCESS=0"
 set "TEST_FAILED=0"
@@ -433,9 +433,9 @@ for %%f in ("%BUILD_DIR%\test_*.exe") do (
 call :print_separator
 call :print_info "测试运行完成统计:"
 call :print_success "测试通过: !TEST_SUCCESS! 个"
-if !TEST_FAILED! gtr 0 call :print_error "测试失败: !TEST_FAILED! 个"
-if !TEST_TIMEOUT! gtr 0 call :print_warning "测试超时: !TEST_TIMEOUT! 个"
-if !TEST_CRASHED! gtr 0 call :print_warning "测试崩溃: !TEST_CRASHED! 个"
+if defined TEST_FAILED if !TEST_FAILED! gtr 0 call :print_error "测试失败: !TEST_FAILED! 个"
+if defined TEST_TIMEOUT if !TEST_TIMEOUT! gtr 0 call :print_warning "测试超时: !TEST_TIMEOUT! 个"
+if defined TEST_CRASHED if !TEST_CRASHED! gtr 0 call :print_warning "测试崩溃: !TEST_CRASHED! 个"
 
 exit /b 0
 
@@ -461,79 +461,85 @@ REM Run test with timeout
 call :run_with_timeout "%test_exe%" "%output_file%" "%xml_output%" "%exitcode_file%" !timeout_seconds!
 set "run_result=!errorlevel!"
 
-REM Check test result
+REM Check test result - timeout
 if "!run_result!"=="124" (
-    REM Timeout
     call :print_error "  └─ 测试超时 (30秒)"
     echo [TIMEOUT] !test_name! >> "%LOG_FILE%"
     set /a TEST_TIMEOUT+=1
     set /a TEST_FAILED+=1
     echo !test_name!>> "%TEMP_RESULTS%\test_timeout.txt"
     echo !test_name!>> "%TEMP_RESULTS%\test_failed.txt"
-) else if "!run_result!"=="125" (
-    REM Crashed
+    goto :next_test
+)
+
+REM Check test result - crashed
+if "!run_result!"=="125" (
     call :print_error "  └─ 测试崩溃"
     echo [CRASHED] !test_name! >> "%LOG_FILE%"
     set /a TEST_CRASHED+=1
     set /a TEST_FAILED+=1
     echo !test_name!>> "%TEMP_RESULTS%\test_crashed.txt"
     echo !test_name!>> "%TEMP_RESULTS%\test_failed.txt"
-) else (
-    REM Check exit code
-    if exist "%xml_output%" (
-        REM Check if there are failures in XML
-        findstr /c:"failures=\"0\"" "%xml_output%" >nul
+    goto :next_test
+)
+
+REM Check test result - check exit code
+if exist "%xml_output%" (
+    REM Check if there are failures in XML
+    findstr /c:"failures=\"0\"" "%xml_output%" >nul
+    if !errorlevel! equ 0 (
+        findstr /c:"errors=\"0\"" "%xml_output%" >nul
         if !errorlevel! equ 0 (
-            findstr /c:"errors=\"0\"" "%xml_output%" >nul
-            if !errorlevel! equ 0 (
-                REM Success
-                call :print_success "  └─ 测试通过"
-                echo [PASSED] !test_name! >> "%LOG_FILE%"
-                set /a TEST_SUCCESS+=1
-                echo !test_name!>> "%TEMP_RESULTS%\test_success.txt"
-            ) else (
-                REM Has errors
-                call :print_error "  └─ 测试失败 (有错误)"
-                echo [FAILED] !test_name! (errors) >> "%LOG_FILE%"
-                set /a TEST_FAILED+=1
-                echo !test_name!>> "%TEMP_RESULTS%\test_failed.txt"
-            )
+            call :print_success "  └─ 测试通过"
+            echo [PASSED] !test_name! >> "%LOG_FILE%"
+            set /a TEST_SUCCESS+=1
+            echo !test_name!>> "%TEMP_RESULTS%\test_success.txt"
         ) else (
-            REM Has failures
-            call :print_error "  └─ 测试失败"
-            echo [FAILED] !test_name! >> "%LOG_FILE%"
-            set /a TEST_FAILED+=1
-            echo !test_name!>> "%TEMP_RESULTS%\test_failed.txt"
-        )
-    ) else if exist "%output_file%" (
-        REM No XML output, check output file
-        findstr /c:"[  PASSED  ]" "%output_file%" >nul
-        if !errorlevel! equ 0 (
-            findstr /c:"[  FAILED  ]" "%output_file%" >nul
-            if !errorlevel! equ 0 (
-                call :print_error "  └─ 测试失败"
-                echo [FAILED] !test_name! >> "%LOG_FILE%"
-                set /a TEST_FAILED+=1
-                echo !test_name!>> "%TEMP_RESULTS%\test_failed.txt"
-            ) else (
-                call :print_success "  └─ 测试通过"
-                echo [PASSED] !test_name! >> "%LOG_FILE%"
-                set /a TEST_SUCCESS+=1
-                echo !test_name!>> "%TEMP_RESULTS%\test_success.txt"
-            )
-        ) else (
-            call :print_error "  └─ 测试失败 (无输出)"
-            echo [FAILED] !test_name! (no output) >> "%LOG_FILE%"
+            call :print_error "  └─ 测试失败 (有错误)"
+            echo [FAILED] !test_name! (errors) >> "%LOG_FILE%"
             set /a TEST_FAILED+=1
             echo !test_name!>> "%TEMP_RESULTS%\test_failed.txt"
         )
     ) else (
-        call :print_error "  └─ 测试失败 (无输出文件)"
-        echo [FAILED] !test_name! (no output file) >> "%LOG_FILE%"
+        call :print_error "  └─ 测试失败"
+        echo [FAILED] !test_name! >> "%LOG_FILE%"
         set /a TEST_FAILED+=1
         echo !test_name!>> "%TEMP_RESULTS%\test_failed.txt"
     )
+    goto :next_test
 )
+
+if exist "%output_file%" (
+    REM No XML output, check output file
+    findstr /c:"[  PASSED  ]" "%output_file%" >nul
+    if !errorlevel! equ 0 (
+        findstr /c:"[  FAILED  ]" "%output_file%" >nul
+        if !errorlevel! equ 0 (
+            call :print_error "  └─ 测试失败"
+            echo [FAILED] !test_name! >> "%LOG_FILE%"
+            set /a TEST_FAILED+=1
+            echo !test_name!>> "%TEMP_RESULTS%\test_failed.txt"
+        ) else (
+            call :print_success "  └─ 测试通过"
+            echo [PASSED] !test_name! >> "%LOG_FILE%"
+            set /a TEST_SUCCESS+=1
+            echo !test_name!>> "%TEMP_RESULTS%\test_success.txt"
+        )
+    ) else (
+        call :print_error "  └─ 测试失败 (无输出)"
+        echo [FAILED] !test_name! (no output) >> "%LOG_FILE%"
+        set /a TEST_FAILED+=1
+        echo !test_name!>> "%TEMP_RESULTS%\test_failed.txt"
+    )
+    goto :next_test
+)
+
+call :print_error "  └─ 测试失败 (无输出文件)"
+echo [FAILED] !test_name! (no output file) >> "%LOG_FILE%"
+set /a TEST_FAILED+=1
+echo !test_name!>> "%TEMP_RESULTS%\test_failed.txt"
+
+:next_test
 
 REM Log test output if it exists
 if exist "%output_file%" (
@@ -552,45 +558,13 @@ set "xml_output=%~3"
 set "exitcode_file=%~4"
 set "timeout_sec=%~5"
 
-REM Create VBScript for timeout control
-set "vbs_file=%TEMP_RESULTS%\run_timeout.vbs"
-(
-echo Set WshShell = CreateObject^("WScript.Shell"^)
-echo Set objFSO = CreateObject^("Scripting.FileSystemObject"^)
-echo.
-echo strCommand = "%exe_path% --gtest_output=xml:%xml_output% > %output_file% 2>&1"
-echo Set objProcess = WshShell.Exec^(strCommand^)
-echo.
-echo ' Wait for process with timeout
-echo intTimeout = %timeout_sec% * 1000
-echo intElapsed = 0
-echo intInterval = 100
-echo.
-echo Do While objProcess.Status = 0 And intElapsed ^< intTimeout
-echo     WScript.Sleep intInterval
-echo     intElapsed = intElapsed + intInterval
-echo Loop
-echo.
-echo ' Check if process is still running
-echo If objProcess.Status = 0 Then
-echo     ' Timeout - terminate process
-echo     WshShell.Run "taskkill /F /PID " ^& objProcess.ProcessID, 0, False
-echo     WScript.Sleep 500
-echo     WScript.Quit 124  ' Timeout exit code
-echo Else
-echo     ' Process finished normally
-echo     intExitCode = objProcess.ExitCode
-echo     If intExitCode ^< 0 Or intExitCode ^>= 3221225472 Then
-echo         WScript.Quit 125  ' Crash exit code
-echo     Else
-echo         WScript.Quit intExitCode
-echo     End If
-echo End If
-) > "%vbs_file%"
-
-REM Run VBScript
-cscript //Nologo "%vbs_file%"
+REM Simplified approach: Run test directly without complex timeout mechanism
+REM The timeout mechanism was causing issues with VBScript Exec and redirection
+"%exe_path%" --gtest_output=xml:%xml_output% > "%output_file%" 2>&1
 set "result=!errorlevel!"
+
+REM Note: For proper timeout support on Windows, consider using PowerShell's Start-Job with -Timeout
+REM or the 'timeout' command if available in your environment
 
 exit /b !result!
 
@@ -602,69 +576,82 @@ echo ========== Report Generation ========== >> "%LOG_FILE%"
 
 set "REPORT_FILE=%BUILD_DIR%\test_report.txt"
 
-echo ============================================= > "%REPORT_FILE%"
-echo Backtrader C++ 测试报告 >> "%REPORT_FILE%"
-echo ============================================= >> "%REPORT_FILE%"
-echo 生成时间: %date% %time% >> "%REPORT_FILE%"
-echo. >> "%REPORT_FILE%"
+REM Initialize counters if not set
+if not defined COMPILED_SUCCESS set "COMPILED_SUCCESS=0"
+if not defined COMPILED_FAILED set "COMPILED_FAILED=0"
+if not defined TEST_SUCCESS set "TEST_SUCCESS=0"
+if not defined TEST_FAILED set "TEST_FAILED=0"
 
-echo ========================= 编译结果 ========================= >> "%REPORT_FILE%"
-echo 成功编译的测试 (!COMPILED_SUCCESS!个): >> "%REPORT_FILE%"
+REM Create report file  
+(
+    echo =============================================
+    echo Backtrader C++ Test Report
+    echo =============================================
+    echo Generated: %date% %time%
+    echo.
+    echo ========================= Compilation Results =========================
+    echo Successfully compiled tests: !COMPILED_SUCCESS!
+) > "%REPORT_FILE%"
 if exist "%TEMP_RESULTS%\compile_success.txt" (
-    for /f "delims=" %%a in (%TEMP_RESULTS%\compile_success.txt) do (
+    for /f "delims=" %%a in ('type "%TEMP_RESULTS%\compile_success.txt"') do (
         echo   √ %%a >> "%REPORT_FILE%"
     )
 ) else (
-    echo   (无数据) >> "%REPORT_FILE%"
+    echo   (No data) >> "%REPORT_FILE%"
 )
 
 echo. >> "%REPORT_FILE%"
-echo 编译失败的测试 (!COMPILED_FAILED!个): >> "%REPORT_FILE%"
+echo Compilation failures: !COMPILED_FAILED! >> "%REPORT_FILE%"
 if exist "%TEMP_RESULTS%\compile_failed.txt" (
-    for /f "delims=" %%a in (%TEMP_RESULTS%\compile_failed.txt) do (
-        echo   × %%a >> "%REPORT_FILE%"
+    for /f "delims=" %%a in ('type "%TEMP_RESULTS%\compile_failed.txt"') do (
+        echo   x %%a >> "%REPORT_FILE%"
     )
 ) else (
-    echo   (无数据) >> "%REPORT_FILE%"
+    echo   (No data) >> "%REPORT_FILE%"
 )
 
 echo. >> "%REPORT_FILE%"
-echo ========================= 测试结果 ========================= >> "%REPORT_FILE%"
-echo 测试通过 (!TEST_SUCCESS!个): >> "%REPORT_FILE%"
-if exist "%TEMP_RESULTS%\test_success.txt" (
-    for /f "delims=" %%a in (%TEMP_RESULTS%\test_success.txt) do (
+echo ========================= Test Results ========================= >> "%REPORT_FILE%"
+
+REM Count tests from log file (more reliable than temp files)
+set "ACTUAL_SUCCESS=0"
+set "ACTUAL_FAILED=0"
+if exist "%LOG_FILE%" (
+    for /f %%a in ('findstr /c:"[PASSED]" "%LOG_FILE%" ^| find /c /v ""') do set "ACTUAL_SUCCESS=%%a"
+    for /f %%a in ('findstr /c:"[FAILED]" "%LOG_FILE%" ^| find /c /v ""') do set "ACTUAL_FAILED=%%a"
+)
+
+echo Tests passed: !ACTUAL_SUCCESS! >> "%REPORT_FILE%"
+if exist "%LOG_FILE%" (
+    for /f "tokens=2" %%a in ('findstr /c:"[PASSED]" "%LOG_FILE%"') do (
         echo   √ %%a >> "%REPORT_FILE%"
     )
-) else (
-    echo   (无数据) >> "%REPORT_FILE%"
 )
 
 echo. >> "%REPORT_FILE%"
-echo 测试失败 (!TEST_FAILED!个): >> "%REPORT_FILE%"
-if exist "%TEMP_RESULTS%\test_failed.txt" (
-    for /f "delims=" %%a in (%TEMP_RESULTS%\test_failed.txt) do (
-        echo   × %%a >> "%REPORT_FILE%"
+echo Tests failed: !ACTUAL_FAILED! >> "%REPORT_FILE%"
+if exist "%LOG_FILE%" (
+    for /f "tokens=2" %%a in ('findstr /c:"[FAILED]" "%LOG_FILE%"') do (
+        echo   x %%a >> "%REPORT_FILE%"
     )
-) else (
-    echo   (无数据) >> "%REPORT_FILE%"
 )
 
-if !TEST_TIMEOUT! gtr 0 (
+if defined TEST_TIMEOUT if !TEST_TIMEOUT! gtr 0 (
     echo. >> "%REPORT_FILE%"
-    echo 测试超时 (!TEST_TIMEOUT!个): >> "%REPORT_FILE%"
+    echo Tests timeout: !TEST_TIMEOUT! >> "%REPORT_FILE%"
     if exist "%TEMP_RESULTS%\test_timeout.txt" (
-        for /f "delims=" %%a in (%TEMP_RESULTS%\test_timeout.txt) do (
-            echo   [超时] %%a >> "%REPORT_FILE%"
+        for /f "delims=" %%a in ('type "%TEMP_RESULTS%\test_timeout.txt"') do (
+            echo   [TIMEOUT] %%a >> "%REPORT_FILE%"
         )
     )
 )
 
-if !TEST_CRASHED! gtr 0 (
+if defined TEST_CRASHED if !TEST_CRASHED! gtr 0 (
     echo. >> "%REPORT_FILE%"
-    echo 测试崩溃 (!TEST_CRASHED!个): >> "%REPORT_FILE%"
+    echo Tests crashed: !TEST_CRASHED! >> "%REPORT_FILE%"
     if exist "%TEMP_RESULTS%\test_crashed.txt" (
-        for /f "delims=" %%a in (%TEMP_RESULTS%\test_crashed.txt) do (
-            echo   [崩溃] %%a >> "%REPORT_FILE%"
+        for /f "delims=" %%a in ('type "%TEMP_RESULTS%\test_crashed.txt"') do (
+            echo   [CRASHED] %%a >> "%REPORT_FILE%"
         )
     )
 )

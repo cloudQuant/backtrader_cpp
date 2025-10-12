@@ -106,7 +106,7 @@ void LaguerreRSI::next() {
     lrsi_line->set(0, (den == 0.0) ? 1.0 : cu / den);
 }
 
-void LaguerreRSI::once(int /*start*/, int /*end*/) {
+void LaguerreRSI::once(int start, int end) {
     if (!data || !data->lines || data->lines->size() == 0) return;
     
     auto lrsi_line = std::dynamic_pointer_cast<LineBuffer>(lines->getline(lrsi));
@@ -147,7 +147,7 @@ void LaguerreRSI::once(int /*start*/, int /*end*/) {
     
     // Check if we have enough data
     size_t valid_data_count = prices.size() - start_idx;
-    if (valid_data_count < static_cast<size_t>(params.period)) {
+    if (valid_data_count < params.period) {
         // Not enough data, fill with NaN
         for (size_t i = 0; i < prices.size(); ++i) {
             lrsi_buffer.push_back(std::numeric_limits<double>::quiet_NaN());
@@ -260,7 +260,7 @@ void LaguerreRSI::once(int /*start*/, int /*end*/) {
     // Let's map directly: buffer[i] = calculated_values[i-5] for i >= 5
     
     // First, add 5 NaNs for the minimum period
-    for (size_t i = 0; i < static_cast<size_t>(params.period - 1); ++i) {
+    for (size_t i = 0; i < params.period - 1; ++i) {
         lrsi_buffer.push_back(std::numeric_limits<double>::quiet_NaN());
     }
     

@@ -845,7 +845,8 @@ run_single_gtest() {
     
     # Mac和Linux兼容的运行方式
     local xml_output="$BUILD_DIR/test_${exe}.xml"
-    local run_cmd
+    
+    # 设置库路径并运行测试
     if [[ "$OSTYPE" == "darwin"* ]]; then
         # Mac: 使用DYLD_LIBRARY_PATH，检测常用库路径
         local lib_paths=""
@@ -860,13 +861,14 @@ run_single_gtest() {
         if [ -d "/usr/local/lib" ]; then
             lib_paths="${lib_paths:+$lib_paths:}/usr/local/lib"
         fi
+        export DYLD_LIBRARY_PATH="${lib_paths}:$DYLD_LIBRARY_PATH"
         
         # Mac可能需要gtimeout（从coreutils）
         if command -v gtimeout &> /dev/null; then
-            run_cmd="DYLD_LIBRARY_PATH=${lib_paths}:\$DYLD_LIBRARY_PATH gtimeout 30 ./$exe --gtest_output=xml:$xml_output"
+            test_output=$(gtimeout 30 ./$exe --gtest_output=xml:$xml_output 2>&1)
         else
             # Mac没有timeout命令，直接运行
-            run_cmd="DYLD_LIBRARY_PATH=${lib_paths}:\$DYLD_LIBRARY_PATH ./$exe --gtest_output=xml:$xml_output"
+            test_output=$(./$exe --gtest_output=xml:$xml_output 2>&1)
         fi
     else
         # Linux: 使用LD_LIBRARY_PATH和timeout
@@ -878,10 +880,13 @@ run_single_gtest() {
         if [ -d "/usr/local/lib" ]; then
             lib_paths="${lib_paths}:/usr/local/lib"
         fi
-        run_cmd="LD_LIBRARY_PATH=${lib_paths}:\$LD_LIBRARY_PATH timeout 30 ./$exe --gtest_output=xml:$xml_output"
+        export LD_LIBRARY_PATH="${lib_paths}:$LD_LIBRARY_PATH"
+        
+        test_output=$(timeout 30 ./$exe --gtest_output=xml:$xml_output 2>&1)
     fi
     
-    if test_output=$(eval "$run_cmd" 2>&1); then
+    # 检查测试是否成功
+    if [ $? -eq 0 ]; then
         local end_time=$(date +%s.%N)
         local duration=$(echo "$end_time - $start_time" | bc -l 2>/dev/null || echo "0")
         

@@ -70,7 +70,7 @@ LineRoot (抽象基类)
 # 步骤1: 编译核心库 (必须先执行)
 cmake . -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTS=OFF
 cmake --build . --config Debug --parallel 8
-# 生成 libbacktrader_core.a (约72MB)
+# 生成 libbacktrader.a (约72MB)
 
 # 步骤2: 编译测试 (依赖核心库)
 cd tests
@@ -88,7 +88,7 @@ export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
 ```
 backtrader_cpp/
 ├── CMakeLists.txt              # 主项目配置
-├── libbacktrader_core.a        # 核心库 (编译产物)
+├── libbacktrader.a             # 核心库 (编译产物)
 └── tests/
     ├── CMakeLists.txt          # 测试配置 (依赖核心库)
     └── build/
@@ -96,7 +96,7 @@ backtrader_cpp/
 ```
 
 **关键点**：
-- tests/CMakeLists.txt 会查找 `../libbacktrader_core.a`
+- tests/CMakeLists.txt 会查找 `../libbacktrader.a`
 - 如果核心库不存在，tests编译会失败
 - 必须按顺序：核心库 → 测试
 ```
@@ -293,7 +293,7 @@ cmake . -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTS=OFF
 cmake --build . --config Debug --parallel 8
 
 # 验证构建
-ls -lh libbacktrader_core.a  # 应该约72MB
+ls -lh libbacktrader.a  # 应该约72MB
 ```
 
 ### 步骤4: 运行测试验证
@@ -358,7 +358,7 @@ cmake .. -DCMAKE_BUILD_TYPE=Debug \
 
 ### 编译错误解决
 
-1. **❌ "找不到 libbacktrader_core.a" 或 tests编译失败**
+1. **❌ "找不到 libbacktrader.a" 或 tests编译失败**
 
 **问题原因**：tests目录依赖主项目的核心库，必须先编译核心库。
 
@@ -377,7 +377,7 @@ cmake --build build --parallel 8
 ```
 
 **为什么直接在tests目录编译会失败？**
-- tests/CMakeLists.txt 需要 `../libbacktrader_core.a`
+- tests/CMakeLists.txt 需要 `../libbacktrader.a`
 - 如果核心库不存在，CMake配置会失败
 - 使用 `./run_tests.sh` 可以自动处理这个依赖
 

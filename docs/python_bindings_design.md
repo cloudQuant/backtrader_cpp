@@ -26,7 +26,7 @@ Python兼容层 (backtrader_compat.py)
       ↓
 pybind11绑定层 (backtrader_cpp.so)
       ↓
-C++核心库 (libbacktrader_core.so)
+C++核心库 (libbacktrader.so)
 ```
 
 ### 模块组织结构

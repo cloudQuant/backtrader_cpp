@@ -458,6 +458,19 @@ void AdaptiveMovingAverage::calculate() {
     }
     
     int effective_size = static_cast<int>(prices.size()) - nan_count;
+    
+    // Check if we have enough data
+    if (effective_size < params.period) {
+        // Not enough data - fill with NaN values
+        for (int i = 0; i < effective_size; ++i) {
+            kama_buffer->append(std::numeric_limits<double>::quiet_NaN());
+        }
+        if (kama_buffer->size() > 0) {
+            kama_buffer->set_idx(kama_buffer->size() - 1);
+        }
+        return;
+    }
+    
     std::vector<double> alphas(effective_size, std::numeric_limits<double>::quiet_NaN());
     
     // Step 1: Calculate dynamic smoothing constants (alphas) for each position
