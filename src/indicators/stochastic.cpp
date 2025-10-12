@@ -57,20 +57,20 @@ void StochasticBase::calculate() {
     if (!line_buffer) return;
     
     // Determine current position
-    int current_size = 0;
+    size_t current_size = 0;
     if (line_buffer->size() == 0) {
         // Streaming mode - use array size
-        current_size = static_cast<int>(line_buffer->array().size());
+        current_size = line_buffer->array().size();
         // Adjust for initial NaN
         if (current_size > 0 && std::isnan(line_buffer->array()[0])) {
             current_size--;
         }
     } else {
         // Forward mode
-        current_size = line_buffer->get_idx() + 1;
+        current_size = static_cast<size_t>(line_buffer->get_idx() + 1);
     }
     
-    if (static_cast<int>(current_size) < minperiod_) {
+    if (current_size < static_cast<size_t>(minperiod_)) {
         static int prenext_debug_count = 0;
         prenext_debug_count++;
         if (prenext_debug_count <= 5 && current_size >= 14) {

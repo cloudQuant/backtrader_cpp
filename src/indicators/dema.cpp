@@ -163,7 +163,7 @@ void DoubleExponentialMovingAverage::initialize_sub_indicators() {
     ema2_ = std::make_shared<EMA>(ema1_line_series, params.period);
 }
 
-void DoubleExponentialMovingAverage::once(int start, int end) {
+void DoubleExponentialMovingAverage::once(int /*start*/, int /*end*/) {
     // Get data source
     std::shared_ptr<LineSeries> source_data;
     if (!datas.empty() && datas[0]) {

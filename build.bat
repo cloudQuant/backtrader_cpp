@@ -2,7 +2,7 @@
 REM ============================================================================
 REM Backtrader C++ Core Library Build Script for Windows
 REM 
-REM Purpose: Build libbacktrader_core library (supports static and shared libs)
+REM Purpose: Build libbacktrader library (supports static and shared libs)
 REM Usage: build.bat [--shared] [--static] [--both] [--clean] [--help]
 REM ============================================================================
 
@@ -39,17 +39,19 @@ echo. >> "%LOG_FILE%"
 REM ========== Parse Arguments ==========
 set "CLEAN_BUILD=0"
 set "BUILD_MODE=static"
-set "BUILD_BOTH=0"
+set "BUILD_BOTH=1"
 
 :parse_args
 if "%~1"=="" goto :args_done
 if /i "%~1"=="--shared" (
     set "BUILD_MODE=shared"
+    set "BUILD_BOTH=0"
     shift
     goto :parse_args
 )
 if /i "%~1"=="--static" (
     set "BUILD_MODE=static"
+    set "BUILD_BOTH=0"
     shift
     goto :parse_args
 )
@@ -170,27 +172,27 @@ echo.
 echo Usage: build.bat [OPTIONS]
 echo.
 echo Options:
-echo   --static       Build static library (.a) [Default]
-echo   --shared       Build shared library (.dll + .dll.a)
-echo   --both         Build both static and shared libraries
+echo   --static       Build static library (.a) only
+echo   --shared       Build shared library (.dll + .dll.a) only
+echo   --both         Build both static and shared libraries [Default]
 echo   --clean        Clean previous build and rebuild
 echo   --help         Show this help message
 echo.
 echo Description:
 echo   This script builds the Backtrader C++ core library
-echo   - Static library: libbacktrader_core.a
-echo   - Shared library: libbacktrader_core.dll + libbacktrader_core.dll.a
+echo   - Static library: libbacktrader.a
+echo   - Shared library: libbacktrader.dll + libbacktrader.dll.a
 echo   - All warnings are enabled (no warnings suppressed)
 echo.
 echo Build Output:
-echo   - Static: build/static/libbacktrader_core.a
-echo   - Shared: build/shared/libbacktrader_core.dll
-echo   - Root: libbacktrader_core.* (for testing)
+echo   - Static: build/static/libbacktrader.a
+echo   - Shared: build/shared/libbacktrader.dll
+echo   - Root: libbacktrader.* (for testing)
 echo.
 echo Examples:
-echo   build.bat                # Build static library
-echo   build.bat --shared       # Build shared library
-echo   build.bat --both         # Build both libraries
+echo   build.bat                # Build both libraries (default)
+echo   build.bat --static       # Build static library only
+echo   build.bat --shared       # Build shared library only
 echo   build.bat --clean        # Clean and rebuild
 echo.
 exit /b 0
@@ -245,14 +247,14 @@ if exist "%BUILD_DIR%" (
 )
 
 REM Clean old library files in root
-if exist "%SCRIPT_DIR%libbacktrader_core.a" (
-    del /f "%SCRIPT_DIR%libbacktrader_core.a" >> "%LOG_FILE%" 2>&1
+if exist "%SCRIPT_DIR%libbacktrader.a" (
+    del /f "%SCRIPT_DIR%libbacktrader.a" >> "%LOG_FILE%" 2>&1
 )
-if exist "%SCRIPT_DIR%libbacktrader_core.dll" (
-    del /f "%SCRIPT_DIR%libbacktrader_core.dll" >> "%LOG_FILE%" 2>&1
+if exist "%SCRIPT_DIR%libbacktrader.dll" (
+    del /f "%SCRIPT_DIR%libbacktrader.dll" >> "%LOG_FILE%" 2>&1
 )
-if exist "%SCRIPT_DIR%libbacktrader_core.dll.a" (
-    del /f "%SCRIPT_DIR%libbacktrader_core.dll.a" >> "%LOG_FILE%" 2>&1
+if exist "%SCRIPT_DIR%libbacktrader.dll.a" (
+    del /f "%SCRIPT_DIR%libbacktrader.dll.a" >> "%LOG_FILE%" 2>&1
 )
 
 call :print_success "清理完成"
@@ -315,16 +317,16 @@ REM Copy library files to root directory
 call :print_info "复制库文件到根目录..."
 if "%lib_type%"=="shared" (
     REM Copy DLL and import library
-    if exist "libbacktrader_core.dll" (
-        copy /y "libbacktrader_core.dll" "%SCRIPT_DIR%libbacktrader_core.dll" >> "%LOG_FILE%" 2>&1
+    if exist "libbacktrader.dll" (
+        copy /y "libbacktrader.dll" "%SCRIPT_DIR%libbacktrader.dll" >> "%LOG_FILE%" 2>&1
         if !errorlevel! neq 0 (
             call :print_error "复制 DLL 失败"
             cd /d "%SCRIPT_DIR%"
             exit /b 1
         )
     )
-    if exist "libbacktrader_core.dll.a" (
-        copy /y "libbacktrader_core.dll.a" "%SCRIPT_DIR%libbacktrader_core.dll.a" >> "%LOG_FILE%" 2>&1
+    if exist "libbacktrader.dll.a" (
+        copy /y "libbacktrader.dll.a" "%SCRIPT_DIR%libbacktrader.dll.a" >> "%LOG_FILE%" 2>&1
         if !errorlevel! neq 0 (
             call :print_error "复制导入库失败"
             cd /d "%SCRIPT_DIR%"
@@ -334,8 +336,8 @@ if "%lib_type%"=="shared" (
     call :print_success "动态库文件已复制到根目录"
 ) else (
     REM Copy static library
-    if exist "libbacktrader_core.a" (
-        copy /y "libbacktrader_core.a" "%SCRIPT_DIR%libbacktrader_core.a" >> "%LOG_FILE%" 2>&1
+    if exist "libbacktrader.a" (
+        copy /y "libbacktrader.a" "%SCRIPT_DIR%libbacktrader.a" >> "%LOG_FILE%" 2>&1
         if !errorlevel! neq 0 (
             call :print_error "复制静态库失败"
             cd /d "%SCRIPT_DIR%"
@@ -355,17 +357,17 @@ exit /b 0
 :show_build_results
 echo.
 call :print_info "构建产物:"
-if exist "%SCRIPT_DIR%libbacktrader_core.a" (
-    echo   √ 静态库: libbacktrader_core.a
-    echo   √ 静态库: libbacktrader_core.a >> "%LOG_FILE%"
+if exist "%SCRIPT_DIR%libbacktrader.a" (
+    echo   √ 静态库: libbacktrader.a
+    echo   √ 静态库: libbacktrader.a >> "%LOG_FILE%"
 )
-if exist "%SCRIPT_DIR%libbacktrader_core.dll" (
-    echo   √ 动态库: libbacktrader_core.dll
-    echo   √ 动态库: libbacktrader_core.dll >> "%LOG_FILE%"
+if exist "%SCRIPT_DIR%libbacktrader.dll" (
+    echo   √ 动态库: libbacktrader.dll
+    echo   √ 动态库: libbacktrader.dll >> "%LOG_FILE%"
 )
-if exist "%SCRIPT_DIR%libbacktrader_core.dll.a" (
-    echo   √ 导入库: libbacktrader_core.dll.a
-    echo   √ 导入库: libbacktrader_core.dll.a >> "%LOG_FILE%"
+if exist "%SCRIPT_DIR%libbacktrader.dll.a" (
+    echo   √ 导入库: libbacktrader.dll.a
+    echo   √ 导入库: libbacktrader.dll.a >> "%LOG_FILE%"
 )
 echo.
 exit /b 0

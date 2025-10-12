@@ -167,7 +167,7 @@ build_with_cmake() {
     
     print_info "配置测试文件（8核并行编译）..."
     # 确保核心库存在于主目录
-    local core_lib_path="$SCRIPT_DIR/libbacktrader_core.a"
+    local core_lib_path="$SCRIPT_DIR/libbacktrader.a"
     if [ ! -f "$core_lib_path" ]; then
         print_error "核心库不存在: $core_lib_path"
         cd "$SCRIPT_DIR"
@@ -453,7 +453,7 @@ run_with_timeout() {
 
 # 构建核心库（类似CMake方式）
 build_core_library() {
-    local core_lib="$BUILD_DIR/libbacktrader_core.a"
+    local core_lib="$BUILD_DIR/libbacktrader.a"
     
     print_info "构建核心库: $core_lib"
     
@@ -554,7 +554,7 @@ compile_single_test() {
     local verbose_mode="$3"
     local filename=$(basename "$test_file" .cpp)
     local output_file="$BUILD_DIR/$filename"
-    local core_lib="$BUILD_DIR/libbacktrader_core.a"
+    local core_lib="$BUILD_DIR/libbacktrader.a"
     
     if [ "$verbose_mode" = true ]; then
         print_info "编译测试文件: $filename (使用预建核心库)"
@@ -623,7 +623,7 @@ compile_single_test_parallel() {
     local verbose_mode="$3"
     local filename=$(basename "$test_file" .cpp)
     local output_file="$BUILD_DIR/$filename"
-    local core_lib="$BUILD_DIR/libbacktrader_core.a"
+    local core_lib="$BUILD_DIR/libbacktrader.a"
     local result_file="$BUILD_DIR/compile_result_$filename.txt"
     
     # 检查核心库是否存在

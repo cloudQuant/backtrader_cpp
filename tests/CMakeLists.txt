@@ -37,20 +37,20 @@ include_directories(
 )
 
 # 查找父目录的库
-find_library(BACKTRADER_CORE_LIB backtrader_core PATHS ${CMAKE_SOURCE_DIR}/.. NO_DEFAULT_PATH)
+find_library(BACKTRADER_LIB backtrader PATHS ${CMAKE_SOURCE_DIR}/.. NO_DEFAULT_PATH)
 
 # 如果找不到库文件，直接使用路径
-if(NOT BACKTRADER_CORE_LIB)
-    set(BACKTRADER_CORE_LIB ${CMAKE_SOURCE_DIR}/../libbacktrader_core.a)
-    message(STATUS "Using direct path for backtrader_core: ${BACKTRADER_CORE_LIB}")
+if(NOT BACKTRADER_LIB)
+    set(BACKTRADER_LIB ${CMAKE_SOURCE_DIR}/../libbacktrader.a)
+    message(STATUS "Using direct path for backtrader: ${BACKTRADER_LIB}")
 else()
-    message(STATUS "Found backtrader_core library: ${BACKTRADER_CORE_LIB}")
+    message(STATUS "Found backtrader library: ${BACKTRADER_LIB}")
 endif()
 
 # 验证核心库存在
-if(NOT EXISTS ${BACKTRADER_CORE_LIB})
-    message(FATAL_ERROR "Backtrader core library not found at: ${BACKTRADER_CORE_LIB}\n"
-                       "Please build the core library first by running 'make' in the parent directory.")
+if(NOT EXISTS ${BACKTRADER_LIB})
+    message(FATAL_ERROR "Backtrader library not found at: ${BACKTRADER_LIB}\n"
+                       "Please build the library first by running 'make' in the parent directory.")
 endif()
 
 # 获取所有测试文件
@@ -63,7 +63,7 @@ foreach(TEST_SOURCE ${TEST_SOURCES})
     
     # 链接库 - 跨平台兼容
     target_link_libraries(${TEST_NAME}
-        ${BACKTRADER_CORE_LIB}
+        ${BACKTRADER_LIB}
         GTest::gtest
         GTest::gtest_main
         Threads::Threads
@@ -91,7 +91,7 @@ message(STATUS "=== Backtrader C++ Tests Configuration ===")
 message(STATUS "Platform: ${CMAKE_SYSTEM_NAME}")
 message(STATUS "Compiler: ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
 message(STATUS "C++ Standard: ${CMAKE_CXX_STANDARD}")
-message(STATUS "Core Library: ${BACKTRADER_CORE_LIB}")
+message(STATUS "Core Library: ${BACKTRADER_LIB}")
 message(STATUS "Test Sources: ${CMAKE_SOURCE_DIR}/original_tests")
 message(STATUS "GoogleTest: Downloaded as external package")
 message(STATUS "==========================================")

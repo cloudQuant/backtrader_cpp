@@ -129,27 +129,27 @@ set(BACKTRADER_INDICATOR_SOURCES
 # These can be added back once core compilation issues are resolved
 
 # Create the core library (static or shared based on BUILD_SHARED_LIBS)
-add_library(backtrader_core
+add_library(backtrader
     ${BACKTRADER_CORE_SOURCES}
     ${BACKTRADER_INDICATOR_SOURCES}
 )
 
 # Set library properties
-set_target_properties(backtrader_core PROPERTIES
+set_target_properties(backtrader PROPERTIES
     VERSION 1.0.0
     SOVERSION 1
-    OUTPUT_NAME "backtrader_core"
+    OUTPUT_NAME "backtrader"
 )
 
 # Windows DLL export definitions
 if(WIN32 AND BUILD_SHARED_LIBS)
-    target_compile_definitions(backtrader_core
+    target_compile_definitions(backtrader
         PRIVATE BACKTRADER_BUILDING_DLL
         PUBLIC BACKTRADER_DLL
     )
 endif()
 
-target_include_directories(backtrader_core
+target_include_directories(backtrader
     PUBLIC
         ${CMAKE_SOURCE_DIR}/include
     PRIVATE
@@ -171,7 +171,7 @@ if(BUILD_TESTS)
 endif()
 
 # Installation
-install(TARGETS backtrader_core backtrader_headers
+install(TARGETS backtrader backtrader_headers
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib
     RUNTIME DESTINATION bin
