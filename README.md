@@ -1,3 +1,5 @@
+这个架构实现之后有缺陷，已经放弃了，这个是失败产物，已经上传到pypi上的back-trader-cpp并不是基于这个实现的，而是基于还没有开源的https://github.com/cloudQuant/back_trader实现的
+
 # Backtrader C++ - 高性能量化交易框架
 
 [![macOS Build](https://img.shields.io/badge/macOS-passing-success)](https://github.com/yunzed/backtrader_cpp)
